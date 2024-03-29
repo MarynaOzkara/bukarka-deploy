@@ -18,6 +18,13 @@ import { useState } from "react";
 const OrderPage: React.FC = () => {
   const [isChecked, setIsChecked] = useState(false);
 
+  const [customerName, setCustomerName] = useState<string>("");
+  const [customerLastName, setCustomerLastName] = useState<string>("");
+  const [customerEmail, setCustomerEmail] = useState<string>("");
+  const [customerPhone, setCustomerPhone] = useState<string>("");
+  const [deliveryCity, setDeliveryCity] = useState<string>("");
+  const [deliveryAddress, setDeliveryAddress] = useState<string>("");
+
   const handleCheckboxChange = (checked: boolean) => {
     setIsChecked(checked);
   };
@@ -28,15 +35,30 @@ const OrderPage: React.FC = () => {
         <Title>Оформлення замовлення</Title>
         <FlexWrapper>
           <LeftPart>
-            <PersonalData />
-            <Delivery />
+            <PersonalData
+              setCustomerName={setCustomerName}
+              setCustomerLastName={setCustomerLastName}
+              setCustomerEmail={setCustomerEmail}
+              setCustomerPhone={setCustomerPhone}
+            />
+            <Delivery
+              setDeliveryCity={setDeliveryCity}
+              setDeliveryAddress={setDeliveryAddress}
+            />
             <Payment />
             <Comment />
           </LeftPart>
 
           <RightPart>
             <BookData />
-            <OrderData />
+            <OrderData
+              customerName={customerName}
+              customerLastName={customerLastName}
+              customerEmail={customerEmail}
+              customerPhone={customerPhone}
+              deliveryCity={deliveryCity}
+              deliveryAddress={deliveryAddress}
+            />
             <Submit onChange={handleCheckboxChange} />
           </RightPart>
         </FlexWrapper>

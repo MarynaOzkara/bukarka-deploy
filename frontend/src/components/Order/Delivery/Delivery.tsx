@@ -12,8 +12,18 @@ import {
 } from "./Delivery.styled";
 import getNovaPoshtaCities from "helpers/getNovaPoshtaCities";
 
-const Delivery: React.FC = () => {
-  const [inputValue, setInputValue] = useState("");
+interface DeliveryDataProps {
+  setDeliveryCity: React.Dispatch<React.SetStateAction<string>>;
+  setDeliveryAddress: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const Delivery: React.FC<DeliveryDataProps> = ({
+  setDeliveryCity,
+  setDeliveryAddress,
+}) => {
+  const [city, setCity] = useState("");
+  const [address, setAddress] = useState("");
+
   const [showOptions, setShowOptions] = useState(false);
   const [options, setOptions] = useState<string[]>([]);
   const [selectedRadio, setSelectedRadio] = useState("");
@@ -34,29 +44,45 @@ const Delivery: React.FC = () => {
 
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick);
-  
+
     return () => {
       document.removeEventListener("click", handleOutsideClick);
     };
   }, []);
 
+  const handleCityInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.trim();
+    setCity(value);
+    // setDeliveryCity(value);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-    setShowOptions(e.target.value.trim() !== "")
-    setShowOptions(true);
+    if (value !== "") {
+      setShowOptions(true);
+    } else {
+      setShowOptions(false);
+    }
+
+    // setShowOptions(e.target.value.trim() !== "");
+    // setShowOptions(true);
+
+    console.log(city);
+  };
+
+  const handleAddressInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAddress(e.target.value);
+    setDeliveryAddress(e.target.value);
+    setDeliveryCity(city);
+    console.log(address);
   };
 
   const handleOutsideClick = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
     if (!target.closest(".Options")) {
-      setShowOptions(false); // При кліку поза елементом Options підказки зникають
+      setShowOptions(false);
     }
   };
-  
 
   const handleOptionClick = (value: string) => {
-    setInputValue(value);
+    setCity(value);
     setShowOptions(false);
   };
 
@@ -72,14 +98,14 @@ const Delivery: React.FC = () => {
       <CityInput
         type="text"
         placeholder="Введіть назву населеного пункту"
-        value={inputValue}
-        onChange={handleInputChange}
+        value={city}
+        onChange={handleCityInputChange}
       />
       {showOptions && (
         <Options>
           {options
             .filter((option) =>
-              option.toLowerCase().startsWith(inputValue.toLowerCase())
+              option.toLowerCase().startsWith(city.toLowerCase())
             )
             .slice(0, 3)
             .map((option) => (
@@ -134,6 +160,8 @@ const Delivery: React.FC = () => {
       <AddressInput
         type="text"
         placeholder="Наприклад, бульвар Т.Шевченко, буд. 20, кв. 15"
+        value={address}
+        onChange={handleAddressInputChange}
       />
     </Wrapper>
   );

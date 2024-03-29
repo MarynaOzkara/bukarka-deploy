@@ -25,7 +25,7 @@ function App() {
           <Route path="catalog" element={<CatalogPage />} />
           <Route path="club" element={<BookClubPage />} />
           <Route path="privacy" element={<PrivacyPolicyPage />} />
-          <Route path="order" element={<OrderPage />} />
+          <Route path="order/:id" element={<OrderPage />} />
 
           <Route path="*" element={<NotFoundPage />} />
         </Route>
