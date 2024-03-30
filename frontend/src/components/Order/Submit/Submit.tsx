@@ -8,10 +8,15 @@ import {
 } from "./Submit.styles";
 
 interface SubmitProps {
+  onSubmit: () => void;
   onChange: (checked: boolean) => void;
 }
 
-const Submit: React.FC<SubmitProps> = ({ onChange }) => {
+const Submit: React.FC<SubmitProps> = ({ onSubmit, onChange }) => {
+  const handleClick = () => {
+    onSubmit();
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.checked);
   };
@@ -19,8 +24,8 @@ const Submit: React.FC<SubmitProps> = ({ onChange }) => {
   return (
     <SubmitWrapper>
       <CheckboxContainer>
-        <CheckboxLabel >
-          <CheckboxInput  type="checkbox" onChange={handleInputChange} />
+        <CheckboxLabel>
+          <CheckboxInput type="checkbox" onChange={handleInputChange} />
           <span>
             Відправляючи це замовлення, я підтверджую, що прочитав та згоден(а)
             з Умовами користування
@@ -28,9 +33,8 @@ const Submit: React.FC<SubmitProps> = ({ onChange }) => {
         </CheckboxLabel>
       </CheckboxContainer>
 
-      <SubmitButton>Підтвердити замовлення</SubmitButton>
+      <SubmitButton onClick={handleClick}>Підтвердити замовлення</SubmitButton>
       <ContinueButton>Продовжити покупки</ContinueButton>
-
     </SubmitWrapper>
   );
 };

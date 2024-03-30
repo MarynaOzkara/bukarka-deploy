@@ -31,6 +31,37 @@ const OrderPage: React.FC = () => {
     setIsChecked(checked);
   };
 
+  const handleSubmit = () => {
+    const formData = {
+      customerName,
+      customerLastName,
+      customerEmail,
+      customerPhone,
+      deliveryCity,
+      deliveryAddress,
+      paymentMethod,
+      orderComment,
+    };
+
+    fetch(
+      "https://bukarka.onrender.com/api/orders/checkout/66069d32408231c447d49f3e",
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Response from server:", data);
+      })
+      .catch((error) => {
+        console.error("Error sending data:", error);
+      });
+  };
+
   return (
     <StyledCommonWrapper>
       <OrderPageWrapper>
@@ -63,7 +94,7 @@ const OrderPage: React.FC = () => {
               paymentMethod={paymentMethod}
               orderComment={orderComment}
             />
-            <Submit onChange={handleCheckboxChange} />
+            <Submit onChange={handleCheckboxChange} onSubmit={handleSubmit} />
           </RightPart>
         </FlexWrapper>
       </OrderPageWrapper>
