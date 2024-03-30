@@ -2,11 +2,16 @@ import { useState } from "react";
 import { SubTitle, Wrapper } from "../OrderCommonStyled";
 import { Textarea } from "./Comment.styled";
 
-const Comment: React.FC = () => {
+interface CommentDataProps {
+  setOrderComment: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const Comment: React.FC<CommentDataProps> = ({ setOrderComment }) => {
   const [inputValue, setInputValue] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value);
+    setOrderComment(inputValue);
   };
 
   return (

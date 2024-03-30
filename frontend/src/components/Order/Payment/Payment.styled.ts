@@ -39,9 +39,14 @@ export const RadioInput = styled.input`
   stroke-width: 1px;
   stroke: var(--bukarka-light-grey-1);
   box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.25);
+  background-color: #fff;
   transition: background-color 0.3s ease, border-color 0.3s ease;
 
   cursor: pointer;
+
+  &:disabled {
+    background-color: transparent;
+  }
 
   &::after {
     content: "";

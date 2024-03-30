@@ -24,6 +24,8 @@ const OrderPage: React.FC = () => {
   const [customerPhone, setCustomerPhone] = useState<string>("");
   const [deliveryCity, setDeliveryCity] = useState<string>("");
   const [deliveryAddress, setDeliveryAddress] = useState<string>("");
+  const [paymentMethod, setPaymentMethod] = useState<string>("");
+  const [orderComment, setOrderComment] = useState<string>("");
 
   const handleCheckboxChange = (checked: boolean) => {
     setIsChecked(checked);
@@ -45,8 +47,8 @@ const OrderPage: React.FC = () => {
               setDeliveryCity={setDeliveryCity}
               setDeliveryAddress={setDeliveryAddress}
             />
-            <Payment />
-            <Comment />
+            <Payment setPaymentMethod={setPaymentMethod} />
+            <Comment setOrderComment={setOrderComment} />
           </LeftPart>
 
           <RightPart>
@@ -58,6 +60,8 @@ const OrderPage: React.FC = () => {
               customerPhone={customerPhone}
               deliveryCity={deliveryCity}
               deliveryAddress={deliveryAddress}
+              paymentMethod={paymentMethod}
+              orderComment={orderComment}
             />
             <Submit onChange={handleCheckboxChange} />
           </RightPart>

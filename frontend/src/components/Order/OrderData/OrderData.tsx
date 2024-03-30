@@ -1,4 +1,4 @@
-import { Label, SubTitleBlue } from "../OrderCommonStyled";
+import { SubTitleBlue } from "../OrderCommonStyled";
 import {
   BlockWrapper,
   Data,
@@ -14,6 +14,8 @@ interface OrderDataProps {
   customerPhone: string;
   deliveryCity: string;
   deliveryAddress: string;
+  paymentMethod: string;
+  orderComment: string;
 }
 
 const OrderData: React.FC<OrderDataProps> = ({
@@ -23,6 +25,8 @@ const OrderData: React.FC<OrderDataProps> = ({
   customerPhone,
   deliveryCity,
   deliveryAddress,
+  paymentMethod,
+  orderComment,
 }) => {
   return (
     <OrderDataWrapper>
@@ -50,12 +54,14 @@ const OrderData: React.FC<OrderDataProps> = ({
 
       <BlockWrapper>
         <SmallSubTitle>Оплата</SmallSubTitle>
-        <Data>Післяплата</Data>
+        <Data>{paymentMethod ? paymentMethod : "Виберіть спосіб оплати"}</Data>
       </BlockWrapper>
 
       <BlockWrapper>
         <SmallSubTitle>Коментар</SmallSubTitle>
-        <Data>Залиште коментар (опціонально)</Data>
+        <Data>
+          {orderComment ?orderComment : "Залиште коментар (опціонально)"}
+        </Data>
       </BlockWrapper>
     </OrderDataWrapper>
   );

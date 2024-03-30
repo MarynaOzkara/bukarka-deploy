@@ -2,11 +2,16 @@ import { useState } from "react";
 import { Label, SubTitle, Wrapper } from "../OrderCommonStyled";
 import { RadioButton, RadioInput, RadioWrapper } from "./Payment.styled";
 
-const Payment: React.FC = () => {
+interface PaymentDataProps {
+  setPaymentMethod: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const Payment: React.FC<PaymentDataProps> = ({ setPaymentMethod }) => {
   const [selectedRadio, setSelectedRadio] = useState("");
 
   const handleOptionChange = (value: string) => {
     setSelectedRadio(value);
+    setPaymentMethod(value);
   };
 
   return (
@@ -19,8 +24,8 @@ const Payment: React.FC = () => {
           <RadioInput
             type="radio"
             value="option1"
-            checked={selectedRadio === "option1"}
-            onChange={() => handleOptionChange("option1")}
+            checked={selectedRadio === "Онлайн оплата карткою"}
+            onChange={() => handleOptionChange("Онлайн оплата карткою")}
           />
           <span>Онлайн оплата карткою</span>
         </RadioButton>
@@ -28,8 +33,8 @@ const Payment: React.FC = () => {
           <RadioInput
             type="radio"
             value="option2"
-            checked={selectedRadio === "option2"}
-            onChange={() => handleOptionChange("option2")}
+            checked={selectedRadio === "Післяплата"}
+            onChange={() => handleOptionChange("Післяплата")}
           />
           <span>Післяплата</span>
         </RadioButton>
@@ -37,8 +42,8 @@ const Payment: React.FC = () => {
           <RadioInput
             type="radio"
             value="option3"
-            checked={selectedRadio === "option3"}
-            onChange={() => handleOptionChange("option3")}
+            checked={selectedRadio === "За реквізитами"}
+            onChange={() => handleOptionChange("За реквізитами")}
           />
           <span>За реквізитами</span>
         </RadioButton>
