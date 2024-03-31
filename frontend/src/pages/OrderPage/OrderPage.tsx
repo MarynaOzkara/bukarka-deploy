@@ -14,6 +14,7 @@ import BookData from "components/Order/BookData/BookData";
 import OrderData from "components/Order/OrderData/OrderData";
 import Submit from "components/Order/Submit/Submit";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 
 const OrderPage: React.FC = () => {
   const [isChecked, setIsChecked] = useState(false);
@@ -27,30 +28,37 @@ const OrderPage: React.FC = () => {
   const [paymentMethod, setPaymentMethod] = useState<string>("");
   const [orderComment, setOrderComment] = useState<string>("");
 
+  const { id } = useParams<{ id: string }>();
+  console.log(id);
+
   const handleCheckboxChange = (checked: boolean) => {
     setIsChecked(checked);
   };
 
   const handleSubmit = () => {
-    const formData = {
-      customerName,
-      customerLastName,
-      customerEmail,
-      customerPhone,
-      deliveryCity,
-      deliveryAddress,
-      paymentMethod,
-      orderComment,
+    const customerInfo = {
+      name: customerName,
+      surname: customerLastName,
+      email: customerEmail,
+      phoneNumber: customerPhone,
+      city: deliveryCity,
+      address: deliveryAddress,
+      payment: paymentMethod,
+      comment: orderComment,
     };
 
+    console.log(customerInfo);
+
     fetch(
-      "https://bukarka.onrender.com/api/orders/checkout/66069d32408231c447d49f3e",
+      // `https://bukarka.onrender.com/api/orders/checkout/${id}`
+      `http://localhost:4000/api/orders/checkout/${id}`,
+
       {
-        method: "PUT",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(customerInfo),
       }
     )
       .then((response) => response.json())

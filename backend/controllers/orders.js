@@ -121,7 +121,17 @@ const getOrderById = async (req, res) => {
 };
 
 const placeOrder = async (req, res) => {
-  const { name, surname, email, phoneNumber, city, comment } = req.body;
+  const {
+    name,
+    surname,
+    email,
+    phoneNumber,
+    city,
+    address,
+    payment,
+    delivery,
+    comment,
+  } = req.body;
   const { orderId } = req.params;
 
   const order = await Order.findById(orderId).populate({
@@ -134,7 +144,19 @@ const placeOrder = async (req, res) => {
     return res.status(404).json({ message: "Замовлення не знайдено" });
   }
 
-  order.customerInfo = { name, surname, email, phoneNumber, city, comment };
+  order.customerInfo = {
+    name,
+    surname,
+    email,
+    phoneNumber,
+    city,
+    address,
+    payment,
+    delivery,
+    comment,
+  };
+
+  console.log(order.customerInfo);
   order.status = "processing";
   await order.save();
 

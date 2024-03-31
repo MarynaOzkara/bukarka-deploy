@@ -15,7 +15,7 @@ const getNovaPoshtaCities = async () => {
 
     const response = await axios.post(apiEndpoint, requestData);
 
-    console.log(response);
+    // console.log(response);
     const cities = response.data.data;
 
     const cityDescriptions = cities.map((city) => city.Description);
