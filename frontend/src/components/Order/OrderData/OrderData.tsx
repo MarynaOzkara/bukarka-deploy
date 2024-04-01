@@ -12,6 +12,7 @@ interface OrderDataProps {
   customerLastName: string;
   customerEmail: string;
   customerPhone: string;
+  deliveryMethod: string;
   deliveryCity: string;
   deliveryAddress: string;
   paymentMethod: string;
@@ -23,11 +24,13 @@ const OrderData: React.FC<OrderDataProps> = ({
   customerLastName,
   customerEmail,
   customerPhone,
+  deliveryMethod,
   deliveryCity,
   deliveryAddress,
   paymentMethod,
   orderComment,
 }) => {
+  console.log(deliveryMethod);
   return (
     <OrderDataWrapper>
       <SubTitleBlue>Дані для замовлення</SubTitleBlue>
@@ -44,7 +47,7 @@ const OrderData: React.FC<OrderDataProps> = ({
 
       <BlockWrapper>
         <SmallSubTitle>Доставка</SmallSubTitle>
-        <Text>Доставка кур’єром Нової Пошти за адресою:</Text>
+        <Text>{deliveryMethod && deliveryMethod}</Text>
         <Data>
           {deliveryCity && deliveryAddress
             ? `${deliveryCity} ${deliveryAddress}`
@@ -60,7 +63,7 @@ const OrderData: React.FC<OrderDataProps> = ({
       <BlockWrapper>
         <SmallSubTitle>Коментар</SmallSubTitle>
         <Data>
-          {orderComment ?orderComment : "Залиште коментар (опціонально)"}
+          {orderComment ? orderComment : "Залиште коментар (опціонально)"}
         </Data>
       </BlockWrapper>
     </OrderDataWrapper>

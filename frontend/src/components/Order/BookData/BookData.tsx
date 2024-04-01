@@ -18,11 +18,18 @@ import {
 } from "./BookData.styled";
 import { useEffect, useState } from "react";
 
-const BookData: React.FC = () => {
+interface BookDataProps {
+  selectedDeliveryMethod: string;
+}
+
+const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
   const { id } = useParams<{ id: string }>();
   console.log(id);
 
   const [orderData, setOrderData] = useState<any>(null);
+  const [deliveryPrice, setDeliveryPrice] = useState<number | null>(null);
+
+  console.log(selectedDeliveryMethod);
 
   useEffect(() => {
     fetch(`https://bukarka.onrender.com/api/orders/${id}`)
@@ -35,6 +42,40 @@ const BookData: React.FC = () => {
         console.error("Error fetching order data:", error);
       });
   }, [id]);
+
+  useEffect(() => {
+    const countDeliveryPrice = () => {
+      let price = 0;
+
+      console.log(price);
+      if (selectedDeliveryMethod) {
+        switch (selectedDeliveryMethod) {
+          case "Самовивіз з відділення Укрпошти":
+            price = 50;
+            break;
+          case "Самовивіз з відділення Нової Пошти":
+          case "Самовивіз з поштомату Нової Пошти":
+            price = 60;
+            break;
+          case "Доставка кур’єром Нової Пошти":
+            price = 70;
+            break;
+          default:
+            price = 0;
+        }
+        if (orderData && orderData.totalPrice >= 500) {
+          price = 0;
+        }
+        
+        console.log(price);
+        setDeliveryPrice(price);
+      }
+    };
+
+    countDeliveryPrice();
+  }, [orderData, selectedDeliveryMethod]);
+
+  console.log(deliveryPrice);
 
   return (
     <BookDataWrapper>
@@ -56,17 +97,21 @@ const BookData: React.FC = () => {
               </PriceQuantity>
             </Book>
           ))}
-          {orderData.totalPrice >= 500 ? (
-            <Delivery>
-              <DeliveryTitle>Доставка</DeliveryTitle>{" "}
-              <DeliveryPrice>Безкоштовно</DeliveryPrice>
-            </Delivery>
-          ) : null}
+          <Delivery>
+            <DeliveryTitle>Доставка</DeliveryTitle>
+            <DeliveryPrice>
+              {deliveryPrice === null
+                ? ""
+                : deliveryPrice === 0
+                ? "Бескоштовно"
+                : `${deliveryPrice} грн.`}
+            </DeliveryPrice>
+          </Delivery>
 
           <Total>
-            <TotalTitle>Всього:</TotalTitle>{" "}
+            <TotalTitle>Всього:</TotalTitle>
             <PriceWithDelivery>
-              {orderData.totalPrice}&nbsp;грн.
+              {orderData.totalPrice + deliveryPrice}&nbsp;грн.
             </PriceWithDelivery>
           </Total>
         </>

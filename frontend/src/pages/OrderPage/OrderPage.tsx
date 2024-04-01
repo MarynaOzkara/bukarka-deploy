@@ -23,6 +23,7 @@ const OrderPage: React.FC = () => {
   const [customerLastName, setCustomerLastName] = useState<string>("");
   const [customerEmail, setCustomerEmail] = useState<string>("");
   const [customerPhone, setCustomerPhone] = useState<string>("");
+  const [deliveryMethod, setDeliveryMethod] = useState("");
   const [deliveryCity, setDeliveryCity] = useState<string>("");
   const [deliveryAddress, setDeliveryAddress] = useState<string>("");
   const [paymentMethod, setPaymentMethod] = useState<string>("");
@@ -83,6 +84,7 @@ const OrderPage: React.FC = () => {
               setCustomerPhone={setCustomerPhone}
             />
             <Delivery
+              setDeliveryMethod={setDeliveryMethod}
               setDeliveryCity={setDeliveryCity}
               setDeliveryAddress={setDeliveryAddress}
             />
@@ -91,12 +93,13 @@ const OrderPage: React.FC = () => {
           </LeftPart>
 
           <RightPart>
-            <BookData />
+            <BookData selectedDeliveryMethod={deliveryMethod} />
             <OrderData
               customerName={customerName}
               customerLastName={customerLastName}
               customerEmail={customerEmail}
               customerPhone={customerPhone}
+              deliveryMethod={deliveryMethod}
               deliveryCity={deliveryCity}
               deliveryAddress={deliveryAddress}
               paymentMethod={paymentMethod}

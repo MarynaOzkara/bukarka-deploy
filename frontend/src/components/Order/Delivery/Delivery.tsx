@@ -13,20 +13,22 @@ import {
 import getNovaPoshtaCities from "helpers/getNovaPoshtaCities";
 
 interface DeliveryDataProps {
+  setDeliveryMethod: React.Dispatch<React.SetStateAction<string>>;
   setDeliveryCity: React.Dispatch<React.SetStateAction<string>>;
   setDeliveryAddress: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const Delivery: React.FC<DeliveryDataProps> = ({
+  setDeliveryMethod,
   setDeliveryCity,
   setDeliveryAddress,
 }) => {
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
+  const [selectedRadio, setSelectedRadio] = useState("");
 
   const [showOptions, setShowOptions] = useState(false);
   const [options, setOptions] = useState<string[]>([]);
-  const [selectedRadio, setSelectedRadio] = useState("");
 
   useEffect(() => {
     const fetchCities = async () => {
@@ -88,6 +90,7 @@ const Delivery: React.FC<DeliveryDataProps> = ({
 
   const handleOptionChange = (value: string) => {
     setSelectedRadio(value);
+    setDeliveryMethod(value);
   };
 
   return (
@@ -122,8 +125,11 @@ const Delivery: React.FC<DeliveryDataProps> = ({
           <RadioInput
             type="radio"
             value="option1"
-            checked={selectedRadio === "option1"}
-            onChange={() => handleOptionChange("option1")}
+            checked={selectedRadio === "Самовивіз з відділення Укрпошти"}
+            onChange={() =>
+              handleOptionChange("Самовивіз з відділення Укрпошти")
+            }
+            
           />
           <span>Самовивіз з відділення Укрпошти</span>
         </RadioButton>
@@ -131,8 +137,10 @@ const Delivery: React.FC<DeliveryDataProps> = ({
           <RadioInput
             type="radio"
             value="option2"
-            checked={selectedRadio === "option2"}
-            onChange={() => handleOptionChange("option2")}
+            checked={selectedRadio === "Самовивіз з відділення Нової Пошти"}
+            onChange={() =>
+              handleOptionChange("Самовивіз з відділення Нової Пошти")
+            }
           />
           <span>Самовивіз з відділення Нової Пошти</span>
         </RadioButton>
@@ -140,8 +148,10 @@ const Delivery: React.FC<DeliveryDataProps> = ({
           <RadioInput
             type="radio"
             value="option3"
-            checked={selectedRadio === "option3"}
-            onChange={() => handleOptionChange("option3")}
+            checked={selectedRadio === "Самовивіз з поштомату Нової Пошти"}
+            onChange={() =>
+              handleOptionChange("Самовивіз з поштомату Нової Пошти")
+            }
           />
           <span>Самовивіз з поштомату Нової Пошти</span>
         </RadioButton>
@@ -149,8 +159,8 @@ const Delivery: React.FC<DeliveryDataProps> = ({
           <RadioInput
             type="radio"
             value="option4"
-            checked={selectedRadio === "option4"}
-            onChange={() => handleOptionChange("option4")}
+            checked={selectedRadio === "Доставка кур’єром Нової Пошти"}
+            onChange={() => handleOptionChange("Доставка кур’єром Нової Пошти")}
           />
           <span>Доставка кур’єром Нової Пошти</span>
         </RadioButton>
