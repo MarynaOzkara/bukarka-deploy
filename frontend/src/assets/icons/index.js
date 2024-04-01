@@ -16,3 +16,4 @@ export { ReactComponent as CrossIcon } from "./cross-icon.svg";
 export { ReactComponent as NotFoundIcon } from "./404.svg";
 export { ReactComponent as EyeClose } from "./eye-close.svg";
 export { ReactComponent as Checked } from "./checked.svg";
+export { ReactComponent as EditIcon } from "./edit-icon.svg";

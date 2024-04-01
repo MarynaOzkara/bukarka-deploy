@@ -7,6 +7,7 @@ import {
   Delivery,
   DeliveryPrice,
   DeliveryTitle,
+  EditButton,
   ImageWrapper,
   Price,
   PriceQuantity,
@@ -17,6 +18,7 @@ import {
   TotalTitle,
 } from "./BookData.styled";
 import { useEffect, useState } from "react";
+import { EditIcon } from "assets/icons";
 
 interface BookDataProps {
   selectedDeliveryMethod: string;
@@ -66,7 +68,7 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
         if (orderData && orderData.totalPrice >= 500) {
           price = 0;
         }
-        
+
         console.log(price);
         setDeliveryPrice(price);
       }
@@ -79,7 +81,12 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
 
   return (
     <BookDataWrapper>
-      <SubTitleBlue>Ваше замовлення</SubTitleBlue>
+      <SubTitleBlue>Ваше замовлення</SubTitleBlue> 
+      <EditButton>
+
+      <EditIcon/>
+      </EditButton>
+      
       {orderData && (
         <>
           {orderData.orderItems.map((item: any) => (

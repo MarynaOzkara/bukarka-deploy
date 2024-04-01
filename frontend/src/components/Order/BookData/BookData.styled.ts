@@ -2,8 +2,17 @@ import styled from "styled-components";
 import { Wrapper } from "../OrderCommonStyled";
 
 export const BookDataWrapper = styled(Wrapper)`
+  position: relative;
   width: 400px;
   min-height: 480px;
+`;
+
+export const EditButton = styled.button`
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: fit-content;
+
 `;
 
 export const Book = styled.div`

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   CheckboxContainer,
   CheckboxInput,
@@ -13,12 +14,16 @@ interface SubmitProps {
 }
 
 const Submit: React.FC<SubmitProps> = ({ onSubmit, onChange }) => {
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+
   const handleClick = () => {
-    onSubmit();
+    if (isCheckboxChecked) {
+      onSubmit();
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.checked);
+    setIsCheckboxChecked(e.target.checked);
   };
 
   return (
@@ -33,7 +38,9 @@ const Submit: React.FC<SubmitProps> = ({ onSubmit, onChange }) => {
         </CheckboxLabel>
       </CheckboxContainer>
 
-      <SubmitButton onClick={handleClick}>Підтвердити замовлення</SubmitButton>
+      <SubmitButton onClick={handleClick} disabled={!isCheckboxChecked}>
+        Підтвердити замовлення
+      </SubmitButton>
       <ContinueButton>Продовжити покупки</ContinueButton>
     </SubmitWrapper>
   );
