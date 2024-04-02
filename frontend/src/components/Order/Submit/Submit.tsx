@@ -7,6 +7,7 @@ import {
   SubmitButton,
   SubmitWrapper,
 } from "./Submit.styles";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 interface SubmitProps {
   onSubmit: () => void;
@@ -15,10 +16,15 @@ interface SubmitProps {
 
 const Submit: React.FC<SubmitProps> = ({ onSubmit, onChange }) => {
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+  const { id } = useParams();
+  console.log(id);
+
+  const navigate = useNavigate();
 
   const handleClick = () => {
     if (isCheckboxChecked) {
       onSubmit();
+      navigate(`/payment/${id}`);
     }
   };
 
@@ -39,7 +45,7 @@ const Submit: React.FC<SubmitProps> = ({ onSubmit, onChange }) => {
       </CheckboxContainer>
 
       <SubmitButton onClick={handleClick} disabled={!isCheckboxChecked}>
-        Підтвердити замовлення
+        <Link to={`/payment/${id}`}>Підтвердити замовлення</Link>{" "}
       </SubmitButton>
       <ContinueButton>Продовжити покупки</ContinueButton>
     </SubmitWrapper>

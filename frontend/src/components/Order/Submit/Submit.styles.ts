@@ -66,27 +66,35 @@ export const SubmitButton = styled.button`
 
   background: var(--bukarka-orange);
   border: 2px solid var(--bukarka-orange);
-  color: var(--bukarka-black);
 
   font-family: var(--bold);
   font-size: 16px;
   line-height: 1.5;
   transition: box-shadow 0.3s ease, color 0.3s ease, background-color 0.3s ease;
 
+  & a {
+    color: var(--bukarka-black);
+    
+    &:active {
+      color: var(--bukarka-yellow);
+    }
+
+
+  }
+
   &:hover:not(:disabled),
   &:focus:not(:disabled) {
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
   }
 
-  &:active {
-    color: var(--bukarka-yellow);
-  }
 
   &:disabled {
     background: var(--bukarka-light-grey-1);
     border-color: var(--bukarka-light-grey-1);
 
-    color: var(--bukarka-black);
+    & a {
+      color: var(--bukarka-black);
+    }
   }
 `;
 
