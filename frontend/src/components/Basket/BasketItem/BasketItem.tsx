@@ -1,48 +1,72 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { StarsWrapper, StyledStarIcon } from "../../Slider/SimpleSlider.styled";
+import React, { useEffect, useState } from "react";
 import {
   StyledBasketItem,
   StyledBasketTitle,
   StyledAuthor,
   FormButton,
+  StyledItemPrice,
   StyledItemAbout,
   StyledPriceBlock,
   StyledBasketImage,
   StyledDescription,
   StyledBasketPricePrice,
+  StyledCountBlock,
+  StyledDeleteButton,
+  StyledChangeButtons,
 } from "./BasketItem.styled";
 import { images } from "../../../assets/images";
-import ReactStars from "react-rating-stars-component";
-import Modal from "../../Modal";
 import FavoriteButton from "../../FavoriteButton/FavoriteButton";
+import { useAppDispatch } from "../../../redux/hooks";
+import { deleteItem, fetchOrdersData } from "../../../redux/orders/operations";
 
 interface IProps {
-  _id: string;
+  id: string;
   title: string;
   author: string;
   image: string | null;
   price: number;
   // rating: number;
   index: number;
+  orderId: string | undefined;
+  quantity: number;
 }
 const CartItem: React.FC<IProps> = ({
-  _id,
+  id,
   title,
   author,
   image,
   price,
   // rating,
   index,
+  orderId,
+  quantity,
 }) => {
-  // const [isOpen, setIsOpen] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+
+  const handleDecrease = () => {
+    dispatch(
+      decreaseItemQuantity({ orderId, quantity: Math.max(1, quantity - 1) }),
+    );
+  };
+
+  const handleIncrease = () => {
+    dispatch(
+      decreaseItemQuantity({ orderId, quantity: Math.max(1, quantity - 1) }),
+    );
+  };
+
+  const handleDeleteClick = (id: string) => {
+    dispatch(deleteItem(id)).then(() => {
+      dispatch(fetchOrdersData());
+    });
+  };
 
   return (
     <>
       <StyledBasketItem>
         <StyledItemAbout>
           <StyledBasketImage
-            id={_id}
+            id={id}
             // onClick={handleClick}
           >
             <img
@@ -56,9 +80,9 @@ const CartItem: React.FC<IProps> = ({
             />
           </StyledBasketImage>
           <StyledDescription>
-            <StyledBasketTitle style={{ width: "192px" }}>
+            <StyledBasketTitle>
               <div
-                id={_id}
+                id={id}
                 // onClick={handleClick}
               >
                 {title}
@@ -66,26 +90,41 @@ const CartItem: React.FC<IProps> = ({
             </StyledBasketTitle>
             <StyledAuthor>
               <div
-                id={_id}
+                id={id}
                 // onClick={handleClick}
               >
                 {author}
               </div>
             </StyledAuthor>
             <div>
-              <FavoriteButton itemId={_id} />
+              <FavoriteButton itemId={id} />
               <p>До обраного</p>
             </div>
           </StyledDescription>
         </StyledItemAbout>
         <StyledPriceBlock>
-          <StyledBasketPricePrice>{price} грн</StyledBasketPricePrice>
+          <StyledItemPrice>
+            <StyledBasketPricePrice>{price} грн</StyledBasketPricePrice>
+            <StyledCountBlock>
+              <StyledChangeButtons onClick={handleDecrease}>
+                -
+              </StyledChangeButtons>
+              {/*<StyledCountBooks></StyledCountBooks>*/}
+              <input type="text" value={quantity} />
+              <StyledChangeButtons onClick={handleIncrease}>
+                +
+              </StyledChangeButtons>
+            </StyledCountBlock>
+            <StyledBasketPricePrice>{price} грн</StyledBasketPricePrice>
+          </StyledItemPrice>
+          <StyledDeleteButton
+            // id={orderId!}
+            onClick={() => handleDeleteClick(orderId!)}
+          >
+            Видалити
+          </StyledDeleteButton>
+          {/*<div></div>*/}
         </StyledPriceBlock>
-        <FormButton
-        // onClick={toggleModal}
-        >
-          Купити
-        </FormButton>
       </StyledBasketItem>
     </>
   );

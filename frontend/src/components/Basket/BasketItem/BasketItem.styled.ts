@@ -25,7 +25,7 @@ export const StyledAmountOfBooks = styled.div`
   line-height: 24px;
 `;
 
-export const StyledDelete = styled.div`
+export const StyledDelete = styled.button`
   color: #7c7165;
   font-size: 12px;
   font-family: "Montserrat-Semibold";
@@ -90,11 +90,18 @@ export const StyledPriceBlock = styled.div`
   width: 296px;
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
 `;
 
 export const StyledBasketPricePrice = styled.div`
   font-size: 16px;
   height: 32px;
+`;
+
+export const StyledItemPrice = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const StyledCountBlock = styled.div`
@@ -119,6 +126,10 @@ export const StyledCountBlock = styled.div`
     background-color: #fff;
     border: none;
   }
+`;
+
+export const StyledDeleteButton = styled.button`
+  color: red;
 `;
 
 export const StyledChangeButtons = styled.button`
