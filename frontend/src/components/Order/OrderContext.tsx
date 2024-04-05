@@ -3,9 +3,11 @@ import React, { createContext, useContext, useState } from "react";
 interface OrderContextProps {
   totalQuantity: number;
   deliveryPrice: number | null;
+  bookPrice: number | null;
   setBookData: (data: {
     totalQuantity: number;
     deliveryPrice: number | null;
+    bookPrice: number | null;
   }) => void;
 }
 
@@ -30,20 +32,24 @@ export const OrderContextProvider: React.FC<OrderContextProviderProps> = ({
 }) => {
   const [totalQuantity, setTotalQuantity] = useState<number>(0);
   const [deliveryPrice, setDeliveryPrice] = useState<number | null>(null);
+  const [bookPrice, setBookPrice] = useState<number | null>(null);
 
   console.log("OrderContextProvider", totalQuantity, deliveryPrice);
-  
+
   const setBookData = (data: {
     totalQuantity: number;
     deliveryPrice: number | null;
+    bookPrice: number | null;
   }) => {
     setTotalQuantity(data.totalQuantity);
     setDeliveryPrice(data.deliveryPrice);
+    setBookPrice(data.bookPrice);
   };
 
   const contextValue = {
     totalQuantity,
     deliveryPrice,
+    bookPrice,
     setBookData,
   };
 

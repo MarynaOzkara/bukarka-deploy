@@ -1,4 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useOrderContext } from "components/Order/OrderContext";
+import { VisaIcon } from "assets/icons";
 import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
   Books,
@@ -11,36 +16,43 @@ import {
   DateInput,
   DateLabel,
   Delivery,
+  DeliveryPrice,
   Info,
   Label,
+  Line,
   NumberInput,
   OrderNumber,
   Payment,
   PaymentPageWrapper,
+  ReceiptInput,
+  ReceiptLabel,
   SubTitle,
   SubTitleBlue,
+  SubmitButton,
   Title,
   ToPay,
+  Total,
 } from "./PaymentPage.styled";
-import { VisaIcon } from "assets/icons";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useParams } from "react-router-dom";
-import { useOrderContext } from "components/Order/OrderContext";
 
 const PaymentPage: React.FC = () => {
   const [cardNumber, setCardNumber] = useState("");
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
   const [CVV, setCVV] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
 
   const { id } = useParams();
   console.log(id);
 
-  const { totalQuantity, deliveryPrice } = useOrderContext();
+  const navigate = useNavigate();
+  const { totalQuantity, deliveryPrice, bookPrice } = useOrderContext();
 
   console.log(totalQuantity);
   console.log(deliveryPrice);
+  console.log(bookPrice);
+
+  const priceWithDelivery = (bookPrice ?? 0) + (deliveryPrice ?? 0);
 
   useEffect(() => {
     toast.warn(
@@ -85,12 +97,36 @@ const PaymentPage: React.FC = () => {
     setCVV(e.target.value);
   };
 
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhone(e.target.value);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    // e.preventDefault();
+
+    console.log("Form submitted:", {
+      cardNumber,
+      month,
+      year,
+      CVV,
+      email,
+      phone,
+    });
+
+    navigate(`/confirmation/${id}`);
+
+  };
+
   return (
     <StyledCommonWrapper>
       <ToastContainer />
       <PaymentPageWrapper>
         <Title>Оформлення замовлення</Title>
-        <form>
+        <form onSubmit={handleSubmit}>
           <CardWrapper>
             <Card>
               <CardHeader>
@@ -145,19 +181,38 @@ const PaymentPage: React.FC = () => {
               <Bukarka>Онлайн-книгарня “Букарка”</Bukarka>
               <Books>
                 <span>Книги</span>
-                <span>{}</span>
+                <span>{totalQuantity}&nbsp;шт.</span>
               </Books>
               <Delivery>
                 <span>Доставка</span>
-                <span>{}</span>
+                <DeliveryPrice deliveryPrice={deliveryPrice}>
+                  {deliveryPrice ? `${deliveryPrice} грн.` : "Безкоштовно"}
+                </DeliveryPrice>{" "}
               </Delivery>
+              <Line></Line>
               <ToPay>
                 <span>До сплати: </span>
-                <span>{}</span>
+                <Total>{priceWithDelivery.toFixed(2)}&nbsp;грн.</Total>
               </ToPay>
             </Info>
           </CardWrapper>
-          <Payment>Payment</Payment>
+          <Payment>
+            <ReceiptLabel>Email для отримання квитанції:</ReceiptLabel>
+            <ReceiptInput
+              type="email"
+              value={email}
+              placeholder="Введіть email"
+              onChange={handleEmailChange}
+            />
+            <ReceiptLabel>Email для отримання квитанції:</ReceiptLabel>
+            <ReceiptInput
+              type="phone"
+              value={phone}
+              placeholder="+380"
+              onChange={handlePhoneChange}
+            />
+          </Payment>
+          <SubmitButton type="submit">Оплатити замовлення</SubmitButton>
         </form>
       </PaymentPageWrapper>
     </StyledCommonWrapper>

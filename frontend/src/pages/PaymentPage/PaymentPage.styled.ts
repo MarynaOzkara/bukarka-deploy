@@ -20,6 +20,8 @@ export const Title = styled.h1`
 export const CardWrapper = styled.div`
   display: flex;
   gap: 16px;
+
+  margin-bottom: 32px;
 `;
 
 export const Card = styled.div`
@@ -159,6 +161,9 @@ export const Bukarka = styled.p`
 `;
 
 export const Books = styled.p`
+  display: flex;
+  justify-content: space-between;
+
   margin-bottom: 8px;
   font-family: "Montserrat-Regular";
   font-weight: 400;
@@ -168,6 +173,9 @@ export const Books = styled.p`
 `;
 
 export const Delivery = styled.p`
+  display: flex;
+  justify-content: space-between;
+
   margin-bottom: 8px;
   font-family: "Montserrat-Regular";
   font-weight: 400;
@@ -176,7 +184,30 @@ export const Delivery = styled.p`
   color: var(--bukarka-black);
 `;
 
+interface DeliveryPriceProps {
+  deliveryPrice: number | null;
+}
+
+export const DeliveryPrice = styled.span<DeliveryPriceProps>`
+  font-family: "Montserrat-Medium";
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+
+  color: ${(props) =>
+    props.deliveryPrice ? "var(--bukarka-black)" : "var(--bukarka-orange)"};
+`;
+
+export const Line = styled.div`
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--bukarka-black);
+`;
+
 export const ToPay = styled.p`
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+
   font-family: "Montserrat-Semibold";
   font-weight: 600;
   font-size: 16px;
@@ -184,4 +215,56 @@ export const ToPay = styled.p`
   color: var(--bukarka-black);
 `;
 
+export const Total = styled.span`
+  color: var(--bukarka-black);
+
+  font-family: "Montserrat-Semibold";
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.33;
+`;
+
 export const Payment = styled.div``;
+
+export const ReceiptLabel = styled.label`
+  display: block;
+  margin-bottom: 8px;
+
+  font-family: "Montserrat-Regular";
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--bukarka-blue);
+`;
+
+export const ReceiptInput = styled.input`
+  width: 400px;
+  height: 24px;
+  margin-bottom: 24px;
+  border: none;
+  border-bottom: 1px solid var(--bukarka-dark-grey);
+
+  font-family: "Montserrat-Regular";
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--bukarka-dark-grey);
+
+  &:last-child {
+    margin-bottom: 32px;
+  }
+`;
+
+export const SubmitButton = styled.button`
+  width: 400px;
+  height: 40px;
+  padding: 8px 16px;
+
+  background: var(--bukarka-orange);
+  color: var(--bukarka-black);
+
+  font-family: "Montserrat-Bold";
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.5;
+`;

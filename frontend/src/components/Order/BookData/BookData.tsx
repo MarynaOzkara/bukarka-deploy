@@ -41,9 +41,15 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
     fetch(`https://bukarka.onrender.com/api/orders/${id}`)
       .then((response) => response.json())
       .then((data) => {
-        // data && console.log(data);
+        data && console.log(data);
+        data && console.log(data.totalPrice);
+
         setOrderData(data);
-        setBookData({ totalQuantity, deliveryPrice });
+        setBookData({
+          totalQuantity,
+          deliveryPrice,
+          bookPrice: data.totalPrice,
+        });
       })
       .catch((error) => {
         console.error("Error fetching order data:", error);
@@ -91,7 +97,7 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
   }, [orderData]);
 
   console.log("deliveryPrice", deliveryPrice);
-  console.log(orderData);
+  console.log("orderData", orderData);
   console.log("totalQuantity", totalQuantity);
 
   return (
