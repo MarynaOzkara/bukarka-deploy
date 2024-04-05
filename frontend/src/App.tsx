@@ -4,6 +4,7 @@ import Layout from "./components/Layout/Layout";
 import OrderPage from "pages/OrderPage/OrderPage";
 import PaymentPage from "pages/PaymentPage";
 import { OrderContextProvider } from "components/Order/OrderContext";
+import OrderConfirmationPage from "pages/OrderConfirmationPage";
 const HomePage = lazy(() => import("pages/HomePage"));
 const NotFoundPage = lazy(() => import("pages/NotFoundPage/NotFoundPage"));
 const AboutPage = lazy(() => import("pages/AboutPage/AboutPage"));
@@ -30,6 +31,7 @@ function App() {
             <Route path="privacy" element={<PrivacyPolicyPage />} />
             <Route path="order/:id" element={<OrderPage />} />
             <Route path="payment/:id" element={<PaymentPage />} />
+            <Route path="confirmation/:id" element={<OrderConfirmationPage />} />
 
             <Route path="*" element={<NotFoundPage />} />
           </Route>
