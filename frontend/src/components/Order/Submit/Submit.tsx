@@ -17,7 +17,7 @@ interface SubmitProps {
 const Submit: React.FC<SubmitProps> = ({ onSubmit, onChange }) => {
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
   const { id } = useParams();
-  console.log(id);
+  // console.log(id);
 
   const navigate = useNavigate();
 

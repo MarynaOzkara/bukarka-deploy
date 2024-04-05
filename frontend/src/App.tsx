@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import OrderPage from "pages/OrderPage/OrderPage";
 import PaymentPage from "pages/PaymentPage";
+import { OrderContextProvider } from "components/Order/OrderContext";
 const HomePage = lazy(() => import("pages/HomePage"));
 const NotFoundPage = lazy(() => import("pages/NotFoundPage/NotFoundPage"));
 const AboutPage = lazy(() => import("pages/AboutPage/AboutPage"));
@@ -15,24 +16,26 @@ const BookPage = lazy(() => import("pages/BookPage"));
 
 function App() {
   return (
-    <div>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
-          <Route path="books/:id" element={<BookPage />} />
-          <Route path="about" element={<AboutPage />} />
-          <Route path="delivery" element={<DeliveryPage />} />
-          <Route path="contacts" element={<ContactsPage />} />
-          <Route path="catalog" element={<CatalogPage />} />
-          <Route path="club" element={<BookClubPage />} />
-          <Route path="privacy" element={<PrivacyPolicyPage />} />
-          <Route path="order/:id" element={<OrderPage />} />
-          <Route path="payment/:id" element={<PaymentPage />} />
+    <OrderContextProvider>
+      <div>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="books/:id" element={<BookPage />} />
+            <Route path="about" element={<AboutPage />} />
+            <Route path="delivery" element={<DeliveryPage />} />
+            <Route path="contacts" element={<ContactsPage />} />
+            <Route path="catalog" element={<CatalogPage />} />
+            <Route path="club" element={<BookClubPage />} />
+            <Route path="privacy" element={<PrivacyPolicyPage />} />
+            <Route path="order/:id" element={<OrderPage />} />
+            <Route path="payment/:id" element={<PaymentPage />} />
 
-          <Route path="*" element={<NotFoundPage />} />
-        </Route>
-      </Routes>
-    </div>
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
+        </Routes>
+      </div>
+    </OrderContextProvider>
   );
 }
 

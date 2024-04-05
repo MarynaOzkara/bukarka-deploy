@@ -26,6 +26,7 @@ import { VisaIcon } from "assets/icons";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "react-router-dom";
+import { useOrderContext } from "components/Order/OrderContext";
 
 const PaymentPage: React.FC = () => {
   const [cardNumber, setCardNumber] = useState("");
@@ -35,6 +36,11 @@ const PaymentPage: React.FC = () => {
 
   const { id } = useParams();
   console.log(id);
+
+  const { totalQuantity, deliveryPrice } = useOrderContext();
+
+  console.log(totalQuantity);
+  console.log(deliveryPrice);
 
   useEffect(() => {
     toast.warn(
@@ -137,9 +143,18 @@ const PaymentPage: React.FC = () => {
               <SubTitleBlue>Інформація про оплату</SubTitleBlue>
               <OrderNumber>Замовлення № {id}</OrderNumber>
               <Bukarka>Онлайн-книгарня “Букарка”</Bukarka>
-              <Books><span>Книги</span><span>{}</span></Books>
-              <Delivery><span>Доставка</span><span>{}</span></Delivery>
-              <ToPay><span>До сплати:  </span><span>{}</span></ToPay>
+              <Books>
+                <span>Книги</span>
+                <span>{}</span>
+              </Books>
+              <Delivery>
+                <span>Доставка</span>
+                <span>{}</span>
+              </Delivery>
+              <ToPay>
+                <span>До сплати: </span>
+                <span>{}</span>
+              </ToPay>
             </Info>
           </CardWrapper>
           <Payment>Payment</Payment>

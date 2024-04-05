@@ -30,7 +30,7 @@ const OrderPage: React.FC = () => {
   const [orderComment, setOrderComment] = useState<string>("");
 
   const { id } = useParams<{ id: string }>();
-  console.log(id);
+  // console.log(id);
 
   const handleCheckboxChange = (checked: boolean) => {
     setIsChecked(checked);
@@ -48,7 +48,7 @@ const OrderPage: React.FC = () => {
       comment: orderComment,
     };
 
-    console.log(customerInfo);
+    // console.log(customerInfo);
 
     fetch(
       // `https://bukarka.onrender.com/api/orders/checkout/${id}`

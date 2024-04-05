@@ -19,6 +19,7 @@ import {
 } from "./BookData.styled";
 import { useEffect, useState } from "react";
 import { EditIcon } from "assets/icons";
+import { useOrderContext } from "../OrderContext";
 
 interface BookDataProps {
   selectedDeliveryMethod: string;
@@ -28,28 +29,32 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
   const { id } = useParams<{ id: string }>();
   console.log(id);
 
+  const { setBookData } = useOrderContext();
+
   const [orderData, setOrderData] = useState<any>(null);
   const [deliveryPrice, setDeliveryPrice] = useState<number | null>(null);
+  const [totalQuantity, setTotalQuantity] = useState<number>(0);
 
-  console.log(selectedDeliveryMethod);
+  // console.log(selectedDeliveryMethod);
 
   useEffect(() => {
     fetch(`https://bukarka.onrender.com/api/orders/${id}`)
       .then((response) => response.json())
       .then((data) => {
-        data && console.log(data);
+        // data && console.log(data);
         setOrderData(data);
+        setBookData({ totalQuantity, deliveryPrice });
       })
       .catch((error) => {
         console.error("Error fetching order data:", error);
       });
-  }, [id]);
+  }, [deliveryPrice, id, setBookData, totalQuantity]);
 
   useEffect(() => {
     const countDeliveryPrice = () => {
       let price = 0;
 
-      console.log(price);
+      // console.log(price);
       if (selectedDeliveryMethod) {
         switch (selectedDeliveryMethod) {
           case "Самовивіз з відділення Укрпошти":
@@ -69,7 +74,7 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
           price = 0;
         }
 
-        console.log(price);
+        // console.log(price);
         setDeliveryPrice(price);
       }
     };
@@ -77,16 +82,24 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
     countDeliveryPrice();
   }, [orderData, selectedDeliveryMethod]);
 
-  console.log(deliveryPrice);
+  useEffect(() => {
+    let quantity = 0;
+    orderData?.orderItems.forEach((item: any) => {
+      quantity += item.quantity;
+    });
+    setTotalQuantity(quantity);
+  }, [orderData]);
+
+  console.log("deliveryPrice", deliveryPrice);
+  console.log(orderData);
+  console.log("totalQuantity", totalQuantity);
 
   return (
     <BookDataWrapper>
-      <SubTitleBlue>Ваше замовлення</SubTitleBlue> 
+      <SubTitleBlue>Ваше замовлення</SubTitleBlue>
       <EditButton>
-
-      <EditIcon/>
+        <EditIcon />
       </EditButton>
-      
       {orderData && (
         <>
           {orderData.orderItems.map((item: any) => (

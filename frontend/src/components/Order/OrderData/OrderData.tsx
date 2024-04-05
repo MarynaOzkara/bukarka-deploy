@@ -30,7 +30,7 @@ const OrderData: React.FC<OrderDataProps> = ({
   paymentMethod,
   orderComment,
 }) => {
-  console.log(deliveryMethod);
+  // console.log(deliveryMethod);
   return (
     <OrderDataWrapper>
       <SubTitleBlue>Дані для замовлення</SubTitleBlue>

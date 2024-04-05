@@ -10,16 +10,16 @@ import { store } from "./redux/store";
 import { Provider } from "react-redux";
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement,
+  document.getElementById("root") as HTMLElement
 );
 
 root.render(
   <Provider store={store}>
     <BrowserRouter>
       <ThemeProvider theme={theme}>
-        <App />
+          <App />
         <GlobalStyles />
       </ThemeProvider>
     </BrowserRouter>
-  </Provider>,
+  </Provider>
 );
