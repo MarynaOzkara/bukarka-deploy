@@ -1,6 +1,7 @@
 const { ctrlWrapper } = require("../decorators");
 const { Order } = require("../models/order");
 const { OrderItem } = require("../models/order-item");
+const { Counter } = require("../models/counter");
 
 const addToCart = async (req, res) => {
   const { productId } = req.params;
@@ -143,6 +144,16 @@ const placeOrder = async (req, res) => {
   if (!order) {
     return res.status(404).json({ message: "Замовлення не знайдено" });
   }
+
+  const counter = await Counter.findOneAndUpdate(
+    {},
+    { $inc: { orderNumber: 1 } },
+    { new: true, upsert: true }
+  );
+  const orderNumber = counter.orderNumber;
+
+  order.orderNumber = orderNumber;
+  console.log(order);
 
   order.customerInfo = {
     name,

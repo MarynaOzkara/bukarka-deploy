@@ -255,7 +255,11 @@ export const ReceiptInput = styled.input`
   }
 `;
 
-export const SubmitButton = styled.button`
+interface SubmitButtonProps {
+  orderNumber: string | null;
+}
+
+export const SubmitButton = styled.button<SubmitButtonProps>`
   width: 400px;
   height: 40px;
   padding: 8px 16px;

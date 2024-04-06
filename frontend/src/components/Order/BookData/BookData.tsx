@@ -29,7 +29,7 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
   const { id } = useParams<{ id: string }>();
   console.log(id);
 
-  const { setBookData } = useOrderContext();
+  const { setBookData, setOrderNumber } = useOrderContext();
 
   const [orderData, setOrderData] = useState<any>(null);
   const [deliveryPrice, setDeliveryPrice] = useState<number | null>(null);
@@ -49,12 +49,14 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
           totalQuantity,
           deliveryPrice,
           bookPrice: data.totalPrice,
+          orderNumber: data.orderNumber,
         });
+        setOrderNumber(data.orderNumber);
       })
       .catch((error) => {
         console.error("Error fetching order data:", error);
       });
-  }, [deliveryPrice, id, setBookData, totalQuantity]);
+  }, [deliveryPrice, id, setBookData, setOrderNumber, totalQuantity]);
 
   useEffect(() => {
     const countDeliveryPrice = () => {

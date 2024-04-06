@@ -3,6 +3,11 @@ const { handleMongooseError } = require("../helpers");
 
 const orderSchema = new Schema(
   {
+    orderNumber: {
+      type: Number,
+      unique: true,
+      // required: true
+    },
     orderItems: [
       {
         type: Schema.Types.ObjectId,

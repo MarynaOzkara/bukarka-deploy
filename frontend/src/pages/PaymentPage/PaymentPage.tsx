@@ -46,11 +46,13 @@ const PaymentPage: React.FC = () => {
   console.log(id);
 
   const navigate = useNavigate();
-  const { totalQuantity, deliveryPrice, bookPrice } = useOrderContext();
+  const { totalQuantity, deliveryPrice, bookPrice, orderNumber } =
+    useOrderContext();
 
   console.log(totalQuantity);
   console.log(deliveryPrice);
   console.log(bookPrice);
+  console.log(orderNumber);
 
   const priceWithDelivery = (bookPrice ?? 0) + (deliveryPrice ?? 0);
 
@@ -118,7 +120,6 @@ const PaymentPage: React.FC = () => {
     });
 
     navigate(`/confirmation/${id}`);
-
   };
 
   return (
@@ -177,7 +178,7 @@ const PaymentPage: React.FC = () => {
             </Card>
             <Info>
               <SubTitleBlue>Інформація про оплату</SubTitleBlue>
-              <OrderNumber>Замовлення № {id}</OrderNumber>
+              <OrderNumber>Замовлення № {orderNumber}</OrderNumber>
               <Bukarka>Онлайн-книгарня “Букарка”</Bukarka>
               <Books>
                 <span>Книги</span>
@@ -212,7 +213,7 @@ const PaymentPage: React.FC = () => {
               onChange={handlePhoneChange}
             />
           </Payment>
-          <SubmitButton type="submit">Оплатити замовлення</SubmitButton>
+          <SubmitButton type="submit" orderNumber={orderNumber}>Оплатити замовлення</SubmitButton>
         </form>
       </PaymentPageWrapper>
     </StyledCommonWrapper>

@@ -4,11 +4,15 @@ interface OrderContextProps {
   totalQuantity: number;
   deliveryPrice: number | null;
   bookPrice: number | null;
+  orderNumber: string | null;
   setBookData: (data: {
     totalQuantity: number;
     deliveryPrice: number | null;
     bookPrice: number | null;
+    orderNumber: string | null;
   }) => void;
+
+  setOrderNumber: (orderNumber: string | null) => void;
 }
 
 const OrderContext = createContext<OrderContextProps | undefined>(undefined);
@@ -33,6 +37,7 @@ export const OrderContextProvider: React.FC<OrderContextProviderProps> = ({
   const [totalQuantity, setTotalQuantity] = useState<number>(0);
   const [deliveryPrice, setDeliveryPrice] = useState<number | null>(null);
   const [bookPrice, setBookPrice] = useState<number | null>(null);
+  const [orderNumber, setOrderNumber] = useState<string | null>(null);
 
   console.log("OrderContextProvider", totalQuantity, deliveryPrice);
 
@@ -51,6 +56,8 @@ export const OrderContextProvider: React.FC<OrderContextProviderProps> = ({
     deliveryPrice,
     bookPrice,
     setBookData,
+    orderNumber,
+    setOrderNumber,
   };
 
   return (

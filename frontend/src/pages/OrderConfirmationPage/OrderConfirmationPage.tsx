@@ -11,10 +11,14 @@ import {
 } from "./OrderConfirmationPage.styled";
 import { StyledCommonWrapper } from "styles/CommonStyled";
 import { useParams } from "react-router-dom";
+import { useOrderContext } from "components/Order/OrderContext";
 
 const OrderConfirmationPage: React.FC = () => {
   const { id } = useParams();
+  const { orderNumber } = useOrderContext();
+  console.log(orderNumber);
   console.log(id);
+  
   return (
     <StyledCommonWrapper>
       <Wrapper>
@@ -23,7 +27,7 @@ const OrderConfirmationPage: React.FC = () => {
         <OrderInfo>
           <NumberInfo>
             <NumberText>Номер вашого замовлення:</NumberText>
-            <Number>{id}</Number>
+            <Number>{orderNumber}</Number>
           </NumberInfo>
           <Text>
             Ми надіслали вам лист с даними замовлення, включаючи інформацію про
