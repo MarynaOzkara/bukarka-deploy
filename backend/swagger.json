@@ -36,6 +36,10 @@
     {
       "name": "Newsletter",
       "description": "Newsletter subscription endpoints"
+    },
+    {
+      "name": "Cart",
+      "description": "Authorized User's Cart endpoints"
     }
   ],
   "paths": {
@@ -680,6 +684,277 @@
             }
           }
         }
+      }
+    },
+    "/cart": {
+      "get": {
+        "tags":["Cart"],
+        "summary": "Returns user's Cart data",
+        "parameters":[],
+        "security": [{ "Bearer": [] }],
+        "requestBody":{},
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cart/add": {
+      "post": {
+        "tags":["Cart"],
+        "summary": "Add array of books to the cart",
+        "parameters":[],
+        "security": [{ "Bearer": [] }],
+        "requestBody":{
+          "description": "Cart object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddManyToCartRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddManyToCartResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cart/add/{bookId}": {
+      "post": {
+        "tags":["Cart"],
+        "summary": "Add one book to the cart",
+        "parameters":[
+          {
+            "in": "path",
+            "name": "bookId",
+            "required": true,
+            "description": "Book ID",
+            "schema": {
+              "type": "string",
+              "example": "65ed9f233000741d129b5554"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody":{},
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddOneToCartResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cart/increase/{bookId}": {
+      "patch":{
+        "tags":["Cart"],
+        "summary": "Increase book's quantity with ID: bookId for 1",
+        "parameters":[
+          {
+            "in": "path",
+            "name": "bookId",
+            "required": true,
+            "description": "Book ID",
+            "schema": {
+              "type": "string",
+              "example": "65ed9f233000741d129b5554"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody":{},
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncreaseBookQuantityResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cart/decrease/{bookId}": {
+      "patch":{
+        "tags":["Cart"],
+        "summary": "Decrease book's quantity with ID: bookId for 1",
+        "parameters":[
+          {
+            "in": "path",
+            "name": "bookId",
+            "required": true,
+            "description": "Book ID",
+            "schema": {
+              "type": "string",
+              "example": "65ed9f233000741d129b5554"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody":{},
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DecreaseBookQuantityResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cart/delete/{bookId}": {
+      "patch": {
+        "tags":["Cart"],
+        "summary": "Delete book with ID: bookId from the cart",
+        "parameters":[
+          {
+            "in": "path",
+            "name": "bookId",
+            "required": true,
+            "description": "Book ID",
+            "schema": {
+              "type": "string",
+              "example": "65ed9f233000741d129b5554"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody":{},
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteBookFromCartResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cart/clear": {
+      "delete":{
+        "tags":["Cart"],
+        "summary": "Delete all Books from the cart ",
+        "parameters":[],
+        "security": [{ "Bearer": [] }],
+        "requestBody":{},
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClearCartResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          }
+      }
       }
     },
     "/books": {
@@ -2183,7 +2458,7 @@
               },
               "birthDay": {
                 "type": "string",
-                "description": "User permition",
+                "description": "User birth day",
                 "example": "29.03.1985"
               }
             }
@@ -2433,6 +2708,429 @@
 					"message": {
 						"type": "string",
 						"example": "Your already unsubscribed from newsletter"
+					}
+				}
+      },
+      "CartResponse": {
+        "type": "object",
+        "properties": {
+          "cart":{
+            "type": "object",
+            "properties": {
+              "cartItems": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties":{
+                    "bookId": {
+                      "type":"object",
+                      "properties":{
+                        "_id":{
+                          "type": "string",
+                          "description": "Book's ID",
+                          "example": "65ed9f233000741d129b5554"
+                        },
+                        "author":{
+                          "type": "string",
+                          "description": "Book's author",
+                          "example": "Марія Коваль"
+                        },
+                        "title":{
+                          "type": "string",
+                          "description": "Book's title",
+                          "example": "Казки для дітей"
+                        }
+                      }
+                    },
+                    "quantity": {
+                      "type":"number",
+                      "description": "Book's quantity",
+                      "example": 3
+                    },
+                    "price": {
+                      "type":"number",
+                      "description": "Book's price",
+                      "example": 120
+                    },
+                    "summ": {
+                      "type":"number",
+                      "description": "Book's total summ",
+                      "example": 360
+                    }
+                  }
+                }               
+              },
+              "totalItems": {
+                "type": "number",
+                "description": "Total items quantity",
+                "example": 3
+              },
+              "cartTotal":{
+                "type": "number",
+                "description": "Total items price",
+                "example": 360
+              },
+              "user":{
+                "type": "string",
+                "description": "User's ID",
+                "example": "6605c797972bd9d9189f5c23"
+              } 
+            }
+          } 
+        }
+      },
+      "AddOneToCartResponse": {
+        "type": "object",
+        "properties": {
+          "message":{
+            "type": "string",
+            "example": "Book with id: 65ed9f233000741d129b5554 successfulli added to the cart"
+          },
+          "cart":{
+            "type": "object",
+            "properties": {
+              "cartItems": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties":{
+                    "bookId": {
+                      "type":"object",
+                      "properties":{
+                        "_id":{
+                          "type": "string",
+                          "description": "Book's ID",
+                          "example": "65ed9f233000741d129b5554"
+                        },
+                        "author":{
+                          "type": "string",
+                          "description": "Book's author",
+                          "example": "Марія Коваль"
+                        },
+                        "title":{
+                          "type": "string",
+                          "description": "Book's title",
+                          "example": "Казки для дітей"
+                        }
+                      }
+                    },
+                    "quantity": {
+                      "type":"number",
+                      "description": "Book's quantity",
+                      "example": 1
+                    },
+                    "price": {
+                      "type":"number",
+                      "description": "Book's price",
+                      "example": 120
+                    },
+                    "summ": {
+                      "type":"number",
+                      "description": "Book's total summ",
+                      "example": 120
+                    }
+                  }
+                }               
+              },
+              "totalItems": {
+                "type": "number",
+                "description": "Total items quantity",
+                "example": 1
+              },
+              "cartTotal":{
+                "type": "number",
+                "description": "Total items price",
+                "example": 120
+              },
+              "user":{
+                "type": "string",
+                "description": "User's ID",
+                "example": "6605c797972bd9d9189f5c23"
+              } 
+            }
+          } 
+        }
+      },
+      "AddManyToCartRequest": {
+        "type": "object",
+        "properties": {
+          "cart": {
+            "type": "array",
+            "items":{
+              "type": "object",
+        "required": ["bookId", "quantity"],
+        "properties": {
+          "bookId": {
+            "type": "string",
+						"description": "Book's ID",
+            "example": "65ed9f233000741d129b5554"
+          },
+          "quantity": {
+            "type": "number",
+						"description": "Book quantity",
+						"example": 3
+          }
+        }
+            }
+          }
+        }
+        
+      },
+      "AddManyToCartResponse": {
+        "type": "object",
+        "properties": {
+          "message":{
+            "type": "string",
+            "example": "Books successfully added to your cart"
+          },
+          "cart":{
+            "type": "object",
+            "properties": {
+              "cartItems": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties":{
+                    "bookId": {
+                      "type":"object",
+                      "properties":{
+                        "_id":{
+                          "type": "string",
+                          "description": "Book's ID",
+                          "example": "65ed9f233000741d129b5554"
+                        },
+                        "author":{
+                          "type": "string",
+                          "description": "Book's author",
+                          "example": "Марія Коваль"
+                        },
+                        "title":{
+                          "type": "string",
+                          "description": "Book's title",
+                          "example": "Казки для дітей"
+                        }
+                      }
+                    },
+                    "quantity": {
+                      "type":"number",
+                      "description": "Book's quantity",
+                      "example": 3
+                    },
+                    "price": {
+                      "type":"number",
+                      "description": "Book's price",
+                      "example": 120
+                    },
+                    "summ": {
+                      "type":"number",
+                      "description": "Book's total summ",
+                      "example": 360
+                    }
+                  }
+                }               
+              },
+              "totalItems": {
+                "type": "number",
+                "description": "Total items quantity",
+                "example": 3
+              },
+              "cartTotal":{
+                "type": "number",
+                "description": "Total items price",
+                "example": 360
+              },
+              "user":{
+                "type": "string",
+                "description": "User's ID",
+                "example": "6605c797972bd9d9189f5c23"
+              } 
+            }
+          } 
+        }
+      },
+      "IncreaseBookQuantityResponse": {
+        "type": "object",
+        "properties": {
+          "message":{
+            "type": "string",
+            "example": "Book id: 65ed9f233000741d129b5554 quantity increase by 1 item"
+          },
+          "cart":{
+            "type": "object",
+            "properties": {
+              "cartItems": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties":{
+                    "bookId": {
+                      "type":"object",
+                      "properties":{
+                        "_id":{
+                          "type": "string",
+                          "description": "Book's ID",
+                          "example": "65ed9f233000741d129b5554"
+                        },
+                        "author":{
+                          "type": "string",
+                          "description": "Book's author",
+                          "example": "Марія Коваль"
+                        },
+                        "title":{
+                          "type": "string",
+                          "description": "Book's title",
+                          "example": "Казки для дітей"
+                        }
+                      }
+                    },
+                    "quantity": {
+                      "type":"number",
+                      "description": "Book's quantity",
+                      "example": 2
+                    },
+                    "price": {
+                      "type":"number",
+                      "description": "Book's price",
+                      "example": 120
+                    },
+                    "summ": {
+                      "type":"number",
+                      "description": "Book's total summ",
+                      "example": 240
+                    }
+                  }
+                }               
+              },
+              "totalItems": {
+                "type": "number",
+                "description": "Total items quantity",
+                "example": 2
+              },
+              "cartTotal":{
+                "type": "number",
+                "description": "Total items price",
+                "example": 240
+              },
+              "user":{
+                "type": "string",
+                "description": "User's ID",
+                "example": "6605c797972bd9d9189f5c23"
+              } 
+            }
+          } 
+        }
+      },
+      "DecreaseBookQuantityResponse": {
+        "type": "object",
+        "properties": {
+          "message":{
+            "type": "string",
+            "example": "Book id: 65ed9f233000741d129b5554 quantity decreased by 1 item"
+          },
+          "cart":{
+            "type": "object",
+            "properties": {
+              "cartItems": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties":{
+                    "bookId": {
+                      "type":"object",
+                      "properties":{
+                        "_id":{
+                          "type": "string",
+                          "description": "Book's ID",
+                          "example": "65ed9f233000741d129b5554"
+                        },
+                        "author":{
+                          "type": "string",
+                          "description": "Book's author",
+                          "example": "Марія Коваль"
+                        },
+                        "title":{
+                          "type": "string",
+                          "description": "Book's title",
+                          "example": "Казки для дітей"
+                        }
+                      }
+                    },
+                    "quantity": {
+                      "type":"number",
+                      "description": "Book's quantity",
+                      "example": 1
+                    },
+                    "price": {
+                      "type":"number",
+                      "description": "Book's price",
+                      "example": 120
+                    },
+                    "summ": {
+                      "type":"number",
+                      "description": "Book's total summ",
+                      "example": 120
+                    }
+                  }
+                }               
+              },
+              "totalItems": {
+                "type": "number",
+                "description": "Total items quantity",
+                "example": 1
+              },
+              "cartTotal":{
+                "type": "number",
+                "description": "Total items price",
+                "example": 120
+              },
+              "user":{
+                "type": "string",
+                "description": "User's ID",
+                "example": "6605c797972bd9d9189f5c23"
+              } 
+            }
+          } 
+        }
+      },
+      "DeleteBookFromCartResponse": {
+        "type": "object",
+        "properties": {
+          "message":{
+            "type": "string",
+            "example": "Book id: 65ed9f233000741d129b5554 successfully deleted from cart"
+          },
+          "cart":{
+            "type": "object",
+            "properties": {
+              "cartItems": {
+                "type": "array",
+                "items": {}               
+              },
+              "totalItems": {
+                "type": "number",
+                "description": "Total items quantity",
+                "example": 0
+              },
+              "cartTotal":{
+                "type": "number",
+                "description": "Total items price",
+                "example": 0
+              },
+              "user":{
+                "type": "string",
+                "description": "User's ID",
+                "example": "6605c797972bd9d9189f5c23"
+              } 
+            }
+          } 
+        }
+      },
+      "ClearCartResponse": {
+        "type": "object",
+				"properties": {
+					"message": {
+						"type": "string",
+						"example": "Cart is empty"
 					}
 				}
       },
@@ -2721,14 +3419,14 @@
           }
         }
       }
-      },
-      "securitySchemes": {
-        "Bearer": {
-          "type": "http",
-          "scheme": "bearer",
-          "bearerFormat": "JWT"
-        }
+      }   
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
-  } 
-}
+    }
+  }
 }
