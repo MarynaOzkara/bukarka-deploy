@@ -44,22 +44,22 @@ const PaymentPage: React.FC = () => {
   const [phone, setPhone] = useState("");
 
   const { id } = useParams();
-  console.log(id);
+  // console.log(id);
 
   const navigate = useNavigate();
   const { totalQuantity, deliveryPrice, bookPrice } = useOrderContext();
 
   const [orderNumber, setOrderNumber] = useState("");
 
-  console.log(totalQuantity);
-  console.log(deliveryPrice);
-  console.log(bookPrice);
+  // console.log(totalQuantity);
+  // console.log(deliveryPrice);
+  // console.log(bookPrice);
 
   useEffect(() => {
     fetch(`https://bukarka.onrender.com/api/orders/${id}`)
       .then((response) => response.json())
       .then((data) => {
-        data && console.log(data);
+        // data && console.log(data);
         setOrderNumber(data.orderNumber);
       })
       .catch((error) => {
@@ -67,7 +67,7 @@ const PaymentPage: React.FC = () => {
       });
   }, [id]);
 
-  console.log(orderNumber);
+  // console.log(orderNumber);
 
   const priceWithDelivery = (bookPrice ?? 0) + (deliveryPrice ?? 0);
 

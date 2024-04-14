@@ -28,7 +28,7 @@ interface BookDataProps {
 
 const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
   const { id } = useParams<{ id: string }>();
-  console.log(id);
+  // console.log(id);
 
   const { setBookData, setOrderNumber } = useOrderContext();
 
@@ -99,9 +99,9 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
     setTotalQuantity(quantity);
   }, [orderData]);
 
-  console.log("deliveryPrice", deliveryPrice);
-  console.log("orderData", orderData);
-  console.log("totalQuantity", totalQuantity);
+  // console.log("deliveryPrice", deliveryPrice);
+  // console.log("orderData", orderData);
+  // console.log("totalQuantity", totalQuantity);
 
   return (
     <BookDataWrapper>

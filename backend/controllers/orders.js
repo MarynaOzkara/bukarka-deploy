@@ -144,7 +144,7 @@ const placeOrder = async (req, res) => {
 
   await counter.save();
 
-  console.log(orderNumber);
+  // console.log(orderNumber);
 
   const order = await Order.findById(orderId).populate({
     path: "orderItems",
@@ -157,7 +157,7 @@ const placeOrder = async (req, res) => {
   }
 
   order.orderNumber = orderNumber - 1;
-  console.log(order);
+  // console.log(order);
 
   order.customerInfo = {
     name,
@@ -171,7 +171,7 @@ const placeOrder = async (req, res) => {
     comment,
   };
 
-  console.log(order.customerInfo);
+  // console.log(order.customerInfo);
   order.status = "processing";
   await order.save();
 

@@ -18,7 +18,7 @@ const OrderConfirmationPage: React.FC = () => {
   const { id } = useParams();
   // const { orderNumber } = useOrderContext();
   // console.log(orderNumber);
-  console.log(id);
+  // console.log(id);
   const [orderNumber, setOrderNumber] = useState("");
 
   useEffect(() => {

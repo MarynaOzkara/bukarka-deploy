@@ -73,7 +73,7 @@ const Delivery: React.FC<DeliveryDataProps> = ({
     setAddress(e.target.value);
     setDeliveryAddress(e.target.value);
     setDeliveryCity(city);
-    console.log(address);
+    // console.log(address);
   };
 
   const handleOutsideClick = (e: MouseEvent) => {

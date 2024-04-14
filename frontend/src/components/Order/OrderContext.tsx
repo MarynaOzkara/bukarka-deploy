@@ -40,7 +40,7 @@ export const OrderContextProvider: React.FC<OrderContextProviderProps> = ({
   const [bookPrice, setBookPrice] = useState<number | null>(null);
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
 
-  console.log("OrderContextProvider", totalQuantity, deliveryPrice);
+  // console.log("OrderContextProvider", totalQuantity, deliveryPrice);
 
   const setBookData = (data: {
     totalQuantity: number;
@@ -58,7 +58,7 @@ export const OrderContextProvider: React.FC<OrderContextProviderProps> = ({
     fetch(`https://bukarka.onrender.com/api/orders/${id}`)
       .then((response) => response.json())
       .then((data) => {
-        data && console.log(data);
+        // data && console.log(data);
         setOrderNumber(data.orderNumber);
       })
       .catch((error) => {
@@ -75,7 +75,7 @@ export const OrderContextProvider: React.FC<OrderContextProviderProps> = ({
     setOrderNumber,
   };
 
-  console.log(orderNumber);
+  // console.log(orderNumber);
 
   return (
     <OrderContext.Provider value={contextValue}>
