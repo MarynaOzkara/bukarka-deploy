@@ -22,16 +22,21 @@ export const BookList = styled.ul`
     width: 8px;
   }
 
-  /* &::-webkit-scrollbar-thumb {
-    background-color: #ccc; 
-    border-radius: 4px; 
+  &::-webkit-scrollbar-thumb {
+    width: 8px;
+    height: 48px;
+    border: 0.5px solid var(--bukarka-dark-grey);
+    border-radius: 4px;
+    background: var(--bukarka-light-grey-1);
   }
 
   &::-webkit-scrollbar-track {
-    background-color: #f1f1f1; 
-    border-radius: 8px; 
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1); 
-  } */
+    border-radius: 4px;
+    width: 8px;
+    height: 440px;
+    box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.25);
+    background: var(--bukarka-light-grey-2);
+  }
 `;
 
 export const Book = styled.div`
