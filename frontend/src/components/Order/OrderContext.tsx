@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 interface OrderContextProps {
   totalQuantity: number;
@@ -51,6 +52,20 @@ export const OrderContextProvider: React.FC<OrderContextProviderProps> = ({
     setBookPrice(data.bookPrice);
   };
 
+  const { id } = useParams<{ id: string }>();
+
+  useEffect(() => {
+    fetch(`https://bukarka.onrender.com/api/orders/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        data && console.log(data);
+        setOrderNumber(data.orderNumber);
+      })
+      .catch((error) => {
+        console.error("Error fetching order data:", error);
+      });
+  }, [id]);
+
   const contextValue = {
     totalQuantity,
     deliveryPrice,
@@ -59,6 +74,8 @@ export const OrderContextProvider: React.FC<OrderContextProviderProps> = ({
     orderNumber,
     setOrderNumber,
   };
+
+  console.log(orderNumber);
 
   return (
     <OrderContext.Provider value={contextValue}>

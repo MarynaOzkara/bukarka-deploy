@@ -12,7 +12,26 @@ export const EditButton = styled.button`
   top: 14px;
   right: 14px;
   width: fit-content;
+`;
 
+export const BookList = styled.ul`
+  max-height: 440px;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  /* &::-webkit-scrollbar-thumb {
+    background-color: #ccc; 
+    border-radius: 4px; 
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #f1f1f1; 
+    border-radius: 8px; 
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1); 
+  } */
 `;
 
 export const Book = styled.div`
@@ -92,7 +111,7 @@ export const DeliveryPrice = styled.span`
 
 export const Total = styled.p`
   display: flex;
-  padding: 16px 0;
+  padding: 16px 0 0;
 
   color: var(--bukarka-black);
 

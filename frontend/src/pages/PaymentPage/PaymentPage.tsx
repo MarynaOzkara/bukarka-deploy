@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useOrderContext } from "components/Order/OrderContext";
 import { VisaIcon } from "assets/icons";
+import { StyleSheetManager } from "styled-components";
 import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
   Books,
@@ -46,12 +47,26 @@ const PaymentPage: React.FC = () => {
   console.log(id);
 
   const navigate = useNavigate();
-  const { totalQuantity, deliveryPrice, bookPrice, orderNumber } =
-    useOrderContext();
+  const { totalQuantity, deliveryPrice, bookPrice } = useOrderContext();
+
+  const [orderNumber, setOrderNumber] = useState("");
 
   console.log(totalQuantity);
   console.log(deliveryPrice);
   console.log(bookPrice);
+
+  useEffect(() => {
+    fetch(`https://bukarka.onrender.com/api/orders/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        data && console.log(data);
+        setOrderNumber(data.orderNumber);
+      })
+      .catch((error) => {
+        console.error("Error fetching order data:", error);
+      });
+  }, [id]);
+
   console.log(orderNumber);
 
   const priceWithDelivery = (bookPrice ?? 0) + (deliveryPrice ?? 0);
@@ -123,100 +138,118 @@ const PaymentPage: React.FC = () => {
   };
 
   return (
-    <StyledCommonWrapper>
-      <ToastContainer />
-      <PaymentPageWrapper>
-        <Title>Оформлення замовлення</Title>
-        <form onSubmit={handleSubmit}>
-          <CardWrapper>
-            <Card>
-              <CardHeader>
-                <SubTitle>Онлайн оплата карткою</SubTitle>
-                <VisaIcon />
-              </CardHeader>
-              <Label>Номер картки:</Label>
-              <NumberInput
-                type="text"
-                value={cardNumber}
-                placeholder="XXXX XXXX XXXX XXXX"
-                maxLength={19}
-                onChange={handleCardNumberChange}
+    <StyleSheetManager
+      shouldForwardProp={(prop) =>
+        prop !== "deliveryPrice" && prop !== "orderNumber"
+      }
+    >
+      <StyledCommonWrapper>
+        <ToastContainer />
+        <PaymentPageWrapper>
+          <Title>Оформлення замовлення</Title>
+          <form onSubmit={handleSubmit}>
+            <CardWrapper>
+              <Card>
+                <CardHeader>
+                  <SubTitle>Онлайн оплата карткою</SubTitle>
+                  <VisaIcon />
+                </CardHeader>
+                <Label>Номер картки:</Label>
+                <NumberInput
+                  type="text"
+                  value={cardNumber}
+                  placeholder="XXXX XXXX XXXX XXXX"
+                  maxLength={19}
+                  onChange={handleCardNumberChange}
+                />
+
+                <CardData>
+                  <DateLabel>
+                    <span>Термін дії картки:</span>
+                    <div>
+                      <DateInput
+                        type="text"
+                        maxLength={2}
+                        value={month}
+                        placeholder="ММ"
+                        onChange={handleMonthChange}
+                      />
+                      <span>&nbsp;/&nbsp;</span>
+                      <DateInput
+                        type="text"
+                        maxLength={2}
+                        value={year}
+                        placeholder="РР"
+                        onChange={handleYearChange}
+                      />
+                    </div>
+                  </DateLabel>
+
+                  <DateLabel>
+                    <span>Код CVV2:</span>
+                    <CVVInput
+                      type="text"
+                      maxLength={4}
+                      value={CVV}
+                      onChange={handleCVVChange}
+                    />
+                  </DateLabel>
+                </CardData>
+              </Card>
+              <Info>
+                <SubTitleBlue>Інформація про оплату</SubTitleBlue>
+                <OrderNumber>
+                  <OrderNumber>
+                    Замовлення №{" "}
+                    {orderNumber ? (
+                      orderNumber
+                    ) : (
+                      <span>Повідомимо пізніше</span>
+                    )}
+                  </OrderNumber>
+                </OrderNumber>
+
+                <Bukarka>Онлайн-книгарня “Букарка”</Bukarka>
+                <Books>
+                  <span>Книги</span>
+                  <span>{totalQuantity}&nbsp;шт.</span>
+                </Books>
+                <Delivery>
+                  <span>Доставка</span>
+                  <DeliveryPrice deliveryPrice={deliveryPrice}>
+                    {deliveryPrice ? `${deliveryPrice} грн.` : "Безкоштовно"}
+                  </DeliveryPrice>
+                </Delivery>
+                <Line></Line>
+                <ToPay>
+                  <span>До сплати: </span>
+                  <Total>{priceWithDelivery.toFixed(2)}&nbsp;грн.</Total>
+                </ToPay>
+              </Info>
+            </CardWrapper>
+            <Payment>
+              <ReceiptLabel>Email для отримання квитанції:</ReceiptLabel>
+              <ReceiptInput
+                type="email"
+                value={email}
+                placeholder="Введіть email"
+                onChange={handleEmailChange}
               />
-
-              <CardData>
-                <DateLabel>
-                  <span>Термін дії картки:</span>
-                  <div>
-                    <DateInput
-                      type="text"
-                      maxLength={2}
-                      value={month}
-                      placeholder="ММ"
-                      onChange={handleMonthChange}
-                    />
-                    <span>&nbsp;/&nbsp;</span>
-                    <DateInput
-                      type="text"
-                      maxLength={2}
-                      value={year}
-                      placeholder="РР"
-                      onChange={handleYearChange}
-                    />
-                  </div>
-                </DateLabel>
-
-                <DateLabel>
-                  <span>Код CVV2:</span>
-                  <CVVInput
-                    type="text"
-                    maxLength={4}
-                    value={CVV}
-                    onChange={handleCVVChange}
-                  />
-                </DateLabel>
-              </CardData>
-            </Card>
-            <Info>
-              <SubTitleBlue>Інформація про оплату</SubTitleBlue>
-              <OrderNumber>Замовлення № {orderNumber}</OrderNumber>
-              <Bukarka>Онлайн-книгарня “Букарка”</Bukarka>
-              <Books>
-                <span>Книги</span>
-                <span>{totalQuantity}&nbsp;шт.</span>
-              </Books>
-              <Delivery>
-                <span>Доставка</span>
-                <DeliveryPrice deliveryPrice={deliveryPrice}>
-                  {deliveryPrice ? `${deliveryPrice} грн.` : "Безкоштовно"}
-                </DeliveryPrice>{" "}
-              </Delivery>
-              <Line></Line>
-              <ToPay>
-                <span>До сплати: </span>
-                <Total>{priceWithDelivery.toFixed(2)}&nbsp;грн.</Total>
-              </ToPay>
-            </Info>
-          </CardWrapper>
-          <Payment>
-            <ReceiptLabel>Email для отримання квитанції:</ReceiptLabel>
-            <ReceiptInput
-              type="email"
-              value={email}
-              placeholder="Введіть email"
-              onChange={handleEmailChange}
-            />
-            <ReceiptLabel>Email для отримання квитанції:</ReceiptLabel>
-            <ReceiptInput
-              type="phone"
-              value={phone}
-              placeholder="+380"
-              onChange={handlePhoneChange}
-            />
-          </Payment>
-          <SubmitButton type="submit" orderNumber={orderNumber}>Оплатити замовлення</SubmitButton>
-        </form>
-      </PaymentPageWrapper>
-    </StyledCommonWrapper>
+              <ReceiptLabel>Email для отримання квитанції:</ReceiptLabel>
+              <ReceiptInput
+                type="phone"
+                value={phone}
+                placeholder="+380"
+                onChange={handlePhoneChange}
+              />
+            </Payment>
+            <SubmitButton type="submit" orderNumber={orderNumber}>
+              Оплатити замовлення
+            </SubmitButton>
+          </form>
+        </PaymentPageWrapper>
+      </StyledCommonWrapper>
+    </StyleSheetManager>
   );
 };
 

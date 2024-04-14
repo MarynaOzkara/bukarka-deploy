@@ -31,7 +31,10 @@ function App() {
             <Route path="privacy" element={<PrivacyPolicyPage />} />
             <Route path="order/:id" element={<OrderPage />} />
             <Route path="payment/:id" element={<PaymentPage />} />
-            <Route path="confirmation/:id" element={<OrderConfirmationPage />} />
+            <Route
+              path="confirmation/:id"
+              element={<OrderConfirmationPage />}
+            />
 
             <Route path="*" element={<NotFoundPage />} />
           </Route>

@@ -135,6 +135,17 @@ const placeOrder = async (req, res) => {
   } = req.body;
   const { orderId } = req.params;
 
+  const counter = await Counter.findOneAndUpdate(
+    {},
+    { $inc: { orderNumber: 1 } },
+    { new: true, upsert: true }
+  );
+  const orderNumber = counter.orderNumber;
+
+  await counter.save();
+
+  console.log(orderNumber);
+
   const order = await Order.findById(orderId).populate({
     path: "orderItems",
     populate: { path: "product" },
@@ -145,14 +156,7 @@ const placeOrder = async (req, res) => {
     return res.status(404).json({ message: "Замовлення не знайдено" });
   }
 
-  const counter = await Counter.findOneAndUpdate(
-    {},
-    { $inc: { orderNumber: 1 } },
-    { new: true, upsert: true }
-  );
-  const orderNumber = counter.orderNumber;
-
-  order.orderNumber = orderNumber;
+  order.orderNumber = orderNumber - 1;
   console.log(order);
 
   order.customerInfo = {

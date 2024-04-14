@@ -4,6 +4,7 @@ import {
   Author,
   Book,
   BookDataWrapper,
+  BookList,
   Delivery,
   DeliveryPrice,
   DeliveryTitle,
@@ -108,23 +109,26 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
       <EditButton>
         <EditIcon />
       </EditButton>
+      {!orderData && <p>Loading</p>}
       {orderData && (
         <>
-          {orderData.orderItems.map((item: any) => (
-            <Book key={item._id}>
-              <ImageWrapper>
-                <img src={item.product.cover} alt={item.product.title} />
-              </ImageWrapper>
-              <div>
-                <Title>{item.product.title}</Title>
-                <Author>{item.product.author}</Author>{" "}
-              </div>
-              <PriceQuantity>
-                <Price>{item.product.price}&nbsp;грн.</Price>
-                <Quantity>{item.quantity}&nbsp;шт.</Quantity>
-              </PriceQuantity>
-            </Book>
-          ))}
+          <BookList>
+            {orderData.orderItems.map((item: any) => (
+              <Book key={item._id}>
+                <ImageWrapper>
+                  <img src={item.product.cover} alt={item.product.title} />
+                </ImageWrapper>
+                <div>
+                  <Title>{item.product.title}</Title>
+                  <Author>{item.product.author}</Author>{" "}
+                </div>
+                <PriceQuantity>
+                  <Price>{item.product.price}&nbsp;грн.</Price>
+                  <Quantity>{item.quantity}&nbsp;шт.</Quantity>
+                </PriceQuantity>
+              </Book>
+            ))}
+          </BookList>
           <Delivery>
             <DeliveryTitle>Доставка</DeliveryTitle>
             <DeliveryPrice>
