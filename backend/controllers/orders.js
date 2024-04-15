@@ -1,6 +1,7 @@
 const { ctrlWrapper } = require("../decorators");
 const { Order } = require("../models/order");
 const { OrderItem } = require("../models/order-item");
+const { Counter } = require("../models/counter");
 
 const addToCart = async (req, res) => {
   const { productId } = req.params;
@@ -121,8 +122,29 @@ const getOrderById = async (req, res) => {
 };
 
 const placeOrder = async (req, res) => {
-  const { name, surname, email, phoneNumber, city, comment } = req.body;
+  const {
+    name,
+    surname,
+    email,
+    phoneNumber,
+    city,
+    address,
+    payment,
+    delivery,
+    comment,
+  } = req.body;
   const { orderId } = req.params;
+
+  const counter = await Counter.findOneAndUpdate(
+    {},
+    { $inc: { orderNumber: 1 } },
+    { new: true, upsert: true }
+  );
+  const orderNumber = counter.orderNumber;
+
+  await counter.save();
+
+  // console.log(orderNumber);
 
   const order = await Order.findById(orderId).populate({
     path: "orderItems",
@@ -134,7 +156,22 @@ const placeOrder = async (req, res) => {
     return res.status(404).json({ message: "Замовлення не знайдено" });
   }
 
-  order.customerInfo = { name, surname, email, phoneNumber, city, comment };
+  order.orderNumber = orderNumber - 1;
+  // console.log(order);
+
+  order.customerInfo = {
+    name,
+    surname,
+    email,
+    phoneNumber,
+    city,
+    address,
+    payment,
+    delivery,
+    comment,
+  };
+
+  // console.log(order.customerInfo);
   order.status = "processing";
   await order.save();
 

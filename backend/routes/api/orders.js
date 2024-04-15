@@ -16,7 +16,7 @@ router.patch("/:orderId/orderItems/:orderItemId", updateBookQuantity);
 router.delete("/:orderId", deleteOrder);
 router.delete("/orderItems/:orderItemId", deleteOrderItem);
 router.get("/:orderId", getOrderById);
-router.post("/checkout/:orderId", placeOrder);
+router.patch("/checkout/:orderId", placeOrder);
 
 
 module.exports = router;

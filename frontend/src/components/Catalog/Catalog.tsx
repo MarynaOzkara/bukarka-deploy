@@ -38,7 +38,7 @@ const Catalog: React.FC = () => {
     fetchData();
   }, []);
 
-  console.log(categories);
+  // console.log(categories);
 
   return (
     <Wrapper>
