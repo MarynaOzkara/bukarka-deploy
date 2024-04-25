@@ -27,8 +27,17 @@ export const PageWrapper = styled.div`
   flex-direction: column;
   text-align: center;
 
-  margin-top: 108px;
+  margin-top: 88px;
   background-color: var(--bukarka-white);
+
+
+  //todo
+  h1{
+    visibility: hidden;
+  }
+
+  //todo end
+
 `;
 
 export const InfoPageWrapper = styled.div`
