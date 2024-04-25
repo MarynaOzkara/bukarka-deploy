@@ -11,7 +11,6 @@ import {
   StyledLogoUkr,
   Wrapper,
 } from "./Header.styled";
-import LanguagesSwitcher from "components/LanguagesSwitcher";
 import Catalog from "components/Catalog";
 import { BurgerIcon } from "assets/icons";
 import Modal from "components/Modal";
@@ -31,27 +30,26 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <StyledHeader>
-        {/* <StyledCommonWrapper> */}
-        <Wrapper>
-          <Link to="/">
-            <StyledLogoUkr />
-          </Link>
-          <ButtonWrapper>
-            <CatalogButton onClick={toggleModal}>
-              <BurgerIcon />
-              Каталог
-            </CatalogButton>
-          </ButtonWrapper>
-          <StyledForm>
-            <Input type="text" value="" />
-            <FormButton>Знайти</FormButton>
-          </StyledForm>
-          <LanguagesSwitcher />
-          <UserMenu />
-        </Wrapper>
-        {/* </StyledCommonWrapper> */}
-      </StyledHeader>
+      <StyledCommonWrapper>
+        <StyledHeader>
+          <Wrapper>
+            <Link to="/">
+              <StyledLogoUkr />
+            </Link>
+            {/* <ButtonWrapper>
+              <CatalogButton onClick={toggleModal}>
+                <BurgerIcon />
+                Каталог
+              </CatalogButton>
+            </ButtonWrapper>
+            <StyledForm>
+              <Input type="text" value="" />
+              <FormButton>Знайти</FormButton>
+            </StyledForm> */}
+            {/* <UserMenu /> */}
+          </Wrapper>
+        </StyledHeader>
+      </StyledCommonWrapper>
       {isModalOpen && (
         <Modal close={closeModal} showCloseButton={false} animation="slide">
           <Catalog />

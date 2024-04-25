@@ -16,7 +16,7 @@ const Footer: React.FC = () => {
         <Link to="/">
           <StyledLogoUkr />
         </Link>
-        <StyledNav>
+        {/* <StyledNav>
           <StyledNav>
             <StyledList>
               <ListItem>
@@ -41,9 +41,9 @@ const Footer: React.FC = () => {
               </ListItem>
             </StyledList>
           </StyledNav>
-        </StyledNav>
+        </StyledNav> */}
 
-        <Contacts />
+        {/* <Contacts /> */}
       </Wrapper>
     </StyledFooter>
   );

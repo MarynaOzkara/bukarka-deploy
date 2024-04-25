@@ -7,7 +7,7 @@ export const StyledHeader = styled.div`
   left: 0;
   right: 0;
 
-  padding: 16px;
+  padding: 8px 0;
 
   background-color: var(--bukarka-light-grey-2);
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
@@ -24,7 +24,7 @@ export const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 40px;
+  gap: 32px;
 `;
 
 export const StyledLogoUkr = styled(LogoUkr)`
@@ -37,7 +37,7 @@ export const CatalogButton = styled.button`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
+  gap: 8px 16px;
 
   padding: 11px 8px;
 
