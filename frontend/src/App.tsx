@@ -23,7 +23,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
             <Route path="books/:id" element={<BookPage />} />
-            {/* <Route path="about" element={<AboutPage />} /> */}
+            <Route path="about" element={<AboutPage />} />
             {/* <Route path="delivery" element={<DeliveryPage />} /> */}
             {/* <Route path="contacts" element={<ContactsPage />} /> */}
             <Route path="catalog" element={<CatalogPage />} />

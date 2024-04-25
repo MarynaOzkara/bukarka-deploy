@@ -16,32 +16,32 @@ const Footer: React.FC = () => {
         <Link to="/">
           <StyledLogoUkr />
         </Link>
-        {/* <StyledNav>
+        <StyledNav>
           <StyledNav>
             <StyledList>
               <ListItem>
                 <Link to="/about">Про магазин</Link>
               </ListItem>
-              <ListItem>
+              {/* <ListItem>
                 <Link to="/delivery">Доставка і оплата</Link>
-              </ListItem>
-              <ListItem>
+              </ListItem> */}
+              {/* <ListItem>
                 <Link to="/contacts">Контакти і зворотний зв’язок</Link>
-              </ListItem>
+              </ListItem> */}
             </StyledList>
             <StyledList>
-              <ListItem>
+              {/* <ListItem>
                 <Link to="/catalog">Каталог</Link>
-              </ListItem>
-              <ListItem>
+              </ListItem> */}
+              {/* <ListItem>
                 <Link to="/club">Book Club</Link>
-              </ListItem>
-              <ListItem>
+              </ListItem> */}
+              {/* <ListItem>
                 <Link to="/privacy">Політика конфіденційності</Link>
-              </ListItem>
+              </ListItem> */}
             </StyledList>
           </StyledNav>
-        </StyledNav> */}
+        </StyledNav>
 
         {/* <Contacts /> */}
       </Wrapper>

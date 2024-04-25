@@ -1,8 +1,26 @@
 import styled from "styled-components";
 
-export const Wrapper = styled.div`
-  width: 100%;
-  padding: 104px 0;
+export const AboutPageWrapper = styled.div`
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 336px 1fr;
+  margin-top: 88px;
+  padding-top: 32px;
+  padding-bottom: 104px;
+
+  text-align: left;
+
+  background-color: var(--bukarka-white);
+`;
+
+export const AboutAside = styled.aside`
+  width: 396px;
+  padding-left: 32px;
+  max-height: calc(100vh - 108px);
+`;
+
+export const AboutMain = styled.main`
+  padding: 40px 120px 96px 110px;
 `;
 
 export const Label = styled.p`
@@ -12,16 +30,15 @@ export const Label = styled.p`
   justify-content: flex-start;
   align-items: center;
 
-  min-width: 192px;
   width: fit-content;
   height: 32px;
-  margin-top: 32px;
 
-  margin-bottom: 72px;
+  margin-bottom: 40px;
   padding: 4px 16px;
 
   background-color: var(--bukarka-yellow);
 
+  font-family: var(--semibold);
   font-weight: 600;
   font-size: 20px;
   line-height: 1.2;
@@ -38,19 +55,14 @@ export const Label = styled.p`
 `;
 
 export const Image = styled.img`
-  width: 296px;
-  height: 419px;
+  width: 336px;
+  height: 459px;
 `;
 
-export const AboutStore = styled.div`
-  margin-top: 64px;
-  padding-left: 121px;
-  padding-right: 136px;
-
-  /* flex-grow: 1; */
-`;
+export const AboutStore = styled.div``;
 
 export const Title = styled.h1`
+  margin-bottom: 8px;
   font-family: "Montserrat-Alternates-Semibold";
   font-weight: 600;
   font-size: 40px;
@@ -60,10 +72,11 @@ export const Title = styled.h1`
   color: var(--bukarka-blue);
 `;
 
-export const SubTitle = styled.h2`
+export const SubTitle = styled.p`
   margin-bottom: 32px;
 
   font-family: "Montserrat-Alternates-Regular";
+  font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
   color: var(--bukarka-black);
@@ -75,7 +88,7 @@ export const Description = styled.div`
   color: var(--bukarka-black);
 
   & p {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
 
   & p:last-child {
@@ -89,6 +102,7 @@ export const Socials = styled.div`
   align-items: center;
   gap: 16px;
 
+  font-family: var(--semibold);
   font-weight: 600;
   font-size: 14px;
   line-height: 1.43;
@@ -97,4 +111,10 @@ export const Socials = styled.div`
   & span {
     vertical-align: middle;
   }
+`;
+
+export const Wrapper = styled.div`
+  width: 672px;
+  grid-column: span 2;
+  justify-self: center;
 `;

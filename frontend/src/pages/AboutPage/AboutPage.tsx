@@ -1,39 +1,36 @@
+import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
-  Aside,
-  InfoPageWrapper,
-  Main,
-  StyledCommonWrapper,
-} from "styles/CommonStyled";
-import {
+  AboutAside,
+  AboutMain,
+  AboutPageWrapper,
   AboutStore,
   Description,
-  // Image,
+  Image,
   Label,
   Socials,
   SubTitle,
   Title,
   Wrapper,
-  // Wrapper,
 } from "./AboutPage.styled";
-// import { images } from "assets/images";
+import { images } from "assets/images";
 import SocialList from "components/SocialList/SocialList";
 import Subscribe from "components/Subscribe";
 
 const AboutPage: React.FC = () => {
   return (
     <StyledCommonWrapper>
-      <InfoPageWrapper>
-        <Aside>
+      <AboutPageWrapper>
+        <AboutAside>
           <Label>Про магазин</Label>
-          {/* <Image src={images.placeholder} width="296" height="419" /> */}
-        </Aside>
-        <Main>
+          <Image src={images.AboutImage} width="336" height="459" />
+        </AboutAside>
+        <AboutMain>
           <AboutStore>
             <Title>Букарка</Title>
-            <SubTitle>книжкова онлайн книгарня</SubTitle>
+            <SubTitle>онлайн-книгарня</SubTitle>
             <Description>
               <p>
-                Ласкаво просимо до нашого книжкового онлайн магазину, де ми
+                Ласкаво просимо до нашого книжкового онлайн-магазину, де ми
                 пропонуємо широкий вибір книг на будь-який смак і інтерес.
                 Заснований сім'єю з Києва в 2024 році, наш магазин вже став
                 надійним джерелом якісної літератури для читачів у всій країні.
@@ -71,11 +68,11 @@ const AboutPage: React.FC = () => {
               <SocialList />
             </Socials>
           </AboutStore>
-        </Main>
+        </AboutMain>
         <Wrapper>
           <Subscribe />
         </Wrapper>
-      </InfoPageWrapper>
+      </AboutPageWrapper>
     </StyledCommonWrapper>
   );
 };

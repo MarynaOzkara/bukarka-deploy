@@ -4,7 +4,7 @@ import styled from "styled-components";
 //   width: 100%;
 // `;
 export const Form = styled.form`
-  width: 736px;
+  width: 672px;
   height: 160px;
   margin: 0 auto;
   padding: 32px 48px;
@@ -50,6 +50,13 @@ export const Input = styled.input`
 
   color: var(--bukarka-dark-grey);
 
+  &::placeholder {
+    font-family: var(--regular);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--bukarka-dark-grey);
+  }
+
   &:hover,
   &:focus {
     box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.25);
@@ -71,7 +78,7 @@ export const Button = styled.button`
   flex-direction: row;
   gap: 0px;
 
-  font-weight: 600;
+  font-family: var(--semibold);
   font-size: 16px;
   line-height: 1.5;
 
