@@ -1,11 +1,10 @@
-import {
-  Aside,
-  InfoPageWrapper,
-  Main,
-  StyledCommonWrapper,
-} from "styles/CommonStyled";
+import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
   AboutBookClub,
+  BookClubAside,
+  BookClubMain,
+  BookClubPageWrapper,
+  Image,
   Label,
   SubTitle,
   Text,
@@ -13,18 +12,19 @@ import {
   Wrapper,
 } from "./BookClubPage.styled";
 import Subscribe from "components/Subscribe";
+import { images } from "assets/images";
 
 const BookClubPage: React.FC = () => {
   return (
     <StyledCommonWrapper>
-      <InfoPageWrapper>
-        <Aside>
+      <BookClubPageWrapper>
+        <BookClubAside>
           <Label>Book Club</Label>
-          {/* <Image src={images.placeholder} width="296" height="419" /> */}
-        </Aside>
-        <Main>
+          <Image src={images.BookClub} width="336" height="459" />
+        </BookClubAside>
+        <BookClubMain>
           <AboutBookClub>
-            <Title>Ласкаво просимо до книжкового клубу Book Club!</Title>
+            <Title>Ласкаво просимо до Book Club!</Title>
             <Text>
               Book Club - це програма лояльності, створена спеціально для наших
               покупців. Ми цінуємо вашу вірність, тому пропонуємо вам унікальні
@@ -33,16 +33,16 @@ const BookClubPage: React.FC = () => {
 
             <SubTitle>Як це працює?</SubTitle>
             <Text>
-              Дуже просто! Кожен раз, коли ви робите покупку в нашому онлайн
-              магазині на суму від 100 грн, ви отримуєте бонусні бали. Ці бали
-              накопичуються на вашому обліковому записі і можуть бути
-              використані для оплати нових замовлень. Кожна витрачена гривня
-              принесе вам один бонусний бал.
+              Дуже просто! Щоразу, коли ви робите покупку в нашому
+              онлайн-магазині на суму від 100 грн, ви отримуєте бонусні бали. Ці
+              бали накопичуються у вашому обліковому записі і можуть бути
+              використані для оплати нових замовлень. Кожні витрачені 100
+              гривень принесуть один бонусний бал.
             </Text>
 
             <SubTitle>Що ви отримуєте?</SubTitle>
             <Text>
-              Перш за все, ви отримуєте можливість замовляти та отримувати нові
+              Перш за все, ви маєте можливість замовляти та отримувати нові
               видання книг у першу чергу. Ваш статус у нашому клубі надає вам
               пріоритетний доступ до найсвіжіших та найбільш очікуваних книжок.
             </Text>
@@ -55,7 +55,7 @@ const BookClubPage: React.FC = () => {
 
             <SubTitle>Як приєднатися?</SubTitle>
             <Text>
-              Для того щоб приєднатися до нашого книжкового клубу, достатньо
+              Для того щоб приєднатися до книжкового клубу, достатньо
               зареєструватися на нашому сайті та здійснити першу покупку на суму
               від 100 грн. Після цього ви автоматично стаєте учасником програми
               лояльності та починаєте збирати бонусні бали.
@@ -67,11 +67,11 @@ const BookClubPage: React.FC = () => {
               та довіру!
             </Text>
           </AboutBookClub>
-        </Main>
+        </BookClubMain>
         <Wrapper>
           <Subscribe />
         </Wrapper>
-      </InfoPageWrapper>
+      </BookClubPageWrapper>
     </StyledCommonWrapper>
   );
 };

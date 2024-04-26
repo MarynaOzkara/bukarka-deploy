@@ -27,7 +27,7 @@ function App() {
             <Route path="delivery" element={<DeliveryPage />} />
             {/* <Route path="contacts" element={<ContactsPage />} /> */}
             <Route path="catalog" element={<CatalogPage />} />
-            {/* <Route path="club" element={<BookClubPage />} /> */}
+            <Route path="club" element={<BookClubPage />} />
             {/* <Route path="privacy" element={<PrivacyPolicyPage />} /> */}
             <Route path="order/:id" element={<OrderPage />} />
             <Route path="payment/:id" element={<PaymentPage />} />

@@ -16,7 +16,6 @@ export const AboutPageWrapper = styled.div`
 export const AboutAside = styled.aside`
   width: 396px;
   padding-left: 32px;
-  max-height: calc(100vh - 108px);
 `;
 
 export const AboutMain = styled.main`
