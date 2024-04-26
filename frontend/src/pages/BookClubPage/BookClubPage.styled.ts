@@ -28,7 +28,7 @@ export const Label = styled.h1`
     top: 0;
     bottom: 0;
     width: 8px;
-    background: var(--bukarka-blue);
+    background: var(--bukarka-deep-blue);
   }
 `;
 
@@ -51,7 +51,7 @@ export const Title = styled.h2`
   font-size: 16px;
   line-height: 1.5;
 
-  color: var(--bukarka-blue);
+  color: var(--bukarka-deep-blue);
 `;
 
 export const SubTitle = styled.h3`

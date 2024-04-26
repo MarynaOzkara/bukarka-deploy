@@ -75,7 +75,7 @@ export const SubTitle = styled.h2`
 
 export const SubTitleBlue = styled(SubTitle)`
   &::before {
-    background-color: var(--bukarka-blue);
+    background-color: var(--bukarka-deep-blue);
   }
 `;
 
@@ -234,7 +234,7 @@ export const ReceiptLabel = styled.label`
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
-  color: var(--bukarka-blue);
+  color: var(--bukarka-deep-blue);
 `;
 
 export const ReceiptInput = styled.input`

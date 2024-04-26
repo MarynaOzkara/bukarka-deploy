@@ -21,7 +21,7 @@ export const Title = styled.main`
   font-weight: 500;
   font-size: 24px;
   line-height: 1.33;
-  color: var(--bukarka-blue);
+  color: var(--bukarka-deep-blue);
 `;
 
 export const Text = styled.p`

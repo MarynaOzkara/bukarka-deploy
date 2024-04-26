@@ -19,9 +19,9 @@ const Footer: React.FC = () => {
         <StyledNav>
           <StyledNav>
             <StyledList>
-              <ListItem>
+              {/* <ListItem>
                 <Link to="/about">Про магазин</Link>
-              </ListItem>
+              </ListItem> */}
               {/* <ListItem>
                 <Link to="/delivery">Доставка і оплата</Link>
               </ListItem> */}

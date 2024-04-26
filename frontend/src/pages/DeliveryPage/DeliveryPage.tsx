@@ -1,72 +1,44 @@
-import {
-  Aside,
-  InfoPageWrapper,
-  Main,
-  StyledCommonWrapper,
-} from "styles/CommonStyled";
+import { StyledCommonWrapper } from "styles/CommonStyled";
 
 import {
   AboutDelivery,
   AccentText,
+  Delivery,
+  DeliveryInfoWrapper,
+  DeliveryPageWrapper,
   Description,
   HiddenSubTitle,
   HiddenTitle,
   Label,
-  Menu,
-  MenuItem,
+  Line,
+  Payment,
+  Return,
+  ReturnDescription,
   ShiftRight,
   SmallSubTitle,
-  StyledList,
   SubTitle,
+  WarningText,
+  WarningTitle,
   Wrapper,
 } from "./DeliveryPage.styled";
 import Subscribe from "components/Subscribe";
 
 const DeliveryPage: React.FC = () => {
-  const handleLinkClick = (id: string) => {
-    const element = document.getElementById(id);
-    const headerHeight = 108;
-    if (element) {
-      const topOffset = element.offsetTop - headerHeight;
-      window.scrollTo({
-        top: topOffset,
-        behavior: "smooth",
-      });
-    }
-  };
-
   return (
     <StyledCommonWrapper>
-      <InfoPageWrapper>
-        <Aside>
-          <Label>Доставка, оплата і повернення</Label>
-          <Menu>
-            <MenuItem>
-              <button onClick={() => handleLinkClick("delivery")}>
-                Доставка
-              </button>
-            </MenuItem>
-            <MenuItem id="">
-              <button onClick={() => handleLinkClick("payment")}>Оплата</button>
-            </MenuItem>
-            <MenuItem id="">
-              <button onClick={() => handleLinkClick("return")}>
-                Повернення
-              </button>
-            </MenuItem>
-          </Menu>
-        </Aside>
-        <Main>
+      <DeliveryPageWrapper>
+        <Label>Доставка, оплата і повернення</Label>
+        <DeliveryInfoWrapper>
           <AboutDelivery>
             <HiddenTitle>Умови доставки оплати і повернення</HiddenTitle>
             <AccentText>
               Доставка замовлень на суму 500 грн та вище &mdash; безкоштовна!
             </AccentText>
 
-            <SubTitle id="delivery">Доступні способи доставки</SubTitle>
+            <SubTitle>Доставка</SubTitle>
             <HiddenSubTitle>Способи отримання замовлення</HiddenSubTitle>
 
-            <StyledList>
+            <Delivery>
               <li>
                 <h4>Самовивіз з відділення Укрпошти</h4>
               </li>
@@ -79,14 +51,16 @@ const DeliveryPage: React.FC = () => {
               <li>
                 <h4>Доставка кур'єром Нової Пошти</h4>
               </li>
-            </StyledList>
+            </Delivery>
 
-            <SubTitle id="payment">Доступні способи оплати</SubTitle>
+            <Line />
+
+            <SubTitle>Оплата</SubTitle>
             <HiddenSubTitle>
               способи оплати при різних методах доставки
             </HiddenSubTitle>
 
-            <StyledList>
+            <Payment>
               <li>
                 <h4>Онлайн оплата карткою</h4>
               </li>
@@ -96,19 +70,21 @@ const DeliveryPage: React.FC = () => {
               <li>
                 <h4>За реквізитами</h4>
               </li>
-            </StyledList>
+            </Payment>
 
-            <p>Зверніть увагу:</p>
-            <p>
+            <WarningTitle>Зверніть увагу:</WarningTitle>
+            <WarningText>
               При доставці у відділення Укрпошти, Нової Пошти та кур’єром Нової
               Пошти вам будуть доступні всі способи оплати.
-            </p>
-            <p>
+            </WarningText>
+            <WarningText>
               При доставці у поштомат Нової Пошти доступна онлайн оплата
-              карткою.
-            </p>
+              карткою.{" "}
+            </WarningText>
 
-            <SubTitle id="return">Повернення товару</SubTitle>
+            <Line />
+
+            <SubTitle>Повернення</SubTitle>
 
             <Description>
               Ми розуміємо, що іноді можуть виникати ситуації, коли вам потрібно
@@ -119,7 +95,7 @@ const DeliveryPage: React.FC = () => {
 
             <ShiftRight>
               <SmallSubTitle>Основні умови</SmallSubTitle>
-              <StyledList>
+              <Return>
                 <li>
                   <h4>Повернення протягом 14 днів</h4>
                   <p>
@@ -138,11 +114,18 @@ const DeliveryPage: React.FC = () => {
                     використання.
                   </p>
                 </li>
-              </StyledList>
+                <li>
+                  <h4>Вартість повернення</h4>
+                  <p>
+                    Покупець сплачує вартість повернення, якщо причина
+                    повернення не пов'язана з дефектами товару.
+                  </p>
+                </li>
+              </Return>
             </ShiftRight>
             <ShiftRight>
               <SmallSubTitle>Процес повернення</SmallSubTitle>
-              <StyledList>
+              <Return>
                 <li>
                   <h4>Зв'яжіться з нами:</h4>
                   <p>
@@ -165,21 +148,22 @@ const DeliveryPage: React.FC = () => {
                     3-х банківських днів.
                   </p>
                 </li>
-              </StyledList>
+              </Return>
             </ShiftRight>
-            <Description>
+            <ReturnDescription>
               Ми цінуємо кожного нашого клієнта і робимо все можливе, щоб
               забезпечити вам приємний досвід покупок у нашому магазині. Якщо у
               вас виникли будь-які питання щодо повернення товару, будь ласка,
               зв'яжіться з нашою службою підтримки, і ми з радістю вам
               допоможемо.
-            </Description>
+            </ReturnDescription>
           </AboutDelivery>
-        </Main>
+        </DeliveryInfoWrapper>
+
         <Wrapper>
           <Subscribe />
         </Wrapper>
-      </InfoPageWrapper>
+      </DeliveryPageWrapper>
     </StyledCommonWrapper>
   );
 };

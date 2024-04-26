@@ -31,6 +31,6 @@ export const Prompt = styled.button`
   transition: color 0.3s ease;
 
   &:hover {
-    color: var(--bukarka-blue-heart);
+    color: var(--bukarka-accent-blue);
   }
 `;

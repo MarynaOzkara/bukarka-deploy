@@ -34,7 +34,7 @@ export const Title = styled.h1`
     top: 0;
     bottom: 0;
     width: 8px;
-    background: var(--bukarka-blue);
+    background: var(--bukarka-deep-blue);
   }
 `;
 

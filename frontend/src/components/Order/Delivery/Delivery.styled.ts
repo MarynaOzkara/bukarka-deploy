@@ -7,7 +7,7 @@ export const FreeInfo = styled.p`
   font-size: 16px;
 
   line-height: 1.5;
-  color: var(--bukarka-blue);
+  color: var(--bukarka-deep-blue);
 `;
 
 export const CityInput = styled.input`
@@ -56,7 +56,7 @@ export const Option = styled.div`
   cursor: pointer;
 
   &:hover {
-    color: var(--bukarka-blue);
+    color: var(--bukarka-deep-blue);
   }
 `;
 

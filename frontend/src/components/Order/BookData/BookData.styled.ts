@@ -81,7 +81,7 @@ export const PriceQuantity = styled.div`
 `;
 
 export const Price = styled.p`
-  color: var(--bukarka-blue);
+  color: var(--bukarka-deep-blue);
 
   font-family: "Montserrat-Semibold";
   font-weight: 600;

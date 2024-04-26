@@ -50,7 +50,7 @@ export const Label = styled.p`
     top: 0;
     bottom: 0;
     width: 8px;
-    background: var(--bukarka-blue);
+    background: var(--bukarka-deep-blue);
   }
 `;
 
@@ -69,7 +69,7 @@ export const Title = styled.h1`
   text-align: left;
   line-height: 0.8;
 
-  color: var(--bukarka-blue);
+  color: var(--bukarka-deep-blue);
 `;
 
 export const SubTitle = styled.p`

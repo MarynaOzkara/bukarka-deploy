@@ -1,8 +1,20 @@
 import styled, { css } from "styled-components";
 
-export const Wrapper = styled.div`
-  width: 100%;
-  padding: 104px 0;
+export const DeliveryPageWrapper = styled.div`
+  margin-top: 88px;
+  padding-top: 32px;
+  padding-left: 32px;
+  padding-bottom: 104px;
+
+  text-align: left;
+
+  background-color: var(--bukarka-white);
+`;
+
+export const DeliveryInfoWrapper = styled.div`
+  padding-right: 240px;
+
+  text-align: left;
 `;
 
 export const Label = styled.p`
@@ -12,10 +24,8 @@ export const Label = styled.p`
   justify-content: flex-start;
   align-items: center;
 
-  min-width: 192px;
   width: fit-content;
   height: 32px;
-  margin-top: 32px;
 
   margin-bottom: 40px;
   padding: 4px 16px;
@@ -34,31 +44,12 @@ export const Label = styled.p`
     top: 0;
     bottom: 0;
     width: 8px;
-    background: var(--bukarka-blue);
+    background: var(--bukarka-deep-blue);
   }
 `;
-
-export const Menu = styled.ul`
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-  gap: 16px;
-`;
-
-export const MenuItem = styled.li`
-  color: var(--bukarka-black);
-
-  button {
-    background-color: transparent;
-    font-family: var(--medium);
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 1.5;
-  }
-`;
-
 export const AboutDelivery = styled.div`
-  margin-top: 104px;
+  margin-left: 208px;
+  margin-top: 40px;
 `;
 
 const HiddenStyle = css`
@@ -85,7 +76,6 @@ export const HiddenSubTitle = styled.h3`
 export const AccentText = styled.p`
   font-family: var(--semibold);
   margin-bottom: 20px;
-  font-weight: 600;
   font-size: 14px;
   line-height: 1.43;
 
@@ -104,32 +94,38 @@ export const SubTitle = styled.h2`
 `;
 
 export const ShiftRight = styled.div`
-  padding-left: 32px;
+  padding-left: 16px;
 `;
 
 export const SmallSubTitle = styled.h3`
+  font-family: var(--semibold);
+
   margin-bottom: 8px;
-  font-weight: 600;
   font-size: 14px;
   line-height: 1.43;
 `;
 
-export const StyledList = styled.ol`
+export const Delivery = styled.ol`
+  margin-bottom: 32px;
   font-weight: 400;
   font-size: 14px;
   line-height: 1.43;
   list-style-position: inside;
 
   li {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     list-style-type: decimal;
     list-style-position: inside;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   h4 {
     display: inline;
-    font-weight: 400;
-    color: var(--bukarka-blue);
+    font-family: var(--regular);
+    color: var(--bukarka-black);
   }
 
   p {
@@ -138,8 +134,108 @@ export const StyledList = styled.ol`
   }
 `;
 
-export const Description = styled.p`
+export const Payment = styled.ol`
+  margin-bottom: 24px;
+
   font-weight: 400;
   font-size: 14px;
   line-height: 1.43;
+  list-style-position: inside;
+
+  li {
+    margin-bottom: 20px;
+    list-style-type: decimal;
+    list-style-position: inside;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  h4 {
+    display: inline;
+    font-family: var(--regular);
+    color: var(--bukarka-black);
+  }
+
+  p {
+    color: var(--bukarka-black);
+    padding-left: 0;
+  }
+`;
+
+export const Return = styled.ol`
+  margin-bottom: 16px;
+  
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.43;
+  list-style-position: inside;
+  
+  li {
+    width: 700px;
+    margin-bottom: 20px;
+    list-style-type: decimal;
+    list-style-position: inside;
+    color: var(--bukarka-deep-blue);
+  }
+
+  h4 {
+    display: inline;
+    font-family: var(--regular);
+  }
+
+  p {
+    color: var(--bukarka-black);
+    padding-left: 0;
+  }
+`;
+
+export const Line = styled.hr`
+  width: 712px;
+  border-bottom: 1px solid var(--bukarka-grey);
+  margin-top: 32px;
+  margin-bottom: 32px;
+`;
+
+export const WarningTitle = styled.p`
+  margin-left: 16px;
+  margin-bottom: 20px;
+
+  font-family: var(--semibold);
+  font-size: 14px;
+  line-height: 1.43;
+  color: var(--bukarka-deep-blue);
+`;
+
+export const WarningText = styled.p`
+  margin-left: 16px;
+  margin-bottom: 8px;
+
+  font-family: var(--regular);
+  font-size: 14px;
+  line-height: 1.43;
+  color: var(--bukarka-black);
+`;
+
+export const Description = styled.p`
+  margin-bottom: 16px;
+
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.43;
+`;
+
+export const ReturnDescription = styled.p`
+  margin-bottom: 16px;
+
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.43;
+`;
+
+export const Wrapper = styled.div`
+  width: 100%;
+  margin: 96px auto 0;
+  padding-left: 96px;
 `;
