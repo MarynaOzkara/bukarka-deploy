@@ -2,9 +2,11 @@ import styled from "styled-components";
 import { EmailIcon, PhoneIcon } from "assets/icons";
 
 export const ContactList = styled.ul`
-  font-weight: 500;
+  font-family: var(--medium);
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.50;
+
+  color: var(--bukarka-black);
 `;
 
 export const ListItem = styled.li`
@@ -12,12 +14,12 @@ export const ListItem = styled.li`
   align-items: center;
   gap: 16px;
 
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 `;
 
 export const StyledEmailIcon = styled(EmailIcon)`
-  width: 24px;
-  height: 20px;
+  width: 26px;
+  height: 24px;
 `;
 
 export const StyledPhoneIcon = styled(PhoneIcon)`
