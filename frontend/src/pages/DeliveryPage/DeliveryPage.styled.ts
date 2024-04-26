@@ -47,6 +47,7 @@ export const Label = styled.p`
     background: var(--bukarka-deep-blue);
   }
 `;
+
 export const AboutDelivery = styled.div`
   margin-left: 208px;
   margin-top: 40px;
