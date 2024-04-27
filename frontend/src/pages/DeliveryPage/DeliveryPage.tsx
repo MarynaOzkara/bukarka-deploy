@@ -1,6 +1,6 @@
 import Subscribe from "components/Subscribe";
 import { StyledCommonWrapper } from "styles/CommonStyled";
-import { InfoWrapper, Label, SubscribeWrapper } from "pages/CommonPages.styled";
+import { InfoPageWrapper, InfoWrapper, Label, SubscribeWrapper } from "pages/CommonPages.styled";
 import {
   AccentText,
   Delivery,
@@ -21,7 +21,7 @@ import {
 const DeliveryPage: React.FC = () => {
   return (
     <StyledCommonWrapper>
-      <InfoWrapper>
+      <InfoPageWrapper>
         <Label>Доставка, оплата і повернення</Label>
         <InfoWrapper>
           <HiddenTitle>Умови доставки оплати і повернення</HiddenTitle>
@@ -153,7 +153,7 @@ const DeliveryPage: React.FC = () => {
         <SubscribeWrapper>
           <Subscribe />
         </SubscribeWrapper>
-      </InfoWrapper>
+      </InfoPageWrapper>
     </StyledCommonWrapper>
   );
 };

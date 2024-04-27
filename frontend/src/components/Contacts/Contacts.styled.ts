@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { EmailIcon, PhoneIcon } from "assets/icons";
+import Icon from "components/Icon/Icon";
 
 export const ContactList = styled.ul`
   font-family: var(--medium);
   font-size: 16px;
-  line-height: 1.50;
+  line-height: 1.5;
 
   color: var(--bukarka-black);
 `;
@@ -15,14 +15,22 @@ export const ListItem = styled.li`
   gap: 16px;
 
   margin-bottom: 20px;
+
+  span {
+    font-family: var(--medium);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--bukarka-black);
+  }
 `;
 
-export const StyledEmailIcon = styled(EmailIcon)`
-  width: 26px;
-  height: 24px;
-`;
+export const StyledIcon = styled(Icon)`
+  width: 32px;
+  height: 32px;
+  fill: transparent;
+  stroke: var(--bukarka-black);
 
-export const StyledPhoneIcon = styled(PhoneIcon)`
-  width: 26px;
-  height: 26px;
+  &:hover {
+    stroke: var(--bukarka-accent-blue);
+  }
 `;

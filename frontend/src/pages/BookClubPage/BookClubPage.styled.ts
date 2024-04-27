@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { RightPart } from "../CommonPages.styled";
 
 export const Title = styled.h2`
   margin-bottom: 24px;
@@ -26,4 +27,8 @@ export const Text = styled.p`
   font-size: 14px;
   line-height: 1.43;
   color: var(--bukarka-black);
+`;
+
+export const RightPartClub = styled(RightPart)`
+  margin-top: 28px;
 `;

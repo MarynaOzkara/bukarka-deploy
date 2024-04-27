@@ -20,7 +20,6 @@ export const Title = styled.h1`
   margin-bottom: 16px;
 
   font-family: var(--semibold);
-  font-weight: 600;
   font-size: 20px;
   line-height: 1.2;
   color: #000;
@@ -34,11 +33,11 @@ export const Text = styled.p`
   line-height: 1.43;
   color: var(--bukarka-black);
 
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 `;
 
 export const TextLast = styled(Text)`
-  margin-bottom: 40px;
+  margin-bottom: 36px;
 `;
 
 export const ScheduleText = styled.div`
@@ -53,7 +52,7 @@ export const ScheduleText = styled.div`
 `;
 
 export const Schedule = styled.div`
-  margin-bottom: 48px;
+  margin-bottom: 44px;
 
   font-family: var(--regular);
   font-size: 14px;
@@ -68,7 +67,7 @@ export const FormWrapper = styled.div`
 `;
 
 export const Form = styled.form`
-  margin-top: -72px;
+  margin-top: -76px;
 `;
 
 export const Input = styled.input`
@@ -91,7 +90,7 @@ export const Input = styled.input`
 export const InputLabel = styled.label`
   display: block;
 
-  font-weight: 600;
+  font-family: var(--semibold);
   font-size: 16px;
   line-height: 1.5;
 
@@ -102,7 +101,7 @@ export const TextArea = styled.textarea`
   width: 712px;
   height: 113px;
   padding: 8px 16px;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   border: 1px solid var(--bukarka-light-grey-1);
 
   font-weight: 400;
@@ -122,7 +121,7 @@ export const TextArea = styled.textarea`
 export const Hint = styled.p`
   margin-bottom: 16px;
 
-  font-weight: 400;
+  font-family: var(--regular);
   font-size: 12px;
   line-height: 1.33;
 
@@ -131,7 +130,7 @@ export const Hint = styled.p`
 export const CheckboxWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 13px;
+  gap: 16px;
 
   padding: 5px;
   margin-bottom: 24px;

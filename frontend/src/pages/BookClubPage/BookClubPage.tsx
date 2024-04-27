@@ -9,7 +9,7 @@ import {
   RightPart,
   SubscribeWrapperGrid,
 } from "pages/CommonPages.styled";
-import { SubTitle, Text, Title } from "./BookClubPage.styled";
+import { RightPartClub, SubTitle, Text, Title } from "./BookClubPage.styled";
 
 const BookClubPage: React.FC = () => {
   return (
@@ -19,7 +19,7 @@ const BookClubPage: React.FC = () => {
           <Label>Book Club</Label>
           <Image src={images.BookClub} width="336" height="459" />
         </LeftPart>
-        <RightPart>
+        <RightPartClub>
           <Title>Ласкаво просимо до Book Club!</Title>
           <Text>
             Book Club - це програма лояльності, створена спеціально для наших
@@ -62,7 +62,7 @@ const BookClubPage: React.FC = () => {
             усіма перевагами нашої програми лояльності. Дякуємо за ваш вибір та
             довіру!
           </Text>
-        </RightPart>
+        </RightPartClub>
         <SubscribeWrapperGrid>
           <Subscribe />
         </SubscribeWrapperGrid>
