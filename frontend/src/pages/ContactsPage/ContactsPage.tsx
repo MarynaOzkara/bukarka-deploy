@@ -1,4 +1,7 @@
+import Contacts from "components/Contacts";
+import Subscribe from "components/Subscribe";
 import { StyledCommonWrapper } from "styles/CommonStyled";
+import { Label } from "pages/CommonPages.styled";
 import {
   Button,
   Checkbox,
@@ -10,7 +13,6 @@ import {
   Hint,
   Input,
   InputLabel,
-  Label,
   Schedule,
   ScheduleText,
   Text,
@@ -18,10 +20,7 @@ import {
   TextLast,
   Title,
   Top,
-  // Wrapper,
 } from "./ContactsPage.styled";
-import Contacts from "components/Contacts";
-import Subscribe from "components/Subscribe";
 
 const ContactsPage: React.FC = () => {
   return (

@@ -1,28 +1,27 @@
+import Subscribe from "components/Subscribe";
 import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
+  InfoPageWrapper,
+  InfoWrapper,
   Label,
-  Privacy,
-  PrivacyInfoWrapper,
-  PrivacyPolicyPageWrapper,
-  TextAccent,
+  SubscribeWrapper,
   Title,
-  Wrapper,
-} from "./PrivacyPolicyPage.styled";
-import Subscribe from "components/Subscribe";
+} from "pages/CommonPages.styled";
+import { Privacy, TextAccentPrivacy } from "./PrivacyPolicyPage.styled";
 
 const PrivacyPolicyPage: React.FC = () => {
   return (
     <StyledCommonWrapper>
-      <PrivacyPolicyPageWrapper>
+      <InfoPageWrapper>
         <Label>Політика конфіденційності</Label>
-        <PrivacyInfoWrapper>
-          <TextAccent>
+        <InfoWrapper>
+          <TextAccentPrivacy>
             Вітаємо вас у магазині "Букарка"! Ми дбаємо про вашу
             конфіденційність і зобов'язуємося забезпечувати захист ваших
             особистих даних. Наша Політика конфіденційності пояснює, як ми
             збираємо, використовуємо, захищаємо та не розголошуємо ваші особисті
             дані в процесі використання даного веб-сайту та послуг.
-          </TextAccent>
+          </TextAccentPrivacy>
 
           <Title>Політика конфіденційності</Title>
 
@@ -86,11 +85,11 @@ const PrivacyPolicyPage: React.FC = () => {
               </p>
             </li>
           </Privacy>
-        </PrivacyInfoWrapper>
-        <Wrapper>
+        </InfoWrapper>
+        <SubscribeWrapper>
           <Subscribe />
-        </Wrapper>
-      </PrivacyPolicyPageWrapper>
+        </SubscribeWrapper>
+      </InfoPageWrapper>
     </StyledCommonWrapper>
   );
 };

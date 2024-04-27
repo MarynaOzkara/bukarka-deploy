@@ -1,30 +1,28 @@
-import React from "react";
+import Subscribe from "components/Subscribe";
 import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
+  InfoPageWrapper,
+  InfoWrapper,
   Label,
-  Terms,
-  TermsOfUseInfoWrapper,
-  TermsOfUsePageWrapper,
-  TextAccent,
+  SubscribeWrapper,
   Title,
-  Wrapper,
-} from "./TermsOfUsePage.styled";
-import Subscribe from "components/Subscribe";
+} from "pages/CommonPages.styled";
+import { Terms, TextAccentTerms } from "./TermsOfUsePage.styled";
 
 const TermsOfUsePage = () => {
   return (
     <StyledCommonWrapper>
-      <TermsOfUsePageWrapper>
+      <InfoPageWrapper>
         <Label>Умови користування</Label>
 
-        <TermsOfUseInfoWrapper>
-          <TextAccent>
+        <InfoWrapper>
+          <TextAccentTerms>
             Ласкаво просимо до онлайн-книгарні "Букарка"! Перш ніж ви
             скористаєтесь цим веб-сайтом, будь ласка, уважно ознайомтеся з
             даними Умовами користування. Ваш доступ та використання цього
             веб-сайту підтверджує вашу згоду з даними умовами. Якщо ви не
             погоджуєтеся з умовами, будь ласка, не використовуйте цей веб-сайт.
-          </TextAccent>
+          </TextAccentTerms>
 
           <Title>Умови користування</Title>
 
@@ -71,17 +69,17 @@ const TermsOfUsePage = () => {
             </li>
           </Terms>
 
-          <TextAccent>
+          <TextAccentTerms>
             Будь ласка, зважайте на ці Умови користування під час користування
             нашим веб-сайтом. Якщо у вас є будь-які питання щодо цих умов, будь
             ласка, зв'яжіться з нами за адресою електронної пошти
             bukarka.info@gmail.com або за номером телефону +380 96 123 45 67.
-          </TextAccent>
-        </TermsOfUseInfoWrapper>
-        <Wrapper>
+          </TextAccentTerms>
+        </InfoWrapper>
+        <SubscribeWrapper>
           <Subscribe />
-        </Wrapper>
-      </TermsOfUsePageWrapper>
+        </SubscribeWrapper>
+      </InfoPageWrapper>
     </StyledCommonWrapper>
   );
 };

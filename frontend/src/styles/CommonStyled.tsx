@@ -37,14 +37,14 @@ export const PageWrapper = styled.div`
   //todo end  */
 `;
 
-export const InfoPageWrapper = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  text-align: left;
+// export const InfoPageWrapper = styled.div`
+//   position: relative;
+//   display: flex;
+//   flex-direction: column;
+//   text-align: left;
 
-  background-color: var(--bukarka-white);
-`;
+//   background-color: var(--bukarka-white);
+// `;
 
 export const FlexContainer = styled.div`
   display: flex;

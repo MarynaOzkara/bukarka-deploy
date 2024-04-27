@@ -9,37 +9,6 @@ export const ContactsPageWrapper = styled.div`
   background-color: var(--bukarka-white);
 `;
 
-export const Label = styled.p`
-  position: relative;
-
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-
-  width: fit-content;
-  height: 32px;
-
-  margin-bottom: 40px;
-  padding: 4px 16px;
-
-  background-color: var(--bukarka-yellow);
-
-  font-family: var(--semibold);
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 1.2;
-
-  &::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 8px;
-    background: var(--bukarka-deep-blue);
-  }
-`;
-
 export const Top = styled.div`
   display: flex;
   gap: 128px;
@@ -210,9 +179,3 @@ export const Button = styled.button`
     color: var(--bukarka-orange);
   }
 `;
-
-// export const Wrapper = styled.div`
-//   /* display: flex; */
-//   width: 100%;
-//   padding: 0 32px 104px;
-// `;
