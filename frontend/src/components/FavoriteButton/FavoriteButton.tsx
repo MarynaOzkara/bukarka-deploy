@@ -4,6 +4,7 @@ import { HeartIconThin } from "../../assets/icons";
 
 interface IProp {
   itemId: string;
+  children?: React.ReactNode;
 }
 
 const FavoriteButton: React.FC<IProp> = ({ itemId }) => {

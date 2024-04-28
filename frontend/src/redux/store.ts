@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { books } from "./books/slice";
+import { orders } from "./orders/slice";
 
 export const store = configureStore({
   reducer: {
     books,
+    orders,
   },
 });
 

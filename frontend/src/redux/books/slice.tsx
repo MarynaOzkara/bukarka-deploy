@@ -1,27 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchBooksList } from "./operations";
-
-export interface Books {
-  age: string;
-  author: string;
-  bestsellers: boolean;
-  category: string;
-  cover: string;
-  description: string;
-  format: string;
-  genre: [];
-  language: string;
-  new: boolean;
-  pages: number;
-  price: number;
-  promotions: boolean;
-  publisher: string;
-  rating: number;
-  subcategory: string;
-  title: string;
-  year: string;
-  _id: string;
-}
+import { Books } from "../../types/Books";
 
 interface BooksState {
   books: Books[];
@@ -59,32 +38,3 @@ const booksSlice = createSlice({
 });
 
 export const books = booksSlice.reducer;
-
-// export const selectBooksData = (state: IRootState) => state.books.books;
-// export const selectBooksStatus = (state: IRootState) => state.books.status;
-// export const selectBooksError = (state: IRootState) => state.books.error;
-
-// interface CounterState {
-//   value: number;
-// }
-//
-// const initialState: CounterState = {
-//   value: 0,
-// };
-//
-// const counterSlice = createSlice({
-//   name: "counter",
-//   initialState,
-//   reducers: {
-//     incremented: (state) => {
-//       state.value += 1;
-//     },
-//     decremented: (state) => {
-//       state.value -= 1;
-//     },
-//   },
-// });
-//
-// export const { incremented, decremented } = counterSlice.actions;
-//
-// export default counterSlice.reducer;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { StarsWrapper, StyledStarIcon } from "../../Slider/SimpleSlider.styled";
 import {
@@ -8,10 +8,13 @@ import {
   StyledPrice,
   StyledNameAuthor,
   FormButton,
+  StyledFavoriteButton,
 } from "./CartItem.styled";
 import { images } from "../../../assets/images";
 import ReactStars from "react-rating-stars-component";
 import Modal from "../../Modal";
+import { BasketList } from "../../Basket/BasketList/BasketList";
+import { instance } from "../../../utils/fetchInstance";
 import FavoriteButton from "../../FavoriteButton/FavoriteButton";
 
 interface IProps {
@@ -33,6 +36,8 @@ const CartItem: React.FC<IProps> = ({
   index,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [currentId, setCurrentId] = useState<string | null>(null);
+
   let navigate = useNavigate();
   const firstExample = {
     size: 20,
@@ -42,9 +47,22 @@ const CartItem: React.FC<IProps> = ({
     filledIcon: <StyledStarIcon />,
   };
 
-  const toggleModal = () => {
-    setIsOpen(!isOpen);
-  };
+  useEffect(() => {
+    if (currentId) {
+      const fetchData = async () => {
+        try {
+          const response = await instance.post(`/api/orders/${currentId}`, {
+            id: currentId,
+          });
+          setIsOpen(true);
+        } catch (error) {
+          console.error("Error making POST request:", error);
+        }
+      };
+
+      fetchData();
+    }
+  }, [currentId]);
 
   const closeModal = () => {
     setIsOpen(false);
@@ -65,7 +83,10 @@ const CartItem: React.FC<IProps> = ({
   return (
     <>
       <StyledItemCart>
-        <FavoriteButton itemId={_id} />
+        <StyledFavoriteButton>
+          <FavoriteButton itemId={_id} />
+        </StyledFavoriteButton>
+
         <StyledItemImage id={_id} onClick={handleClick}>
           <img
             src={
@@ -93,14 +114,24 @@ const CartItem: React.FC<IProps> = ({
         </StyledNameAuthor>
         <StarsWrapper>
           <ReactStars {...firstExample} value={index === 0 ? 5 : rating} />
-          {/*<div>{rating}</div>*/}
         </StarsWrapper>
         <StyledPrice>{price} грн</StyledPrice>
-        <FormButton onClick={toggleModal}>Купити</FormButton>
+        {/*dispatch*/}
+
+        <FormButton id={_id} onClick={() => setCurrentId(_id)}>
+          Купити
+        </FormButton>
 
         {isOpen && (
           <Modal close={closeModal} showCloseButton={true}>
-            <div style={{ width: "200px", height: "200px" }}>Кошик</div>
+            <BasketList
+              id={_id}
+              title={title}
+              index={index}
+              image={image}
+              author={author}
+              price={price}
+            ></BasketList>
           </Modal>
         )}
       </StyledItemCart>
