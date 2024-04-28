@@ -6,11 +6,9 @@ import {
   StyledNextArrow,
 } from "./SimpleSlider.styled";
 import CartItem from "../Home/CartItem/CartItem";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SliderArrowIcon } from "../../assets/icons";
-import { useDispatch, useSelector } from "react-redux";
-// import { selectBooks } from "../../redux/books/selectors";
-import { fetchBooksList } from "../../redux/books/operations";
+import { useSelector } from "react-redux";
 import { IRootState } from "../../redux/store";
 import {
   selectBooksData,
@@ -57,34 +55,12 @@ function PrevArrow(props: any) {
 }
 
 const SimpleSlider: React.FC<IDataBooks> = ({ data }) => {
-  // const [books, setBooks] = useState<IProps[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const totalSlides = data.length;
   const dispatch = useAppDispatch();
   const booksData = useSelector((state: IRootState) => selectBooksData(state));
   const status = useSelector((state: IRootState) => selectBooksStatus(state));
   const error = useSelector((state: IRootState) => selectBooksError(state));
-  // console.log(booksData);
-  //
-  // useEffect(() => {
-  //   dispatch(fetchBooksList());
-  // }, [dispatch]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         "https://bukarka.onrender.com/api/books/new",
-  //       );
-  //       const data = await response.json();
-  //       setBooks(data.data);
-  //     } catch (error) {
-  //       console.error("Помилка при виконанні запиту:", error);
-  //     }
-  //   };
-  //
-  //   fetchData();
-  // }, []);
 
   if (status === "loading") {
     return <div>Loading...</div>;

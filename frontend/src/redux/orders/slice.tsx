@@ -1,11 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {
-  deleteItem,
-  deleteOrderItem,
-  fetchOrdersData,
-  updateItemQuantity,
-  updateQuantity,
-} from "./operations";
+import { deleteItem, deleteOrderItem, fetchOrdersData } from "./operations";
 import { IOrders } from "../../types/Orders";
 
 interface OrdersState {
@@ -39,26 +33,6 @@ const ordersSlice = createSlice({
       .addCase(fetchOrdersData.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload as string;
-      })
-
-      .addCase(updateItemQuantity.pending, (state) => {
-        // Обновляем статус на "loading" в начале запроса
-        state.status = "loading";
-      })
-      .addCase(updateItemQuantity.fulfilled, (state, action) => {
-        // Найти и обновить элемент с новым количеством
-        const index = state.orders?.orderItems.findIndex(
-          (item) => item._id === action.payload.id,
-        );
-        if (index !== -1) {
-          Object.assign(state.orders.orderItems[index], action.payload);
-          // state.orders.orderItems[index] = action.payload; // Предполагаем, что action.payload содержит обновленные данные элемента
-        }
-      })
-      .addCase(updateItemQuantity.rejected, (state, action) => {
-        // Обработка ошибки
-        state.status = "failed";
-        state.error = action.payload as string; // Сохраняем сообщение об ошибке
       })
 
       .addCase(deleteOrderItem.pending, (state) => {

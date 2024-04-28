@@ -15,6 +15,8 @@ export const StyledMainTitle = styled.h3`
 
 export const StyledBasketHeader = styled.div`
   display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
 `;
 
 export const StyledAmountOfBooks = styled.div`
@@ -28,14 +30,14 @@ export const StyledAmountOfBooks = styled.div`
 export const StyledDelete = styled.button`
   color: #7c7165;
   font-size: 12px;
-  font-family: "Montserrat-Semibold";
+  font-family: "Montserrat-Regular";
   font-weight: 400;
   line-height: 16px;
+  background-color: transparent;
+  margin-right: 100px;
 `;
 export const StyledBasketItem = styled.li`
   width: 816px;
-  //margin-left: 104px;
-  //margin-right: 104px;
   display: flex;
   justify-content: space-between;
   padding-bottom: 16px;
@@ -89,7 +91,7 @@ export const StyledPriceBlock = styled.div`
   font-weight: 600;
   width: 296px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-direction: column;
 `;
 
@@ -101,7 +103,7 @@ export const StyledBasketPricePrice = styled.div`
 export const StyledItemPrice = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
 `;
 
 export const StyledCountBlock = styled.div`
@@ -128,8 +130,22 @@ export const StyledCountBlock = styled.div`
   }
 `;
 
+export const StyledButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+`;
+
 export const StyledDeleteButton = styled.button`
-  color: red;
+  display: block;
+  width: 88px;
+  font-family: Montserrat-Regular;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: center;
+  background-color: transparent;
+  color: #7c7165;
 `;
 
 export const StyledChangeButtons = styled.button`
@@ -140,16 +156,49 @@ export const StyledChangeButtons = styled.button`
   padding: 8px;
   position: relative;
   max-width: 24px;
-  //height: 32px;
-  //border-top: 1px solid #dad3cd;
   align-items: center;
   border-left: 1px solid #dad3cd;
   border-right: 1px solid #dad3cd;
   flex-direction: column;
   justify-content: center;
-  background-color: #ffdc00;
+  background-color: var(--bukarka-yellow);
 `;
 
-export const FormButton = styled.button`
+export const StyledFavoriteButton = styled.div`
+  display: flex;
+  align-items: center;
+  font-family: Montserrat-Regular;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: center;
+`;
+
+export const StyledTotalPrice = styled.div`
+  font-family: Montserrat-Regular;
   font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  margin-bottom: 48px;
+`;
+
+export const StyledPriceTitle = styled.div`
+  background: var(--bukarka-yellow);
+  border-left: 8px solid var(--bukarka-orange);
+  padding-left: 8px;
+  height: 24px;
+  width: 96px;
+  margin-right: 16px;
+`;
+
+export const StyledSum = styled.div`
+  font-family: Montserrat-Regular;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+  text-align: left;
+  color: #ff8a10;
 `;

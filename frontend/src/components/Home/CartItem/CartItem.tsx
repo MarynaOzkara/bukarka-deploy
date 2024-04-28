@@ -8,32 +8,14 @@ import {
   StyledPrice,
   StyledNameAuthor,
   FormButton,
+  StyledFavoriteButton,
 } from "./CartItem.styled";
 import { images } from "../../../assets/images";
 import ReactStars from "react-rating-stars-component";
 import Modal from "../../Modal";
-import FavoriteButton from "../../FavoriteButton/FavoriteButton";
-// import {
-//   StyledAmountOfBooks,
-//   StyledAuthor,
-//   StyledBasketHeader,
-//   StyledBasketImage,
-//   StyledBasketItem,
-//   StyledBasketPricePrice,
-//   StyledBasketTitle,
-//   StyledBasketWrapper,
-//   StyledChangeButtons,
-//   StyledCountBlock,
-//   StyledDelete,
-//   StyledDescription,
-//   StyledItemAbout,
-//   StyledMainTitle,
-//   StyledPriceBlock,
-// } from "../../Basket/BasketItem/BasketItem.styled";
-import axios from "axios";
 import { BasketList } from "../../Basket/BasketList/BasketList";
 import { instance } from "../../../utils/fetchInstance";
-import { useAppDispatch } from "../../../redux/hooks";
+import FavoriteButton from "../../FavoriteButton/FavoriteButton";
 
 interface IProps {
   _id: string;
@@ -56,8 +38,6 @@ const CartItem: React.FC<IProps> = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentId, setCurrentId] = useState<string | null>(null);
 
-  const dispatch = useAppDispatch();
-
   let navigate = useNavigate();
   const firstExample = {
     size: 20,
@@ -69,29 +49,20 @@ const CartItem: React.FC<IProps> = ({
 
   useEffect(() => {
     if (currentId) {
-      // Only perform the request if currentId is not null
-
       const fetchData = async () => {
         try {
           const response = await instance.post(`/api/orders/${currentId}`, {
             id: currentId,
           });
-          console.log("Response:", response.data);
           setIsOpen(true);
-          // Handle the response data as needed
         } catch (error) {
           console.error("Error making POST request:", error);
-          // Handle the error as needed
         }
       };
 
       fetchData();
     }
-  }, [currentId]); // Dependency array includes currentId, so the effect runs when currentId changes
-
-  // const toggleModal = () => {
-  //   setIsOpen(!isOpen);
-  // };
+  }, [currentId]);
 
   const closeModal = () => {
     setIsOpen(false);
@@ -112,7 +83,10 @@ const CartItem: React.FC<IProps> = ({
   return (
     <>
       <StyledItemCart>
-        <FavoriteButton itemId={_id} />
+        <StyledFavoriteButton>
+          <FavoriteButton itemId={_id} />
+        </StyledFavoriteButton>
+
         <StyledItemImage id={_id} onClick={handleClick}>
           <img
             src={
@@ -148,10 +122,6 @@ const CartItem: React.FC<IProps> = ({
           Купити
         </FormButton>
 
-        {/*<FormButton id={_id} onClick={() => setCurrentId(_id)}>*/}
-        {/*  Купити*/}
-        {/*</FormButton>*/}
-
         {isOpen && (
           <Modal close={closeModal} showCloseButton={true}>
             <BasketList
@@ -161,8 +131,6 @@ const CartItem: React.FC<IProps> = ({
               image={image}
               author={author}
               price={price}
-              // isOpen={true}
-              // setIsOpen={() => setIsOpen(isOpen)}
             ></BasketList>
           </Modal>
         )}

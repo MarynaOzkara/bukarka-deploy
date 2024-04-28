@@ -1,12 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { instance } from "../../utils/fetchInstance";
-import { useEffect } from "react";
 
 export const fetchOrdersData = createAsyncThunk(
   "orders/fetchOrdersData",
   async (_, thunkAPI) => {
     const response = await instance.get(`/api/orders`);
-    return response.data[1];
+    return response.data[0];
   },
 );
 
@@ -33,7 +32,6 @@ export const updateItemQuantity = createAsyncThunk(
   },
 );
 
-//deleteOrderItem - delete all items
 export const deleteOrderItem = createAsyncThunk<string | undefined, string>(
   "orders/deleteOrderItem",
   async (orderItemId: string, { rejectWithValue }) => {
@@ -45,8 +43,6 @@ export const deleteOrderItem = createAsyncThunk<string | undefined, string>(
     }
   },
 );
-
-//deleteItem - delete one book from order
 
 export const deleteItem = createAsyncThunk(
   "orders/deleteItem",
@@ -61,19 +57,3 @@ export const deleteItem = createAsyncThunk(
     }
   },
 );
-
-// useEffect(() => {
-//     const deleteItem = async () => {
-//         if (itemIdToDelete) {
-//             try {
-//                 await instance.delete(`/api/orders/orderItems/${itemIdToDelete}`);
-//                 setDeleteStatus("Item deleted successfully.");
-//                 // Optionally reset itemIdToDelete or perform other actions upon successful deletion
-//             } catch (error) {
-//                 console.error("Failed to delete item:", error);
-//                 setDeleteStatus("Failed to delete item.");
-//             }
-//         }
-//     };
-//     deleteItem();
-// }, [itemIdToDelete]);

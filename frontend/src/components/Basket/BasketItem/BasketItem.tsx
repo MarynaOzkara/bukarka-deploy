@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   StyledBasketItem,
   StyledBasketTitle,
   StyledAuthor,
-  FormButton,
   StyledItemPrice,
   StyledItemAbout,
   StyledPriceBlock,
@@ -13,6 +12,8 @@ import {
   StyledCountBlock,
   StyledDeleteButton,
   StyledChangeButtons,
+  StyledFavoriteButton,
+  StyledButtonWrapper,
 } from "./BasketItem.styled";
 import { images } from "../../../assets/images";
 import FavoriteButton from "../../FavoriteButton/FavoriteButton";
@@ -36,24 +37,11 @@ const CartItem: React.FC<IProps> = ({
   author,
   image,
   price,
-  // rating,
   index,
   orderId,
   quantity,
 }) => {
   const dispatch = useAppDispatch();
-
-  const handleDecrease = () => {
-    dispatch(
-      decreaseItemQuantity({ orderId, quantity: Math.max(1, quantity - 1) }),
-    );
-  };
-
-  const handleIncrease = () => {
-    dispatch(
-      decreaseItemQuantity({ orderId, quantity: Math.max(1, quantity - 1) }),
-    );
-  };
 
   const handleDeleteClick = (id: string) => {
     dispatch(deleteItem(id)).then(() => {
@@ -65,10 +53,7 @@ const CartItem: React.FC<IProps> = ({
     <>
       <StyledBasketItem>
         <StyledItemAbout>
-          <StyledBasketImage
-            id={id}
-            // onClick={handleClick}
-          >
+          <StyledBasketImage id={id}>
             <img
               src={
                 image ||
@@ -81,49 +66,32 @@ const CartItem: React.FC<IProps> = ({
           </StyledBasketImage>
           <StyledDescription>
             <StyledBasketTitle>
-              <div
-                id={id}
-                // onClick={handleClick}
-              >
-                {title}
-              </div>
+              <div id={id}>{title}</div>
             </StyledBasketTitle>
             <StyledAuthor>
-              <div
-                id={id}
-                // onClick={handleClick}
-              >
-                {author}
-              </div>
+              <div id={id}>{author}</div>
             </StyledAuthor>
-            <div>
+            <StyledFavoriteButton>
               <FavoriteButton itemId={id} />
               <p>До обраного</p>
-            </div>
+            </StyledFavoriteButton>
           </StyledDescription>
         </StyledItemAbout>
         <StyledPriceBlock>
           <StyledItemPrice>
             <StyledBasketPricePrice>{price} грн</StyledBasketPricePrice>
             <StyledCountBlock>
-              <StyledChangeButtons onClick={handleDecrease}>
-                -
-              </StyledChangeButtons>
-              {/*<StyledCountBooks></StyledCountBooks>*/}
+              <StyledChangeButtons>-</StyledChangeButtons>
               <input type="text" value={quantity} />
-              <StyledChangeButtons onClick={handleIncrease}>
-                +
-              </StyledChangeButtons>
+              <StyledChangeButtons>+</StyledChangeButtons>
             </StyledCountBlock>
             <StyledBasketPricePrice>{price} грн</StyledBasketPricePrice>
           </StyledItemPrice>
-          <StyledDeleteButton
-            // id={orderId!}
-            onClick={() => handleDeleteClick(orderId!)}
-          >
-            Видалити
-          </StyledDeleteButton>
-          {/*<div></div>*/}
+          <StyledButtonWrapper>
+            <StyledDeleteButton onClick={() => handleDeleteClick(orderId!)}>
+              Видалити
+            </StyledDeleteButton>
+          </StyledButtonWrapper>
         </StyledPriceBlock>
       </StyledBasketItem>
     </>

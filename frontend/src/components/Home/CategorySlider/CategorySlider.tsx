@@ -19,7 +19,6 @@ const CategorySlider = () => {
   const [booksPromotions, setBooksPromotions] = useState<IProps[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  console.log(booksBestsellers);
 
   useEffect(() => {
     const fetchData = async () => {

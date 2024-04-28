@@ -1,21 +1,9 @@
 import styled from "styled-components";
-import { HeartIconThin } from "../../../assets/icons";
-import Slider from "react-slick";
-
-export const StyledSlider = styled(Slider)`
-  //color: red;
-`;
 
 export const StyledItemCart = styled.div`
   margin-top: 0;
   position: relative;
   width: 192px;
-`;
-
-export const StyledHeart = styled(HeartIconThin)`
-  position: absolute;
-  top: 0;
-  right: 0;
 `;
 
 export const StyledItemImage = styled.div`
@@ -62,14 +50,8 @@ export const StyledNameAuthor = styled.div`
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
-  //letter-spacing: 0.05em;
   text-align: left;
   color: #7c7165;
-`;
-
-export const StarsWrapper = styled.div`
-  display: flex;
-  justify-content: center;
 `;
 
 export const FormButton = styled.button`
@@ -88,6 +70,12 @@ export const FormButton = styled.button`
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
   }
   &:active {
-    color: #ffdc00;
+    color: var(--bukarka-yellow);
   }
+`;
+
+export const StyledFavoriteButton = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
 `;
