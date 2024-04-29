@@ -90,7 +90,7 @@ export const ResetPasswordButton = styled.button`
   color: var(--bukarka-dark-grey);
 
   &:hover {
-    color: var(--bukarka-blue-heart);
+    color: var(--bukarka-accent-blue);
   }
 `;
 

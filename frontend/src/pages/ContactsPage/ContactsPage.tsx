@@ -1,80 +1,79 @@
-import { InfoPageWrapper, PageWrapper, StyledCommonWrapper } from "styles/CommonStyled";
+import Contacts from "components/Contacts";
+import Subscribe from "components/Subscribe";
+import { StyledCommonWrapper } from "styles/CommonStyled";
+import { Label } from "pages/CommonPages.styled";
 import {
   Button,
   Checkbox,
   CheckboxLabel,
   CheckboxWrapper,
+  ContactsPageWrapper,
   Form,
   FormWrapper,
   Hint,
   Input,
-  Label,
+  InputLabel,
   Schedule,
+  ScheduleText,
   Text,
   TextArea,
   TextLast,
   Title,
   Top,
-  Wrapper,
 } from "./ContactsPage.styled";
-import Contacts from "components/Contacts";
-import Subscribe from "components/Subscribe";
 
 const ContactsPage: React.FC = () => {
   return (
     <StyledCommonWrapper>
-      <InfoPageWrapper>
-        <Wrapper>
-          <Title>Контакти і зворотний зв’язок</Title>
-          <Top>
-            <div>
-              <h2>Онлайн книгарня “Букарка”</h2>
-              <Text>Вітаємо у нашому онлайн книжковому магазині! </Text>
-              <TextLast>
-                Ми завжди раді допомогти вам з вибором книг та відповісти на
-                ваші питання. Ви можете зв’язатися з нами за телефоном,
-                електронною поштою, у месенджерах або за допомогою форми
-                зворотного зв’язку нижче.
-              </TextLast>
-            </div>
-            <div>
-              <Schedule>
-                Графік роботи: <span>Пн-Вс: 9:00 - 20:00</span>
-              </Schedule>
-              <Contacts />
-            </div>
-          </Top>
-          <FormWrapper>
-            <Form>
-              <Label>Ваша електронна пошта*</Label>
-              <Input placeholder="Email" />
+      <ContactsPageWrapper>
+        <Label>Контакти і зворотний зв’язок</Label>
+        <Top>
+          <div>
+            <Title>Онлайн книгарня “Букарка”</Title>
+            <Text>Вітаємо у нашому онлайн книжковому магазині! </Text>
+            <TextLast>
+              Ми завжди раді допомогти вам з вибором книг та відповісти на
+              питання. Ви можете зв’язатися з нами за телефоном, електронною
+              поштою, у месенджерах або за допомогою форми зворотного зв’язку
+              нижче.
+            </TextLast>
+          </div>
+          <div>
+            <ScheduleText>Графік роботи: </ScheduleText>
+            <Schedule>Пн - Нд з 9:00 до 20:00</Schedule>
+            <Contacts />
+          </div>
+        </Top>
+        <FormWrapper>
+          <Form>
+            <InputLabel>Електронна пошта*</InputLabel>
+            <Input placeholder="Email" />
 
-              <Label>Ваше ім’я</Label>
-              <Input placeholder="Ім’я" />
+            <InputLabel>Ім’я</InputLabel>
+            <Input placeholder="Ім’я" />
 
-              <Label>Номер телефону</Label>
-              <Input placeholder="+380" />
+            <InputLabel>Номер телефону</InputLabel>
+            <Input placeholder="+380" />
 
-              <Label>Номер замовлення</Label>
-              <Input placeholder="Введіть повний номер замовлення" />
+            <InputLabel>Номер замовлення</InputLabel>
+            <Input placeholder="Введіть повний номер замовлення" />
 
-              <Label>Повідомлення*</Label>
-              <TextArea placeholder="Ваше повідомлення"></TextArea>
-              <Hint>Максимальна кількість символів - 1000.</Hint>
+            <InputLabel>Повідомлення*</InputLabel>
+            <TextArea placeholder="Ваше повідомлення"></TextArea>
+            <Hint>Максимальна кількість символів - 1000.</Hint>
 
-              <CheckboxWrapper>
-                <Checkbox />
-                <CheckboxLabel>
-                  Погоджуюсь з Політикою конфіденційності
-                </CheckboxLabel>
-              </CheckboxWrapper>
+            <CheckboxWrapper>
+              <Checkbox />
+              <CheckboxLabel>
+                Погоджуюсь з Політикою конфіденційності
+              </CheckboxLabel>
+            </CheckboxWrapper>
 
-              <Button type="submit">Надіслати повідомлення</Button>
-            </Form>
-          </FormWrapper>
-          <Subscribe />
-        </Wrapper>
-      </InfoPageWrapper>
+            <Button type="submit">Надіслати повідомлення</Button>
+          </Form>
+        </FormWrapper>
+        <Subscribe />
+      </ContactsPageWrapper>
     </StyledCommonWrapper>
   );
 };

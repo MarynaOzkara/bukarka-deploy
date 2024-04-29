@@ -27,26 +27,29 @@ export const PageWrapper = styled.div`
   flex-direction: column;
   text-align: center;
 
-  margin-top: 88px;
+  margin-top: 108px;
   background-color: var(--bukarka-white);
 
-
   //todo
-  h1{
+  h1 {
     visibility: hidden;
   }
-
-  //todo end
-
+  //todo end  */
 `;
 
-export const InfoPageWrapper = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  text-align: left;
+// export const InfoPageWrapper = styled.div`
+//   position: relative;
+//   display: flex;
+//   flex-direction: column;
+//   text-align: left;
 
-  /* margin-top: 108px; */
+//   background-color: var(--bukarka-white);
+// `;
+
+export const FlexContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+
   background-color: var(--bukarka-white);
 `;
 
@@ -62,7 +65,7 @@ export const Aside = styled.aside`
 `;
 
 export const Main = styled.main`
-  margin-left: 346px;
+  margin-left: 296px;
   overflow-y: auto;
   /* flex-grow: 1; */
   margin-top: 104px;

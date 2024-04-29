@@ -1,13 +1,16 @@
+@import "normalize.css";
+
 :root {
-  --bukarka-black: #1e1e1e;
-  --bukarka-white: #fffbff;
-  --bukarka-yellow: #ffdc00;
   --bukarka-orange: #ff8a10;
-  --bukarka-blue: #004f98;
+  --bukarka-yellow: #ffdc00;
+  --bukarka-white: #fffbff;
+  --bukarka-black: #1e1e1e;
   --bukarka-dark-grey: #7c7165;
   --bukarka-light-grey-1: #dad3cd;
   --bukarka-light-grey-2: #efece9;
-  --bukarka-blue-heart: #3d7efd;
+  --bukarka-deep-blue: #004f98;
+  --bukarka-accent-blue: #3d7efd;
+  --bukarka-accent-green: #00aa3a;
 
   --regular: "Montserrat-Regular", sans-serif;
   --medium: "Montserrat-Medium", sans-serif;

@@ -49,7 +49,7 @@ export const SubTitle = styled.h2`
 
 export const SubTitleBlue = styled(SubTitle)`
   &::before {
-    background-color: var(--bukarka-blue);
+    background-color: var(--bukarka-deep-blue);
   }
 `;
 

@@ -1,65 +1,5 @@
 import styled, { css } from "styled-components";
-
-export const Wrapper = styled.div`
-  width: 100%;
-  padding: 104px 0;
-`;
-
-export const Label = styled.p`
-  position: relative;
-
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-
-  min-width: 192px;
-  width: fit-content;
-  height: 32px;
-  margin-top: 32px;
-
-  margin-bottom: 40px;
-  padding: 4px 16px;
-
-  background-color: var(--bukarka-yellow);
-
-  font-family: var(--semibold);
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 1.2;
-
-  &::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 8px;
-    background: var(--bukarka-blue);
-  }
-`;
-
-export const Menu = styled.ul`
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-  gap: 16px;
-`;
-
-export const MenuItem = styled.li`
-  color: var(--bukarka-black);
-
-  button {
-    background-color: transparent;
-    font-family: var(--medium);
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 1.5;
-  }
-`;
-
-export const AboutDelivery = styled.div`
-  margin-top: 104px;
-`;
+import { StyledList } from "pages/CommonPages.styled";
 
 const HiddenStyle = css`
   position: absolute;
@@ -85,7 +25,6 @@ export const HiddenSubTitle = styled.h3`
 export const AccentText = styled.p`
   font-family: var(--semibold);
   margin-bottom: 20px;
-  font-weight: 600;
   font-size: 14px;
   line-height: 1.43;
 
@@ -104,41 +43,79 @@ export const SubTitle = styled.h2`
 `;
 
 export const ShiftRight = styled.div`
-  padding-left: 32px;
+  padding-left: 16px;
 `;
 
 export const SmallSubTitle = styled.h3`
+  font-family: var(--semibold);
+
   margin-bottom: 8px;
-  font-weight: 600;
   font-size: 14px;
   line-height: 1.43;
 `;
 
-export const StyledList = styled.ol`
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.43;
-  list-style-position: inside;
-
-  li {
-    margin-bottom: 24px;
-    list-style-type: decimal;
-    list-style-position: inside;
+export const Delivery = styled(StyledList)`
+  margin-bottom: 32px;
+  p {
+    display: inline-block;
   }
+`;
 
-  h4 {
-    display: inline;
-    font-weight: 400;
-    color: var(--bukarka-blue);
-  }
+export const Payment = styled(StyledList)`
+  margin-bottom: 24px;
 
   p {
-    color: var(--bukarka-black);
-    padding-left: 0;
+    display: inline-block;
   }
+`;
+
+export const Return = styled(StyledList)`
+  margin-bottom: 16px;
+
+  li {
+    width: 700px;
+    color: var(--bukarka-deep-blue);
+  }
+`;
+
+export const Line = styled.hr`
+  width: 712px;
+  border-bottom: 1px solid var(--bukarka-grey);
+  margin-top: 32px;
+  margin-bottom: 32px;
+`;
+
+export const WarningTitle = styled.p`
+  margin-left: 16px;
+  margin-bottom: 20px;
+
+  font-family: var(--semibold);
+  font-size: 14px;
+  line-height: 1.43;
+  color: var(--bukarka-deep-blue);
+`;
+
+export const WarningText = styled.p`
+  margin-left: 16px;
+  margin-bottom: 8px;
+
+  font-family: var(--regular);
+  font-size: 14px;
+  line-height: 1.43;
+  color: var(--bukarka-black);
 `;
 
 export const Description = styled.p`
+  margin-bottom: 16px;
+
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.43;
+`;
+
+export const ReturnDescription = styled.p`
+  margin-bottom: 16px;
+
   font-weight: 400;
   font-size: 14px;
   line-height: 1.43;

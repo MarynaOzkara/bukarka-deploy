@@ -1,184 +1,158 @@
+import Subscribe from "components/Subscribe";
+import { StyledCommonWrapper } from "styles/CommonStyled";
+import { InfoPageWrapper, InfoWrapper, Label, SubscribeWrapper } from "pages/CommonPages.styled";
 import {
-  Aside,
-  InfoPageWrapper,
-  Main,
-  StyledCommonWrapper,
-} from "styles/CommonStyled";
-
-import {
-  AboutDelivery,
   AccentText,
+  Delivery,
   Description,
   HiddenSubTitle,
   HiddenTitle,
-  Label,
-  Menu,
-  MenuItem,
+  Line,
+  Payment,
+  Return,
+  ReturnDescription,
   ShiftRight,
   SmallSubTitle,
-  StyledList,
   SubTitle,
-  Wrapper,
+  WarningText,
+  WarningTitle,
 } from "./DeliveryPage.styled";
-import Subscribe from "components/Subscribe";
 
 const DeliveryPage: React.FC = () => {
-  const handleLinkClick = (id: string) => {
-    const element = document.getElementById(id);
-    const headerHeight = 108;
-    if (element) {
-      const topOffset = element.offsetTop - headerHeight;
-      window.scrollTo({
-        top: topOffset,
-        behavior: "smooth",
-      });
-    }
-  };
-
   return (
     <StyledCommonWrapper>
       <InfoPageWrapper>
-        <Aside>
-          <Label>Доставка, оплата і повернення</Label>
-          <Menu>
-            <MenuItem>
-              <button onClick={() => handleLinkClick("delivery")}>
-                Доставка
-              </button>
-            </MenuItem>
-            <MenuItem id="">
-              <button onClick={() => handleLinkClick("payment")}>Оплата</button>
-            </MenuItem>
-            <MenuItem id="">
-              <button onClick={() => handleLinkClick("return")}>
-                Повернення
-              </button>
-            </MenuItem>
-          </Menu>
-        </Aside>
-        <Main>
-          <AboutDelivery>
-            <HiddenTitle>Умови доставки оплати і повернення</HiddenTitle>
-            <AccentText>
-              Доставка замовлень на суму 500 грн та вище &mdash; безкоштовна!
-            </AccentText>
+        <Label>Доставка, оплата і повернення</Label>
+        <InfoWrapper>
+          <HiddenTitle>Умови доставки оплати і повернення</HiddenTitle>
+          <AccentText>
+            Доставка замовлень на суму 500 грн та вище &mdash; безкоштовна!
+          </AccentText>
 
-            <SubTitle id="delivery">Доступні способи доставки</SubTitle>
-            <HiddenSubTitle>Способи отримання замовлення</HiddenSubTitle>
+          <SubTitle>Доставка</SubTitle>
+          <HiddenSubTitle>Способи отримання замовлення</HiddenSubTitle>
 
-            <StyledList>
+          <Delivery>
+            <li>
+              <p>Самовивіз з відділення Укрпошти</p>
+            </li>
+            <li>
+              <p>Самовивіз з відділення Нової Пошти</p>
+            </li>
+            <li>
+              <p>Самовивіз з поштомату Нової Пошти</p>
+            </li>
+            <li>
+              <p>Доставка кур'єром Нової Пошти</p>
+            </li>
+          </Delivery>
+
+          <Line />
+
+          <SubTitle>Оплата</SubTitle>
+          <HiddenSubTitle>
+            способи оплати при різних методах доставки
+          </HiddenSubTitle>
+
+          <Payment>
+            <li>
+              <p>Онлайн оплата карткою</p>
+            </li>
+            <li>
+              <p>Післяплата</p>
+            </li>
+            <li>
+              <p>За реквізитами</p>
+            </li>
+          </Payment>
+
+          <WarningTitle>Зверніть увагу:</WarningTitle>
+          <WarningText>
+            При доставці у відділення Укрпошти, Нової Пошти та кур’єром Нової
+            Пошти вам будуть доступні всі способи оплати.
+          </WarningText>
+          <WarningText>
+            При доставці у поштомат Нової Пошти доступна онлайн оплата карткою.
+          </WarningText>
+
+          <Line />
+
+          <SubTitle>Повернення</SubTitle>
+
+          <Description>
+            Ми розуміємо, що іноді можуть виникати ситуації, коли вам потрібно
+            повернути придбаний товар. У нашому книжковому онлайн магазині ми
+            пропонуємо прості та прозорі умови повернення товару, щоб зробити
+            цей процес максимально зручним для вас.
+          </Description>
+
+          <ShiftRight>
+            <SmallSubTitle>Основні умови</SmallSubTitle>
+            <Return>
               <li>
-                <h4>Самовивіз з відділення Укрпошти</h4>
+                <span>Повернення протягом 14 днів</span>
+                <p>
+                  Ви маєте право повернути товар в належному вигляді протягом 14
+                  днів з моменту його отримання без зазначення причини
+                  повернення.
+                </p>
               </li>
               <li>
-                <h4>Самовивіз з відділення Нової Пошти</h4>
+                <span>
+                  Товар повинен бути в стані, придатному для повторного продажу:
+                </span>
+                <p>
+                  Для повернення товар повинен бути без пошкоджень та слідів
+                  використання.
+                </p>
               </li>
               <li>
-                <h4>Самовивіз з поштомату Нової Пошти</h4>
+                <span>Вартість повернення</span>
+                <p>
+                  Покупець сплачує вартість повернення, якщо причина повернення
+                  не пов'язана з дефектами товару.
+                </p>
+              </li>
+            </Return>
+          </ShiftRight>
+          <ShiftRight>
+            <SmallSubTitle>Процес повернення</SmallSubTitle>
+            <Return>
+              <li>
+                <span>Зв'яжіться з нами:</span>
+                <p>
+                  Перш ніж повертати товар, будь ласка, зв'яжіться з нашим
+                  сервісним центром для отримання інструкцій.
+                </p>
               </li>
               <li>
-                <h4>Доставка кур'єром Нової Пошти</h4>
-              </li>
-            </StyledList>
-
-            <SubTitle id="payment">Доступні способи оплати</SubTitle>
-            <HiddenSubTitle>
-              способи оплати при різних методах доставки
-            </HiddenSubTitle>
-
-            <StyledList>
-              <li>
-                <h4>Онлайн оплата карткою</h4>
+                <span>Підготуйте товар:</span>
+                <p>
+                  Перед відправленням товару нам переконайтеся, що він
+                  відповідає умовам повернення.
+                </p>
               </li>
               <li>
-                <h4>Післяплата</h4>
+                <span>Повернення коштів:</span>
+                <p>
+                  Після отримання та перевірки поверненого товару ми повернемо
+                  кошти на рахунок, з якого була здійснена оплата, протягом 3-х
+                  банківських днів.
+                </p>
               </li>
-              <li>
-                <h4>За реквізитами</h4>
-              </li>
-            </StyledList>
+            </Return>
+          </ShiftRight>
+          <ReturnDescription>
+            Ми цінуємо кожного нашого клієнта і робимо все можливе, щоб
+            забезпечити вам приємний досвід покупок у нашому магазині. Якщо у
+            вас виникли будь-які питання щодо повернення товару, будь ласка,
+            зв'яжіться з нашою службою підтримки, і ми з радістю вам допоможемо.
+          </ReturnDescription>
+        </InfoWrapper>
 
-            <p>Зверніть увагу:</p>
-            <p>
-              При доставці у відділення Укрпошти, Нової Пошти та кур’єром Нової
-              Пошти вам будуть доступні всі способи оплати.
-            </p>
-            <p>
-              При доставці у поштомат Нової Пошти доступна онлайн оплата
-              карткою.
-            </p>
-
-            <SubTitle id="return">Повернення товару</SubTitle>
-
-            <Description>
-              Ми розуміємо, що іноді можуть виникати ситуації, коли вам потрібно
-              повернути придбаний товар. У нашому книжковому онлайн магазині ми
-              пропонуємо прості та прозорі умови повернення товару, щоб зробити
-              цей процес максимально зручним для вас.
-            </Description>
-
-            <ShiftRight>
-              <SmallSubTitle>Основні умови</SmallSubTitle>
-              <StyledList>
-                <li>
-                  <h4>Повернення протягом 14 днів</h4>
-                  <p>
-                    Ви маєте право повернути товар в належному вигляді протягом
-                    14 днів з моменту його отримання без зазначення причини
-                    повернення.
-                  </p>
-                </li>
-                <li>
-                  <h4>
-                    Товар повинен бути в стані, придатному для повторного
-                    продажу:
-                  </h4>
-                  <p>
-                    Для повернення товар повинен бути без пошкоджень та слідів
-                    використання.
-                  </p>
-                </li>
-              </StyledList>
-            </ShiftRight>
-            <ShiftRight>
-              <SmallSubTitle>Процес повернення</SmallSubTitle>
-              <StyledList>
-                <li>
-                  <h4>Зв'яжіться з нами:</h4>
-                  <p>
-                    Перш ніж повертати товар, будь ласка, зв'яжіться з нашим
-                    сервісним центром для отримання інструкцій.
-                  </p>
-                </li>
-                <li>
-                  <h4>Підготуйте товар:</h4>
-                  <p>
-                    Перед відправленням товару нам переконайтеся, що він
-                    відповідає умовам повернення.
-                  </p>
-                </li>
-                <li>
-                  <h4>Повернення коштів:</h4>
-                  <p>
-                    Після отримання та перевірки поверненого товару ми повернемо
-                    кошти на рахунок, з якого була здійснена оплата, протягом
-                    3-х банківських днів.
-                  </p>
-                </li>
-              </StyledList>
-            </ShiftRight>
-            <Description>
-              Ми цінуємо кожного нашого клієнта і робимо все можливе, щоб
-              забезпечити вам приємний досвід покупок у нашому магазині. Якщо у
-              вас виникли будь-які питання щодо повернення товару, будь ласка,
-              зв'яжіться з нашою службою підтримки, і ми з радістю вам
-              допоможемо.
-            </Description>
-          </AboutDelivery>
-        </Main>
-        <Wrapper>
+        <SubscribeWrapper>
           <Subscribe />
-        </Wrapper>
+        </SubscribeWrapper>
       </InfoPageWrapper>
     </StyledCommonWrapper>
   );

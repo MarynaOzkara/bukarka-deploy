@@ -1,69 +1,64 @@
 import styled from "styled-components";
 
-export const Wrapper = styled.div`
-  /* display: flex; */
-  width: 100%;
-  padding: 0 32px 104px;
-`;
+export const ContactsPageWrapper = styled.div`
+  margin-top: 88px;
+  padding-top: 32px;
+  padding-left: 32px;
+  padding-bottom: 104px;
 
-export const Title = styled.h1`
-  position: relative;
-
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-
-  min-width: 192px;
-  width: fit-content;
-  height: 32px;
-  margin-top: 32px;
-
-  margin-bottom: 40px;
-  padding: 4px 16px;
-
-  background-color: var(--bukarka-yellow);
-
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 1.2;
-
-  &::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 8px;
-    background: var(--bukarka-blue);
-  }
+  background-color: var(--bukarka-white);
 `;
 
 export const Top = styled.div`
   display: flex;
-  gap: 170px;
+  gap: 128px;
   margin-bottom: 16px;
   padding-left: 104px;
-
-  h2 {
-    margin-bottom: 16px;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 1.2;
-    color: #000;
-  }
 `;
 
-export const Schedule = styled.p`
-  margin-bottom: 20px;
+export const Title = styled.h1`
+  margin-bottom: 16px;
+
+  font-family: var(--semibold);
+  font-size: 20px;
+  line-height: 1.2;
+  color: #000;
+`;
+
+export const Text = styled.p`
+  width: 504px;
+
+  font-family: var(--regular);
+  font-size: 14px;
+  line-height: 1.43;
+  color: var(--bukarka-black);
+
+  margin-bottom: 10px;
+`;
+
+export const TextLast = styled(Text)`
+  margin-bottom: 36px;
+`;
+
+export const ScheduleText = styled.div`
+  margin-bottom: 8px;
+
+  font-family: var(--semibold);
   font-weight: 600;
   font-size: 16px;
   line-height: 1.5;
 
   color: var(--bukarka-black);
+`;
 
-  span {
-    font-weight: 500;
-  }
+export const Schedule = styled.div`
+  margin-bottom: 44px;
+
+  font-family: var(--regular);
+  font-size: 14px;
+  line-height: 1.43;
+
+  color: var(--bukarka-black);
 `;
 
 export const FormWrapper = styled.div`
@@ -71,22 +66,9 @@ export const FormWrapper = styled.div`
   margin-bottom: 136px;
 `;
 
-export const Text = styled.p`
-  width: 440px;
-
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.43;
-  color: var(--bukarka-black);
-
-  margin-bottom: 8px;
+export const Form = styled.form`
+  margin-top: -76px;
 `;
-
-export const TextLast = styled(Text)`
-  margin-bottom: 40px;
-`;
-
-export const Form = styled.form``;
 
 export const Input = styled.input`
   width: 416px;
@@ -95,12 +77,20 @@ export const Input = styled.input`
   margin-bottom: 16px;
 
   border: 1px solid var(--bukarka-light-grey-1);
+
+  &::placeholder {
+    font-family: var(--regular);
+    font-size: 16px;
+    line-height: 1.5;
+
+    color: var(--bukarka-dark-grey);
+  }
 `;
 
-export const Label = styled.label`
+export const InputLabel = styled.label`
   display: block;
 
-  font-weight: 600;
+  font-family: var(--semibold);
   font-size: 16px;
   line-height: 1.5;
 
@@ -111,18 +101,27 @@ export const TextArea = styled.textarea`
   width: 712px;
   height: 113px;
   padding: 8px 16px;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   border: 1px solid var(--bukarka-light-grey-1);
 
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
   color: var(--bukarka-dark-grey);
+
+  &::placeholder {
+    font-family: var(--regular);
+    font-size: 16px;
+    line-height: 1.5;
+
+    color: var(--bukarka-dark-grey);
+  }
 `;
 
 export const Hint = styled.p`
   margin-bottom: 16px;
-  font-weight: 400;
+
+  font-family: var(--regular);
   font-size: 12px;
   line-height: 1.33;
 
@@ -131,7 +130,9 @@ export const Hint = styled.p`
 export const CheckboxWrapper = styled.div`
   display: flex;
   align-items: center;
+  gap: 16px;
 
+  padding: 5px;
   margin-bottom: 24px;
 `;
 
@@ -142,7 +143,7 @@ export const Checkbox = styled.input.attrs({ type: "checkbox" })`
 `;
 
 export const CheckboxLabel = styled.label`
-  font-weight: 400;
+  font-family: var(--regular);
   font-size: 14px;
 
   line-height: 1.43;
@@ -162,6 +163,7 @@ export const Button = styled.button`
   background: var(--bukarka-yellow);
   color: var(--bukarka-black);
 
+  font-family: var(--semibold);
   font-weight: 600;
   font-size: 16px;
   line-height: 1.5;

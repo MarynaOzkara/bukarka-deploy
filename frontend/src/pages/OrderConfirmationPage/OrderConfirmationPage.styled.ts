@@ -16,7 +16,7 @@ export const Thanks = styled.p`
   font-weight: 500;
   font-size: 24px;
   line-height: 1.33;
-  color: var(--bukarka-blue);
+  color: var(--bukarka-deep-blue);
 `;
 
 export const OrderInfo = styled.div`
@@ -54,7 +54,7 @@ export const NumberText = styled.p`
 export const Number = styled.p`
   background: #fff;
   border: 2px solid var(--bukarka-orange);
-  color: var(--bukarka-blue);
+  color: var(--bukarka-deep-blue);
   padding: 0 32px;
 
   font-family: "Montserrat-Semibold";
