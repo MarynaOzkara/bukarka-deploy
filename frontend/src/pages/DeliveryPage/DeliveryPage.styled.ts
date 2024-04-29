@@ -1,5 +1,5 @@
-import { StyledList } from "pages/CommonPages.styled";
 import styled, { css } from "styled-components";
+import { StyledList } from "pages/CommonPages.styled";
 
 const HiddenStyle = css`
   position: absolute;
@@ -56,10 +56,17 @@ export const SmallSubTitle = styled.h3`
 
 export const Delivery = styled(StyledList)`
   margin-bottom: 32px;
+  p {
+    display: inline-block;
+  }
 `;
 
 export const Payment = styled(StyledList)`
   margin-bottom: 24px;
+
+  p {
+    display: inline-block;
+  }
 `;
 
 export const Return = styled(StyledList)`

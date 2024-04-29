@@ -92,7 +92,7 @@ export const StyledList = styled.ol`
   font-size: 14px;
   line-height: 1.43;
   list-style-position: inside;
-  
+    
   li {
     margin-bottom: 20px;
     list-style-type: decimal;

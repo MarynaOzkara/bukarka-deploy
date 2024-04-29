@@ -1,8 +1,4 @@
-import {
-  ContactList,
-  ListItem,
-  StyledIcon,
-} from "./Contacts.styled";
+import { ContactList, ListItem, StyledIcon } from "./Contacts.styled";
 import SocialList from "components/SocialList/SocialList";
 
 const Contacts: React.FC = () => {
