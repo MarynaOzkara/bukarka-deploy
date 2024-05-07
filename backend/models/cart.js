@@ -26,7 +26,7 @@ const cartSchema = new Schema(
     totalAfterDiscount: Number,
     user: {
       type: ObjectId,
-      ref: "User",
+      ref: "user",
       required: true,
     },
   },

@@ -50,9 +50,11 @@ const addManyToCart = async (req, res) => {
       cartTotal,
       user: id,
     }).save();
-    const createCart = await newCart
-      .populate("cartItems.bookId", "_id title author")
-      .select("-cartItems._id -createdAt -updatedAt -_id");
+    const createCart = await newCart.populate(
+      "cartItems.bookId",
+      "_id title author"
+    );
+
     res.json({
       message: "Books successfully added to your cart",
       cart: createCart,

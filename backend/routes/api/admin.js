@@ -9,6 +9,17 @@ router.get(
   autorizeRoles("admin"),
   adminController.getAllUsers
 );
+router.get(
+  "/orders",
+  authenticate,
+  autorizeRoles("admin"),
+  adminController.getAllOrders
+);
+router
+  .route("/orders/:orderNumber")
+  .get(authenticate, autorizeRoles("admin"), adminController.getOrderById)
+  .put(authenticate, autorizeRoles("admin"), adminController.updateOrder)
+  .delete(authenticate, autorizeRoles("admin"), adminController.deleteOrder);
 router
   .route("/users/:id")
   .get(authenticate, autorizeRoles("admin"), adminController.getUserById)

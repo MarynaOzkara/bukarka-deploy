@@ -83,9 +83,10 @@ const addOneToCart = async (req, res) => {
       cartTotal: price * quantity,
       totalItems: quantity,
     });
-    const createCart = await cart
-      .populate("cartItems.bookId", "_id title author")
-      .select("-cartItems._id -createdAt -updatedAt -_id");
+    const createCart = await cart.populate(
+      "cartItems.bookId",
+      "_id title author"
+    );
 
     res.status(201).json({
       message: `Book with id: ${bookId} successfulli added to the cart`,

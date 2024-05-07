@@ -8,7 +8,8 @@ const {
   activateSubscription,
   unsubscribe,
 } = require("./settings/settings");
-const { userCart } = require("./orders/orders");
+
+const { getAllOrders, getOrederById } = require("./orders/orders");
 
 module.exports = {
   getProfile,
@@ -19,5 +20,6 @@ module.exports = {
   subscribe,
   activateSubscription,
   unsubscribe,
-  userCart,
+  getAllOrders,
+  getOrederById,
 };
