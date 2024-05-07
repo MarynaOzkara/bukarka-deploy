@@ -40,6 +40,10 @@
     {
       "name": "Cart",
       "description": "Authorized User's Cart endpoints"
+    },
+    {
+      "name": "Payment",
+      "description": "Authorized User's Payment endpoints"
     }
   ],
   "paths": {
@@ -534,6 +538,89 @@
         }
       }
     },
+    "/profile/orders":{
+      "get":{
+        "tags":["Profile"],
+        "summary": "Returns all user's orders",
+        "parameters":[],
+        "security": [{ "Bearer": [] }],
+        "requestBody":{},
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserOrdersResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profile/order/{orderId}": {
+      "get":{
+        "tags":["Profile"],
+        "summary": "Returns order by ID",
+        "parameters":[
+          {
+            "in": "path",
+            "name": "orderId",
+            "required": true,
+            "description": "Order ID",
+            "schema": {
+              "type": "string",
+              "example": "661c2b9a99a743be16b79714"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody":{},
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserOrderByIdResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404":{
+            "description": "Not found",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderByIdErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/newsletter/subscribe": {
       "post":{
         "tags":["Newsletter"],
@@ -955,6 +1042,158 @@
             }
           }
       }
+      }
+    },
+    "/cart/checkout": {
+      "post":{
+        "tags":["Cart"],
+        "summary": "Add checkout",
+        "parameters":[],
+        "security": [{ "Bearer": [] }],
+        "requestBody":{
+          "description": "Checkout object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckoutRequest"
+              }
+            }
+          } 
+        },
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckoutResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          }
+      }
+      }
+    },
+    "/payment/stripe/config": {
+      "get":{
+        "tags": ["Payment"],
+        "summary": "Returns stripe payment configuration",
+        "parameters":[],
+        "security": [{ "Bearer": [] }],
+        "requestBody":{},
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StripeConfigResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payment/stripe/{orderId}": {
+      "post":{
+        "tags": ["Payment"],
+        "summary": "Returns stripe payment clientSecret",
+        "parameters":[{
+          "in": "path",
+          "name": "orderId",
+          "required": true,
+          "description": "Order ID",
+          "schema": {
+            "type": "string",
+            "example": "661c30c599a743be16b79778"
+          }
+        }],
+        "security": [{ "Bearer": [] }],
+        "requestBody":{},
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StripePaymentResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payment/stripe/success/{orderId}": {
+      "get":{
+        "tags": ["Payment"],
+        "summary": "Returns success paid order",
+        "parameters":[{
+          "in": "path",
+          "name": "orderId",
+          "required": true,
+          "description": "Order ID",
+          "schema": {
+            "type": "string",
+            "example": "661c30c599a743be16b79778"
+          }
+        }],
+        "security": [{ "Bearer": [] }],
+        "requestBody":{},
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StripeSuccessPaidResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/books": {
@@ -2581,6 +2820,15 @@
           } 
         }
       },
+      "OrderByIdErrorResponse": {
+        "type": "object",
+				"properties": {
+					"message": {
+						"type": "string",
+						"example": "Order not found"
+					}
+				}
+      },
       "NewsletterResponse": {
         "type": "object",
 				"properties": {
@@ -2710,6 +2958,230 @@
 						"example": "Your already unsubscribed from newsletter"
 					}
 				}
+      },
+      "UserOrdersResponse": {
+        "type": "object",
+        "properties":{
+          "orders": {
+            "type": "array",
+            "items":{
+              "type": "object",
+              "properties":{
+                "_id": {
+                  "type": "string",
+                  "description": "Order's ID",
+                  "example": "661c2b9a99a743be16b79714"
+                },
+                "checkoutItems": {
+                  "type": "array",
+                  "items":{
+                    "type": "object",
+                    "properties":{
+                      "bookId": {
+                        "type":"object",
+                        "properties":{
+                          "_id":{
+                            "type": "string",
+                            "description": "Book's ID",
+                            "example": "65ed9f233000741d129b5557"
+                          },
+                          "author":{
+                            "type": "string",
+                            "description": "Book's author",
+                            "example": "Олена Степаненко"
+                          },
+                          "title":{
+                            "type": "string",
+                            "description": "Book's title",
+                            "example": "Подорож на планету Марс"
+                          }
+                        }
+                      },
+                      "quantity": {
+                        "type":"number",
+                        "description": "Book's quantity",
+                        "example": 2
+                      },
+                      "price": {
+                        "type":"number",
+                        "description": "Book's price",
+                        "example": 100
+                      }
+                    }
+                  }
+                },
+                "totalPrice": {
+                  "type":"number",
+                  "description": "Total books price",
+                  "example": 550
+                },
+                "paymentMetod":{
+                  "type": "string",
+                  "description": "Payment method",
+                  "example": "After"
+                },
+                "orderStatus": {
+                  "type": "string",
+                  "description": "Order status",
+                  "example": "Paid"
+                },
+                "createdAt":{
+                  "type": "string",
+                "description": "Order created date",
+                "example": "2024-04-14T19:16:42.368Z"
+                },
+                "orderNumber": {
+                  "type":"number",
+                  "description": "Order's number",
+                  "example": 1
+                }
+              }
+            }
+          }
+        }
+      },
+      "UserOrderByIdResponse": {
+        "type": "object",
+        "properties":{
+          "order": {
+            "type": "object",
+            "properties":{
+              "userInfo": {
+                "type":"object",
+                "properties":{
+                  "name": {
+                    "type": "string",
+                    "description": "User's name",
+                    "example": "Тамара"
+                  },
+                  "surname":{
+                    "type": "string",
+                    "description": "User's surname",
+                    "example": "Соловей"
+                  },
+                  "phone":{
+                    "type": "string",
+                    "description": "User's phone",
+                    "example": "961456789"
+                  },
+                  "email":{
+                    "type": "string",
+                    "description": "User's email",
+                    "example": "cikove6410@glaslack.com"
+                  }
+                }
+              },
+              "deliveryInfo": {
+                "type":"object",
+                "properties":{
+                  "city": {
+                    "type": "string",
+                    "description": "City of delivery",
+                    "example": "Южноукраїнськ"
+                  },
+                  "deliveryMetod":{
+                    "type": "string",
+                    "description": "Method of delivery",
+                    "example": "Укр Пошта"
+                  },
+                  "address":{
+                    "type": "string",
+                    "description": "Address of delivery",
+                    "example": "вул. Незалежності 36, відділення 1"
+                  }
+                }
+              }, 
+              "_id": {
+                "type": "string",
+                "description": "Order's ID",
+                "example": "661c2b9a99a743be16b79714"
+              },
+              "checkoutItems": {
+                "type": "array",
+                "items":{
+                  "type": "object",
+                  "properties":{
+                    "bookId": {
+                      "type":"object",
+                      "properties":{
+                        "_id":{
+                          "type": "string",
+                          "description": "Book's ID",
+                          "example": "65ed9f233000741d129b5557"
+                        },
+                        "author":{
+                          "type": "string",
+                          "description": "Book's author",
+                          "example": "Олена Степаненко"
+                        },
+                        "title":{
+                          "type": "string",
+                          "description": "Book's title",
+                          "example": "Подорож на планету Марс"
+                        }
+                      }
+                    },
+                    "quantity": {
+                      "type":"number",
+                      "description": "Book's quantity",
+                      "example": 2
+                    },
+                    "price": {
+                      "type":"number",
+                      "description": "Book's price",
+                      "example": 100
+                    }
+                  }
+                }
+              },
+              "itemsPrice": {
+                "type":"number",
+                "description": "Books price",
+                "example": 550
+              },
+              "deliveriAmount": {
+                "type":"number",
+                "description": "Delivery amount",
+                "example": 0
+              },
+              "totalPrice": {
+                "type":"number",
+                "description": "Total books price",
+                "example": 550
+              },
+              "paymentMetod":{
+                "type": "string",
+                "description": "Payment method",
+                "example": "After"
+              },
+              "orderStatus": {
+                "type": "string",
+                "description": "Order status",
+                "example": "Paid"
+              },
+              "user":{
+                "type": "string",
+                "description": "User ID",
+                "example": "6605c797972bd9d9189f5c23"
+              },
+              "createdAt":{
+                "type": "string",
+                "description": "Order created date",
+                "example": "2024-04-14T19:16:42.368Z"
+              },
+              "updatedAt":{
+                "type": "string",
+                "description": "Order updated date",
+                "example": "2024-05-03T19:27:33.973Z"
+              },
+              "orderNumber": {
+                "type":"number",
+                "description": "Order's number",
+                "example": 1
+              }
+            }
+          }
+        }
       },
       "CartResponse": {
         "type": "object",
@@ -3133,6 +3605,93 @@
 						"example": "Cart is empty"
 					}
 				}
+      },
+      "CheckoutRequest": {
+        "type": "object",
+        "required": ["city", "deliveryMetod", "deliveriAmount", "address", "paymentMetod"],
+        "properties": {
+          "city": {
+            "type": "string",
+						"description": "City of delivery",
+						"example": "Южноукраїнськ"
+          },
+          "deliveryMetod": {
+            "type": "string",
+						"description": "Method of delivery",
+						"example": "Нова пошта"
+          },
+          "deliveriAmount": {
+            "type": "number",
+						"description": "Delivery amount",
+            "example": 60
+          },
+          "address": {
+            "type": "string",
+						"description": "Address of delivery",
+            "example": "вул. Незалежності 36, відділення 1"
+          },
+          "paymentMetod": {
+            "type": "string",
+						"description": "Payment method",
+						"example": "Card"
+          }
+        }
+      },
+      "CheckoutResponse": {
+        "type": "object",
+        "properties":{
+          "status":{
+            "type": "number",
+            "description": "Response status",
+            "example": "201"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Checkout created successfull"
+          },
+          "orderId": {
+            "type": "string",
+            "description": "Order ID",
+            "example": "663694d1d7036a081bbdfc9c"
+          }
+        }
+      },
+      "StripeConfigResponse": {
+        "type": "object",
+				"properties": {
+					"pablishebleKey": {
+						"type": "string"
+					}
+				}
+      },
+      "StripePaymentResponse": {
+        "type": "object",
+				"properties": {
+					"clientSecret": {
+						"type": "string"
+					}
+				}
+      },
+      "StripeSuccessPaidResponse": {
+        "type": "object",
+        "properties":{
+          "status":{
+            "type": "number",
+            "description": "Response status",
+            "example": "200"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Order success paid"
+          },
+          "orderStatus": {
+            "type": "string",
+            "description": "Order Status",
+            "example": "Paid"
+          }
+        }
       },
       "BookResponse": {
         "type": "object",

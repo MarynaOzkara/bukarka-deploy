@@ -5,6 +5,12 @@ const {
   updateUser,
   deleteUser,
 } = require("./users/users");
+const {
+  getAllOrders,
+  getOrderById,
+  updateOrder,
+  deleteOrder,
+} = require("./orders/orders");
 
 module.exports = {
   getAllUsers,
@@ -12,4 +18,8 @@ module.exports = {
   getAllSubscribers,
   updateUser,
   deleteUser,
+  getAllOrders,
+  getOrderById,
+  updateOrder,
+  deleteOrder,
 };

@@ -1,6 +1,7 @@
 const express = require("express");
 const { authenticate } = require("../../middlewares");
 const cartController = require("../../controllers/cart/index");
+const checkoutController = require("../../controllers/checkout/index");
 const router = express.Router();
 
 router.get("/", authenticate, cartController.getCart);
@@ -18,5 +19,7 @@ router.patch(
 );
 router.patch("/delete/:bookId", authenticate, cartController.deleteItem);
 router.delete("/clear", authenticate, cartController.clearCart);
+
+router.post("/checkout", authenticate, checkoutController.createCheckout);
 
 module.exports = router;

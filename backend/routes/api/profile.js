@@ -22,7 +22,8 @@ router.get(
   profileController.deactivateNewslette
 );
 
-router.get("/orders");
+router.get("/orders", authenticate, profileController.getAllOrders);
+router.get("/orders/:orderId", authenticate, profileController.getOrederById);
 router.get("/bonuses");
 
 module.exports = router;

@@ -41,9 +41,9 @@ const editProfile = async (req, res) => {
   } = req.body;
   const { id } = req.user;
   const user = await User.findById(id);
-  if (!user) {
-    throw HttpError(404, "User does not exist");
-  }
+  // if (!user) {
+  //   throw HttpError(404, "User does not exist");
+  // }
   if (oldPassword && newPassword) {
     const isPasswordMatch = await bcrypt.compare(oldPassword, user.password);
     if (!isPasswordMatch) {
@@ -216,7 +216,7 @@ const unsubscribe = async (req, res) => {
   const newsletter = await Newsletter.findOne({
     unsubscribeToken,
   });
-  
+
   if (!newsletter) {
     throw HttpError(404, "User not found");
   }
