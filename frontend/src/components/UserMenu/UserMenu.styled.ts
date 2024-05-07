@@ -4,11 +4,15 @@ export const StyledUserMenu = styled.ul`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
+  gap: 8px;
 `;
 
 export const UserMenuItem = styled.li`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   min-height: 48px;
+  width: 112px;
 `;
 
 export const IconWrapper = styled.div`
@@ -23,14 +27,15 @@ export const IconWrapper = styled.div`
 export const Button = styled.button`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
 
   color: var(--bukarka-black);
   background-color: transparent;
 
-  font-weight: 400;
+  font-family: var(--regular);
   font-size: 12px;
+  line-height: 133%;
   text-align: center;
 `;
 

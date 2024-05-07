@@ -19,6 +19,7 @@ export const StyledCommonWrapper = styled.div`
     //  padding-left: 72px;
     //  padding-right: 72px;
   }
+  /* outline: 1px solid green; */
 `;
 
 export const PageWrapper = styled.div`

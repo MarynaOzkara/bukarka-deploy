@@ -1,21 +1,21 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  // BurgerIcon,
   ButtonWrapper,
   CatalogButton,
   FormButton,
   Input,
   StyledForm,
   StyledHeader,
-  StyledLogoUkr,
+  StyledLensIcon,
+  StyledLogo,
   Wrapper,
 } from "./Header.styled";
 import Catalog from "components/Catalog";
-import { BurgerIcon } from "assets/icons";
 import Modal from "components/Modal";
-import { StyledCommonWrapper } from "styles/CommonStyled";
 import UserMenu from "components/UserMenu";
+import { BurgerIcon, LensIcon } from "assets/icons";
+import { StyledCommonWrapper } from "styles/CommonStyled";
 
 const Header: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -29,33 +29,32 @@ const Header: React.FC = () => {
   };
 
   return (
-    <>
-      <StyledCommonWrapper>
-        <StyledHeader>
-          <Wrapper>
-            <Link to="/">
-              <StyledLogoUkr />
-            </Link>
-            {/* <ButtonWrapper>
-              <CatalogButton onClick={toggleModal}>
-                <BurgerIcon />
-                Каталог
-              </CatalogButton>
-            </ButtonWrapper>
-            <StyledForm>
-              <Input type="text" value="" />
-              <FormButton>Знайти</FormButton>
-            </StyledForm> */}
-            {/* <UserMenu /> */}
-          </Wrapper>
-        </StyledHeader>
-      </StyledCommonWrapper>
+    <StyledCommonWrapper>
+      <StyledHeader>
+        <Wrapper>
+          <Link to="/">
+            <StyledLogo />
+          </Link>
+          <ButtonWrapper>
+            <CatalogButton onClick={toggleModal}>
+              <BurgerIcon />
+              Каталог
+            </CatalogButton>
+          </ButtonWrapper>
+          <StyledForm>
+            <StyledLensIcon />
+            <Input type="text" value="" placeholder="Знайти книгу" />
+            <FormButton>Знайти</FormButton>
+          </StyledForm>
+          <UserMenu />
+        </Wrapper>
+      </StyledHeader>
       {isModalOpen && (
         <Modal close={closeModal} showCloseButton={false} animation="slide">
           <Catalog />
         </Modal>
       )}
-    </>
+    </StyledCommonWrapper>
   );
 };
 

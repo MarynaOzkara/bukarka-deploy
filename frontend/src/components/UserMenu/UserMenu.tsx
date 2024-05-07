@@ -48,7 +48,7 @@ const UserMenu: React.FC = () => {
             <IconWrapper>
               <AvatarIcon />
             </IconWrapper>
-            Вхід / Реєстрація
+            Вхід&nbsp;/&nbsp;Реєстрація
           </AuthButton>
         </UserMenuItem>
       </StyledUserMenu>
