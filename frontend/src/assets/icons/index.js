@@ -1,4 +1,4 @@
-export { ReactComponent as LogoUkr } from "./logo_ukr.svg";
+export { ReactComponent as Logo } from "./logo.svg";
 export { ReactComponent as TelegramIcon } from "./telegram-icon.svg";
 export { ReactComponent as InstagramIcon } from "./instagram-icon.svg";
 export { ReactComponent as ViberIcon } from "./viber-icon.svg";
@@ -18,3 +18,4 @@ export { ReactComponent as EyeClose } from "./eye-close.svg";
 export { ReactComponent as Checked } from "./checked.svg";
 export { ReactComponent as EditIcon } from "./edit-icon.svg";
 export { ReactComponent as VisaIcon } from "./visa-icon.svg";
+export { ReactComponent as LensIcon } from "./lens-icon.svg";

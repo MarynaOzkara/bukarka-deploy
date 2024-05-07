@@ -1,51 +1,57 @@
 import { Link } from "react-router-dom";
 import {
+  Copyright,
   ListItem,
+  LogoBlock,
+  StyledContacts,
   StyledFooter,
   StyledList,
-  StyledLogoUkr,
+  StyledLogo,
   StyledNav,
   Wrapper,
 } from "./Footer.styled";
-import Contacts from "components/Contacts";
+import { StyledCommonWrapper } from "styles/CommonStyled";
 
 const Footer: React.FC = () => {
   return (
-    <StyledFooter>
-      <Wrapper>
-        <Link to="/">
-          <StyledLogoUkr />
-        </Link>
-        <StyledNav>
+    <StyledCommonWrapper>
+      <StyledFooter>
+        <Wrapper>
+          <LogoBlock>
+            <Link to="/">
+              <StyledLogo />
+            </Link>
+          </LogoBlock>
           <StyledNav>
             <StyledList>
-              {/* <ListItem>
+              <ListItem>
                 <Link to="/about">Про магазин</Link>
-              </ListItem> */}
-              {/* <ListItem>
-                <Link to="/delivery">Доставка і оплата</Link>
-              </ListItem> */}
-              {/* <ListItem>
+              </ListItem>
+              <ListItem>
+                <Link to="/delivery">Доставка, оплата і повернення</Link>
+              </ListItem>
+              <ListItem>
                 <Link to="/contacts">Контакти і зворотний зв’язок</Link>
-              </ListItem> */}
+              </ListItem>
             </StyledList>
             <StyledList>
-              {/* <ListItem>
-                <Link to="/catalog">Каталог</Link>
-              </ListItem> */}
-              {/* <ListItem>
+              <ListItem>
                 <Link to="/club">Book Club</Link>
-              </ListItem> */}
-              {/* <ListItem>
+              </ListItem>
+              <ListItem>
                 <Link to="/privacy">Політика конфіденційності</Link>
-              </ListItem> */}
+              </ListItem>
+              <ListItem>
+                <Link to="/terms">Умови користування</Link>
+              </ListItem>
             </StyledList>
           </StyledNav>
-        </StyledNav>
+          <StyledContacts />
+        </Wrapper>
 
-        {/* <Contacts /> */}
-      </Wrapper>
-    </StyledFooter>
+        <Copyright>Copyright © Bukarka 2024</Copyright>
+      </StyledFooter>
+    </StyledCommonWrapper>
   );
 };
 
