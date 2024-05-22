@@ -44,6 +44,10 @@
     {
       "name": "Payment",
       "description": "Authorized User's Payment endpoints"
+    },
+    {
+      "name": "Admin",
+      "description": "Admin's endpoints"
     }
   ],
   "paths": {
@@ -2292,6 +2296,46 @@
           }
         }
       }
+    },
+    "/admin/feedback": {
+      "post":{
+        "tags":["Admin"],
+        "summary": "Sending feedback",
+        "parameters":[],
+        "requestBody": {
+          "description": "Feedback object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackRequest"
+              }
+            }
+          } 
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackBadRequestResponse"
+                }
+              }
+            }
+          } 
+        }
+      }
     }
     
   },
@@ -3978,6 +4022,60 @@
           }
         }
       }
+      },
+      "FeedbackRequest": {
+        "type": "object",
+        "required": ["email", "message"],
+        "properties": {
+          "email": {
+            "type": "string",
+						"description": "User's email",
+						"format": "email",
+						"pattern": "/^w+@[a-zA-Z_]+?.[a-zA-Z]{2,3}$/",
+            "example": "resoho9350@huleos.com"
+          },
+          "name": {
+            "type": "string",
+						"description": "User's name",
+            "pattern": "/^[a-zA-Zа-яА-ЯЇїІіЄєҐґ]*$/",
+						"example": "Евген"
+          },
+          "phone": {
+            "type": "string",
+						"description": "User's phone",
+            "pattern": "/^d{9}$/",
+            "minLength": "9",
+            "example": "981234567"
+          },
+          "orderNumber": {
+            "type": "number",
+						"description": "Order number",
+						"example": 23
+          },
+          "message": {
+            "type": "string",
+            "description": "User's message",
+            "example": "Добрий вечір! Ми з України!"
+          }
+        }
+      },
+      "FeedbackResponse": {
+        "type": "object",
+				"properties": {
+					"message": {
+						"type": "string",
+						"example": "Your feedback sent successfully"
+					}
+				}
+      },
+      "FeedbackBadRequestResponse": {
+        "type": "object",
+				"properties": {
+					"message": {
+						"type": "string",
+						"example": "Please fill in all required fields"
+					}
+				}
       }   
     },
     "securitySchemes": {

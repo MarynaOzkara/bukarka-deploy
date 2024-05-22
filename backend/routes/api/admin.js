@@ -9,6 +9,7 @@ router.get(
   autorizeRoles("admin"),
   adminController.getAllUsers
 );
+router.post("/feedback", adminController.feedback);
 router.get(
   "/orders",
   authenticate,
