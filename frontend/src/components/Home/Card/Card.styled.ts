@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledItemCart = styled.div`
+export const StyledItemCard = styled.div`
   margin-top: 0;
   position: relative;
   width: 192px;

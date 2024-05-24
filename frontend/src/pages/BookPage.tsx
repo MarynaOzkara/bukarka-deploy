@@ -2,6 +2,7 @@ import { PageWrapper, StyledCommonWrapper } from "styles/CommonStyled";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { instance } from "../utils/fetchInstance";
+import Loader from "components/Loader";
 
 interface IBook {
   title: string;
@@ -34,7 +35,7 @@ const BookPage: React.FC = () => {
     fetchData();
   }, [id]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loader />;
   if (error) return <div>{error}</div>;
 
   return (

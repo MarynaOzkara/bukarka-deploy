@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { StarsWrapper, StyledStarIcon } from "../../Slider/SimpleSlider.styled";
-import {
-  StyledItemCart,
-  StyledItemImage,
-  StyledTitle,
-  StyledPrice,
-  StyledNameAuthor,
-  FormButton,
-  StyledFavoriteButton,
-} from "./CartItem.styled";
 import { images } from "../../../assets/images";
 import ReactStars from "react-rating-stars-component";
 import Modal from "../../Modal";
 import { BasketList } from "../../Basket/BasketList/BasketList";
 import { instance } from "../../../utils/fetchInstance";
 import FavoriteButton from "../../FavoriteButton/FavoriteButton";
+import { StarsWrapper, StyledStarIcon } from "../../Slider/SimpleSlider.styled";
+import {
+  StyledItemCard,
+  StyledItemImage,
+  StyledTitle,
+  StyledPrice,
+  StyledNameAuthor,
+  FormButton,
+  StyledFavoriteButton,
+} from "./Card.styled";
 
 interface IProps {
   _id: string;
@@ -26,7 +26,7 @@ interface IProps {
   rating: number;
   index: number;
 }
-const CartItem: React.FC<IProps> = ({
+const Card: React.FC<IProps> = ({
   _id,
   title,
   author,
@@ -82,7 +82,7 @@ const CartItem: React.FC<IProps> = ({
 
   return (
     <>
-      <StyledItemCart>
+      <StyledItemCard>
         <StyledFavoriteButton>
           <FavoriteButton itemId={_id} />
         </StyledFavoriteButton>
@@ -134,9 +134,9 @@ const CartItem: React.FC<IProps> = ({
             ></BasketList>
           </Modal>
         )}
-      </StyledItemCart>
+      </StyledItemCard>
     </>
   );
 };
 
-export default CartItem;
+export default Card;

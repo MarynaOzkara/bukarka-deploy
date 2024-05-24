@@ -8,7 +8,7 @@ import {
   StyledSum,
   StyledTotalPrice,
 } from "../BasketItem/BasketItem.styled";
-import { FormButton } from "../../Home/CartItem/CartItem.styled";
+import { FormButton } from "../../Home/Card/Card.styled";
 import React, { useEffect } from "react";
 import BasketItem from "../BasketItem/BasketItem";
 import { useAppDispatch } from "../../../redux/hooks";

@@ -5,7 +5,7 @@ import {
   StyledPrevArrow,
   StyledNextArrow,
 } from "./SimpleSlider.styled";
-import CartItem from "../Home/CartItem/CartItem";
+import Card from "../Home/Card/Card";
 import { useState } from "react";
 import { SliderArrowIcon } from "../../assets/icons";
 import { useSelector } from "react-redux";
@@ -16,6 +16,7 @@ import {
   selectBooksStatus,
 } from "../../redux/books/selectors";
 import { useAppDispatch } from "../../redux/hooks";
+import Loader from "components/Loader";
 
 interface IProps {
   _id: string;
@@ -63,7 +64,7 @@ const SimpleSlider: React.FC<IDataBooks> = ({ data }) => {
   const error = useSelector((state: IRootState) => selectBooksError(state));
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (error) {
@@ -111,7 +112,7 @@ const SimpleSlider: React.FC<IDataBooks> = ({ data }) => {
     <div className="slider-container">
       <StyledSlider {...settings}>
         {data.map((item, index) => (
-          <CartItem
+          <Card
             _id={item._id}
             image={item.image}
             key={item._id}

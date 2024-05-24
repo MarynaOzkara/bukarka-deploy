@@ -10,9 +10,11 @@ import {
 import { useState } from "react";
 import Modal from "components/Modal";
 import Login from "components/Auth/Login/Login";
+import Cart from "components/Cart";
 
 const UserMenu: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
 
   const showModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -20,6 +22,10 @@ const UserMenu: React.FC = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const openCart = () => {
+    setIsCartOpen(true);
   };
 
   return (
@@ -35,7 +41,7 @@ const UserMenu: React.FC = () => {
         </UserMenuItem>
 
         <UserMenuItem>
-          <CartButton>
+          <CartButton onClick={openCart}>
             <IconWrapper>
               <CartIcon />
             </IconWrapper>
@@ -55,6 +61,12 @@ const UserMenu: React.FC = () => {
       {isModalOpen && (
         <Modal close={closeModal} showCloseButton={true}>
           <Login title="Вхід до акаунту" prompt="Реєстрація нового акаунту" />
+        </Modal>
+      )}
+
+      {isCartOpen && (
+        <Modal close={() => setIsCartOpen(false)} showCloseButton={true}>
+          <Cart />
         </Modal>
       )}
     </>
