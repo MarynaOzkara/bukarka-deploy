@@ -28,6 +28,10 @@ const UserMenu: React.FC = () => {
     setIsCartOpen(true);
   };
 
+  const closeCart = () => {
+    setIsCartOpen(false);
+  };
+
   return (
     <>
       <StyledUserMenu>
@@ -65,8 +69,8 @@ const UserMenu: React.FC = () => {
       )}
 
       {isCartOpen && (
-        <Modal close={() => setIsCartOpen(false)} showCloseButton={true}>
-          <Cart />
+        <Modal close={closeCart} showCloseButton={true}>
+          <Cart closeCart={closeCart} />
         </Modal>
       )}
     </>
