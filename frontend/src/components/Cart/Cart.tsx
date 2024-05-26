@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Loader from "components/Loader";
+import CartList from "./CartList";
 import { fetchOrdersData } from "../../redux/orders/operations";
 import { useAppDispatch } from "../../redux/hooks";
 import {
@@ -16,7 +17,6 @@ import {
   Message,
   Title,
 } from "./Cart.styled";
-import CartList from "./CartList";
 
 export interface CartData {
   _id: string;

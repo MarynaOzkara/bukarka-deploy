@@ -1,16 +1,10 @@
-// type CartItem = {
-//   _id: string;
-//   name: string;
-//   price: number;
-//   quantity: number;
-// };
-
 import CartItem from "../CartItem";
 import {
   deleteOrderItem,
   fetchOrdersData,
 } from "../../../redux/orders/operations";
 import { useAppDispatch } from "../../../redux/hooks";
+import { CartData } from "../Cart";
 import {
   AmountOfBooks,
   ButtonWrapper,
@@ -24,7 +18,6 @@ import {
   TotalPrice,
   Wrapper,
 } from "./CartList.styled";
-import { CartData } from "../Cart";
 
 type CartListProps = {
   cartData: CartData;
@@ -34,7 +27,7 @@ type CartListProps = {
 const CartList: React.FC<CartListProps> = ({ cartData, closeCart }) => {
   const dispatch = useAppDispatch();
 
-  console.log(cartData.orderItems);
+  // console.log(cartData.orderItems);
 
   const ordersId = cartData?._id;
 
@@ -53,7 +46,7 @@ const CartList: React.FC<CartListProps> = ({ cartData, closeCart }) => {
 
       <ListWrapper>
         {cartData.orderItems.map((item: any) => (
-          <CartItem item={item} />
+          <CartItem item={item} key={item._id} />
         ))}
       </ListWrapper>
 

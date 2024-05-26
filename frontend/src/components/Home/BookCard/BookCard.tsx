@@ -26,6 +26,20 @@ interface IProps {
   rating: number;
   index: number;
 }
+
+interface CartItem {
+  _id: string;
+  orderItems: {
+    _id: string;
+    quantity: number;
+    product: {
+      _id: string;
+      author: string;
+      title: string;
+    };
+  }[];
+}
+
 const BookCard: React.FC<IProps> = ({
   _id,
   title,
@@ -35,10 +49,13 @@ const BookCard: React.FC<IProps> = ({
   rating,
   index,
 }) => {
+  console.log("!!!!!!!!!!!!!!!!!!!", _id);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentId] = useState<string | null>(null);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   let navigate = useNavigate();
+
   const firstExample = {
     size: 20,
     count: 5,
@@ -46,6 +63,30 @@ const BookCard: React.FC<IProps> = ({
     emptyIcon: <StyledStarIcon fillColor="#FFFBFF" />,
     filledIcon: <StyledStarIcon />,
   };
+
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      try {
+        const response = await instance.get("/api/orders");
+        console.log("response", response);
+        console.log(response.data);
+
+        setCartItems(response.data);
+        console.log(cartItems);
+
+        const bookExistsInCart = cartItems.some((cartItem) =>
+          cartItem.orderItems.some((item) => item.product._id === _id)
+        );
+        if (bookExistsInCart) {
+          setIsOpen(true);
+        }
+      } catch (error) {
+        console.error("Error fetching cart items:", error);
+      }
+    };
+
+    fetchCartItems();
+  }, []);
 
   useEffect(() => {
     if (currentId) {
@@ -72,6 +113,7 @@ const BookCard: React.FC<IProps> = ({
     const target = e.currentTarget as HTMLDivElement;
     navigate(`/books/${target.id}`);
   };
+
   const truncateString = (str: string, num: number) => {
     if (str.length > num) {
       return str.slice(0, num) + "...";
@@ -81,12 +123,28 @@ const BookCard: React.FC<IProps> = ({
   };
 
   const handleAddToCart = async () => {
+    console.log("hhhhhhhhhhhhhhhhhhhhhhhhhh", _id);
+    console.log("cartItems", cartItems);
     try {
-      await instance.post(`/api/orders/${_id}`);
-      setIsOpen(true);
+      const bookExistsInCart = cartItems.some((cartItem) =>
+        cartItem.orderItems.some((item) => item.product._id === _id)
+      );
+
+      if (bookExistsInCart) {
+        setIsOpen(true);
+      } else {
+        await instance.post(`/api/orders/${_id}`);
+        setIsOpen(true);
+      }
     } catch (error) {
       console.error("Error adding to cart:", error);
     }
+    // try {
+    //   await instance.post(`/api/orders/${_id}`);
+    //   setIsOpen(true);
+    // } catch (error) {
+    //   console.error("Error adding to cart:", error);
+    // }
   };
 
   return (
