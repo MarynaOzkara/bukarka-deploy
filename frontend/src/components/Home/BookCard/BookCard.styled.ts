@@ -54,7 +54,7 @@ export const StyledNameAuthor = styled.div`
   color: #7c7165;
 `;
 
-export const FormButton = styled.button`
+export const Button = styled.button`
   padding: 8px 16px;
   width: 160px;
   border: none;

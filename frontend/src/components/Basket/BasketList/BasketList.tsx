@@ -8,7 +8,6 @@ import {
   StyledSum,
   StyledTotalPrice,
 } from "../BasketItem/BasketItem.styled";
-import { FormButton } from "../../Home/Card/Card.styled";
 import React, { useEffect } from "react";
 import BasketItem from "../BasketItem/BasketItem";
 import { useAppDispatch } from "../../../redux/hooks";
@@ -16,12 +15,13 @@ import { useSelector } from "react-redux";
 import { IRootState } from "../../../redux/store";
 import {
   selectOrdersData,
-  selectOrdersStatus,
+  // selectOrdersStatus,
 } from "../../../redux/orders/selectors";
 import {
   deleteOrderItem,
   fetchOrdersData,
 } from "../../../redux/orders/operations";
+import { Button } from "components/Cart/Cart.styled";
 
 interface IProps {
   id: string;
@@ -35,10 +35,10 @@ interface IProps {
 export const BasketList: React.FC<IProps> = () => {
   const dispatch = useAppDispatch();
   const basketData = useSelector((state: IRootState) =>
-    selectOrdersData(state),
+    selectOrdersData(state)
   );
 
-  const status = useSelector((state: IRootState) => selectOrdersStatus(state));
+  // const status = useSelector((state: IRootState) => selectOrdersStatus(state));
 
   useEffect(() => {
     dispatch(fetchOrdersData());
@@ -82,8 +82,8 @@ export const BasketList: React.FC<IProps> = () => {
       </StyledTotalPrice>
 
       <div>
-        <FormButton>Продовжити покупки</FormButton>
-        <FormButton>Перейти до оформлення</FormButton>
+        <Button>Продовжити покупки</Button>
+        <Button>Перейти до оформлення</Button>
       </div>
     </StyledBasketWrapper>
   );

@@ -5,7 +5,7 @@ export const StyledCartItem = styled.div`
   justify-content: space-between;
   margin-bottom: 16px;
   padding-bottom: 16px;
-  border: 1px solid var(--bukarka-grey);
+  border-bottom: 1px solid var(--bukarka-grey);
 `;
 
 export const BookInfo = styled.div`
@@ -16,6 +16,12 @@ export const BookInfo = styled.div`
 export const ImageWrapper = styled.div`
   width: 88px;
   height: 120px;
+
+  img {
+    height: 100%;
+    width: auto;
+    margin: 0 auto;
+  }
 `;
 
 export const Description = styled.div`

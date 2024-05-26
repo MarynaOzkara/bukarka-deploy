@@ -35,7 +35,7 @@ type CartItemProps = {
 const CartItem: React.FC<CartItemProps> = ({ item }) => {
   console.log(item.product);
   const { _id, quantity } = item;
-  const { title, author, price } = item.product;
+  const { title, author, price, image } = item.product;
   const { imagePlaceholder } = images;
 
   console.log(item, title, author, price, quantity);
@@ -59,7 +59,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
     <StyledCartItem>
       <BookInfo>
         <ImageWrapper id={_id}>
-          <img src={imagePlaceholder} alt="" />
+          <img src={image || imagePlaceholder} alt="" />
         </ImageWrapper>
         <Description>
           <Title>{truncateText(title, 40)}</Title>
@@ -78,7 +78,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
             <input type="text" value={quantity} />
             <ChangeButton>+</ChangeButton>
           </Quantity>
-          <TotalPrice>{price} грн</TotalPrice>
+          <TotalPrice>{price * quantity} грн</TotalPrice>
         </ItemPrice>
         <ButtonWrapper>
           <DeleteButton onClick={() => handleDelete(_id)}>

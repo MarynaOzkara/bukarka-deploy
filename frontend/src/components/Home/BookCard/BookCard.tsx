@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { images } from "../../../assets/images";
 import ReactStars from "react-rating-stars-component";
 import Modal from "../../Modal";
-import { BasketList } from "../../Basket/BasketList/BasketList";
 import { instance } from "../../../utils/fetchInstance";
 import FavoriteButton from "../../FavoriteButton/FavoriteButton";
 import { StarsWrapper, StyledStarIcon } from "../../Slider/SimpleSlider.styled";
@@ -13,9 +12,10 @@ import {
   StyledTitle,
   StyledPrice,
   StyledNameAuthor,
-  FormButton,
   StyledFavoriteButton,
-} from "./Card.styled";
+  Button,
+} from "./BookCard.styled";
+import Cart from "components/Cart";
 
 interface IProps {
   _id: string;
@@ -26,7 +26,7 @@ interface IProps {
   rating: number;
   index: number;
 }
-const Card: React.FC<IProps> = ({
+const BookCard: React.FC<IProps> = ({
   _id,
   title,
   author,
@@ -36,7 +36,7 @@ const Card: React.FC<IProps> = ({
   index,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [currentId, setCurrentId] = useState<string | null>(null);
+  const [currentId] = useState<string | null>(null);
 
   let navigate = useNavigate();
   const firstExample = {
@@ -51,7 +51,7 @@ const Card: React.FC<IProps> = ({
     if (currentId) {
       const fetchData = async () => {
         try {
-          const response = await instance.post(`/api/orders/${currentId}`, {
+          await instance.post(`/api/orders/${currentId}`, {
             id: currentId,
           });
           setIsOpen(true);
@@ -77,6 +77,15 @@ const Card: React.FC<IProps> = ({
       return str.slice(0, num) + "...";
     } else {
       return str;
+    }
+  };
+
+  const handleAddToCart = async () => {
+    try {
+      await instance.post(`/api/orders/${_id}`);
+      setIsOpen(true);
+    } catch (error) {
+      console.error("Error adding to cart:", error);
     }
   };
 
@@ -116,22 +125,12 @@ const Card: React.FC<IProps> = ({
           <ReactStars {...firstExample} value={index === 0 ? 5 : rating} />
         </StarsWrapper>
         <StyledPrice>{price} грн</StyledPrice>
-        {/*dispatch*/}
 
-        <FormButton id={_id} onClick={() => setCurrentId(_id)}>
-          Купити
-        </FormButton>
+        <Button onClick={handleAddToCart}>Купити</Button>
 
         {isOpen && (
           <Modal close={closeModal} showCloseButton={true}>
-            <BasketList
-              id={_id}
-              title={title}
-              index={index}
-              image={image}
-              author={author}
-              price={price}
-            ></BasketList>
+            <Cart closeCart={closeModal} />
           </Modal>
         )}
       </StyledItemCard>
@@ -139,4 +138,4 @@ const Card: React.FC<IProps> = ({
   );
 };
 
-export default Card;
+export default BookCard;

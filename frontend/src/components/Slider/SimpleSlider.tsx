@@ -5,7 +5,7 @@ import {
   StyledPrevArrow,
   StyledNextArrow,
 } from "./SimpleSlider.styled";
-import Card from "../Home/Card/Card";
+import Card from "../Home/BookCard/BookCard";
 import { useState } from "react";
 import { SliderArrowIcon } from "../../assets/icons";
 import { useSelector } from "react-redux";
