@@ -74,18 +74,21 @@ export const ContinueButton = styled.button`
   height: 40px;
 
   background: var(--bukarka-yellow);
-  color: var(--bukarka-black);
 
-  font-family: var(--semibold);
-  font-size: 16px;
-  line-height: 150%;
+  & a {
+    color: var(--bukarka-black);
+
+    font-family: var(--semibold);
+    font-size: 16px;
+    line-height: 150%;
+
+    &:active {
+      color: var(--bukarka-orange);
+    }
+  }
 
   &:hover {
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
-  }
-
-  &:active {
-    color: var(--bukarka-orange);
   }
 `;
 
@@ -96,19 +99,22 @@ export const CheckoutButton = styled.button`
   height: 40px;
 
   background: var(--bukarka-orange);
-  color: var(--bukarka-black);
-
-  font-family: var(--bold);
-  font-size: 16px;
-  line-height: 150%;
 
   transition: all 0.3s ease;
 
-  &:hover {
-    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
+  & a {
+    color: var(--bukarka-black);
+
+    font-family: var(--bold);
+    font-size: 16px;
+    line-height: 150%;
+
+    &:active {
+      color: var(--bukarka-yellow);
+    }
   }
 
-  &:active {
-    color: var(--bukarka-yellow);
+  &:hover {
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
   }
 `;

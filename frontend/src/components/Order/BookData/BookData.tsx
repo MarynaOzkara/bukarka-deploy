@@ -117,7 +117,7 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
             {orderData.orderItems.map((item: any) => (
               <Book key={item._id}>
                 <ImageWrapper>
-                  <img src={item.product.cover} alt={item.product.title} />
+                  <img src={item.product.image} alt={item.product.title} />
                 </ImageWrapper>
                 <div>
                   <Title>{item.product.title}</Title>

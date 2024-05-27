@@ -18,6 +18,7 @@ import {
   TotalPrice,
   Wrapper,
 } from "./CartList.styled";
+import { Link } from "react-router-dom";
 
 type CartListProps = {
   cartData: CartData;
@@ -56,8 +57,12 @@ const CartList: React.FC<CartListProps> = ({ cartData, closeCart }) => {
       </PriceBlock>
 
       <ButtonWrapper>
-        <ContinueButton onClick={closeCart}>Продовжити покупки</ContinueButton>
-        <CheckoutButton>Перейти до оформлення</CheckoutButton>
+        <ContinueButton onClick={closeCart}>
+          <Link to="/">Продовжити покупки</Link>
+        </ContinueButton>
+        <CheckoutButton onClick={closeCart}>
+          <Link to={`/order/${ordersId}`}>Перейти до оформлення</Link>
+        </CheckoutButton>
       </ButtonWrapper>
     </Wrapper>
   );

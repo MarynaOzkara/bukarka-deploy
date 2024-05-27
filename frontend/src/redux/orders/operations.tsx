@@ -10,29 +10,6 @@ export const fetchOrdersData = createAsyncThunk(
   }
 );
 
-//quantity
-// export const updateItemQuantity = createAsyncThunk(
-//   "orders/updateItemQuantity",
-//   async (
-//     {
-//       orderItemId,
-//       itemIdToDelete,
-//       quantity,
-//     }: { orderItemId: string; itemIdToDelete: string; quantity: number },
-//     { rejectWithValue }
-//   ) => {
-//     try {
-//       const body = { quantity };
-//       const response = await instance.patch(
-//         `/api/orders/${orderItemId}/orderItems/${itemIdToDelete}`
-//       );
-//       return response.data;
-//     } catch (error) {
-//       console.error((error as Error).message);
-//     }
-//   }
-// );
-
 export const updateItemQuantity = createAsyncThunk(
   "orders/updateItemQuantity",
   async (

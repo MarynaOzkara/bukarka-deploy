@@ -49,7 +49,7 @@ const BookCard: React.FC<IProps> = ({
   rating,
   index,
 }) => {
-  console.log("!!!!!!!!!!!!!!!!!!!", _id);
+  // console.log("_id", _id);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentId] = useState<string | null>(null);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -68,18 +68,11 @@ const BookCard: React.FC<IProps> = ({
     const fetchCartItems = async () => {
       try {
         const response = await instance.get("/api/orders");
-        console.log("response", response);
-        console.log(response.data);
+        // console.log("response", response);
+        // console.log(response.data);
 
         setCartItems(response.data);
-        console.log(cartItems);
-
-        const bookExistsInCart = cartItems.some((cartItem) =>
-          cartItem.orderItems.some((item) => item.product._id === _id)
-        );
-        if (bookExistsInCart) {
-          setIsOpen(true);
-        }
+        // console.log(cartItems);
       } catch (error) {
         console.error("Error fetching cart items:", error);
       }
@@ -123,8 +116,6 @@ const BookCard: React.FC<IProps> = ({
   };
 
   const handleAddToCart = async () => {
-    console.log("hhhhhhhhhhhhhhhhhhhhhhhhhh", _id);
-    console.log("cartItems", cartItems);
     try {
       const bookExistsInCart = cartItems.some((cartItem) =>
         cartItem.orderItems.some((item) => item.product._id === _id)
@@ -134,17 +125,14 @@ const BookCard: React.FC<IProps> = ({
         setIsOpen(true);
       } else {
         await instance.post(`/api/orders/${_id}`);
+
+        const response = await instance.get("/api/orders");
+        setCartItems(response.data);
         setIsOpen(true);
       }
     } catch (error) {
       console.error("Error adding to cart:", error);
     }
-    // try {
-    //   await instance.post(`/api/orders/${_id}`);
-    //   setIsOpen(true);
-    // } catch (error) {
-    //   console.error("Error adding to cart:", error);
-    // }
   };
 
   return (
