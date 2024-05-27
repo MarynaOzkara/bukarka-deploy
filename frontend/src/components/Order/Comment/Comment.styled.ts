@@ -4,7 +4,7 @@ export const Textarea = styled.textarea`
   width: 100%;
   height: 80px;
   padding: 16px;
-  border: 1px solid var(--bukarka-light-grey-1);
+  border: 1px solid var(--bukarka-grey);
   resize: vertical;
 
   font-family: var(--regular);

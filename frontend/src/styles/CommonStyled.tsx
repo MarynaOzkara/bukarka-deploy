@@ -28,7 +28,7 @@ export const PageWrapper = styled.div`
   flex-direction: column;
   text-align: center;
 
-  margin-top: 108px;
+  margin-top: 88px;
   background-color: var(--bukarka-white);
 
   //todo
@@ -62,7 +62,7 @@ export const Aside = styled.aside`
   overflow-y: auto;
   top: 108px;
   bottom: 0;
-  max-height: calc(100vh - 108px);
+  max-height: calc(100vh - 88px);
 `;
 
 export const Main = styled.main`

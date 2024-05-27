@@ -9,7 +9,7 @@ export const StyledHeader = styled.div`
 
   padding: 8px 0;
 
-  background-color: var(--bukarka-light-grey-2);
+  background-color: var(--bukarka-light-grey);
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
 
   z-index: 1;

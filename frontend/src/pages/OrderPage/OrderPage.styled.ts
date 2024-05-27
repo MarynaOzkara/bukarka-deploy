@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const OrderPageWrapper = styled.div`
   /* position: relative; */
 
-  margin-top: 108px;
+  margin-top: 88px;
   padding: 40px 32px 96px;
   background-color: var(--bukarka-white);
 `;

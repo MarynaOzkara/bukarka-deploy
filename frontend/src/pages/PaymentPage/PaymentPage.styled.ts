@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const PaymentPageWrapper = styled.div`
-  margin-top: 108px;
+  margin-top: 88px;
   padding: 40px 32px 96px;
   background-color: var(--bukarka-white);
 `;
@@ -26,11 +26,11 @@ export const CardWrapper = styled.div`
 
 export const Card = styled.div`
   padding: 24px 48px 32px;
-  background: var(--bukarka-light-grey-2);
+  background: var(--bukarka-light-grey);
 `;
 
 export const Info = styled.div`
-  background: var(--bukarka-light-grey-2);
+  background: var(--bukarka-light-grey);
   padding: 24px 48px 32px;
 `;
 
@@ -117,14 +117,14 @@ export const NumberInput = styled.input`
   width: 100%;
   height: 40px;
 
-  border: 1px solid var(--bukarka-light-grey-1);
+  border: 1px solid var(--bukarka-grey);
 `;
 
 export const DateInput = styled.input`
   width: 48px;
   height: 40px;
 
-  border: 1px solid var(--bukarka-light-grey-1);
+  border: 1px solid var(--bukarka-grey);
 
   text-align: center;
 
@@ -135,7 +135,7 @@ export const DateInput = styled.input`
 
 export const CVVInput = styled.input`
   display: block;
-  border: 1px solid var(--bukarka-light-grey-1);
+  border: 1px solid var(--bukarka-grey);
   width: 88px;
   height: 40px;
   text-align: center;

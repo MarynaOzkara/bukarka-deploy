@@ -76,7 +76,7 @@ export const Input = styled.input`
   padding: 8px 16px;
   margin-bottom: 16px;
 
-  border: 1px solid var(--bukarka-light-grey-1);
+  border: 1px solid var(--bukarka-grey);
 
   &::placeholder {
     font-family: var(--regular);
@@ -102,7 +102,7 @@ export const TextArea = styled.textarea`
   height: 113px;
   padding: 8px 16px;
   margin-bottom: 4px;
-  border: 1px solid var(--bukarka-light-grey-1);
+  border: 1px solid var(--bukarka-grey);
 
   font-weight: 400;
   font-size: 16px;

@@ -35,9 +35,9 @@ export const RadioInput = styled.input`
   width: 26px;
   height: 26px;
   border-radius: 100%;
-  fill: var(--bukarka-light-grey-2);
+  fill: var(--bukarka-light-grey);
   stroke-width: 1px;
-  stroke: var(--bukarka-light-grey-1);
+  stroke: var(--bukarka-grey);
   box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.25);
   background-color: #fff;
   transition: background-color 0.3s ease, border-color 0.3s ease;

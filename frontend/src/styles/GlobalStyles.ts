@@ -21,7 +21,7 @@ body {
   padding: 0;
   /* color:   ${({ theme }) => theme.colors.text.primary}; */
   color: var(--bukarka-black);
-  background-color: var(--bukarka-light-grey-1);
+  background-color: var(--bukarka-grey);
   min-width: 320px;
 
 }
