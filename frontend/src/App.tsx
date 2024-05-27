@@ -22,7 +22,7 @@ const BookPage = lazy(() => import("pages/BookPage"));
 function App() {
   return (
     <OrderContextProvider>
-      <div>
+      <>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
@@ -45,7 +45,7 @@ function App() {
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
-      </div>
+      </>
     </OrderContextProvider>
   );
 }

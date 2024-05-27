@@ -34,7 +34,7 @@ export const Input = styled.input`
   line-height: 1.5;
   color: var(--bukarka-dark-grey);
 
-  border: 1px solid var(--bukarka-light-grey-1);
+  border: 1px solid var(--bukarka-grey);
 
   /* &:last-child {
     margin-bottom: 24px;

@@ -4,7 +4,7 @@ export const Wrapper = styled.div`
   width: 816px;
   padding: 16px 16px 24px;
 
-  background: var(--bukarka-light-grey-2);
+  background: var(--bukarka-light-grey);
   margin-bottom: 24px;
 
   &:last-child {

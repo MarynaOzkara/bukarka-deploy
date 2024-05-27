@@ -6,7 +6,7 @@ export const StyledSlider = styled(Slider)`
   width: 1024px;
 `;
 
-export const StyledItemCart = styled.div`
+export const StyledItemCard = styled.div`
   width: 192px;
 `;
 

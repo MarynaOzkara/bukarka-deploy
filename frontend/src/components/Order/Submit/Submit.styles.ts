@@ -89,8 +89,8 @@ export const SubmitButton = styled.button`
 
 
   &:disabled {
-    background: var(--bukarka-light-grey-1);
-    border-color: var(--bukarka-light-grey-1);
+    background: var(--bukarka-grey);
+    border-color: var(--bukarka-grey);
 
     & a {
       color: var(--bukarka-black);

@@ -21,6 +21,7 @@ import {
 import { useEffect, useState } from "react";
 import { EditIcon } from "assets/icons";
 import { useOrderContext } from "../OrderContext";
+import Loader from "components/Loader";
 
 interface BookDataProps {
   selectedDeliveryMethod: string;
@@ -109,14 +110,14 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
       <EditButton>
         <EditIcon />
       </EditButton>
-      {!orderData && <p>Loading</p>}
+      {!orderData && <Loader />}
       {orderData && (
         <>
           <BookList>
             {orderData.orderItems.map((item: any) => (
               <Book key={item._id}>
                 <ImageWrapper>
-                  <img src={item.product.cover} alt={item.product.title} />
+                  <img src={item.product.image} alt={item.product.title} />
                 </ImageWrapper>
                 <div>
                   <Title>{item.product.title}</Title>

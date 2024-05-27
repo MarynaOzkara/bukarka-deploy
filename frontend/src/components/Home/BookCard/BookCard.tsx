@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { images } from "../../../assets/images";
+import ReactStars from "react-rating-stars-component";
+import Modal from "../../Modal";
+import { instance } from "../../../utils/fetchInstance";
+import FavoriteButton from "../../FavoriteButton/FavoriteButton";
 import { StarsWrapper, StyledStarIcon } from "../../Slider/SimpleSlider.styled";
 import {
-  StyledItemCart,
+  StyledItemCard,
   StyledItemImage,
   StyledTitle,
   StyledPrice,
   StyledNameAuthor,
-  FormButton,
   StyledFavoriteButton,
-} from "./CartItem.styled";
-import { images } from "../../../assets/images";
-import ReactStars from "react-rating-stars-component";
-import Modal from "../../Modal";
-import { BasketList } from "../../Basket/BasketList/BasketList";
-import { instance } from "../../../utils/fetchInstance";
-import FavoriteButton from "../../FavoriteButton/FavoriteButton";
+  Button,
+} from "./BookCard.styled";
+import Cart from "components/Cart";
 
 interface IProps {
   _id: string;
@@ -26,7 +26,21 @@ interface IProps {
   rating: number;
   index: number;
 }
-const CartItem: React.FC<IProps> = ({
+
+interface CartItem {
+  _id: string;
+  orderItems: {
+    _id: string;
+    quantity: number;
+    product: {
+      _id: string;
+      author: string;
+      title: string;
+    };
+  }[];
+}
+
+const BookCard: React.FC<IProps> = ({
   _id,
   title,
   author,
@@ -35,10 +49,13 @@ const CartItem: React.FC<IProps> = ({
   rating,
   index,
 }) => {
+  // console.log("_id", _id);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [currentId, setCurrentId] = useState<string | null>(null);
+  const [currentId] = useState<string | null>(null);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   let navigate = useNavigate();
+
   const firstExample = {
     size: 20,
     count: 5,
@@ -48,10 +65,27 @@ const CartItem: React.FC<IProps> = ({
   };
 
   useEffect(() => {
+    const fetchCartItems = async () => {
+      try {
+        const response = await instance.get("/api/orders");
+        // console.log("response", response);
+        // console.log(response.data);
+
+        setCartItems(response.data);
+        // console.log(cartItems);
+      } catch (error) {
+        console.error("Error fetching cart items:", error);
+      }
+    };
+
+    fetchCartItems();
+  }, []);
+
+  useEffect(() => {
     if (currentId) {
       const fetchData = async () => {
         try {
-          const response = await instance.post(`/api/orders/${currentId}`, {
+          await instance.post(`/api/orders/${currentId}`, {
             id: currentId,
           });
           setIsOpen(true);
@@ -72,6 +106,7 @@ const CartItem: React.FC<IProps> = ({
     const target = e.currentTarget as HTMLDivElement;
     navigate(`/books/${target.id}`);
   };
+
   const truncateString = (str: string, num: number) => {
     if (str.length > num) {
       return str.slice(0, num) + "...";
@@ -80,9 +115,29 @@ const CartItem: React.FC<IProps> = ({
     }
   };
 
+  const handleAddToCart = async () => {
+    try {
+      const bookExistsInCart = cartItems.some((cartItem) =>
+        cartItem.orderItems.some((item) => item.product._id === _id)
+      );
+
+      if (bookExistsInCart) {
+        setIsOpen(true);
+      } else {
+        await instance.post(`/api/orders/${_id}`);
+
+        const response = await instance.get("/api/orders");
+        setCartItems(response.data);
+        setIsOpen(true);
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    }
+  };
+
   return (
     <>
-      <StyledItemCart>
+      <StyledItemCard>
         <StyledFavoriteButton>
           <FavoriteButton itemId={_id} />
         </StyledFavoriteButton>
@@ -116,27 +171,17 @@ const CartItem: React.FC<IProps> = ({
           <ReactStars {...firstExample} value={index === 0 ? 5 : rating} />
         </StarsWrapper>
         <StyledPrice>{price} грн</StyledPrice>
-        {/*dispatch*/}
 
-        <FormButton id={_id} onClick={() => setCurrentId(_id)}>
-          Купити
-        </FormButton>
+        <Button onClick={handleAddToCart}>Купити</Button>
 
         {isOpen && (
           <Modal close={closeModal} showCloseButton={true}>
-            <BasketList
-              id={_id}
-              title={title}
-              index={index}
-              image={image}
-              author={author}
-              price={price}
-            ></BasketList>
+            <Cart closeCart={closeModal} />
           </Modal>
         )}
-      </StyledItemCart>
+      </StyledItemCard>
     </>
   );
 };
 
-export default CartItem;
+export default BookCard;

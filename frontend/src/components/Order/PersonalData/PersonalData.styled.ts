@@ -19,7 +19,7 @@ export const PersonalDataInputs = styled.ul`
 export const Input = styled.input`
   width: 100%;
 
-  border: 1px solid var(--bukarka-light-grey-1);
+  border: 1px solid var(--bukarka-grey);
   padding: 8px 16px;
   height: 40px;
 

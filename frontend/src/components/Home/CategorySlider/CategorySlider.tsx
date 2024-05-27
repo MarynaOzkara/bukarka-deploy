@@ -3,6 +3,7 @@ import SimpleSlider from "../../Slider/SimpleSlider";
 import { StyledCategorySlider } from "./CategorySlider.styled";
 import React, { useEffect, useState } from "react";
 import { instance } from "../../../utils/fetchInstance";
+import Loader from "components/Loader";
 
 interface IProps {
   _id: string;
@@ -72,7 +73,7 @@ const CategorySlider = () => {
     fetchData();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loader />;
   if (error) return <div>{error}</div>;
 
   return (

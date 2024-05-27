@@ -15,7 +15,7 @@ export const Form = styled.form`
   flex-direction: column;
   gap: 24px;
 
-  background-color: var(--bukarka-light-grey-1);
+  background-color: var(--bukarka-grey);
 `;
 
 export const Title = styled.label`
@@ -37,7 +37,7 @@ export const Input = styled.input`
   align-items: center;
   justify-content: flex-start;
 
-  border: 1px solid var(--bukarka-light-grey-1);
+  border: 1px solid var(--bukarka-grey);
   padding: 8px 112px 8px 16px;
   width: 416px;
   height: 40px;
@@ -63,7 +63,7 @@ export const Input = styled.input`
   }
 
   &:focus {
-    border: 1px solid var(--bukarka-light-grey-1);
+    border: 1px solid var(--bukarka-grey);
   }
 `;
 
