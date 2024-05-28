@@ -1,17 +1,24 @@
-import React, { useState, useEffect } from "react";
-import { StyledHeart } from "./FavoriteButton.styled";
+import { useBooks } from "components/Book";
+import React, { useEffect } from "react";
 import { HeartIconThin } from "../../assets/icons";
+import { StyledHeart } from "./FavoriteButton.styled";
 
 interface IProp {
   itemId: string;
   children?: React.ReactNode;
 }
 
-const FavoriteButton: React.FC<IProp> = ({ itemId }) => {
-  const [isFavorite, setIsFavorite] = useState(() => {
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "{}");
-    return favorites[itemId] || false;
-  });
+export const FavoriteButton: React.FC<IProp> = ({ itemId }) => {
+  const { favorites, addFavorite, removeFavorite } = useBooks();
+  const isFavorite = favorites.includes(itemId);
+
+  const toggleFavorite = () => {
+    if (isFavorite) {
+      removeFavorite(itemId);
+    } else {
+      addFavorite(itemId);
+    }
+  };
 
   useEffect(() => {
     const favorites = JSON.parse(localStorage.getItem("favorites") || "{}");
@@ -24,10 +31,7 @@ const FavoriteButton: React.FC<IProp> = ({ itemId }) => {
   }, [isFavorite, itemId]);
 
   return (
-    <StyledHeart
-      isFavorite={isFavorite}
-      onClick={() => setIsFavorite(!isFavorite)}
-    >
+    <StyledHeart $isFavorite={isFavorite} onClick={toggleFavorite}>
       <HeartIconThin />
     </StyledHeart>
   );
