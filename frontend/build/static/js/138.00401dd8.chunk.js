@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkbukarka=self.webpackChunkbukarka||[]).push([[138],{6138:(a,k,u)=>{u.r(k),u.d(k,{default:()=>e.A});var e=u(4255)}}]);

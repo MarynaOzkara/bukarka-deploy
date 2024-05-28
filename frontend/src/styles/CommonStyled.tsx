@@ -4,8 +4,7 @@ export const StyledCommonWrapper = styled.div`
   /* max-width: 375px;
   padding-left: 20px;
   padding-right: 20px; */
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
   max-width: 1296px;
 
   /* @media screen and (min-width: 768px) {
@@ -72,4 +71,17 @@ export const Main = styled.main`
   margin-top: 104px;
   //background-color: white;
   /* min-height: calc(75vh); */
+`;
+
+export const Wrapper = styled.div`
+  width: 100%;
+  height: auto;
+  padding: 56px 96px;
+`;
+
+export const FlexWrapper = styled.div`
+  display: flex;
+
+  justify-content: space-between;
+  gap: 16px;
 `;
