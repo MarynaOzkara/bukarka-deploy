@@ -60,7 +60,7 @@ const BookCard: React.FC<IProps> = ({
     size: 20,
     count: 5,
     edit: false,
-    emptyIcon: <StyledStarIcon fillColor="#FFFBFF" />,
+    emptyIcon: <StyledStarIcon $fillColor="#FFFBFF" />,
     filledIcon: <StyledStarIcon />,
   };
 
