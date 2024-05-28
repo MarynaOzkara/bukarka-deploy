@@ -129,5 +129,3 @@ dist
 # idea
 .idea
 .vscode
-
-/frontend/build/

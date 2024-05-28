@@ -11,27 +11,17 @@ import { useState } from "react";
 import Modal from "components/Modal";
 import Login from "components/Auth/Login/Login";
 import Cart from "components/Cart";
-import { useNavigate } from "react-router-dom";
 
 const UserMenu: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
-  const [modalContent, setModalContent] = useState<string>("");
 
-  const navigate = useNavigate();
-
-  const goToFavorites = () => {
-    navigate("/favorites");
-  };
-
-  const showModal = (content: string) => {
-    setModalContent(content);
-    setIsModalOpen(true);
+  const showModal = () => {
+    setIsModalOpen(!isModalOpen);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setModalContent("");
   };
 
   const openCart = () => {
@@ -46,7 +36,7 @@ const UserMenu: React.FC = () => {
     <>
       <StyledUserMenu>
         <UserMenuItem>
-          <FavoriteButton onClick={goToFavorites}>
+          <FavoriteButton>
             <IconWrapper>
               <HeartIcon />
             </IconWrapper>
@@ -64,7 +54,7 @@ const UserMenu: React.FC = () => {
         </UserMenuItem>
 
         <UserMenuItem>
-          <AuthButton onClick={() => showModal("auth")}>
+          <AuthButton onClick={showModal}>
             <IconWrapper>
               <AvatarIcon />
             </IconWrapper>
@@ -74,9 +64,7 @@ const UserMenu: React.FC = () => {
       </StyledUserMenu>
       {isModalOpen && (
         <Modal close={closeModal} showCloseButton={true}>
-          {modalContent === "auth" && (
-            <Login title="Вхід до акаунту" prompt="Реєстрація нового акаунту" />
-          )}
+          <Login title="Вхід до акаунту" prompt="Реєстрація нового акаунту" />
         </Modal>
       )}
 

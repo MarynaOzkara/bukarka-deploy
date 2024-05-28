@@ -28,8 +28,6 @@ const Header: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const handleValueChange = () => {};
-
   return (
     <StyledCommonWrapper>
       <StyledHeader>
@@ -45,12 +43,7 @@ const Header: React.FC = () => {
           </ButtonWrapper>
           <StyledForm>
             <StyledLensIcon />
-            <Input
-              type="text"
-              value=""
-              onChange={handleValueChange}
-              placeholder="Знайти книгу"
-            />
+            <Input type="text" value="" placeholder="Знайти книгу" />
             <FormButton>Знайти</FormButton>
           </StyledForm>
           <UserMenu />
