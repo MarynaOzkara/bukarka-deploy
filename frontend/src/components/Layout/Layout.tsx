@@ -8,9 +8,9 @@ const Layout: React.FC = () => {
     <>
       <Header />
       {/* <div> */}
-      <Suspense fallback={<div>Loading...</div>}>
-        <Outlet />
-      </Suspense>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Outlet />
+        </Suspense>
       {/* </div> */}
       <Footer />
     </>
