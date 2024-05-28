@@ -21,7 +21,7 @@ export const FavoriteButton: React.FC<IProp> = ({ itemId }) => {
   };
 
   useEffect(() => {
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "{}");
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     if (isFavorite) {
       favorites[itemId] = true;
     } else {
