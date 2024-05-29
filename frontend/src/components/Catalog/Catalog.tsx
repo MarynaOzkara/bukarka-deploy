@@ -14,7 +14,6 @@ import { useEffect, useState } from "react";
 interface Category {
   title: string;
   links: string[];
-  // [key: string]: any;
 }
 
 interface CatalogData {
@@ -48,20 +47,22 @@ const Catalog: React.FC = () => {
         </Item>
 
         {categories.map((item, index) => (
-          <div key={index}>
-            <SubtitleLink to="">{item.title}</SubtitleLink>
+          <div key={`category-${index}`}>
+            <SubtitleLink to="" key={`subtitle-${index}`}>
+              {item.title}
+            </SubtitleLink>
             <ul>
               {item.subcategories.map(
                 (subcategory: Category, categoryIndex: number) => (
-                  <li>
-                    <StyledBlock key={categoryIndex}>
-                      <SmallSubTitle to="">{subcategory.title}</SmallSubTitle>
+                  <li key={categoryIndex}>
+                    <StyledBlock>
+                      <SmallSubTitle to="" key={`subTitle-${categoryIndex}`}>
+                        {subcategory.title}
+                      </SmallSubTitle>
                       <ul>
                         {subcategory.links.map((link, linkIndex) => (
-                          <li>
-                            <StyledItem to="" key={linkIndex}>
-                              {link}
-                            </StyledItem>
+                          <li key={linkIndex}>
+                            <StyledItem to="">{link}</StyledItem>
                           </li>
                         ))}
                       </ul>

@@ -3,6 +3,10 @@ import theme from "styles/theme";
 
 const { colors } = theme;
 
+interface ModalContentProps {
+  $animation?: string; // Use $ prefix for automatic filtering
+}
+
 const slideIn = keyframes`
   from {
     opacity: 0;
@@ -25,7 +29,6 @@ const fadeIn = keyframes`
 
 export const ModalWrapper = styled.div`
   position: fixed;
-
   inset: 0;
   display: flex;
   justify-content: center;
@@ -35,23 +38,21 @@ export const ModalWrapper = styled.div`
   z-index: 2;
 `;
 
-export const ModalContent = styled.div<{ animation?: string }>`
+export const ModalContent = styled.div<ModalContentProps>`
   position: relative;
   max-height: 90vh;
   overflow-y: auto;
-
-  /* overflow-y: auto; */
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
   background: var(--bukarka-white);
 
-  ${({ animation }) =>
-    animation === "fade" &&
+  ${({ $animation }) =>
+    $animation === "fade" &&
     css`
       animation: ${fadeIn} 0.3s ease forwards;
     `}
 
-  ${({ animation }) =>
-    animation === "slide" &&
+  ${({ $animation }) =>
+    $animation === "slide" &&
     css`
       animation: ${slideIn} 0.3s ease forwards;
     `}
