@@ -40,7 +40,7 @@ const sendFeedback = async (options) => {
     from: `${options?.name} <${options.email}>`,
     to: EMAIL_USER,
     subject: options.subject,
-    html: `Заказ: ${options?.orderNumber}, від ${options?.name}, моб.тел: +38${options?.phone}. Повідомлення: ${options.message}`,
+    html: `Заказ: ${options?.orderNumber}, від ${options?.name}, моб.тел: +380${options?.phone}. Повідомлення: ${options.message}`,
   };
   await transport.sendMail(message, function (error, info) {
     if (error) {

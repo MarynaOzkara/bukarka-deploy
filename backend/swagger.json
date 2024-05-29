@@ -1657,11 +1657,11 @@
             }
           },
           "404": {
-            "description": "Books not found",
+            "description": "Not found",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/errorNotFoundResponse"
+                  "$ref": "#/components/schemas/BooksFiltersErrorResponse"
                 }
               }
             }
@@ -2333,11 +2333,578 @@
                 }
               }
             }
-          } 
+          }          
         }
       }
-    }
-    
+    },
+    "/admin/books": {
+      "post":{
+        "tags":["Admin"],
+        "summary": "Add new book",
+        "parameters":[],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Book object",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/AddBookRequest"
+              }
+            }
+          } 
+        },
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddBookResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddBookBadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorAddBookRequestResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/books/{bookId}":{
+      "get":{
+        "tags":["Admin"],
+        "summary": "Get book info",
+        "parameters":[
+          {
+            "in": "path",
+            "name": "bookId",
+            "required": true,
+            "description": "Book ID",
+            "schema": {
+              "type":"string",
+              "example": "665332d225ebf1368b74e466"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody":{},
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetBookIdResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookIdErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put":{
+        "tags":["Admin"],
+        "summary": "Update book data",
+        "parameters":[
+          {
+            "in": "path",
+            "name": "bookId",
+            "required": true,
+            "description": "Book ID",
+            "schema": {
+              "type":"string",
+              "example": "665332d225ebf1368b74e466"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody":{
+          "description": "New book data object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BookUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookUpdateResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookIdErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete":{
+        "tags":["Admin"],
+        "summary": "Delete book",
+        "parameters":[
+          {
+            "in": "path",
+            "name": "bookId",
+            "required": true,
+            "description": "Book ID",
+            "schema": {
+              "type":"string",
+              "example": "665332d225ebf1368b74e466"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody":{},
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteBookResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookIdErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/books/{bookId}/images":{
+      "patch":{
+        "tags":["Admin"],
+        "summary": "Update book's images",
+        "parameters":[
+          {
+            "in": "path",
+            "name": "bookId",
+            "required": true,
+            "description": "Book ID",
+            "schema": {
+              "type":"string",
+              "example": "665332d225ebf1368b74e466"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody":{
+          "description": "Book's images files",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/BookImagesUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateBookImagesResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookIdErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/orders":{
+      "get":{
+        "tags":["Admin"],
+        "summary": "Returns all user's orders",
+        "parameters":[],
+        "security": [{ "Bearer": [] }],
+        "requestBody":{},
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminAllUsersOrdersResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/orders/{orderNumber}": {
+      "get":{
+        "tags":["Admin"],
+        "summary": "Get order data by order number",
+        "parameters":[
+          {
+            "in": "path",
+            "name": "orderNumber",
+            "required": true,
+            "description": "Order number",
+            "schema": {
+              "type":"number",
+              "example": 1
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody":{},
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrderByNumberResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrderByNumberErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put":{
+        "tags":["Admin"],
+        "summary": "Update order status",
+        "parameters":[
+          {
+            "in": "path",
+            "name": "orderNumber",
+            "required": true,
+            "description": "Order number",
+            "schema": {
+              "type":"number",
+              "example": 1
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody":{
+          "description": "Order status object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderStatusRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateOrderByNumberResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrderByNumberErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete":{
+        "tags":["Admin"],
+        "summary": "Delete order",
+        "parameters":[
+          {
+            "in": "path",
+            "name": "orderNumber",
+            "required": true,
+            "description": "Order number",
+            "schema": {
+              "type":"number",
+              "example": 1
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody":{},
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteOrderByNumberResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrderByNumberErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    } 
   },
   "components": {
     "schemas": {
@@ -2611,6 +3178,15 @@
 					"message": {
 						"type": "string",
 						"example": "Unauthorized User"
+					}
+				}
+      },
+      "ForbiddenResponse": {
+        "type": "object",
+				"properties": {
+					"message": {
+						"type": "string",
+						"example": "You have not allowed permission to access"
 					}
 				}
       },
@@ -4023,6 +4599,15 @@
         }
       }
       },
+      "BooksFiltersErrorResponse": {
+        "type": "object",
+				"properties": {
+					"message": {
+						"type": "string",
+						"example": "Books not found"
+					}
+				}
+      },
       "FeedbackRequest": {
         "type": "object",
         "required": ["email", "message"],
@@ -4076,7 +4661,890 @@
 						"example": "Please fill in all required fields"
 					}
 				}
-      }   
+      },
+      "AddBookRequest": {
+        "type": "object",
+        "required": ["images","author", "title", "language", "publisher", "price", "rating", "category", "subcategory", "age", "genre", "format", "cover", "pages", "year", "promotions", "bestsellers", "description", "new"],
+        "properties": {
+          "images": {
+            "type": "array",
+            "items":{
+              "type":"file"
+            }
+          },
+          "author": {
+						"example": "Олександр Коваленко"
+          },
+          "title": {
+            "type": "string",
+						"example": "Таємниці історії України"
+          },
+          "language": {
+            "type":"string",
+            "example": "українська"
+          },
+          "publisher": {
+            "type": "string",
+            "example": "Літопис"
+          },
+          "price": {
+            "type":"number",
+						"example": 250
+          },
+          "rating": {
+            "type":"number",
+            "example": 4.9
+          },
+          "category": {
+            "type": "string",
+            "example": "Наукова"
+          },
+          "subcategory": {
+            "type": "string",
+            "example": "Історія"
+          },
+          "age": {
+            "type": "string",
+            "example": ""
+          },
+          "genre": {
+            "type":"array",
+            "items":{
+              "type":"string",
+              "example": "Історія"
+            }
+            
+          },
+          "format": {
+            "type": "string",
+            "example": "160 х 240 мм"
+          },
+          "cover": {
+            "type": "string",
+            "example": "Тверда"
+          },
+          "pages": {
+            "type":"number",
+            "example": 320
+          },
+          "year": {
+            "type": "string",
+            "example": "2022"
+          },
+          "new": {
+            "type":"boolean",
+            "example": false
+          },
+          "promotions": {
+            "type":"boolean",
+            "example": true
+          },
+          "bestsellers": {
+            "type":"boolean",
+            "example": true
+          },
+          "description": {
+            "type":"string",
+            "example": "Ця книга розкриває маловідомі факти з історії України, які формували національну ідентичність і впливали на долю країни. Автор представляє читачеві глибокі дослідження та захопливі розповіді про ключові події та постаті української історії."
+          }
+        }
+      },
+      "AddBookResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "number",
+            "description": "Response status",
+            "example": "201"
+          },
+          "message": {
+            "type": "string",
+            "description": "Response message",
+            "example": "Book Таємниці історії України added successfully"
+          },
+          "book":{
+            "type": "object",
+            "properties": {
+              "author": {
+                "example": "Олександр Коваленко"
+              },
+              "title": {
+                "type": "string",
+                "example": "Таємниці історії України"
+              },
+              "language": {
+                "type":"string",
+                "example": "українська"
+              },
+              "publisher": {
+                "type": "string",
+                "example": "Літопис"
+              },
+              "price": {
+                "type":"number",
+                "example": 250
+              },
+              "rating": {
+                "type":"number",
+                "example": 4.9
+              },
+              "category": {
+                "type": "string",
+                "example": "Наукова"
+              },
+              "subcategory": {
+                "type": "string",
+                "example": "Історія"
+              },
+              "age": {
+                "type": "string",
+                "example": ""
+              },
+              "genre": {
+                "type":"array",
+                "items":{
+                  "type":"string",
+                  "example": "Історія"
+                }
+                
+              },
+              "format": {
+                "type": "string",
+                "example": "160 х 240 мм"
+              },
+              "cover": {
+                "type": "string",
+                "example": "Тверда"
+              },
+              "pages": {
+                "type":"number",
+                "example": 320
+              },
+              "year": {
+                "type": "string",
+                "example": "2022"
+              },
+              "new": {
+                "type":"boolean",
+                "example": false
+              },
+              "promotions": {
+                "type":"boolean",
+                "example": true
+              },
+              "bestsellers": {
+                "type":"boolean",
+                "example": true
+              },
+              "description": {
+                "type":"string",
+                "example": "Ця книга розкриває маловідомі факти з історії України, які формували національну ідентичність і впливали на долю країни. Автор представляє читачеві глибокі дослідження та захопливі розповіді про ключові події та постаті української історії."
+              },
+              "imagesUrls": {
+                "type":"array",
+                "items":{
+                  "type":"string",
+                  "example": "https://res.cloudinary.com/dvv6a2b40/image/upload/v1716904698/bukarka/qxv2ll0igcdbqk3dyqf9.png"
+                }
+              },
+              "_id": {
+                "type": "string",
+                "example": "6655e2fe5e8350753e68ba19"
+              }
+            }
+          } 
+        }
+      },
+      "AddBookBadRequestResponse": {
+        "type": "object",
+				"properties": {
+					"message": {
+						"type": "string",
+						"example": "Please fill in all required fields"
+					}
+				}
+      },
+      "ErrorAddBookRequestResponse": {
+        "type": "object",
+				"properties": {
+					"message": {
+						"type": "string",
+						"example": "This book Таємниці історії України has already added"
+					}
+				}
+      },
+      "AdminAllUsersOrdersResponse": {
+        "type": "object",
+        "properties":{
+          "total": {
+            "type": "number",
+            "example": 24
+          },
+          "orders": {
+            "type": "array",
+            "items":{
+              "type": "object",
+              "properties":{
+                "userInfo": {
+                  "type":"object",
+                  "description": "User info",
+                  "properties": {
+                    "name": {
+                      "type":"string",
+                      "example": "Тамара"
+                    },
+                    "surname": {
+                      "type":"string",
+                      "example": "Соловей"
+                    },
+                    "phone": {
+                      "type":"string",
+                      "example": "961456789"
+                    },
+                    "email": {
+                      "type":"string",
+                      "example": "cikove6410@glaslack.com"
+                    }
+                  }
+                },
+                "deliveryInfo": {
+                  "type":"object",
+                  "description": "Delivery info",
+                  "properties": {
+                    "city": {
+                      "type":"string",
+                      "example": "Южноукраїнськ"
+                    },
+                    "deliveryMetod": {
+                      "type":"string",
+                      "example": "Укр Пошта"
+                    },
+                    "address": {
+                      "type":"string",
+                      "example": "вул. Незалежності 36, відділення 1"
+                    }
+                  }
+                },
+                "_id": {
+                  "type": "string",
+                  "description": "Order's ID",
+                  "example": "661c2b9a99a743be16b79714"
+                },
+                "checkoutItems": {
+                  "type": "array",
+                  "items":{
+                    "type": "object",
+                    "properties":{
+                      "bookId": {
+                        "type":"object",
+                        "properties":{
+                          "_id":{
+                            "type": "string",
+                            "description": "Book's ID",
+                            "example": "65ed9f233000741d129b5557"
+                          },
+                          "author":{
+                            "type": "string",
+                            "description": "Book's author",
+                            "example": "Олена Степаненко"
+                          },
+                          "title":{
+                            "type": "string",
+                            "description": "Book's title",
+                            "example": "Подорож на планету Марс"
+                          }
+                        }
+                      },
+                      "quantity": {
+                        "type":"number",
+                        "description": "Book's quantity",
+                        "example": 2
+                      },
+                      "price": {
+                        "type":"number",
+                        "description": "Book's price",
+                        "example": 100
+                      }
+                    }
+                  }
+                },
+                "itemsPrice": {
+                  "type":"number",
+                  "description": "Items price",
+                  "example": 550
+                },
+                "deliveriAmount": {
+                  "type":"number",
+                  "description": "Delivery amount",
+                  "example": 0
+                },
+                "totalPrice": {
+                  "type":"number",
+                  "description": "Total books price",
+                  "example": 550
+                },
+                "paymentMetod":{
+                  "type": "string",
+                  "description": "Payment method",
+                  "example": "After"
+                },
+                "orderStatus": {
+                  "type": "string",
+                  "description": "Order status",
+                  "example": "Paid"
+                },
+                "user":{
+                  "type": "string",
+                "description": "User ID",
+                "example": "6605c797972bd9d9189f5c23"
+                },
+                "createdAt":{
+                  "type": "string",
+                "description": "Order created date",
+                "example": "2024-04-14T19:16:42.368Z"
+                },
+                "updatedAt":{
+                  "type": "string",
+                "description": "Order created date",
+                "example": "2024-05-03T19:27:33.973Z"
+                },
+                "orderNumber": {
+                  "type":"number",
+                  "description": "Order's number",
+                  "example": 1
+                }
+              }
+            }
+          }
+        }
+      },
+      "GetOrderByNumberResponse": {
+        "type": "object",
+        "properties":{
+          "order":{
+            "properties":{
+              "userInfo": {
+                "type":"object",
+                "description": "User info",
+                "properties": {
+                  "name": {
+                    "type":"string",
+                    "example": "Тамара"
+                  },
+                  "surname": {
+                    "type":"string",
+                    "example": "Соловей"
+                  },
+                  "phone": {
+                    "type":"string",
+                    "example": "961456789"
+                  },
+                  "email": {
+                    "type":"string",
+                    "example": "cikove6410@glaslack.com"
+                  }
+                }
+              },
+              "deliveryInfo": {
+                "type":"object",
+                "description": "Delivery info",
+                "properties": {
+                  "city": {
+                    "type":"string",
+                    "example": "Южноукраїнськ"
+                  },
+                  "deliveryMetod": {
+                    "type":"string",
+                    "example": "Укр Пошта"
+                  },
+                  "address": {
+                    "type":"string",
+                    "example": "вул. Незалежності 36, відділення 1"
+                  }
+                }
+              },
+              "_id": {
+                "type": "string",
+                "description": "Order's ID",
+                "example": "661c2b9a99a743be16b79714"
+              },
+              "checkoutItems": {
+                "type": "array",
+                "items":{
+                  "type": "object",
+                  "properties":{
+                    "bookId": {
+                      "type":"object",
+                      "properties":{
+                        "_id":{
+                          "type": "string",
+                          "description": "Book's ID",
+                          "example": "65ed9f233000741d129b5557"
+                        },
+                        "author":{
+                          "type": "string",
+                          "description": "Book's author",
+                          "example": "Олена Степаненко"
+                        },
+                        "title":{
+                          "type": "string",
+                          "description": "Book's title",
+                          "example": "Подорож на планету Марс"
+                        }
+                      }
+                    },
+                    "quantity": {
+                      "type":"number",
+                      "description": "Book's quantity",
+                      "example": 2
+                    },
+                    "price": {
+                      "type":"number",
+                      "description": "Book's price",
+                      "example": 100
+                    }
+                  }
+                }
+              },
+              "itemsPrice": {
+                "type":"number",
+                "description": "Items price",
+                "example": 550
+              },
+              "deliveriAmount": {
+                "type":"number",
+                "description": "Delivery amount",
+                "example": 0
+              },
+              "totalPrice": {
+                "type":"number",
+                "description": "Total books price",
+                "example": 550
+              },
+              "paymentMetod":{
+                "type": "string",
+                "description": "Payment method",
+                "example": "After"
+              },
+              "orderStatus": {
+                "type": "string",
+                "description": "Order status",
+                "example": "Paid"
+              },
+              "user":{
+                "type": "string",
+              "description": "User ID",
+              "example": "6605c797972bd9d9189f5c23"
+              },
+              "createdAt":{
+                "type": "string",
+              "description": "Order created date",
+              "example": "2024-04-14T19:16:42.368Z"
+              },
+              "updatedAt":{
+                "type": "string",
+              "description": "Order created date",
+              "example": "2024-05-03T19:27:33.973Z"
+              },
+              "orderNumber": {
+                "type":"number",
+                "description": "Order's number",
+                "example": 1
+              }
+            }
+          }
+        }
+      },
+      "OrderStatusRequest": {
+        "type": "object",
+        "required": ["orderStatus"],
+        "properties":{
+          "orderStatus":{
+            "type": "string",
+						"description": "Order status update",
+            "example": "Paid"
+          }
+        }
+      },
+      "UpdateOrderByNumberResponse": {
+        "type": "object",
+				"properties": {
+					"message": {
+						"type": "string",
+						"example": "Order's status changed to Paid. More info sent to your email: cikove6410@glaslack.com"
+					}
+				}
+      },
+      "GetOrderByNumberErrorResponse": {
+        "type": "object",
+				"properties": {
+					"message": {
+						"type": "string",
+						"example": "Order not found"
+					}
+				}
+      },
+      "DeleteOrderByNumberResponse": {
+        "type": "object",
+				"properties": {
+					"message": {
+						"type": "string",
+						"example": "Order number: 1 is deleted"
+					}
+				}
+      },
+      "GetBookIdResponse": {
+        "type": "object",
+        "properties":{
+          "book":{
+            "properties": {
+              "imagesUrls":{
+                "type":"array",
+                "items":{}
+              },
+              "_id": {
+                "type": "string",
+                "description": "Book ID",
+                "example": "665332d225ebf1368b74e466"
+              },
+              "author": {
+                "type": "string",
+                "description": "Book's author",
+                "example": "Марія Коваль"
+              },
+              "title": {
+                "type": "string",
+                "description": "Book's title",
+                "example": "Казки для дітей"
+              },
+              "language": {
+                "type": "string",
+                "description": "Language",
+                "example": "українська"
+              },
+              "publisher": {
+                "type": "string",
+                "description": "Publisher",
+                "example": "Казкове видавництво"
+              },
+              "price": {
+                "type": "number",
+                "description": "Book's price",
+                "example": 120
+              },
+              "rating": {
+                "type": "number",
+                "description": "Rating",
+                "example": 4.5
+              },
+              "category": {
+                "type": "string",
+                "description": "Book's category",
+                "example": "Дитяча"
+              },
+              "subcategory": {
+                "type": "string",
+                "description": "Book's subcategory",
+                "example": "Казки"
+              },
+              "age": {
+                "type": "string",
+                "description": "Recommended age",
+                "example": "4 - 6"
+              },
+              "format": {
+                "type": "string",
+                "description": "Format",
+                "example": "205 х 260 мм"
+              },
+              "cover": {
+                "type": "string",
+                "description": "Book's cover",
+                "example": "Тверда"
+              },
+              "pages": {
+                "type": "number",
+                "description": "Number of book's pages",
+                "example": 150
+              },
+              "year": {
+                "type": "string",
+                "description": "Year of publication",
+                "example": "2020"
+              },
+              "new": {
+                "type": "boolean",
+                "description": "State",
+                "example": true
+              },
+              "promotions": {
+                "type": "boolean",
+                "description": "Promotions",
+                "example": true
+              },
+              "bestsellers": {
+                "type": "boolean",
+                "description": "Bestsellers",
+                "example": true
+              },
+              "description": {
+                "type": "string",
+                "description": "Book's description",
+                "example": "У захопливій збірці 'Казки для дітей' від відомої української письменниці Марії Коваль вас чекає безліч чарівних пригод та захоплюючих історій. Ці казки сповнені магії, навчальних моментів та добрих уроків, які залишать незабутнє враження у кожного маленького читача. Давайте разом відправимося у світ фантастичних пригод та відкриємо для себе нові історії!"
+              }
+            }
+          }
+        }
+      },
+      "BookIdErrorResponse": {
+        "type": "object",
+				"properties": {
+					"message": {
+						"type": "string",
+						"example": "Book with ID: bookId not found"
+					}
+				}
+      },
+      "BookUpdateRequest": {
+        "type": "object",
+        "required": ["price"],
+        "properties":{
+          "price":{
+            "type":"number",
+						"description": "New price",
+            "example": 100
+          }
+        }
+      },
+      "BookUpdateResponse": {
+        "type": "object",
+        "properties":{
+          "book":{
+            "properties": {
+              "imagesUrls":{
+                "type":"array",
+                "items":{}
+              },
+              "_id": {
+                "type": "string",
+                "description": "Book ID",
+                "example": "665332d225ebf1368b74e466"
+              },
+              "author": {
+                "type": "string",
+                "description": "Book's author",
+                "example": "Марія Коваль"
+              },
+              "title": {
+                "type": "string",
+                "description": "Book's title",
+                "example": "Казки для дітей"
+              },
+              "language": {
+                "type": "string",
+                "description": "Language",
+                "example": "українська"
+              },
+              "publisher": {
+                "type": "string",
+                "description": "Publisher",
+                "example": "Казкове видавництво"
+              },
+              "price": {
+                "type": "number",
+                "description": "Book's price",
+                "example": 100
+              },
+              "rating": {
+                "type": "number",
+                "description": "Rating",
+                "example": 4.5
+              },
+              "category": {
+                "type": "string",
+                "description": "Book's category",
+                "example": "Дитяча"
+              },
+              "subcategory": {
+                "type": "string",
+                "description": "Book's subcategory",
+                "example": "Казки"
+              },
+              "age": {
+                "type": "string",
+                "description": "Recommended age",
+                "example": "4 - 6"
+              },
+              "format": {
+                "type": "string",
+                "description": "Format",
+                "example": "205 х 260 мм"
+              },
+              "cover": {
+                "type": "string",
+                "description": "Book's cover",
+                "example": "Тверда"
+              },
+              "pages": {
+                "type": "number",
+                "description": "Number of book's pages",
+                "example": 150
+              },
+              "year": {
+                "type": "string",
+                "description": "Year of publication",
+                "example": "2020"
+              },
+              "new": {
+                "type": "boolean",
+                "description": "State",
+                "example": true
+              },
+              "promotions": {
+                "type": "boolean",
+                "description": "Promotions",
+                "example": true
+              },
+              "bestsellers": {
+                "type": "boolean",
+                "description": "Bestsellers",
+                "example": true
+              },
+              "description": {
+                "type": "string",
+                "description": "Book's description",
+                "example": "У захопливій збірці 'Казки для дітей' від відомої української письменниці Марії Коваль вас чекає безліч чарівних пригод та захоплюючих історій. Ці казки сповнені магії, навчальних моментів та добрих уроків, які залишать незабутнє враження у кожного маленького читача. Давайте разом відправимося у світ фантастичних пригод та відкриємо для себе нові історії!"
+              }
+            }
+          }
+        }
+      },
+      "DeleteBookResponse": {
+        "type": "object",
+				"properties": {
+					"message": {
+						"type": "string",
+						"example": "Book with ID: bookId deleted successfully"
+					}
+				}
+      },
+      "BookImagesUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "images": {
+            "type": "array",
+            "items":{
+              "type":"file"
+            }
+          }
+        }
+      },
+      "UpdateBookImagesResponse": {
+        "type": "object",
+        "properties":{
+          "book":{
+            "properties": {
+              "imagesUrls":{
+                "type":"array",
+                "items":{
+                  "type":"string",
+                  "example": "https://res.cloudinary.com/dvv6a2b40/image/upload/v1716904698/bukarka/qxv2ll0igcdbqk3dyqf9.png"
+                }
+              },
+              "_id": {
+                "type": "string",
+                "description": "Book ID",
+                "example": "665332d225ebf1368b74e466"
+              },
+              "author": {
+                "type": "string",
+                "description": "Book's author",
+                "example": "Марія Коваль"
+              },
+              "title": {
+                "type": "string",
+                "description": "Book's title",
+                "example": "Казки для дітей"
+              },
+              "language": {
+                "type": "string",
+                "description": "Language",
+                "example": "українська"
+              },
+              "publisher": {
+                "type": "string",
+                "description": "Publisher",
+                "example": "Казкове видавництво"
+              },
+              "price": {
+                "type": "number",
+                "description": "Book's price",
+                "example": 100
+              },
+              "rating": {
+                "type": "number",
+                "description": "Rating",
+                "example": 4.5
+              },
+              "category": {
+                "type": "string",
+                "description": "Book's category",
+                "example": "Дитяча"
+              },
+              "subcategory": {
+                "type": "string",
+                "description": "Book's subcategory",
+                "example": "Казки"
+              },
+              "age": {
+                "type": "string",
+                "description": "Recommended age",
+                "example": "4 - 6"
+              },
+              "format": {
+                "type": "string",
+                "description": "Format",
+                "example": "205 х 260 мм"
+              },
+              "cover": {
+                "type": "string",
+                "description": "Book's cover",
+                "example": "Тверда"
+              },
+              "pages": {
+                "type": "number",
+                "description": "Number of book's pages",
+                "example": 150
+              },
+              "year": {
+                "type": "string",
+                "description": "Year of publication",
+                "example": "2020"
+              },
+              "new": {
+                "type": "boolean",
+                "description": "State",
+                "example": true
+              },
+              "promotions": {
+                "type": "boolean",
+                "description": "Promotions",
+                "example": true
+              },
+              "bestsellers": {
+                "type": "boolean",
+                "description": "Bestsellers",
+                "example": true
+              },
+              "description": {
+                "type": "string",
+                "description": "Book's description",
+                "example": "У захопливій збірці 'Казки для дітей' від відомої української письменниці Марії Коваль вас чекає безліч чарівних пригод та захоплюючих історій. Ці казки сповнені магії, навчальних моментів та добрих уроків, які залишать незабутнє враження у кожного маленького читача. Давайте разом відправимося у світ фантастичних пригод та відкриємо для себе нові історії!"
+              }
+            }
+          }
+        }
+      }
     },
     "securitySchemes": {
       "Bearer": {
