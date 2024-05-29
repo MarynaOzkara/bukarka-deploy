@@ -51,31 +51,29 @@ const AuthForm: React.FC<Props> = ({
   return (
     <>
       <Form onSubmit={handleSubmit}>
-        {fields.map((field, index) => (
-          <>
-            <div key={index}>
-              <Wrapper>
-                <Label htmlFor={field.name}>{field.label}</Label>
-                {showForgotPasswordLink && field.name === "password" && (
-                  <ResetPasswordButton>Забули пароль?</ResetPasswordButton>
-                )}
-              </Wrapper>
-              <Input
-                type={field.type}
-                id={field.name}
-                name={field.name}
-                placeholder={field.placeholder}
-                value={formData[field.name] || ""}
-                onChange={handleChange}
-              />
-              {showPasswordText && field.name === "password" && (
-                <Text>
-                  Пароль має містити не менше восьми знаків без урахування
-                  пробілів на початку та в кінці.
-                </Text>
+        {fields.map((field) => (
+          <div key={field.name}>
+            <Wrapper>
+              <Label htmlFor={field.name}>{field.label}</Label>
+              {showForgotPasswordLink && field.name === "password" && (
+                <ResetPasswordButton>Забули пароль?</ResetPasswordButton>
               )}
-            </div>
-          </>
+            </Wrapper>
+            <Input
+              type={field.type}
+              id={field.name}
+              name={field.name}
+              placeholder={field.placeholder}
+              value={formData[field.name] || ""}
+              onChange={handleChange}
+            />
+            {showPasswordText && field.name === "password" && (
+              <Text>
+                Пароль має містити не менше восьми знаків без урахування
+                пробілів на початку та в кінці.
+              </Text>
+            )}
+          </div>
         ))}
         {checkbox && (
           <CheckboxWrapper>
