@@ -10,23 +10,43 @@ import {
 import { useState } from "react";
 import Modal from "components/Modal";
 import Login from "components/Auth/Login/Login";
+import Cart from "components/Cart";
+import { useNavigate } from "react-router-dom";
 
 const UserMenu: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
+  const [modalContent, setModalContent] = useState<string>("");
 
-  const showModal = () => {
-    setIsModalOpen(!isModalOpen);
+  const navigate = useNavigate();
+
+  const goToFavorites = () => {
+    navigate("/favorites");
+  };
+
+  const showModal = (content: string) => {
+    setModalContent(content);
+    setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
+    setModalContent("");
+  };
+
+  const openCart = () => {
+    setIsCartOpen(true);
+  };
+
+  const closeCart = () => {
+    setIsCartOpen(false);
   };
 
   return (
     <>
       <StyledUserMenu>
         <UserMenuItem>
-          <FavoriteButton>
+          <FavoriteButton onClick={goToFavorites}>
             <IconWrapper>
               <HeartIcon />
             </IconWrapper>
@@ -35,7 +55,7 @@ const UserMenu: React.FC = () => {
         </UserMenuItem>
 
         <UserMenuItem>
-          <CartButton>
+          <CartButton onClick={openCart}>
             <IconWrapper>
               <CartIcon />
             </IconWrapper>
@@ -44,7 +64,7 @@ const UserMenu: React.FC = () => {
         </UserMenuItem>
 
         <UserMenuItem>
-          <AuthButton onClick={showModal}>
+          <AuthButton onClick={() => showModal("auth")}>
             <IconWrapper>
               <AvatarIcon />
             </IconWrapper>
@@ -54,7 +74,15 @@ const UserMenu: React.FC = () => {
       </StyledUserMenu>
       {isModalOpen && (
         <Modal close={closeModal} showCloseButton={true}>
-          <Login title="Вхід до акаунту" prompt="Реєстрація нового акаунту" />
+          {modalContent === "auth" && (
+            <Login title="Вхід до акаунту" prompt="Реєстрація нового акаунту" />
+          )}
+        </Modal>
+      )}
+
+      {isCartOpen && (
+        <Modal close={closeCart} showCloseButton={true}>
+          <Cart closeCart={closeCart} />
         </Modal>
       )}
     </>

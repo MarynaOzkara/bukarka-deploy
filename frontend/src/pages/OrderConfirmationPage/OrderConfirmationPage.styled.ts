@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const Wrapper = styled.div`
   min-height: 80vh;
-  margin-top: 108px;
+  margin-top: 88px;
   padding: 40px 32px;
 
   background-color: var(--bukarka-white);
@@ -25,7 +25,7 @@ export const OrderInfo = styled.div`
   padding: 16px 16px 8px 16px;
   margin-bottom: 32px;
   
-  background: var(--bukarka-light-grey-2);
+  background: var(--bukarka-light-grey);
 `;
 
 export const Text = styled.p`

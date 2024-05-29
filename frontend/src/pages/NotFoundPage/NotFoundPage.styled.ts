@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const HEADER_HEIGHT = "108px";
+const HEADER_HEIGHT = "88px";
 const FOOTER_HEIGHT = "288px";
 
 export const Main = styled.main`

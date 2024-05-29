@@ -27,7 +27,7 @@ export const BookList = styled.ul`
     height: 48px;
     border: 0.5px solid var(--bukarka-dark-grey);
     border-radius: 4px;
-    background: var(--bukarka-light-grey-1);
+    background: var(--bukarka-grey);
   }
 
   &::-webkit-scrollbar-track {
@@ -35,7 +35,7 @@ export const BookList = styled.ul`
     width: 8px;
     height: 440px;
     box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.25);
-    background: var(--bukarka-light-grey-2);
+    background: var(--bukarka-light-grey);
   }
 `;
 
@@ -44,7 +44,7 @@ export const Book = styled.div`
   gap: 16px;
   margin-top: 16px;
   padding-bottom: 16px;
-  border-bottom: 1px solid var(--bukarka-light-grey-1);
+  border-bottom: 1px solid var(--bukarka-grey);
 `;
 
 export const ImageWrapper = styled.div`

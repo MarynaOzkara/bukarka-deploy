@@ -5,7 +5,7 @@ import styled from "styled-components";
 export const StyledFooter = styled.footer`
   width: 100%;
 
-  background-color: var(--bukarka-light-grey-2);
+  background-color: var(--bukarka-light-grey);
   padding: 48px 0;
   box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, 0.25);
 `;

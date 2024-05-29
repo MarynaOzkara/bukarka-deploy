@@ -52,7 +52,7 @@ const Modal: React.FC<ModalProps> = ({
 
   return ReactDOM.createPortal(
     <ModalWrapper onClick={handleClickOutside}>
-      <ModalContent animation={animation}>
+      <ModalContent $animation={animation}>
         {showCloseButton && (
           <CloseButton onClick={close}>
             <CrossIcon />
