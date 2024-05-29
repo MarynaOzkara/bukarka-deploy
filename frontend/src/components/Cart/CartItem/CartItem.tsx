@@ -109,7 +109,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
           <Price>{price} грн</Price>
           <Quantity>
             <ChangeButton onClick={handleDecreaseQuantity}>-</ChangeButton>
-            <input type="text" value={quantity} />
+            <input type="text" defaultValue={quantity} />
             <ChangeButton onClick={handleIncreaseQuantity}>+</ChangeButton>
           </Quantity>
           <TotalPrice>{price * quantity} грн</TotalPrice>
