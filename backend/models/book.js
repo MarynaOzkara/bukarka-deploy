@@ -22,6 +22,7 @@ const bookSchema = new Schema(
     bestsellers: Boolean,
     description: String,
     image: String,
+    imagesUrls: Array,
   },
   {
     versionKey: false,

@@ -12,6 +12,15 @@ const {
   deleteOrder,
 } = require("./orders/orders");
 const { feedback } = require("./feedback/feedback");
+const {
+  addBook,
+  getBookById,
+  updateBookById,
+  deleteBookById,
+  updateImages,
+  deleteImage,
+} = require("./books/books");
+
 module.exports = {
   getAllUsers,
   getUserById,
@@ -23,4 +32,10 @@ module.exports = {
   updateOrder,
   deleteOrder,
   feedback,
+  addBook,
+  getBookById,
+  updateBookById,
+  deleteBookById,
+  updateImages,
+  deleteImage,
 };
