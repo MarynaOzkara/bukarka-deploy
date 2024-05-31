@@ -43,3 +43,18 @@ export const FormButton = styled.button`
   line-height: 150%;
   color: var(--bukarka-black);
 `;
+
+export const Hints = styled.ul`
+  position: absolute;
+  z-index: 100;
+  top: calc(100% + 2px);
+  left: 0;
+  padding: 0.5rem 1rem;
+  background: var(--bukarka-white);
+  width: 400px;
+
+  & li {
+    font-size: 14px;
+    margin: 5px 0;
+  }
+`;

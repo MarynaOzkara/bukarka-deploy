@@ -1,29 +1,49 @@
-import { ChangeEvent, FormEvent, useContext, useState } from "react";
-import { FormButton, Input, StyledForm, StyledLensIcon } from "./Search.styled";
-import { SearchContext } from "./SearchContext";
 import { IBookItem } from "components/Book";
+import useDebounce from "hooks/useDebounce";
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
+import {
+  FormButton,
+  Hints,
+  Input,
+  StyledForm,
+  StyledLensIcon,
+} from "./Search.styled";
+import { SearchContext } from "./SearchContext";
 
 export const Search = () => {
-  const { suggestions, handleSearch, fetchSuggestions } =
-    useContext(SearchContext);
+  const { hints, handleSearch, filterHints } = useContext(SearchContext);
   const [query, setQuery] = useState<string>("");
+  const [showSuggestions, setShowHints] = useState<boolean>(false);
+  const debouncedQuery = useDebounce(query, 500);
+
+  useEffect(() => {
+    if (debouncedQuery) {
+      filterHints(debouncedQuery);
+      setShowHints(true);
+    } else {
+      setShowHints(false);
+    }
+  }, [debouncedQuery, filterHints]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
 
     if (event.target.value) {
-      fetchSuggestions(event.target.value);
+      filterHints(event.target.value);
     }
+    setShowHints(false);
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleSearch({ title: query });
+    handleSearch({ title: query, author: query });
+    setShowHints(false);
   };
 
-  const handleSuggestionClick = (suggestion: IBookItem) => {
+  const handleHintClick = (suggestion: IBookItem) => {
     setQuery(suggestion.title);
-    handleSearch({ title: suggestion.title });
+    handleSearch({ title: suggestion.title, author: suggestion.author });
+    setShowHints(false);
   };
 
   return (
@@ -35,19 +55,17 @@ export const Search = () => {
         onChange={handleInputChange}
         placeholder="Знайти книгу"
       />
-      {suggestions.length > 0 && (
-        <div className="suggestions-dropdown">
-          {suggestions.map((suggestion, index) => (
-            <div
-              key={index}
-              className="suggestion-item"
-              onClick={() => handleSuggestionClick(suggestion)}
-            >
-              {suggestion.title}
-            </div>
+
+      {showSuggestions && hints.length > 0 && (
+        <Hints>
+          {hints.map((hint, index) => (
+            <li key={index} onClick={() => handleHintClick(hint)}>
+              {hint.title || hint.author}
+            </li>
           ))}
-        </div>
+        </Hints>
       )}
+
       <FormButton>Знайти</FormButton>
     </StyledForm>
   );
