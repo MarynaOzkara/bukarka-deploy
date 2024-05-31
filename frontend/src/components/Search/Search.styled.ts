@@ -52,6 +52,8 @@ export const Hints = styled.ul`
   padding: 0.5rem 1rem;
   background: var(--bukarka-white);
   width: 400px;
+  border: 1px solid var(--bukarka-light-grey);
+  border-radius: 5px;
 
   & li {
     font-size: 14px;

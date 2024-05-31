@@ -13,8 +13,8 @@ import { SearchContext } from "./SearchContext";
 export const Search = () => {
   const { hints, handleSearch, filterHints } = useContext(SearchContext);
   const [query, setQuery] = useState<string>("");
-  const [showSuggestions, setShowHints] = useState<boolean>(false);
-  const debouncedQuery = useDebounce(query, 500);
+  const [showHints, setShowHints] = useState<boolean>(false);
+  const debouncedQuery = useDebounce(query, 300);
 
   useEffect(() => {
     if (debouncedQuery) {
@@ -40,9 +40,9 @@ export const Search = () => {
     setShowHints(false);
   };
 
-  const handleHintClick = (suggestion: IBookItem) => {
-    setQuery(suggestion.title);
-    handleSearch({ title: suggestion.title, author: suggestion.author });
+  const handleHintClick = (hint: IBookItem) => {
+    setQuery(hint.title || hint.author);
+    handleSearch({ title: hint.title, author: hint.author });
     setShowHints(false);
   };
 
@@ -56,13 +56,17 @@ export const Search = () => {
         placeholder="Знайти книгу"
       />
 
-      {showSuggestions && hints.length > 0 && (
+      {showHints && hints.length > 0 && (
         <Hints>
-          {hints.map((hint, index) => (
-            <li key={index} onClick={() => handleHintClick(hint)}>
-              {hint.title || hint.author}
-            </li>
-          ))}
+          {hints.map(
+            (hint, index) =>
+              hint && (
+                <li key={index} onClick={() => handleHintClick(hint)}>
+                  {(hint.author.includes(query) && hint.author) ||
+                    (hint.title.includes(query) && hint.title)}
+                </li>
+              )
+          )}
         </Hints>
       )}
 

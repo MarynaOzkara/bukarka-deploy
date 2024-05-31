@@ -8,7 +8,6 @@ interface SearchContextProps {
   results: IBookItem[];
   hints: IBookItem[];
   handleSearch: (searchParams: Record<string, any>) => void;
-
   filterHints: (searchQuery: string) => void;
 }
 
@@ -17,7 +16,6 @@ const SearchContext = createContext<SearchContextProps>({
   results: [],
   hints: [],
   handleSearch: () => {},
-
   filterHints: () => {},
 });
 
@@ -33,8 +31,8 @@ const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
   const [hints, setHints] = useState<IBookItem[]>([]);
 
   const handleSearch = async (searchParams: Record<string, any>) => {
-    setQuery(searchParams.title || searchParams.author);
     const queryString = buildQueryString(searchParams);
+    setQuery(searchParams.title || searchParams.author);
 
     try {
       const response = await instance.get(`/api/books/filters?${queryString}`);
@@ -52,7 +50,7 @@ const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
           item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
           item.author.toLowerCase().includes(searchQuery.toLowerCase())
       );
-      setHints(filteredSuggestions.slice(0, 5));
+      setHints(filteredSuggestions.slice(0, 10));
     },
     [booksData]
   );
