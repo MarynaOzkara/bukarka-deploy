@@ -1,9 +1,11 @@
+import { IBookItem } from "components/Book";
 import { FC, ReactNode, createContext, useState } from "react";
+import { buildQueryString } from "utils/buildQueryString";
 
 interface SearchContextProps {
   query: string;
-  results: { name: string }[];
-  handleSearch: (query: string) => void;
+  results: IBookItem[];
+  handleSearch: (searchParams: Record<string, any>) => void;
 }
 
 const SearchContext = createContext<SearchContextProps>({
@@ -18,12 +20,14 @@ interface ProviderProps {
 
 const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
   const [query, setQuery] = useState<string>("");
-  const [results, setResults] = useState<{ name: string }[]>([]);
+  const [results, setResults] = useState<IBookItem[]>([]);
 
-  const handleSearch = async (searchQuery: string) => {
-    setQuery(searchQuery);
+  const handleSearch = async (searchParams: Record<string, any>) => {
+    setQuery(searchParams.title || "");
+    const queryString = buildQueryString(searchParams);
+
     try {
-      const response = await fetch(`/api/search?q=${searchQuery}`);
+      const response = await fetch(`/books/filters?${queryString}`);
       const data = await response.json();
       setResults(data);
     } catch (error) {
