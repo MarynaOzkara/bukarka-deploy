@@ -6,6 +6,8 @@ import { Label } from "./CommonPages.styled";
 const CatalogPage: React.FC = () => {
   const { results } = useContext(SearchContext);
 
+  console.table(results);
+
   return (
     <StyledCommonWrapper>
       <PageWrapper>

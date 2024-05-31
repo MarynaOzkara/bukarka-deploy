@@ -5,13 +5,17 @@ import { buildQueryString } from "utils/buildQueryString";
 interface SearchContextProps {
   query: string;
   results: IBookItem[];
+  suggestions: IBookItem[];
   handleSearch: (searchParams: Record<string, any>) => void;
+  fetchSuggestions: (searchQuery: string) => void;
 }
 
 const SearchContext = createContext<SearchContextProps>({
   query: "",
   results: [],
+  suggestions: [],
   handleSearch: () => {},
+  fetchSuggestions: () => {},
 });
 
 interface ProviderProps {
@@ -21,6 +25,7 @@ interface ProviderProps {
 const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
   const [query, setQuery] = useState<string>("");
   const [results, setResults] = useState<IBookItem[]>([]);
+  const [suggestions, setSuggestions] = useState<IBookItem[]>([]);
 
   const handleSearch = async (searchParams: Record<string, any>) => {
     setQuery(searchParams.title || "");
@@ -35,8 +40,22 @@ const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
     }
   };
 
+  const fetchSuggestions = async (searchQuery: string) => {
+    try {
+      const response = await fetch(
+        `/books/filters?title=${searchQuery}&limit=5`
+      );
+      const data = await response.json();
+      setSuggestions(data);
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+    }
+  };
+
   return (
-    <SearchContext.Provider value={{ query, results, handleSearch }}>
+    <SearchContext.Provider
+      value={{ query, results, suggestions, handleSearch, fetchSuggestions }}
+    >
       {children}
     </SearchContext.Provider>
   );
