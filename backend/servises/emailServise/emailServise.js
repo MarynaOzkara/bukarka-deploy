@@ -8,6 +8,9 @@ const sendEmail = async (options) => {
     // port: 2525,
     // secure: false,
     service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
     auth: {
       user: EMAIL_USER,
       pass: EMAIL_PASSWORD,
@@ -33,6 +36,9 @@ const sendFeedback = async (options) => {
     // port: 587,
     // secure: false,
     service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
     auth: {
       user: EMAIL_USER,
       pass: EMAIL_PASSWORD,
