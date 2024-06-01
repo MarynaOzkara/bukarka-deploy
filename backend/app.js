@@ -18,6 +18,7 @@ const novaPoshtaRouter = require("./routes/api/novaposhta");
 const cartRouter = require("./routes/api/cart");
 const adminRouter = require("./routes/api/admin");
 const paymentRouter = require("./routes/api/payment");
+const feedbackRouter = require("./routes/api/feedback");
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.use("/api/novaposhta", novaPoshtaRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/payment", paymentRouter);
+app.use("/api/feedback", feedbackRouter);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

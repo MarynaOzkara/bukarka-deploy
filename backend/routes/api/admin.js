@@ -54,6 +54,4 @@ router
   .route("/subscribers")
   .get(authenticate, autorizeRoles("admin"), adminController.getAllSubscribers);
 
-router.post("/feedback", adminController.feedback);
-
 module.exports = router;

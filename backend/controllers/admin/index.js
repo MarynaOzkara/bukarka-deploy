@@ -11,7 +11,7 @@ const {
   updateOrder,
   deleteOrder,
 } = require("./orders/orders");
-const { feedback } = require("./feedback/feedback");
+
 const {
   addBook,
   getBookById,
@@ -31,7 +31,6 @@ module.exports = {
   getOrderById,
   updateOrder,
   deleteOrder,
-  feedback,
   addBook,
   getBookById,
   updateBookById,
