@@ -1,5 +1,5 @@
-const ctrlWrapper = require("../../../decorators/ctrlWrapper");
-const { sendFeedback } = require("../../../servises/emailServise/emailServise");
+const ctrlWrapper = require("../../decorators/ctrlWrapper");
+const { sendFeedback } = require("../../servises/emailServise/emailServise");
 
 const feedback = async (req, res) => {
   const { email, name, phone, orderNumber, message } = req.body;

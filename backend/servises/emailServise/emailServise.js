@@ -4,9 +4,10 @@ const { EMAIL_USER, EMAIL_PASSWORD, EMAIL_FROM, EMAIL_NAME } = process.env;
 
 const sendEmail = async (options) => {
   const transport = nodemailer.createTransport({
-    host: "smtp-relay.brevo.com",
-    port: 587,
-    secure: false,
+    // host: "smtp.elasticemail.com",
+    // port: 2525,
+    // secure: false,
+    service: "gmail",
     auth: {
       user: EMAIL_USER,
       pass: EMAIL_PASSWORD,
@@ -28,9 +29,10 @@ const sendEmail = async (options) => {
 };
 const sendFeedback = async (options) => {
   const transport = nodemailer.createTransport({
-    host: "smtp-relay.brevo.com",
-    port: 587,
-    secure: false,
+    // host: "smtp-relay.brevo.com",
+    // port: 587,
+    // secure: false,
+    service: "gmail",
     auth: {
       user: EMAIL_USER,
       pass: EMAIL_PASSWORD,
