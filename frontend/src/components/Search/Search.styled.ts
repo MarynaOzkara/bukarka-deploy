@@ -58,9 +58,41 @@ export const Hints = styled.ul`
   width: 400px;
   border: 1px solid var(--bukarka-light-grey);
   border-radius: 5px;
+  overflow: auto;
+  height: auto;
+  max-height: 15rem;
+  overflow-y: auto;
 
   & li {
     font-size: 14px;
     margin: 5px 0;
+
+    &.highlighted {
+      background: var(--bukarka-grey);
+      color: var(--bukarka-dark-grey);
+    }
   }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  /* Custom scrollbar styles for Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+
+  /* Smooth scrolling behavior */
+  scroll-behavior: smooth;
 `;

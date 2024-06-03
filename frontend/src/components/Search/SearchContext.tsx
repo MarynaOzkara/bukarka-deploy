@@ -9,6 +9,7 @@ interface SearchContextProps {
   hints: IBookItem[];
   handleSearch: (searchParams: Record<string, any>) => void;
   filterHints: (searchQuery: string) => void;
+  fetchHints: (searchParams: Record<string, any>) => void;
 }
 
 const SearchContext = createContext<SearchContextProps>({
@@ -17,6 +18,7 @@ const SearchContext = createContext<SearchContextProps>({
   hints: [],
   handleSearch: () => {},
   filterHints: () => {},
+  fetchHints: () => {},
 });
 
 interface ProviderProps {
@@ -30,18 +32,35 @@ const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
   const [results, setResults] = useState<IBookItem[]>([]);
   const [hints, setHints] = useState<IBookItem[]>([]);
 
-  const handleSearch = async (searchParams: Record<string, any>) => {
+  const handleSearch = useCallback(
+    async (searchParams: Record<string, any>) => {
+      const queryString = buildQueryString(searchParams);
+      setQuery(searchParams.title || searchParams.author);
+
+      try {
+        const response = await instance.get(
+          `/api/books/filters?${queryString}`
+        );
+        const data = await response.data;
+        setResults(data.books);
+        console.log(data);
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+      }
+    },
+    []
+  );
+
+  const fetchHints = useCallback(async (searchParams: Record<string, any>) => {
     const queryString = buildQueryString(searchParams);
     setQuery(searchParams.title || searchParams.author);
-
     try {
       const response = await instance.get(`/api/books/filters?${queryString}`);
-      const data = await response.data;
-      setResults(data);
+      setHints(response.data.books);
     } catch (error) {
-      console.error("Error fetching search results:", error);
+      console.error("Error fetching suggestions:", error);
     }
-  };
+  }, []);
 
   const filterHints = useCallback(
     (searchQuery: string) => {
@@ -50,7 +69,7 @@ const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
           item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
           item.author.toLowerCase().includes(searchQuery.toLowerCase())
       );
-      setHints(filteredSuggestions.slice(0, 10));
+      setHints(filteredSuggestions.slice(0));
     },
     [booksData]
   );
@@ -63,6 +82,7 @@ const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
         hints,
         handleSearch,
         filterHints,
+        fetchHints,
       }}
     >
       {children}
