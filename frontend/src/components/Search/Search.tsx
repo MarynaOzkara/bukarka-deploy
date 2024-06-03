@@ -20,8 +20,7 @@ import { SearchContext } from "./SearchContext";
 import { useNavigate } from "react-router-dom";
 
 export const Search = () => {
-  const { hints, handleSearch, fetchHints, filterHints } =
-    useContext(SearchContext);
+  const { hints, handleSearch, fetchHints } = useContext(SearchContext);
   const [query, setQuery] = useState<string>("");
   const [showHints, setShowHints] = useState<boolean>(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
@@ -35,23 +34,14 @@ export const Search = () => {
     navigate(`/catalog?query=${query}`);
   };
 
-  // useEffect(() => {
-  //   if (debouncedQuery) {
-  //     fetchHints({ title: debouncedQuery, author: debouncedQuery });
-  //     setShowHints(true);
-  //   } else {
-  //     setShowHints(false);
-  //   }
-  // }, [debouncedQuery, fetchHints]);
-
   useEffect(() => {
     if (debouncedQuery) {
-      filterHints(debouncedQuery);
+      fetchHints({ title: debouncedQuery, author: debouncedQuery });
       setShowHints(true);
     } else {
       setShowHints(false);
     }
-  }, [debouncedQuery, filterHints]);
+  }, [debouncedQuery, fetchHints]);
 
   useEffect(() => {
     if (
@@ -75,11 +65,10 @@ export const Search = () => {
     setQuery(event.target.value);
 
     if (event.target.value) {
-      // fetchHints({
-      //   title: event.target.value,
-      //   author: event.target.value,
-      // });
-      filterHints(event.target.value);
+      fetchHints({
+        title: event.target.value,
+        author: event.target.value,
+      });
     }
     setShowHints(false);
   };
@@ -89,11 +78,12 @@ export const Search = () => {
     handleSearch({ title: query, author: query });
     setShowHints(false);
     goToCatalog(query);
-    setQuery("");
     setHighlightedIndex(-1);
+    setQuery("");
   };
 
   const handleHintClick = (hint: IBookItem) => {
+    console.log(hint);
     setQuery(hint.title || hint.author);
     handleSearch({ title: hint.title, author: hint.author });
     setShowHints(false);
@@ -117,8 +107,6 @@ export const Search = () => {
       setShowHints(false);
     }
   };
-
-  console.log(highlightedIndex);
   console.log(hints);
 
   return (
@@ -144,8 +132,10 @@ export const Search = () => {
                   key={index}
                   onClick={() => handleHintClick(hint)}
                 >
-                  {(hint.author.includes(query) && hint.author) ||
-                    (hint.title.includes(query) && hint.title)}
+                  {(hint.author?.toLowerCase().includes(query.toLowerCase()) &&
+                    hint.author) ||
+                    (hint.title?.toLowerCase().includes(query.toLowerCase()) &&
+                      hint.title)}
                 </li>
               )
           )}

@@ -9,10 +9,7 @@ import {
 import { Label } from "./CommonPages.styled";
 
 const CatalogPage: React.FC = () => {
-  const { results, hints } = useContext(SearchContext);
-
-  console.table(results);
-  console.log(hints);
+  const { results } = useContext(SearchContext);
 
   return (
     <StyledCommonWrapper>
