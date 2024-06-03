@@ -6,6 +6,7 @@ import {
   KeyboardEvent,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import {
@@ -16,15 +17,23 @@ import {
   StyledLensIcon,
 } from "./Search.styled";
 import { SearchContext } from "./SearchContext";
+import { useNavigate } from "react-router-dom";
 
 export const Search = () => {
   const { hints, handleSearch, fetchHints, filterHints } =
     useContext(SearchContext);
   const [query, setQuery] = useState<string>("");
   const [showHints, setShowHints] = useState<boolean>(false);
-  const [highlightedIndex, setHighlightedIndex] = useState<number>(0);
+  const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
+  const hintsRef = useRef<HTMLUListElement>(null);
 
   const debouncedQuery = useDebounce(query, 300);
+
+  const navigate = useNavigate();
+
+  const goToCatalog = (query: string) => {
+    navigate(`/catalog?query=${query}`);
+  };
 
   // useEffect(() => {
   //   if (debouncedQuery) {
@@ -44,6 +53,24 @@ export const Search = () => {
     }
   }, [debouncedQuery, filterHints]);
 
+  useEffect(() => {
+    if (
+      hintsRef.current &&
+      highlightedIndex >= 0 &&
+      highlightedIndex < hints.length
+    ) {
+      const activeItem = hintsRef.current.children[
+        highlightedIndex
+      ] as HTMLElement;
+      if (activeItem) {
+        activeItem.scrollIntoView({
+          block: "nearest",
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [highlightedIndex, hints]);
+
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
 
@@ -61,12 +88,17 @@ export const Search = () => {
     event.preventDefault();
     handleSearch({ title: query, author: query });
     setShowHints(false);
+    goToCatalog(query);
+    setQuery("");
+    setHighlightedIndex(-1);
   };
 
   const handleHintClick = (hint: IBookItem) => {
     setQuery(hint.title || hint.author);
     handleSearch({ title: hint.title, author: hint.author });
     setShowHints(false);
+    setQuery("");
+    setHighlightedIndex(-1);
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -86,14 +118,8 @@ export const Search = () => {
     }
   };
 
+  console.log(highlightedIndex);
   console.log(hints);
-
-  useEffect(() => {
-    console.log(showHints);
-    if (!showHints) {
-      setHighlightedIndex(-1);
-    }
-  }, [showHints]);
 
   return (
     <StyledForm onSubmit={handleSubmit}>
@@ -107,7 +133,7 @@ export const Search = () => {
       />
 
       {showHints && hints.length > 0 && (
-        <Hints>
+        <Hints ref={hintsRef}>
           {hints.map(
             (hint, index) =>
               hint && (

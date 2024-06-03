@@ -1,6 +1,5 @@
 import { IBookItem, useBooks } from "components/Book";
 import { FC, ReactNode, createContext, useCallback, useState } from "react";
-import { buildQueryString } from "utils/buildQueryString";
 import { instance } from "utils/fetchInstance";
 
 interface SearchContextProps {
@@ -34,7 +33,7 @@ const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
 
   const handleSearch = useCallback(
     async (searchParams: Record<string, any>) => {
-      const queryString = buildQueryString(searchParams);
+      const queryString = new URLSearchParams(searchParams).toString();
       setQuery(searchParams.title || searchParams.author);
 
       try {
@@ -43,7 +42,8 @@ const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
         );
         const data = await response.data;
         setResults(data.books);
-        console.log(data);
+
+        console.log(data.books);
       } catch (error) {
         console.error("Error fetching search results:", error);
       }
@@ -52,7 +52,7 @@ const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
   );
 
   const fetchHints = useCallback(async (searchParams: Record<string, any>) => {
-    const queryString = buildQueryString(searchParams);
+    const queryString = new URLSearchParams(searchParams).toString();
     setQuery(searchParams.title || searchParams.author);
     try {
       const response = await instance.get(`/api/books/filters?${queryString}`);

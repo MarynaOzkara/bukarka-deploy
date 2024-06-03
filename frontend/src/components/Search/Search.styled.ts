@@ -60,7 +60,7 @@ export const Hints = styled.ul`
   border-radius: 5px;
   overflow: auto;
   height: auto;
-  max-height: 15rem;
+  max-height: 200px;
   overflow-y: auto;
 
   & li {
