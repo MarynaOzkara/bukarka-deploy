@@ -17,7 +17,7 @@ import {
   StyledLensIcon,
 } from "./Search.styled";
 import { SearchContext } from "./SearchContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const Search = () => {
   const { hints, loading, handleSearch, fetchHints } =
@@ -28,9 +28,11 @@ export const Search = () => {
 
   const hintsRef = useRef<HTMLUListElement>(null);
 
-  const debouncedQuery = useDebounce(query, 1500);
+  const debouncedQuery = useDebounce(query, 300);
 
   const navigate = useNavigate();
+
+  const location = useLocation();
 
   const goToCatalog = (query: string) => {
     setShowHints(false);
@@ -38,6 +40,15 @@ export const Search = () => {
     setHighlightedIndex(-1);
     setQuery("");
   };
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const query = params.get("query");
+    if (query) {
+      setQuery(query);
+      handleSearch({ title: query, author: query });
+    }
+  }, [location.search]);
 
   useEffect(() => {
     if (debouncedQuery) {
