@@ -80,10 +80,17 @@ const filtersBooks = async (req, res) => {
   } = req.query;
   const skip = (page - 1) * limit;
 
-  const filters = {};
+  const orFilters = [];
+
   if (title) {
-    filters.title = { $regex: title, $options: "i" };
+    orFilters.push({ title: { $regex: title, $options: "i" } });
   }
+  if (author) {
+    orFilters.push({ author: { $regex: author, $options: "i" } });
+  }
+
+  const filters = {};
+
   if (category) {
     filters.category = { $regex: category, $options: "i" };
   }
@@ -92,9 +99,6 @@ const filtersBooks = async (req, res) => {
   }
   if (language) {
     filters.language = { $regex: language, $options: "i" };
-  }
-  if (author) {
-    filters.author = { $regex: author, $options: "i" };
   }
   if (publisher) {
     filters.publisher = { $regex: publisher, $options: "i" };
@@ -127,7 +131,14 @@ const filtersBooks = async (req, res) => {
     }
   }
 
-  const books = await Book.find(filters).skip(skip).limit(limit);
+  let query;
+  if (orFilters.length > 0) {
+    query = { $and: [{ $or: orFilters }, filters] };
+  } else {
+    query = filters;
+  }
+
+  const books = await Book.find(query).skip(skip).limit(limit);
   const total = await Book.countDocuments(filters);
   if (!books) {
     throw HttpError(404, "Books not found");
