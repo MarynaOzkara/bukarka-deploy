@@ -71,6 +71,11 @@ export const Hints = styled.ul`
       background: var(--bukarka-grey);
       color: var(--bukarka-dark-grey);
     }
+
+    &:hover {
+      background: var(--bukarka-grey);
+      color: var(--bukarka-dark-grey);
+    }
   }
 
   ::-webkit-scrollbar {

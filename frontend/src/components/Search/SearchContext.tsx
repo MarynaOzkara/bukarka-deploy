@@ -5,6 +5,7 @@ import { instance } from "utils/fetchInstance";
 interface SearchContextProps {
   results: IBookItem[];
   hints: IBookItem[];
+  loading: boolean;
   handleSearch: (searchParams: Record<string, any>) => void;
   fetchHints: (searchParams: Record<string, any>) => void;
 }
@@ -12,6 +13,7 @@ interface SearchContextProps {
 const SearchContext = createContext<SearchContextProps>({
   results: [],
   hints: [],
+  loading: false,
   handleSearch: () => {},
   fetchHints: () => {},
 });
@@ -23,10 +25,13 @@ interface ProviderProps {
 const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
   const [results, setResults] = useState<IBookItem[]>([]);
   const [hints, setHints] = useState<IBookItem[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const handleSearch = useCallback(
     async (searchParams: Record<string, any>) => {
       const queryString = new URLSearchParams(searchParams).toString();
+
+      setLoading(true);
 
       try {
         const response = await instance.get(
@@ -36,6 +41,8 @@ const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
         setResults(data.books);
       } catch (error) {
         console.error("Error fetching search results:", error);
+      } finally {
+        setLoading(false);
       }
     },
     []
@@ -43,6 +50,8 @@ const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
 
   const fetchHints = useCallback(async (searchParams: Record<string, any>) => {
     const queryString = new URLSearchParams(searchParams).toString();
+
+    setLoading(true);
 
     try {
       const response = await instance.get(
@@ -52,6 +61,8 @@ const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
       console.log(response.data.books);
     } catch (error) {
       console.error("Error fetching suggestions:", error);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -62,6 +73,7 @@ const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
         hints,
         handleSearch,
         fetchHints,
+        loading,
       }}
     >
       {children}

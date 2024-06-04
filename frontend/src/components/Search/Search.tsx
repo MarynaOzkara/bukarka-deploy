@@ -20,18 +20,23 @@ import { SearchContext } from "./SearchContext";
 import { useNavigate } from "react-router-dom";
 
 export const Search = () => {
-  const { hints, handleSearch, fetchHints } = useContext(SearchContext);
+  const { hints, loading, handleSearch, fetchHints } =
+    useContext(SearchContext);
   const [query, setQuery] = useState<string>("");
   const [showHints, setShowHints] = useState<boolean>(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
+
   const hintsRef = useRef<HTMLUListElement>(null);
 
-  const debouncedQuery = useDebounce(query, 300);
+  const debouncedQuery = useDebounce(query, 1500);
 
   const navigate = useNavigate();
 
   const goToCatalog = (query: string) => {
+    setShowHints(false);
     navigate(`/catalog?query=${query}`);
+    setHighlightedIndex(-1);
+    setQuery("");
   };
 
   useEffect(() => {
@@ -76,19 +81,13 @@ export const Search = () => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     handleSearch({ title: query, author: query });
-    setShowHints(false);
     goToCatalog(query);
-    setHighlightedIndex(-1);
-    setQuery("");
   };
 
   const handleHintClick = (hint: IBookItem) => {
-    console.log(hint);
     setQuery(hint.title || hint.author);
     handleSearch({ title: hint.title, author: hint.author });
-    setShowHints(false);
-    setQuery("");
-    setHighlightedIndex(-1);
+    goToCatalog(query);
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -102,12 +101,12 @@ export const Search = () => {
       );
     } else if (event.key === "Enter" && highlightedIndex >= 0) {
       event.preventDefault();
+
       handleHintClick(hints[highlightedIndex]);
     } else if (event.key === "Escape") {
       setShowHints(false);
     }
   };
-  console.log(hints);
 
   return (
     <StyledForm onSubmit={handleSubmit}>
@@ -122,22 +121,30 @@ export const Search = () => {
 
       {showHints && hints.length > 0 && (
         <Hints ref={hintsRef}>
-          {hints.map(
-            (hint, index) =>
-              hint && (
-                <li
-                  className={`${
-                    index === highlightedIndex ? "highlighted" : ""
-                  }`}
-                  key={index}
-                  onClick={() => handleHintClick(hint)}
-                >
-                  {(hint.author?.toLowerCase().includes(query.toLowerCase()) &&
-                    hint.author) ||
-                    (hint.title?.toLowerCase().includes(query.toLowerCase()) &&
-                      hint.title)}
-                </li>
-              )
+          {loading ? (
+            <li>Loading...</li>
+          ) : (
+            hints.map(
+              (hint, index) =>
+                hint && (
+                  <li
+                    className={`${
+                      index === highlightedIndex ? "highlighted" : ""
+                    }`}
+                    key={index}
+                    onClick={() => handleHintClick(hint)}
+                  >
+                    {(hint.author
+                      ?.toLowerCase()
+                      .includes(query.toLowerCase()) &&
+                      hint.author) ||
+                      (hint.title
+                        ?.toLowerCase()
+                        .includes(query.toLowerCase()) &&
+                        hint.title)}
+                  </li>
+                )
+            )
           )}
         </Hints>
       )}
