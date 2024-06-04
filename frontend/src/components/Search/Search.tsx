@@ -77,6 +77,13 @@ export const Search = () => {
     }
   }, [highlightedIndex, hints]);
 
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutsideHints);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideHints);
+    };
+  }, []);
+
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
 
@@ -99,6 +106,13 @@ export const Search = () => {
     setQuery(hint.title || hint.author);
     handleSearch({ title: hint.title, author: hint.author });
     goToCatalog(query);
+  };
+
+  const handleClickOutsideHints = (event: MouseEvent) => {
+    if (hintsRef.current && !hintsRef.current.contains(event.target as Node)) {
+      setShowHints(false);
+    }
+    setQuery("");
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
