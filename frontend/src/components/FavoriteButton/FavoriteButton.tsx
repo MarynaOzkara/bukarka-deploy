@@ -1,5 +1,5 @@
 import { useBooks } from "components/Book";
-import React, { useEffect } from "react";
+import React from "react";
 import { HeartIconThin } from "../../assets/icons";
 import { StyledHeart } from "./FavoriteButton.styled";
 
@@ -19,16 +19,6 @@ export const FavoriteButton: React.FC<IProp> = ({ itemId }) => {
       addFavorite(itemId);
     }
   };
-
-  useEffect(() => {
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    if (isFavorite) {
-      favorites[itemId] = true;
-    } else {
-      delete favorites[itemId];
-    }
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [isFavorite, itemId]);
 
   return (
     <StyledHeart $isFavorite={isFavorite} onClick={toggleFavorite}>

@@ -70,13 +70,17 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     let savedFavorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-
     setFavorites(savedFavorites);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
+    if (!favorites || !Array.isArray(favorites)) {
+      localStorage.setItem("favorites", JSON.stringify([]));
+      return;
+    }
   }, [favorites]);
+
+  localStorage.setItem("favorites", JSON.stringify(favorites));
 
   return (
     <BooksContext.Provider
