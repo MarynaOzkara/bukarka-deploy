@@ -23,12 +23,12 @@ const CatalogPage: React.FC = () => {
               gap: "2rem",
             }}
           >
-            {results.length === 0 ? (
-              <p>No results found</p>
-            ) : (
+            {results.length ? (
               results.map((result, index) => (
                 <BookCard key={index} {...result} />
               ))
+            ) : (
+              <p>No results found</p>
             )}
           </FlexWrapper>
         </Wrapper>
