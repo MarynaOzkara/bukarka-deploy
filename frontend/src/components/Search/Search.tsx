@@ -28,7 +28,7 @@ export const Search = () => {
 
   const hintsRef = useRef<HTMLUListElement>(null);
 
-  const debouncedQuery = useDebounce(query, 300);
+  const debouncedQuery = useDebounce(query, 500);
 
   const navigate = useNavigate();
 
@@ -87,12 +87,6 @@ export const Search = () => {
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
 
-    if (event.target.value) {
-      fetchHints({
-        title: event.target.value,
-        author: event.target.value,
-      });
-    }
     setShowHints(false);
   };
 
@@ -103,7 +97,7 @@ export const Search = () => {
   };
 
   const handleHintClick = (hint: IBookItem) => {
-    setQuery(hint.title || hint.author);
+    setQuery(query);
     handleSearch({ title: hint.title, author: hint.author });
     goToCatalog(query);
   };

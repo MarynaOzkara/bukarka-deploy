@@ -58,7 +58,6 @@ const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
         `/api/books/filters?${queryString}&limit=20`
       );
       setHints(response.data.books);
-      console.log(response.data.books);
     } catch (error) {
       console.error("Error fetching suggestions:", error);
     } finally {
