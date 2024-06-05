@@ -65,23 +65,6 @@ const BookCard: React.FC<IProps> = ({
   };
 
   useEffect(() => {
-    const fetchCartItems = async () => {
-      try {
-        const response = await instance.get("/api/orders");
-        // console.log("response", response);
-        // console.log(response.data);
-
-        setCartItems(response.data);
-        // console.log(cartItems);
-      } catch (error) {
-        console.error("Error fetching cart items:", error);
-      }
-    };
-
-    fetchCartItems();
-  }, []);
-
-  useEffect(() => {
     if (currentId) {
       const fetchData = async () => {
         try {
