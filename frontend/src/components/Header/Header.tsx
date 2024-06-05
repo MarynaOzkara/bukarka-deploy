@@ -1,21 +1,18 @@
+import { BurgerIcon } from "assets/icons";
+import Catalog from "components/Catalog";
+import Modal from "components/Modal";
+import { Search } from "components/Search/Search";
+import UserMenu from "components/UserMenu";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
   ButtonWrapper,
   CatalogButton,
-  FormButton,
-  Input,
-  StyledForm,
   StyledHeader,
-  StyledLensIcon,
   StyledLogo,
   Wrapper,
 } from "./Header.styled";
-import Catalog from "components/Catalog";
-import Modal from "components/Modal";
-import UserMenu from "components/UserMenu";
-import { BurgerIcon, LensIcon } from "assets/icons";
-import { StyledCommonWrapper } from "styles/CommonStyled";
 
 const Header: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -27,8 +24,6 @@ const Header: React.FC = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
-  const handleValueChange = () => {};
 
   return (
     <StyledCommonWrapper>
@@ -43,16 +38,7 @@ const Header: React.FC = () => {
               Каталог
             </CatalogButton>
           </ButtonWrapper>
-          <StyledForm>
-            <StyledLensIcon />
-            <Input
-              type="text"
-              value=""
-              onChange={handleValueChange}
-              placeholder="Знайти книгу"
-            />
-            <FormButton>Знайти</FormButton>
-          </StyledForm>
+          <Search />
           <UserMenu />
         </Wrapper>
       </StyledHeader>
