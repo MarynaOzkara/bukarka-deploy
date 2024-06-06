@@ -4,11 +4,13 @@ import {
   ChangeEvent,
   FormEvent,
   KeyboardEvent,
+  useCallback,
   useContext,
   useEffect,
   useRef,
   useState,
 } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   FormButton,
   Hints,
@@ -17,7 +19,6 @@ import {
   StyledLensIcon,
 } from "./Search.styled";
 import { SearchContext } from "./SearchContext";
-import { useLocation, useNavigate } from "react-router-dom";
 
 export const Search = () => {
   const { hints, loading, handleSearch, fetchHints } =
@@ -28,27 +29,33 @@ export const Search = () => {
 
   const hintsRef = useRef<HTMLUListElement>(null);
 
-  const debouncedQuery = useDebounce(query, 300);
+  const debouncedQuery = useDebounce(query, 500);
 
   const navigate = useNavigate();
-
   const location = useLocation();
 
-  const goToCatalog = (query: string) => {
-    setShowHints(false);
-    navigate(`/catalog?query=${query}`);
-    setHighlightedIndex(-1);
-    setQuery("");
-  };
+  const goToCatalog = useCallback(
+    (searchParams: Record<string, any>) => {
+      const queryString = new URLSearchParams(searchParams).toString();
+      navigate(`/catalog?${queryString}`);
+      setHighlightedIndex(-1);
+      setShowHints(false);
+    },
+    [navigate]
+  );
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const query = params.get("query");
-    if (query) {
-      setQuery(query);
-      handleSearch({ title: query, author: query });
+    const authorQuery = params.get("author") || "";
+    const titleQuery = params.get("title") || "";
+    const searchQuery = authorQuery || titleQuery;
+
+    setQuery(searchQuery);
+
+    if (searchQuery) {
+      handleSearch({ author: authorQuery, title: titleQuery });
     }
-  }, [location.search]);
+  }, [location.search, handleSearch]);
 
   useEffect(() => {
     if (debouncedQuery) {
@@ -86,33 +93,34 @@ export const Search = () => {
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
-
-    if (event.target.value) {
-      fetchHints({
-        title: event.target.value,
-        author: event.target.value,
-      });
-    }
     setShowHints(false);
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleSearch({ title: query, author: query });
-    goToCatalog(query);
+    const searchParams = { author: query, title: query };
+    handleSearch(searchParams);
+    goToCatalog(searchParams);
   };
 
   const handleHintClick = (hint: IBookItem) => {
-    setQuery(hint.title || hint.author);
-    handleSearch({ title: hint.title, author: hint.author });
-    goToCatalog(query);
+    const searchParams = {
+      author: hint.author?.toLowerCase().includes(query.toLowerCase())
+        ? hint.author
+        : "",
+      title: hint.title?.toLowerCase().includes(query.toLowerCase())
+        ? hint.title
+        : "",
+    };
+    setQuery(searchParams.author || searchParams.title);
+    handleSearch(searchParams);
+    goToCatalog(searchParams);
   };
 
   const handleClickOutsideHints = (event: MouseEvent) => {
     if (hintsRef.current && !hintsRef.current.contains(event.target as Node)) {
       setShowHints(false);
     }
-    setQuery("");
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
