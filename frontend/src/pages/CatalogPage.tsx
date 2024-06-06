@@ -1,4 +1,5 @@
 import { BookCard, SearchContext } from "components";
+import { useBooks } from "components/Book";
 import { useContext } from "react";
 import {
   FlexWrapper,
@@ -9,7 +10,11 @@ import {
 import { Label } from "./CommonPages.styled";
 
 const CatalogPage: React.FC = () => {
-  const { results } = useContext(SearchContext);
+  const { searchResults } = useContext(SearchContext);
+  const { books } = useBooks();
+
+  console.log(searchResults);
+  console.log(books);
 
   return (
     <StyledCommonWrapper>
@@ -23,12 +28,17 @@ const CatalogPage: React.FC = () => {
               gap: "2rem",
             }}
           >
-            {results.length ? (
-              results.map((result, index) => (
-                <BookCard key={index} {...result} />
-              ))
+            {searchResults ? (
+              searchResults.length > 0 ? (
+                searchResults.map((result, index) => (
+                  <BookCard key={index} {...result} />
+                ))
+              ) : (
+                <p>No results found</p>
+              )
             ) : (
-              <p>No results found</p>
+              books.length > 0 &&
+              books.map((book, index) => <BookCard key={index} {...book} />)
             )}
           </FlexWrapper>
         </Wrapper>

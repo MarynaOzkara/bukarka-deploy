@@ -6,11 +6,11 @@ import React, {
   useState,
 } from "react";
 import { instance } from "utils/fetchInstance";
-import { BooksContextType, IBookItem, IBooksData } from "./Book.types";
+import { IBooksContextType, IBookItem, IBooksData } from "./Book.types";
 
-const BooksContext = createContext<BooksContextType | null>(null);
+const BooksContext = createContext<IBooksContextType | null>(null);
 
-export const useBooks = (): BooksContextType => {
+export const useBooks = (): IBooksContextType => {
   const context = useContext(BooksContext);
   if (!context) {
     throw new Error("useBooks must be used within a BooksProvider");
@@ -18,33 +18,14 @@ export const useBooks = (): BooksContextType => {
   return context;
 };
 
-const fetchBooks = async (): Promise<IBookItem[]> => {
-  let books: IBookItem[] = [];
-  let page = 1;
-  let totalPages = 1;
-
-  do {
-    const response = await instance.get<IBooksData>("/api/books", {
-      params: { page },
-    });
-
-    books = books.concat(response.data.data);
-
-    totalPages =
-      response.data.total && response.data.limit
-        ? Math.round(response.data.total / response.data.limit)
-        : 1;
-    page += 1;
-  } while (page <= totalPages);
-
-  return books;
-};
-
 export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [booksData, setBooksData] = useState<IBookItem[]>([]);
+  const [allBooks, setAllBooks] = useState<IBookItem[]>([]);
+  const [books, setBooks] = useState<IBookItem[]>([]);
   const [favorites, setFavorites] = useState<string[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const addFavorite = (id: string) => {
     setFavorites((prevFavorites) => [...prevFavorites, id]);
@@ -54,12 +35,50 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
     setFavorites((prevFavorites) => prevFavorites.filter((fav) => fav !== id));
   };
 
+  const fetchAllBooks = async (): Promise<IBookItem[]> => {
+    let books: IBookItem[] = [];
+    let page = 1;
+    let totalPages = 1;
+
+    do {
+      const response = await instance.get<IBooksData>("/api/books");
+
+      books = books.concat(response.data.data);
+
+      totalPages =
+        response.data.total && response.data.limit
+          ? Math.round(response.data.total / response.data.limit)
+          : 1;
+      page += 1;
+    } while (page <= totalPages);
+
+    return books;
+  };
+
+  const fetchBooks = async (pageParam: number = 1) => {
+    let page = pageParam || 1;
+
+    try {
+      const response = await instance.get<IBooksData>("/api/books", {
+        params: { page },
+      });
+
+      setBooks(response.data.data);
+      response.data.total &&
+        response.data.limit &&
+        setTotalPages(Math.ceil(response.data.total / response.data.limit));
+      setCurrentPage(page);
+    } catch (error) {
+      console.error("Failed to fetch books:", error);
+    }
+  };
+
   useEffect(() => {
     const loadBooks = async () => {
       try {
-        const allBooks = await fetchBooks();
+        const allBooks = await fetchAllBooks();
 
-        setBooksData(allBooks);
+        setAllBooks(allBooks);
       } catch (error) {
         console.error("Error fetching books:", error);
       }
@@ -67,6 +86,10 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
 
     loadBooks();
   }, []);
+
+  useEffect(() => {
+    fetchBooks(currentPage);
+  }, [currentPage]);
 
   useEffect(() => {
     let savedFavorites = JSON.parse(localStorage.getItem("favorites") || "[]");
@@ -84,7 +107,17 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
 
   return (
     <BooksContext.Provider
-      value={{ booksData, favorites, addFavorite, removeFavorite }}
+      value={{
+        books,
+        allBooks,
+        favorites,
+        totalPages,
+        currentPage,
+        addFavorite,
+        removeFavorite,
+        fetchBooks,
+        fetchAllBooks,
+      }}
     >
       {children}
     </BooksContext.Provider>

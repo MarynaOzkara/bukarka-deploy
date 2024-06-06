@@ -3,7 +3,7 @@ import { FC, ReactNode, createContext, useCallback, useState } from "react";
 import { instance } from "utils/fetchInstance";
 
 interface SearchContextProps {
-  results: IBookItem[];
+  searchResults: IBookItem[];
   hints: IBookItem[];
   loading: boolean;
   handleSearch: (searchParams: Record<string, any>) => void;
@@ -11,7 +11,7 @@ interface SearchContextProps {
 }
 
 const SearchContext = createContext<SearchContextProps>({
-  results: [],
+  searchResults: [],
   hints: [],
   loading: false,
   handleSearch: () => {},
@@ -23,7 +23,7 @@ interface ProviderProps {
 }
 
 const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
-  const [results, setResults] = useState<IBookItem[]>([]);
+  const [searchResults, setSearchResults] = useState<IBookItem[]>([]);
   const [hints, setHints] = useState<IBookItem[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -38,7 +38,7 @@ const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
       const cacheKey = generateCacheKey(searchParams);
 
       if (cache[cacheKey]) {
-        setResults(cache[cacheKey]);
+        setSearchResults(cache[cacheKey]);
         return;
       }
 
@@ -51,7 +51,7 @@ const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
           `/api/books/filters?${queryString}`
         );
         const data = await response.data;
-        setResults(data.books);
+        setSearchResults(data.books);
         setCache((prevCache) => ({ ...prevCache, [cacheKey]: data.books }));
       } catch (error) {
         console.error("Error fetching search results:", error);
@@ -82,7 +82,7 @@ const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
   return (
     <SearchContext.Provider
       value={{
-        results,
+        searchResults,
         hints,
         handleSearch,
         fetchHints,

@@ -4,9 +4,9 @@ import { useBooks } from "components/Book";
 import { PageWrapper, StyledCommonWrapper } from "styles/CommonStyled";
 
 const FavoritePage: React.FC = () => {
-  const { booksData, favorites } = useBooks();
+  const { allBooks, favorites } = useBooks();
 
-  const books = booksData;
+  const books = allBooks;
 
   const favoriteBooks = books.filter((book) => favorites.includes(book._id));
 
