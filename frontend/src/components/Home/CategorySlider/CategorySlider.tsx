@@ -15,9 +15,12 @@ interface IProps {
 }
 
 const CategorySlider = () => {
-  const [booksNew, setBooksNew] = useState<IProps[]>([]);
-  const [booksBestsellers, setBooksBestsellers] = useState<IProps[]>([]);
-  const [booksPromotions, setBooksPromotions] = useState<IProps[]>([]);
+  const [books, setBooks] = useState({
+    newBooks: [],
+    bestsellers: [],
+    promotions: [],
+  });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -25,45 +28,15 @@ const CategorySlider = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await instance.get(`/api/books/new`);
-        const books = await response.data;
-        setBooksNew(books.data);
+        const response = await instance.get(`/api/books/type`);
+        const data = await response.data;
+        setBooks({
+          newBooks: data.newBooks,
+          bestsellers: data.bestsellers,
+          promotions: data.promotions,
+        });
       } catch (error) {
         console.error("Error fetching data:", error);
-        setError("Помилка при виконанні запиту:");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await instance.get(`/api/books/bestsellers`);
-        const books = await response.data;
-        setBooksBestsellers(books.data);
-      } catch (error) {
-        console.error("Помилка при виконанні запиту:", error);
-        setError("Помилка при виконанні запиту:");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await instance.get(`/api/books/promotions`);
-        const books = await response.data;
-        setBooksPromotions(books.data);
-      } catch (error) {
-        console.error("Помилка при виконанні запиту:", error);
         setError("Помилка при виконанні запиту:");
       } finally {
         setLoading(false);
@@ -80,15 +53,15 @@ const CategorySlider = () => {
     <>
       <StyledCategorySlider>
         <CategoryPoster title={"НОВИНКИ"} />
-        <SimpleSlider data={booksNew} />
+        <SimpleSlider data={books.newBooks} />
       </StyledCategorySlider>
       <StyledCategorySlider>
         <CategoryPoster title={"БЕСТСЕЛЕРИ"} />
-        <SimpleSlider data={booksBestsellers} />
+        <SimpleSlider data={books.bestsellers} />
       </StyledCategorySlider>
       <StyledCategorySlider>
         <CategoryPoster title={"АКЦІЇ"} />
-        <SimpleSlider data={booksPromotions} />
+        <SimpleSlider data={books.promotions} />
       </StyledCategorySlider>
     </>
   );
