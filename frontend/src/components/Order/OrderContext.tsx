@@ -54,17 +54,17 @@ export const OrderContextProvider: React.FC<OrderContextProviderProps> = ({
 
   const { id } = useParams<{ id: string }>();
 
-  useEffect(() => {
-    fetch(`https://bukarka.onrender.com/api/orders/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        // data && console.log(data);
-        setOrderNumber(data.orderNumber);
-      })
-      .catch((error) => {
-        console.error("Error fetching order data:", error);
-      });
-  }, [id]);
+  // useEffect(() => {
+  //   fetch(`https://bukarka.onrender.com/api/orders/${id}`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       // data && console.log(data);
+  //       setOrderNumber(data.orderNumber);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching order data:", error);
+  //     });
+  // }, [id]);
 
   const contextValue = {
     totalQuantity,

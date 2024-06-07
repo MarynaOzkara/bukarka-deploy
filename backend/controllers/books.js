@@ -19,6 +19,18 @@ const getAll = async (req, res) => {
   });
 };
 
+const getBooksByType = async (req, res) => {
+  const bestsellers = await Book.find({ bestsellers: true });
+  const newBooks = await Book.find({ new: true });
+  const promotions = await Book.find({ promotions: true });
+
+  res.json({
+    bestsellers,
+    newBooks,
+    promotions,
+  });
+};
+
 const getBestsellers = async (req, res) => {
   const total = await Book.countDocuments({ bestsellers: true });
   const { page = 1, limit = 12 } = req.query;
@@ -80,17 +92,10 @@ const filtersBooks = async (req, res) => {
   } = req.query;
   const skip = (page - 1) * limit;
 
-  const orFilters = [];
-
-  if (title) {
-    orFilters.push({ title: { $regex: title, $options: "i" } });
-  }
-  if (author) {
-    orFilters.push({ author: { $regex: author, $options: "i" } });
-  }
-
   const filters = {};
-
+  if (title) {
+    filters.title = { $regex: title, $options: "i" };
+  }
   if (category) {
     filters.category = { $regex: category, $options: "i" };
   }
@@ -99,6 +104,9 @@ const filtersBooks = async (req, res) => {
   }
   if (language) {
     filters.language = { $regex: language, $options: "i" };
+  }
+  if (author) {
+    filters.author = { $regex: author, $options: "i" };
   }
   if (publisher) {
     filters.publisher = { $regex: publisher, $options: "i" };
@@ -131,14 +139,7 @@ const filtersBooks = async (req, res) => {
     }
   }
 
-  let query;
-  if (orFilters.length > 0) {
-    query = { $and: [{ $or: orFilters }, filters] };
-  } else {
-    query = filters;
-  }
-
-  const books = await Book.find(query).skip(skip).limit(limit);
+  const books = await Book.find(filters).skip(skip).limit(limit);
   const total = await Book.countDocuments(filters);
   if (!books) {
     throw HttpError(404, "Books not found");
@@ -166,6 +167,7 @@ const getBookById = async (req, res) => {
 
 module.exports = {
   getAll: ctrlWrapper(getAll),
+  getBooksByType: ctrlWrapper(getBooksByType),
   getBestsellers: ctrlWrapper(getBestsellers),
   getNewBooks: ctrlWrapper(getNewBooks),
   getPromotions: ctrlWrapper(getPromotions),
