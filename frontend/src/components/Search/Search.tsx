@@ -20,7 +20,7 @@ import {
 } from "./Search.styled";
 import { SearchContext } from "./SearchContext";
 
-export const Search = () => {
+const Search = () => {
   const { hints, loading, handleSearch, fetchHints } =
     useContext(SearchContext);
   const [query, setQuery] = useState<string>("");
@@ -34,10 +34,10 @@ export const Search = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const goToCatalog = useCallback(
+  const goToSearchPage = useCallback(
     (searchParams: Record<string, any>) => {
       const queryString = new URLSearchParams(searchParams).toString();
-      navigate(`/catalog?${queryString}`);
+      navigate(`/search?${queryString}`);
       setHighlightedIndex(-1);
       setShowHints(false);
     },
@@ -100,7 +100,7 @@ export const Search = () => {
     event.preventDefault();
     const searchParams = { author: query, title: query };
     handleSearch(searchParams);
-    goToCatalog(searchParams);
+    goToSearchPage(searchParams);
   };
 
   const handleHintClick = (hint: IBookItem) => {
@@ -114,7 +114,7 @@ export const Search = () => {
     };
     setQuery(searchParams.author || searchParams.title);
     handleSearch(searchParams);
-    goToCatalog(searchParams);
+    goToSearchPage(searchParams);
   };
 
   const handleClickOutsideHints = (event: MouseEvent) => {
@@ -186,3 +186,5 @@ export const Search = () => {
     </StyledForm>
   );
 };
+
+export default Search;

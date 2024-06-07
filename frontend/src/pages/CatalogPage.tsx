@@ -1,6 +1,8 @@
-import { BookCard, SearchContext } from "components";
 import { useBooks } from "components/Book";
-import { useContext } from "react";
+import React, { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+
+import { BookCard, Pagination } from "components";
 import {
   FlexWrapper,
   PageWrapper,
@@ -10,11 +12,23 @@ import {
 import { Label } from "./CommonPages.styled";
 
 const CatalogPage: React.FC = () => {
-  const { searchResults } = useContext(SearchContext);
-  const { books } = useBooks();
+  const { books, fetchBooks, currentPage, setCurrentPage, totalPages } =
+    useBooks();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  console.log(searchResults);
-  console.log(books);
+  useEffect(() => {
+    const page = searchParams.get("page")
+      ? Number(searchParams.get("page"))
+      : 1;
+    setCurrentPage(page);
+    fetchBooks(page);
+  }, [searchParams, setCurrentPage, fetchBooks]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    setSearchParams({ page: page.toString() });
+    fetchBooks(page);
+  };
 
   return (
     <StyledCommonWrapper>
@@ -28,19 +42,14 @@ const CatalogPage: React.FC = () => {
               gap: "2rem",
             }}
           >
-            {searchResults ? (
-              searchResults.length > 0 ? (
-                searchResults.map((result, index) => (
-                  <BookCard key={index} {...result} />
-                ))
-              ) : (
-                <p>No results found</p>
-              )
-            ) : (
-              books.length > 0 &&
-              books.map((book, index) => <BookCard key={index} {...book} />)
-            )}
+            {books.length > 0 &&
+              books.map((book, index) => <BookCard key={index} {...book} />)}
           </FlexWrapper>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
         </Wrapper>
       </PageWrapper>
     </StyledCommonWrapper>

@@ -2,8 +2,10 @@ import React, {
   ReactNode,
   createContext,
   useContext,
-  useEffect,
   useState,
+  useEffect,
+  useCallback,
+  useMemo,
 } from "react";
 import { instance } from "utils/fetchInstance";
 import { IBooksContextType, IBookItem, IBooksData } from "./Book.types";
@@ -26,14 +28,15 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
   const [favorites, setFavorites] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
 
-  const addFavorite = (id: string) => {
+  const addFavorite = useCallback((id: string) => {
     setFavorites((prevFavorites) => [...prevFavorites, id]);
-  };
+  }, []);
 
-  const removeFavorite = (id: string) => {
+  const removeFavorite = useCallback((id: string) => {
     setFavorites((prevFavorites) => prevFavorites.filter((fav) => fav !== id));
-  };
+  }, []);
 
   const fetchAllBooks = async (): Promise<IBookItem[]> => {
     let books: IBookItem[] = [];
@@ -55,23 +58,30 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
     return books;
   };
 
-  const fetchBooks = async (pageParam: number = 1) => {
-    let page = pageParam || 1;
+  const fetchBooks = useCallback(
+    async (page: number = 1, limit: number = 8) => {
+      setLoading(true);
+      try {
+        const response = await instance.get<IBooksData>("/api/books/", {
+          params: { page, limit },
+        });
+        setBooks(response.data.data);
+        response.data.total &&
+          response.data.limit &&
+          setTotalPages(Math.ceil(response.data.total / response.data.limit));
+        setCurrentPage(page);
+      } catch (error) {
+        console.error("Failed to fetch books:", error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
 
-    try {
-      const response = await instance.get<IBooksData>("/api/books", {
-        params: { page },
-      });
-
-      setBooks(response.data.data);
-      response.data.total &&
-        response.data.limit &&
-        setTotalPages(Math.ceil(response.data.total / response.data.limit));
-      setCurrentPage(page);
-    } catch (error) {
-      console.error("Failed to fetch books:", error);
-    }
-  };
+  useEffect(() => {
+    fetchBooks(currentPage);
+  }, [fetchBooks, currentPage]);
 
   useEffect(() => {
     const loadBooks = async () => {
@@ -88,37 +98,45 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
   }, []);
 
   useEffect(() => {
-    fetchBooks(currentPage);
-  }, [currentPage]);
-
-  useEffect(() => {
-    let savedFavorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    const savedFavorites = JSON.parse(
+      localStorage.getItem("favorites") || "[]"
+    );
     setFavorites(savedFavorites);
   }, []);
 
   useEffect(() => {
-    if (!favorites || !Array.isArray(favorites)) {
-      localStorage.setItem("favorites", JSON.stringify([]));
-      return;
-    }
+    localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
 
-  localStorage.setItem("favorites", JSON.stringify(favorites));
+  const contextValue = useMemo(
+    () => ({
+      allBooks,
+      books,
+      favorites,
+      currentPage,
+      totalPages,
+      loading,
+      setCurrentPage,
+      addFavorite,
+      removeFavorite,
+      fetchBooks,
+    }),
+    [
+      allBooks,
+      books,
+      favorites,
+      currentPage,
+      totalPages,
+      loading,
+      setCurrentPage,
+      addFavorite,
+      removeFavorite,
+      fetchBooks,
+    ]
+  );
 
   return (
-    <BooksContext.Provider
-      value={{
-        books,
-        allBooks,
-        favorites,
-        totalPages,
-        currentPage,
-        addFavorite,
-        removeFavorite,
-        fetchBooks,
-        fetchAllBooks,
-      }}
-    >
+    <BooksContext.Provider value={contextValue}>
       {children}
     </BooksContext.Provider>
   );

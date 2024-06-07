@@ -1,11 +1,19 @@
 import { IBookItem } from "components/Book";
-import { FC, ReactNode, createContext, useCallback, useState } from "react";
+import React, {
+  ReactNode,
+  createContext,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { instance } from "utils/fetchInstance";
 
 interface SearchContextProps {
   searchResults: IBookItem[];
   hints: IBookItem[];
   loading: boolean;
+  currentPage: number;
+  totalPages: number;
   handleSearch: (searchParams: Record<string, any>) => void;
   fetchHints: (searchParams: Record<string, any>) => void;
 }
@@ -14,6 +22,8 @@ const SearchContext = createContext<SearchContextProps>({
   searchResults: [],
   hints: [],
   loading: false,
+  currentPage: 1,
+  totalPages: 1,
   handleSearch: () => {},
   fetchHints: () => {},
 });
@@ -22,37 +32,37 @@ interface ProviderProps {
   children: ReactNode;
 }
 
-const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
+const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
   const [searchResults, setSearchResults] = useState<IBookItem[]>([]);
   const [hints, setHints] = useState<IBookItem[]>([]);
   const [loading, setLoading] = useState(false);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [cache, setCache] = useState<Record<string, IBookItem[]>>({});
 
-  const generateCacheKey = (params: Record<string, any>): string => {
-    return JSON.stringify(params);
-  };
+  const generateCacheKey = (params: Record<string, any>): string =>
+    JSON.stringify(params);
 
   const handleSearch = useCallback(
     async (searchParams: Record<string, any>) => {
       const cacheKey = generateCacheKey(searchParams);
-
       if (cache[cacheKey]) {
         setSearchResults(cache[cacheKey]);
         return;
       }
 
       const queryString = new URLSearchParams(searchParams).toString();
-
       setLoading(true);
 
       try {
         const response = await instance.get(
           `/api/books/filters?${queryString}`
         );
-        const data = await response.data;
+        const data = response.data;
         setSearchResults(data.books);
         setCache((prevCache) => ({ ...prevCache, [cacheKey]: data.books }));
+        setTotalPages(Math.ceil(data.total / data.limit));
+        setCurrentPage(searchParams.page || 1);
       } catch (error) {
         console.error("Error fetching search results:", error);
       } finally {
@@ -64,7 +74,6 @@ const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
 
   const fetchHints = useCallback(async (searchParams: Record<string, any>) => {
     const queryString = new URLSearchParams(searchParams).toString();
-
     setLoading(true);
 
     try {
@@ -79,16 +88,29 @@ const SearchContextProvider: FC<ProviderProps> = ({ children }) => {
     }
   }, []);
 
+  const contextValue = useMemo(
+    () => ({
+      searchResults,
+      hints,
+      loading,
+      currentPage,
+      totalPages,
+      handleSearch,
+      fetchHints,
+    }),
+    [
+      searchResults,
+      hints,
+      loading,
+      currentPage,
+      totalPages,
+      handleSearch,
+      fetchHints,
+    ]
+  );
+
   return (
-    <SearchContext.Provider
-      value={{
-        searchResults,
-        hints,
-        handleSearch,
-        fetchHints,
-        loading,
-      }}
-    >
+    <SearchContext.Provider value={contextValue}>
       {children}
     </SearchContext.Provider>
   );

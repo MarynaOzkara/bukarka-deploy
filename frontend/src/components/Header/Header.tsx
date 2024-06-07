@@ -1,9 +1,8 @@
 import { BurgerIcon } from "assets/icons";
 import Catalog from "components/Catalog";
 import Modal from "components/Modal";
-import { Search } from "components/Search/Search";
 import UserMenu from "components/UserMenu";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
@@ -13,6 +12,7 @@ import {
   StyledLogo,
   Wrapper,
 } from "./Header.styled";
+import { Search } from "components";
 
 const Header: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -20,9 +20,13 @@ const Header: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const goToCatalog = () => {
-    navigate(`/catalog`);
-  };
+  const goToCatalog = useCallback(
+    (searchParams: Record<string, any>) => {
+      const queryString = new URLSearchParams(searchParams).toString();
+      navigate(`/catalog?${queryString}`);
+    },
+    [navigate]
+  );
 
   const showModal = (content: string) => {
     setModalContent(content);

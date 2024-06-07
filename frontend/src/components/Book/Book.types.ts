@@ -19,13 +19,14 @@ export interface IBooksData {
 }
 
 export interface IBooksContextType {
-  books: IBookItem[];
   allBooks: IBookItem[];
+  books: IBookItem[];
+  fetchBooks: (page: number) => void;
   favorites: string[];
   addFavorite: (_id: string) => void;
   removeFavorite: (_id: string) => void;
-  fetchBooks: (pageParam?: number) => void;
-  fetchAllBooks: (pageParam?: number) => Promise<IBookItem[]>;
+  loading: boolean;
   totalPages: number;
   currentPage: number;
+  setCurrentPage: (page: number) => void;
 }
