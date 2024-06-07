@@ -60,10 +60,14 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
           `/api/books/filters?${queryString}`
         );
         const data = response.data;
-        setTotalPages(Math.ceil(data.total / data.limit));
+        data.total &&
+          data.limit &&
+          setTotalPages(Math.floor(data.total / data.limit));
+
         setSearchResults(data.books);
         setCurrentPage(searchParams.page || 1);
         setCache((prevCache) => ({ ...prevCache, [cacheKey]: data.books }));
+        console.log(data.books);
       } catch (error) {
         console.error("Error fetching search results:", error);
       } finally {

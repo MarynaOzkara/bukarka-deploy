@@ -20,15 +20,11 @@ const SearchPage = () => {
     const page = searchParams.get("page")
       ? Number(searchParams.get("page"))
       : 1;
-    setCurrentPage(page);
 
     const authorQuery = searchParams.get("author") || "";
     const titleQuery = searchParams.get("title") || "";
-    const searchQuery = authorQuery || titleQuery;
 
-    if (searchQuery) {
-      handleSearch({ author: authorQuery, title: titleQuery, page });
-    }
+    handleSearch({ author: authorQuery, title: titleQuery, page });
   }, [location.search]);
 
   const handlePageChange = (newPage: number) => {

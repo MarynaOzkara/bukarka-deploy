@@ -32,7 +32,6 @@ const Search = () => {
   const debouncedQuery = useDebounce(query, 500);
 
   const navigate = useNavigate();
-  const location = useLocation();
 
   const goToSearchPage = useCallback(
     (searchParams: Record<string, any>) => {
@@ -43,19 +42,6 @@ const Search = () => {
     },
     [navigate]
   );
-
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const authorQuery = params.get("author") || "";
-    const titleQuery = params.get("title") || "";
-    const searchQuery = authorQuery || titleQuery;
-
-    setQuery(searchQuery);
-
-    if (searchQuery) {
-      handleSearch({ author: authorQuery, title: titleQuery });
-    }
-  }, [location.search, handleSearch]);
 
   useEffect(() => {
     if (debouncedQuery) {
@@ -98,7 +84,7 @@ const Search = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const searchParams = { author: query, title: query };
+    const searchParams = { author: query, title: query, page: 1 };
     handleSearch(searchParams);
     goToSearchPage(searchParams);
   };
