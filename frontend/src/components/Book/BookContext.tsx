@@ -59,7 +59,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const fetchBooks = useCallback(
-    async (page: number = 1, limit: number = 8) => {
+    async (page: number = 1, limit: number = 2) => {
       setLoading(true);
       try {
         const response = await instance.get<IBooksData>("/api/books/", {

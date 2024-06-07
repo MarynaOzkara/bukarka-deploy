@@ -21,13 +21,15 @@ const CatalogPage: React.FC = () => {
       ? Number(searchParams.get("page"))
       : 1;
     setCurrentPage(page);
-    fetchBooks(page);
-  }, [searchParams, setCurrentPage, fetchBooks]);
+  }, [searchParams, setCurrentPage]);
+
+  useEffect(() => {
+    fetchBooks(currentPage);
+  }, []);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     setSearchParams({ page: page.toString() });
-    fetchBooks(page);
   };
 
   return (

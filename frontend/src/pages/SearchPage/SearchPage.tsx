@@ -16,8 +16,6 @@ const SearchPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const totalPagesToShow = (searchParams.get("query") && totalPages) || 1;
-
   useEffect(() => {
     const page = searchParams.get("page")
       ? Number(searchParams.get("page"))
@@ -30,10 +28,8 @@ const SearchPage = () => {
 
     if (searchQuery) {
       handleSearch({ author: authorQuery, title: titleQuery, page });
-    } else {
-      navigate(`/catalog`);
     }
-  }, [location.search, searchParams, handleSearch, navigate]);
+  }, [location.search]);
 
   const handlePageChange = (newPage: number) => {
     const params = new URLSearchParams(location.search);
@@ -62,13 +58,12 @@ const SearchPage = () => {
               <p>No results found</p>
             )}
           </FlexWrapper>
-          {searchResults.length > 0 && (
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPagesToShow}
-              onPageChange={handlePageChange}
-            />
-          )}
+
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
         </Wrapper>
       </PageWrapper>
     </StyledCommonWrapper>

@@ -46,6 +46,7 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
   const handleSearch = useCallback(
     async (searchParams: Record<string, any>) => {
       const cacheKey = generateCacheKey(searchParams);
+
       if (cache[cacheKey]) {
         setSearchResults(cache[cacheKey]);
         return;
@@ -59,10 +60,10 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
           `/api/books/filters?${queryString}`
         );
         const data = response.data;
-        setSearchResults(data.books);
-        setCache((prevCache) => ({ ...prevCache, [cacheKey]: data.books }));
         setTotalPages(Math.ceil(data.total / data.limit));
+        setSearchResults(data.books);
         setCurrentPage(searchParams.page || 1);
+        setCache((prevCache) => ({ ...prevCache, [cacheKey]: data.books }));
       } catch (error) {
         console.error("Error fetching search results:", error);
       } finally {
@@ -78,7 +79,7 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
 
     try {
       const response = await instance.get(
-        `/api/books/filters?${queryString}&limit=20`
+        `/api/books/filters?${queryString}&limit=10`
       );
       setHints(response.data.books);
     } catch (error) {

@@ -20,13 +20,9 @@ const Header: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const goToCatalog = useCallback(
-    (searchParams: Record<string, any>) => {
-      const queryString = new URLSearchParams(searchParams).toString();
-      navigate(`/catalog?${queryString}`);
-    },
-    [navigate]
-  );
+  const goToCatalog = useCallback(() => {
+    navigate(`/catalog`);
+  }, [navigate]);
 
   const showModal = (content: string) => {
     setModalContent(content);
