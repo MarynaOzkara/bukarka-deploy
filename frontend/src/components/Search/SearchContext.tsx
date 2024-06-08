@@ -1,4 +1,4 @@
-import { IBookItem } from "components/Book";
+import { IBookItem, IBooksData } from "components/Book";
 import React, {
   ReactNode,
   createContext,
@@ -7,6 +7,8 @@ import React, {
   useState,
 } from "react";
 import { instance } from "utils/fetchInstance";
+import { books } from "./../../redux/books/slice";
+import { ISearchResponse } from "./Search.types";
 
 interface SearchContextProps {
   searchResults: IBookItem[];
@@ -43,6 +45,14 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
   const generateCacheKey = (params: Record<string, any>): string =>
     JSON.stringify(params);
 
+  const setPages = (data: ISearchResponse) => {
+    data.total &&
+      data.limit &&
+      (data.total / data.limit > 1
+        ? setTotalPages(Math.floor(data.total / data.limit))
+        : setTotalPages(Math.ceil(data.total / data.limit)));
+  };
+  console.log(totalPages);
   const handleSearch = useCallback(
     async (searchParams: Record<string, any>) => {
       const cacheKey = generateCacheKey(searchParams);
@@ -56,18 +66,18 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
       setLoading(true);
 
       try {
-        const response = await instance.get(
-          `/api/books/filters?${queryString}`
+        const response = await instance.get<ISearchResponse>(
+          `/api/books/filters?${queryString}&limit=4`
         );
-        const data = response.data;
-        data.total &&
-          data.limit &&
-          setTotalPages(Math.floor(data.total / data.limit));
 
-        setSearchResults(data.books);
+        setPages(response.data);
+        console.log(response.data.books);
+        setSearchResults(response.data.books);
         setCurrentPage(searchParams.page || 1);
-        setCache((prevCache) => ({ ...prevCache, [cacheKey]: data.books }));
-        console.log(data.books);
+        setCache((prevCache) => ({
+          ...prevCache,
+          [cacheKey]: response.data.books,
+        }));
       } catch (error) {
         console.error("Error fetching search results:", error);
       } finally {

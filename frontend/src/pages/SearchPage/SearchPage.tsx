@@ -11,27 +11,43 @@ import {
 
 const SearchPage = () => {
   const { searchResults, handleSearch, totalPages } = useContext(SearchContext);
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
-  const location = useLocation();
+
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    const page = searchParams.get("page")
-      ? Number(searchParams.get("page"))
-      : 1;
-
+    const page = Number(searchParams.get("page"));
     const authorQuery = searchParams.get("author") || "";
     const titleQuery = searchParams.get("title") || "";
+    setCurrentPage(page);
 
     handleSearch({ author: authorQuery, title: titleQuery, page });
-  }, [location.search]);
+  }, [searchParams, setCurrentPage]);
+
+  // const handlePageChange = (page: number) => {
+  //   setCurrentPage(page);
+  //   setSearchParams({ page: page.toString() });
+  // };
+
+  // useEffect(() => {
+  //   const page = Number(searchParams.get("page"));
+  //   console.log(searchParams);
+  //   console.log(page);
+
+  //   handleSearch({ author: authorQuery, title: titleQuery, page });
+  // }, [location.search]);
 
   const handlePageChange = (newPage: number) => {
     const params = new URLSearchParams(location.search);
     params.set("page", newPage.toString());
     navigate(`/search?${params.toString()}`);
     setCurrentPage(newPage);
+
+    console.log(searchParams);
+
+    // setSearchParams({ page: newPage.toString() });
   };
 
   return (
@@ -55,11 +71,13 @@ const SearchPage = () => {
             )}
           </FlexWrapper>
 
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-          />
+          {searchResults.length && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          )}
         </Wrapper>
       </PageWrapper>
     </StyledCommonWrapper>

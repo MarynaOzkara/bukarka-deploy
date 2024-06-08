@@ -1,10 +1,17 @@
 import { BookCard } from "components";
-import { IBooksData } from "components/Book";
+import { IBookItem, IBooksData } from "components/Book";
 
 import { Label } from "pages/CommonPages.styled";
 import { FlexWrapper, Wrapper } from "styles/CommonStyled";
 
-const Favorites: React.FC<IBooksData> = ({ data }) => {
+interface IFavProps {
+  books: IBookItem[];
+  limit?: number;
+  page?: number;
+}
+
+const Favorites: React.FC<IFavProps> = ({ books, limit, page }) => {
+  console.log(books);
   return (
     <Wrapper>
       <Label>Обране</Label>
@@ -15,8 +22,8 @@ const Favorites: React.FC<IBooksData> = ({ data }) => {
           gap: "2rem",
         }}
       >
-        {data.length ? (
-          data.map((item) => <BookCard key={item._id} {...item} />)
+        {books.length ? (
+          books.map((item: IBookItem) => <BookCard key={item._id} {...item} />)
         ) : (
           <div>No favorite books</div>
         )}

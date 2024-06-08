@@ -7,13 +7,17 @@ const FavoritePage: React.FC = () => {
   const { allBooks, favorites } = useBooks();
 
   const books = allBooks;
-
-  const favoriteBooks = books.filter((book) => favorites.includes(book._id));
+  console.log(books);
+  const favoriteBooks = books.length
+    ? books.filter((book) => book && favorites.includes(book._id))
+    : [];
 
   return (
     <StyledCommonWrapper>
       <PageWrapper>
-        <Favorites data={favoriteBooks} />
+        {(books.length && <Favorites books={favoriteBooks} />) || (
+          <div>No favorite books</div>
+        )}
       </PageWrapper>
     </StyledCommonWrapper>
   );
