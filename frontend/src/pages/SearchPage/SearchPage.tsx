@@ -1,7 +1,7 @@
 import { BookCard, Pagination, SearchContext } from "components";
 import { Label } from "pages/CommonPages.styled";
 import { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import {
   FlexWrapper,
   PageWrapper,
@@ -13,41 +13,31 @@ const SearchPage = () => {
   const { searchResults, handleSearch, totalPages } = useContext(SearchContext);
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
-
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [isStart, setIsStart] = useState(true);
 
   useEffect(() => {
-    const page = Number(searchParams.get("page"));
+    const page = Number(searchParams.get("page")) || 1;
     const authorQuery = searchParams.get("author") || "";
     const titleQuery = searchParams.get("title") || "";
+
+    setIsStart(true);
     setCurrentPage(page);
 
-    handleSearch({ author: authorQuery, title: titleQuery, page });
-  }, [searchParams, setCurrentPage]);
-
-  // const handlePageChange = (page: number) => {
-  //   setCurrentPage(page);
-  //   setSearchParams({ page: page.toString() });
-  // };
-
-  // useEffect(() => {
-  //   const page = Number(searchParams.get("page"));
-  //   console.log(searchParams);
-  //   console.log(page);
-
-  //   handleSearch({ author: authorQuery, title: titleQuery, page });
-  // }, [location.search]);
+    if (!isStart)
+      handleSearch({ author: authorQuery, title: titleQuery, page });
+  }, [searchParams]);
 
   const handlePageChange = (newPage: number) => {
-    const params = new URLSearchParams(location.search);
-    params.set("page", newPage.toString());
-    navigate(`/search?${params.toString()}`);
-    setCurrentPage(newPage);
+    setIsStart(false);
 
-    console.log(searchParams);
+    const authorQuery = searchParams.get("author") || "";
+    const titleQuery = searchParams.get("title") || "";
 
-    // setSearchParams({ page: newPage.toString() });
+    setSearchParams({
+      author: authorQuery,
+      title: titleQuery,
+      page: newPage.toString(),
+    });
   };
 
   return (
@@ -70,8 +60,7 @@ const SearchPage = () => {
               <p>No results found</p>
             )}
           </FlexWrapper>
-
-          {searchResults.length && (
+          {!!searchResults.length && (
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}

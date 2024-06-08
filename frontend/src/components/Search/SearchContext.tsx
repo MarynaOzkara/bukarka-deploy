@@ -1,4 +1,4 @@
-import { IBookItem, IBooksData } from "components/Book";
+import { IBookItem } from "components/Book";
 import React, {
   ReactNode,
   createContext,
@@ -7,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { instance } from "utils/fetchInstance";
-import { books } from "./../../redux/books/slice";
 import { ISearchResponse } from "./Search.types";
 
 interface SearchContextProps {
@@ -40,29 +39,29 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
   const [cache, setCache] = useState<Record<string, IBookItem[]>>({});
 
   const generateCacheKey = (params: Record<string, any>): string =>
     JSON.stringify(params);
 
   const setPages = (data: ISearchResponse) => {
-    data.total &&
-      data.limit &&
-      (data.total / data.limit > 1
-        ? setTotalPages(Math.floor(data.total / data.limit))
-        : setTotalPages(Math.ceil(data.total / data.limit)));
+    if (data.total && data.limit) {
+      const pages = Math.ceil(data.total / data.limit);
+      setTotalPages(pages);
+    }
   };
-  console.log(totalPages);
+
   const handleSearch = useCallback(
     async (searchParams: Record<string, any>) => {
+      const queryString = new URLSearchParams(searchParams).toString();
+
       const cacheKey = generateCacheKey(searchParams);
 
       if (cache[cacheKey]) {
         setSearchResults(cache[cacheKey]);
         return;
       }
-
-      const queryString = new URLSearchParams(searchParams).toString();
       setLoading(true);
 
       try {
@@ -70,16 +69,18 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
           `/api/books/filters?${queryString}&limit=4`
         );
 
-        setPages(response.data);
-        console.log(response.data.books);
-        setSearchResults(response.data.books);
-        setCurrentPage(searchParams.page || 1);
-        setCache((prevCache) => ({
-          ...prevCache,
-          [cacheKey]: response.data.books,
-        }));
+        if (response.data.books.length) {
+          setSearchResults(response.data.books);
+          setPages(response.data);
+          setCurrentPage(searchParams.page || 1);
+          setCache((prevCache) => ({
+            ...prevCache,
+            [cacheKey]: response.data.books,
+          }));
+        } else setSearchResults([]);
       } catch (error) {
         console.error("Error fetching search results:", error);
+        setSearchResults([]);
       } finally {
         setLoading(false);
       }

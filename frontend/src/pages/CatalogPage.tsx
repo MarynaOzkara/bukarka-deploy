@@ -21,14 +21,12 @@ const CatalogPage: React.FC = () => {
       ? Number(searchParams.get("page"))
       : 1;
     setCurrentPage(page);
-    console.log(page);
   }, [searchParams, setCurrentPage]);
 
   useEffect(() => {
     fetchBooks(currentPage);
   }, []);
 
-  console.log(books);
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     setSearchParams({ page: page.toString() });
@@ -49,7 +47,7 @@ const CatalogPage: React.FC = () => {
             {books.length > 0 &&
               books.map((book, index) => <BookCard key={index} {...book} />)}
           </FlexWrapper>
-          {books.length && (
+          {books.length > 0 && (
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}

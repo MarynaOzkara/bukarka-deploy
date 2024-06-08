@@ -7,7 +7,7 @@ const FavoritePage: React.FC = () => {
   const { allBooks, favorites } = useBooks();
 
   const books = allBooks;
-  console.log(books);
+
   const favoriteBooks = books.length
     ? books.filter((book) => book && favorites.includes(book._id))
     : [];

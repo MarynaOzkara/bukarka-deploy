@@ -10,8 +10,7 @@ interface IFavProps {
   page?: number;
 }
 
-const Favorites: React.FC<IFavProps> = ({ books, limit, page }) => {
-  console.log(books);
+const Favorites: React.FC<IFavProps> = ({ books }) => {
   return (
     <Wrapper>
       <Label>Обране</Label>

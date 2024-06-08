@@ -10,7 +10,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   FormButton,
   Hints,
@@ -23,25 +23,22 @@ import { SearchContext } from "./SearchContext";
 const Search = () => {
   const { hints, loading, handleSearch, fetchHints } =
     useContext(SearchContext);
-  const [query, setQuery] = useState<string>("");
+  const [inputQuery, setInputQuery] = useState<string>("");
   const [showHints, setShowHints] = useState<boolean>(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
 
   const hintsRef = useRef<HTMLUListElement>(null);
 
-  const debouncedQuery = useDebounce(query, 500);
+  const debouncedQuery = useDebounce(inputQuery, 500);
 
   const navigate = useNavigate();
 
-  const goToSearchPage = useCallback(
-    (searchParams: Record<string, any>) => {
-      const queryString = new URLSearchParams(searchParams).toString();
-      navigate(`/search?${queryString}`);
-      setHighlightedIndex(-1);
-      setShowHints(false);
-    },
-    [navigate]
-  );
+  const goToSearchPage = useCallback((searchParams: Record<string, any>) => {
+    const queryString = new URLSearchParams(searchParams).toString();
+    navigate(`/search?${queryString}`);
+    setHighlightedIndex(-1);
+    setShowHints(false);
+  }, []);
 
   useEffect(() => {
     if (debouncedQuery) {
@@ -71,6 +68,15 @@ const Search = () => {
   }, [highlightedIndex, hints]);
 
   useEffect(() => {
+    const handleClickOutsideHints = (event: MouseEvent) => {
+      if (
+        hintsRef.current &&
+        !hintsRef.current.contains(event.target as Node)
+      ) {
+        setShowHints(false);
+      }
+    };
+
     document.addEventListener("mousedown", handleClickOutsideHints);
     return () => {
       document.removeEventListener("mousedown", handleClickOutsideHints);
@@ -78,35 +84,27 @@ const Search = () => {
   }, []);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value);
+    setInputQuery(event.target.value);
     setShowHints(false);
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const searchParams = { author: query, title: query, page: 1 };
+    const searchParams = { author: inputQuery, title: inputQuery };
     handleSearch(searchParams);
     goToSearchPage(searchParams);
   };
 
   const handleHintClick = (hint: IBookItem) => {
     const searchParams = {
-      author: hint.author?.toLowerCase().includes(query.toLowerCase())
+      author: hint.author?.toLowerCase().includes(inputQuery.toLowerCase())
         ? hint.author
         : "",
-      title: hint.title?.toLowerCase().includes(query.toLowerCase())
+      title: hint.title?.toLowerCase().includes(inputQuery.toLowerCase())
         ? hint.title
         : "",
     };
-    setQuery(searchParams.author || searchParams.title);
-    handleSearch(searchParams);
-    goToSearchPage(searchParams);
-  };
-
-  const handleClickOutsideHints = (event: MouseEvent) => {
-    if (hintsRef.current && !hintsRef.current.contains(event.target as Node)) {
-      setShowHints(false);
-    }
+    setInputQuery(searchParams.author || searchParams.title);
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -120,7 +118,6 @@ const Search = () => {
       );
     } else if (event.key === "Enter" && highlightedIndex >= 0) {
       event.preventDefault();
-
       handleHintClick(hints[highlightedIndex]);
     } else if (event.key === "Escape") {
       setShowHints(false);
@@ -132,42 +129,36 @@ const Search = () => {
       <StyledLensIcon />
       <Input
         type="text"
-        value={query}
+        value={inputQuery}
+        onBlur={() => setInputQuery("")}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         placeholder="Знайти книгу"
       />
-
-      {showHints && hints.length > 0 && (
+      {showHints && !!hints.length && (
         <Hints ref={hintsRef}>
           {loading ? (
             <li>Loading...</li>
           ) : (
-            hints.map(
-              (hint, index) =>
-                hint && (
-                  <li
-                    className={`${
-                      index === highlightedIndex ? "highlighted" : ""
-                    }`}
-                    key={index}
-                    onClick={() => handleHintClick(hint)}
-                  >
-                    {(hint.author
-                      ?.toLowerCase()
-                      .includes(query.toLowerCase()) &&
-                      hint.author) ||
-                      (hint.title
-                        ?.toLowerCase()
-                        .includes(query.toLowerCase()) &&
-                        hint.title)}
-                  </li>
-                )
-            )
+            hints.map((hint, index) => (
+              <li
+                className={`${index === highlightedIndex ? "highlighted" : ""}`}
+                key={index}
+                onClick={() => handleHintClick(hint)}
+              >
+                {(hint.author
+                  ?.toLowerCase()
+                  .includes(inputQuery.toLowerCase()) &&
+                  hint.author) ||
+                  (hint.title
+                    ?.toLowerCase()
+                    .includes(inputQuery.toLowerCase()) &&
+                    hint.title)}
+              </li>
+            ))
           )}
         </Hints>
       )}
-
       <FormButton>Знайти</FormButton>
     </StyledForm>
   );

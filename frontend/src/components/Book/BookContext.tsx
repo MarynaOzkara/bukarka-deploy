@@ -38,6 +38,13 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
     setFavorites((prevFavorites) => prevFavorites.filter((fav) => fav !== id));
   }, []);
 
+  const setPages = (data: IBooksData) => {
+    if (data.total && data.limit) {
+      const pages = Math.ceil(data.total / data.limit);
+      setTotalPages(pages);
+    }
+  };
+
   const fetchAllBooks = async (): Promise<IBookItem[]> => {
     let books: IBookItem[] = [];
     let page = 1;
@@ -59,19 +66,21 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const fetchBooks = useCallback(
-    async (page: number = 1, limit: number = 8) => {
+    async (page: number = 1, limit: number = 4) => {
       setLoading(true);
       try {
         const response = await instance.get<IBooksData>("/api/books/", {
           params: { page, limit },
         });
-        setBooks(response.data.data);
-        response.data.total &&
-          response.data.limit &&
-          setTotalPages(Math.ceil(response.data.total / response.data.limit));
-        setCurrentPage(page);
+
+        if (response.data.data.length) {
+          setBooks(response.data.data);
+          setPages(response.data);
+          setCurrentPage(page);
+        }
       } catch (error) {
         console.error("Failed to fetch books:", error);
+        setBooks([]);
       } finally {
         setLoading(false);
       }
