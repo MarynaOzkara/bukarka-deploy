@@ -1252,10 +1252,12 @@
         }
       }
     },
-    "/books/bestsellers": {
+
+    "/books/type": {
       "get": {
         "tags": ["Books"],
-        "summary": "Returns bestseller books",
+        "summary": "Get books by type",
+        "description": "Retrieve lists of books by different types such as bestsellers, new books, and promotions.",
         "parameters": [
           {
             "in": "query",
@@ -1276,15 +1278,33 @@
             "description": "The number of items per page"
           }
         ],
+       
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "A list of books categorized by type",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/BookListResponse"
+                  "type": "object",
+                  "properties": {
+                    "bestsellers": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/BookListResponse"
+                      }
+                    },
+                    "newBooks": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/BookListResponse"
+                      }
+                    },
+                    "promotions": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/BookListResponse"
+                      }
+                    }
                   }
                 }
               }
@@ -1303,108 +1323,7 @@
         }
       }
     },
-    "/books/new": {
-      "get": {
-        "tags": ["Books"],
-        "summary": "Returns new books",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "page",
-            "schema": {
-              "type": "integer",
-              "minimum": 1
-            },
-            "description": "The page number"
-          },
-          {
-            "in": "query",
-            "name": "limit",
-            "schema": {
-              "type": "integer",
-              "minimum": 1
-            },
-            "description": "The number of items per page"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/BookListResponse"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Books not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/errorNotFoundResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/books/promotions": {
-      "get": {
-        "tags": ["Books"],
-        "summary": "Returns books on promotions",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "page",
-            "schema": {
-              "type": "integer",
-              "minimum": 1
-            },
-            "description": "The page number"
-          },
-          {
-            "in": "query",
-            "name": "limit",
-            "schema": {
-              "type": "integer",
-              "minimum": 1
-            },
-            "description": "The number of items per page"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/BookListResponse"
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Books not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/errorNotFoundResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
+
     "/books/{id}": {
       "get": {
         "tags": ["Books"],
