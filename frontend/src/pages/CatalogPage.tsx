@@ -44,8 +44,10 @@ const CatalogPage: React.FC = () => {
               gap: "2rem",
             }}
           >
-            {books.length > 0 &&
-              books.map((book, index) => <BookCard key={index} {...book} />)}
+            {(books.length > 0 &&
+              books.map((book, index) => (
+                <BookCard key={index} {...book} />
+              ))) || <div>No books in catalog</div>}
           </FlexWrapper>
           {books.length > 0 && (
             <Pagination

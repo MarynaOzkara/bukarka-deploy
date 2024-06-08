@@ -1,7 +1,13 @@
 import { Favorites } from "components";
 import { useBooks } from "components/Book";
+import { Label } from "pages/CommonPages.styled";
 
-import { PageWrapper, StyledCommonWrapper } from "styles/CommonStyled";
+import {
+  FlexWrapper,
+  PageWrapper,
+  StyledCommonWrapper,
+  Wrapper,
+} from "styles/CommonStyled";
 
 const FavoritePage: React.FC = () => {
   const { allBooks, favorites } = useBooks();
@@ -15,9 +21,20 @@ const FavoritePage: React.FC = () => {
   return (
     <StyledCommonWrapper>
       <PageWrapper>
-        {(books.length && <Favorites books={favoriteBooks} />) || (
-          <div>No favorite books</div>
-        )}
+        <Wrapper>
+          <Label>Обране</Label>
+          <FlexWrapper
+            style={{
+              justifyContent: "space-around",
+              flexWrap: "wrap",
+              gap: "2rem",
+            }}
+          >
+            {(books.length && <Favorites books={favoriteBooks} />) || (
+              <div>No favorite books</div>
+            )}
+          </FlexWrapper>
+        </Wrapper>
       </PageWrapper>
     </StyledCommonWrapper>
   );

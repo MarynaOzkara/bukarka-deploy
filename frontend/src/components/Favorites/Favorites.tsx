@@ -13,20 +13,11 @@ interface IFavProps {
 const Favorites: React.FC<IFavProps> = ({ books }) => {
   return (
     <Wrapper>
-      <Label>Обране</Label>
-      <FlexWrapper
-        style={{
-          justifyContent: "space-around",
-          flexWrap: "wrap",
-          gap: "2rem",
-        }}
-      >
-        {books.length ? (
-          books.map((item: IBookItem) => <BookCard key={item._id} {...item} />)
-        ) : (
-          <div>No favorite books</div>
-        )}
-      </FlexWrapper>
+      {books.length ? (
+        books.map((item: IBookItem) => <BookCard key={item._id} {...item} />)
+      ) : (
+        <div>No favorite books</div>
+      )}
     </Wrapper>
   );
 };
