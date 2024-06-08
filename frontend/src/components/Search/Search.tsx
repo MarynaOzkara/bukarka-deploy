@@ -135,11 +135,11 @@ const Search = () => {
         onKeyDown={handleKeyDown}
         placeholder="Знайти книгу"
       />
-      {showHints && !!hints.length && (
+      {showHints && (
         <Hints ref={hintsRef}>
           {loading ? (
             <li>Loading...</li>
-          ) : (
+          ) : hints.length > 0 ? (
             hints.map((hint, index) => (
               <li
                 className={`${index === highlightedIndex ? "highlighted" : ""}`}
@@ -156,6 +156,8 @@ const Search = () => {
                     hint.title)}
               </li>
             ))
+          ) : (
+            <li>No results</li>
           )}
         </Hints>
       )}
