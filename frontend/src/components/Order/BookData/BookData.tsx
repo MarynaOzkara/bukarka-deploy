@@ -26,6 +26,8 @@ import { useSelector } from "react-redux";
 import { selectOrdersData } from "../../../redux/orders/selectors";
 import { useAppDispatch } from "../../../redux/hooks";
 import { fetchOrderById } from "../../../redux/orders/operations";
+import Modal from "components/Modal";
+import Cart from "components/Cart";
 
 interface BookDataProps {
   selectedDeliveryMethod: string;
@@ -39,6 +41,7 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
 
   const [deliveryPrice, setDeliveryPrice] = useState<number | null>(null);
   const [totalQuantity, setTotalQuantity] = useState<number>(0);
+  const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
 
   const orderData = useSelector(selectOrdersData);
   console.log(orderData);
@@ -115,10 +118,18 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
   // console.log("orderData", orderData);
   // console.log("totalQuantity", totalQuantity);
 
+  const openCart = () => {
+    setIsCartOpen(true);
+  };
+
+  const closeCart = () => {
+    setIsCartOpen(false);
+  };
+
   return (
     <BookDataWrapper>
       <SubTitleBlue>Ваше замовлення</SubTitleBlue>
-      <EditButton>
+      <EditButton onClick={openCart}>
         <EditIcon />
       </EditButton>
       {!orderData && <Loader />}
@@ -161,6 +172,11 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
             </PriceWithDelivery>
           </Total>
         </>
+      )}
+      {isCartOpen && (
+        <Modal close={closeCart} showCloseButton={true}>
+          <Cart closeCart={closeCart} />
+        </Modal>
       )}
     </BookDataWrapper>
   );
