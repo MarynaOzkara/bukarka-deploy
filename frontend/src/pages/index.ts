@@ -7,3 +7,4 @@ export { default as ContactsPage } from "./ContactsPage/ContactsPage";
 export { default as BookClubPage } from "./BookClubPage/BookClubPage";
 export { default as PrivacyPolicyPage } from "./PrivacyPolicyPage/PrivacyPolicyPage";
 export { default as FavoritesPage } from "./FavoritePage/FavoritePage";
+export { default as SearchPage } from "./SearchPage/SearchPage";

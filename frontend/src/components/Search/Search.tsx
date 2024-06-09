@@ -10,7 +10,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   FormButton,
   Hints,
@@ -20,42 +20,25 @@ import {
 } from "./Search.styled";
 import { SearchContext } from "./SearchContext";
 
-export const Search = () => {
+const Search = () => {
   const { hints, loading, handleSearch, fetchHints } =
     useContext(SearchContext);
-  const [query, setQuery] = useState<string>("");
+  const [inputQuery, setInputQuery] = useState<string>("");
   const [showHints, setShowHints] = useState<boolean>(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
 
   const hintsRef = useRef<HTMLUListElement>(null);
 
-  const debouncedQuery = useDebounce(query, 500);
+  const debouncedQuery = useDebounce(inputQuery, 500);
 
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const goToCatalog = useCallback(
-    (searchParams: Record<string, any>) => {
-      const queryString = new URLSearchParams(searchParams).toString();
-      navigate(`/catalog?${queryString}`);
-      setHighlightedIndex(-1);
-      setShowHints(false);
-    },
-    [navigate]
-  );
-
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const authorQuery = params.get("author") || "";
-    const titleQuery = params.get("title") || "";
-    const searchQuery = authorQuery || titleQuery;
-
-    setQuery(searchQuery);
-
-    if (searchQuery) {
-      handleSearch({ author: authorQuery, title: titleQuery });
-    }
-  }, [location.search, handleSearch]);
+  const goToSearchPage = useCallback((searchParams: Record<string, any>) => {
+    const queryString = new URLSearchParams(searchParams).toString();
+    navigate(`/search?${queryString}`);
+    setHighlightedIndex(-1);
+    setShowHints(false);
+  }, []);
 
   useEffect(() => {
     if (debouncedQuery) {
@@ -85,6 +68,15 @@ export const Search = () => {
   }, [highlightedIndex, hints]);
 
   useEffect(() => {
+    const handleClickOutsideHints = (event: MouseEvent) => {
+      if (
+        hintsRef.current &&
+        !hintsRef.current.contains(event.target as Node)
+      ) {
+        setShowHints(false);
+      }
+    };
+
     document.addEventListener("mousedown", handleClickOutsideHints);
     return () => {
       document.removeEventListener("mousedown", handleClickOutsideHints);
@@ -92,35 +84,27 @@ export const Search = () => {
   }, []);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value);
+    setInputQuery(event.target.value);
     setShowHints(false);
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const searchParams = { author: query, title: query };
+    const searchParams = { author: inputQuery, title: inputQuery };
     handleSearch(searchParams);
-    goToCatalog(searchParams);
+    goToSearchPage(searchParams);
   };
 
   const handleHintClick = (hint: IBookItem) => {
     const searchParams = {
-      author: hint.author?.toLowerCase().includes(query.toLowerCase())
+      author: hint.author?.toLowerCase().includes(inputQuery.toLowerCase())
         ? hint.author
         : "",
-      title: hint.title?.toLowerCase().includes(query.toLowerCase())
+      title: hint.title?.toLowerCase().includes(inputQuery.toLowerCase())
         ? hint.title
         : "",
     };
-    setQuery(searchParams.author || searchParams.title);
-    handleSearch(searchParams);
-    goToCatalog(searchParams);
-  };
-
-  const handleClickOutsideHints = (event: MouseEvent) => {
-    if (hintsRef.current && !hintsRef.current.contains(event.target as Node)) {
-      setShowHints(false);
-    }
+    setInputQuery(searchParams.author || searchParams.title);
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -134,7 +118,6 @@ export const Search = () => {
       );
     } else if (event.key === "Enter" && highlightedIndex >= 0) {
       event.preventDefault();
-
       handleHintClick(hints[highlightedIndex]);
     } else if (event.key === "Escape") {
       setShowHints(false);
@@ -146,43 +129,41 @@ export const Search = () => {
       <StyledLensIcon />
       <Input
         type="text"
-        value={query}
+        value={inputQuery}
+        onBlur={() => setInputQuery("")}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         placeholder="Знайти книгу"
       />
-
-      {showHints && hints.length > 0 && (
+      {showHints && (
         <Hints ref={hintsRef}>
           {loading ? (
             <li>Loading...</li>
+          ) : hints.length > 0 ? (
+            hints.map((hint, index) => (
+              <li
+                className={`${index === highlightedIndex ? "highlighted" : ""}`}
+                key={index}
+                onClick={() => handleHintClick(hint)}
+              >
+                {(hint.author
+                  ?.toLowerCase()
+                  .includes(inputQuery.toLowerCase()) &&
+                  hint.author) ||
+                  (hint.title
+                    ?.toLowerCase()
+                    .includes(inputQuery.toLowerCase()) &&
+                    hint.title)}
+              </li>
+            ))
           ) : (
-            hints.map(
-              (hint, index) =>
-                hint && (
-                  <li
-                    className={`${
-                      index === highlightedIndex ? "highlighted" : ""
-                    }`}
-                    key={index}
-                    onClick={() => handleHintClick(hint)}
-                  >
-                    {(hint.author
-                      ?.toLowerCase()
-                      .includes(query.toLowerCase()) &&
-                      hint.author) ||
-                      (hint.title
-                        ?.toLowerCase()
-                        .includes(query.toLowerCase()) &&
-                        hint.title)}
-                  </li>
-                )
-            )
+            <li>No results</li>
           )}
         </Hints>
       )}
-
       <FormButton>Знайти</FormButton>
     </StyledForm>
   );
 };
+
+export default Search;

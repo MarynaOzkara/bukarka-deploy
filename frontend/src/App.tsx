@@ -5,7 +5,6 @@ import OrderPage from "pages/OrderPage/OrderPage";
 import PaymentPage from "pages/PaymentPage";
 import { OrderContextProvider } from "components/Order/OrderContext";
 import OrderConfirmationPage from "pages/OrderConfirmationPage";
-import { FavoritesPage } from "pages";
 import { BooksContextProvider } from "components/Book";
 import combineProviders from "utils/combineProviders";
 import { SearchContextProvider } from "components";
@@ -20,6 +19,8 @@ const BookClubPage = lazy(() => import("pages/BookClubPage"));
 const PrivacyPolicyPage = lazy(() => import("pages/PrivacyPolicyPage"));
 const TermsOfUsePage = lazy(() => import("pages/TermsOfUsePage"));
 const BookPage = lazy(() => import("pages/BookPage"));
+const FavoritePage = lazy(() => import("pages/FavoritePage"));
+const SearchPage = lazy(() => import("./pages/SearchPage"));
 
 const Providers = combineProviders(
   BooksContextProvider,
@@ -40,11 +41,12 @@ function App() {
           <Route path="club" element={<BookClubPage />} />
           <Route path="privacy" element={<PrivacyPolicyPage />} />
           <Route path="terms" element={<TermsOfUsePage />} />
-          <Route path="catalog" element={<CatalogPage />} />
+          <Route path="catalog/:page?" element={<CatalogPage />} />
           <Route path="order/:id" element={<OrderPage />} />
           <Route path="payment/:id" element={<PaymentPage />} />
           <Route path="confirmation/:id" element={<OrderConfirmationPage />} />
-          <Route path="favorites" element={<FavoritesPage />} />
+          <Route path="favorites" element={<FavoritePage />} />
+          <Route path="search" element={<SearchPage />} />
 
           <Route path="*" element={<NotFoundPage />} />
         </Route>

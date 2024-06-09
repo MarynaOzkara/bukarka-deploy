@@ -1,10 +1,9 @@
 import { BurgerIcon } from "assets/icons";
 import Catalog from "components/Catalog";
 import Modal from "components/Modal";
-import { Search } from "components/Search/Search";
 import UserMenu from "components/UserMenu";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useCallback, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
   ButtonWrapper,
@@ -13,15 +12,25 @@ import {
   StyledLogo,
   Wrapper,
 } from "./Header.styled";
+import { Search } from "components";
 
 const Header: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalContent, setModalContent] = useState<string>("");
 
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
+  const navigate = useNavigate();
+
+  const goToCatalog = useCallback(() => {
+    navigate(`/catalog`);
+  }, [navigate]);
+
+  const showModal = (content: string) => {
+    setModalContent(content);
+    setIsModalOpen(true);
   };
 
   const closeModal = () => {
+    setModalContent("");
     setIsModalOpen(false);
   };
 
@@ -33,9 +42,9 @@ const Header: React.FC = () => {
             <StyledLogo />
           </Link>
           <ButtonWrapper>
-            <CatalogButton onClick={toggleModal}>
-              <BurgerIcon />
-              Каталог
+            <CatalogButton>
+              <BurgerIcon onClick={() => showModal("catalog")} />
+              <span onClick={goToCatalog}>Каталог</span>
             </CatalogButton>
           </ButtonWrapper>
           <Search />
@@ -44,7 +53,7 @@ const Header: React.FC = () => {
       </StyledHeader>
       {isModalOpen && (
         <Modal close={closeModal} showCloseButton={false} animation="slide">
-          <Catalog />
+          {modalContent === "catalog" && <Catalog />}
         </Modal>
       )}
     </StyledCommonWrapper>

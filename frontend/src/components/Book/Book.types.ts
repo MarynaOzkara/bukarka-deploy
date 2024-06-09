@@ -11,10 +11,6 @@ export interface IBookItem
   index: number;
 }
 
-export interface IBooksResponseData {
-  data: IBooksData;
-}
-
 export interface IBooksData {
   data: IBookItem[];
   limit?: number;
@@ -22,9 +18,15 @@ export interface IBooksData {
   page?: string;
 }
 
-export interface BooksContextType {
-  booksData: IBookItem[];
+export interface IBooksContextType {
+  allBooks: IBookItem[];
+  books: IBookItem[];
+  fetchBooks: (page: number) => void;
   favorites: string[];
   addFavorite: (_id: string) => void;
   removeFavorite: (_id: string) => void;
+  loading: boolean;
+  totalPages: number;
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
 }

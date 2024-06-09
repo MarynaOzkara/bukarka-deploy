@@ -1,5 +1,8 @@
-import { BookCard, SearchContext } from "components";
-import { useContext } from "react";
+import { useBooks } from "components/Book";
+import React, { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+
+import { BookCard, Pagination } from "components";
 import {
   FlexWrapper,
   PageWrapper,
@@ -9,7 +12,25 @@ import {
 import { Label } from "./CommonPages.styled";
 
 const CatalogPage: React.FC = () => {
-  const { results } = useContext(SearchContext);
+  const { books, fetchBooks, currentPage, setCurrentPage, totalPages } =
+    useBooks();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const page = searchParams.get("page")
+      ? Number(searchParams.get("page"))
+      : 1;
+    setCurrentPage(page);
+  }, [searchParams, setCurrentPage]);
+
+  useEffect(() => {
+    fetchBooks(currentPage);
+  }, []);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    setSearchParams({ page: page.toString() });
+  };
 
   return (
     <StyledCommonWrapper>
@@ -23,14 +44,18 @@ const CatalogPage: React.FC = () => {
               gap: "2rem",
             }}
           >
-            {results.length ? (
-              results.map((result, index) => (
-                <BookCard key={index} {...result} />
-              ))
-            ) : (
-              <p>No results found</p>
-            )}
+            {(books.length > 0 &&
+              books.map((book, index) => (
+                <BookCard key={index} {...book} />
+              ))) || <div>No books in catalog</div>}
           </FlexWrapper>
+          {books.length > 0 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          )}
         </Wrapper>
       </PageWrapper>
     </StyledCommonWrapper>
