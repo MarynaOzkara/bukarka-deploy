@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { instance } from "../../utils/fetchInstance";
+import { instance } from "utils/fetchInstance";
 import { IOrders } from "types/Orders";
 
 export const fetchOrderById = createAsyncThunk<IOrders, string>(
@@ -14,7 +14,6 @@ export const fetchOrdersData = createAsyncThunk(
   "orders/fetchOrdersData",
   async (_, thunkAPI) => {
     const response = await instance.get(`/api/orders`);
-    console.log(response.data[0]);
     return response.data[0];
   }
 );

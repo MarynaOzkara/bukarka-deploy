@@ -6,7 +6,7 @@ import {
   fetchOrdersData,
   updateItemQuantity,
 } from "./operations";
-import { IOrders } from "../../types/Orders";
+import { IOrders } from "types/Orders";
 
 interface OrdersState {
   orders: IOrders | null;

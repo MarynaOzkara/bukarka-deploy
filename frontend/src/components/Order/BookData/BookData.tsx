@@ -1,4 +1,14 @@
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { EditIcon } from "assets/icons";
+import { useOrderContext } from "../OrderContext";
+import Loader from "components/Loader";
+import Modal from "components/Modal";
+import Cart from "components/Cart";
+import { selectOrdersData } from "../../../redux/orders/selectors";
+import { useAppDispatch } from "../../../redux/hooks";
+import { fetchOrderById } from "../../../redux/orders/operations";
 import { SubTitleBlue } from "../OrderCommonStyled";
 import {
   Author,
@@ -18,16 +28,6 @@ import {
   Total,
   TotalTitle,
 } from "./BookData.styled";
-import { useEffect, useState } from "react";
-import { EditIcon } from "assets/icons";
-import { useOrderContext } from "../OrderContext";
-import Loader from "components/Loader";
-import { useSelector } from "react-redux";
-import { selectOrdersData } from "../../../redux/orders/selectors";
-import { useAppDispatch } from "../../../redux/hooks";
-import { fetchOrderById } from "../../../redux/orders/operations";
-import Modal from "components/Modal";
-import Cart from "components/Cart";
 
 interface BookDataProps {
   selectedDeliveryMethod: string;
@@ -35,7 +35,6 @@ interface BookDataProps {
 
 const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
   const { id } = useParams<{ id: string }>();
-  console.log(id);
 
   const { setBookData, setOrderNumber } = useOrderContext();
 
@@ -44,7 +43,7 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
 
   const orderData = useSelector(selectOrdersData);
-  console.log(orderData);
+  // console.log(orderData);
 
   // console.log(selectedDeliveryMethod);
   const dispatch = useAppDispatch();
@@ -78,7 +77,6 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
     const countDeliveryPrice = () => {
       let price = 0;
 
-      // console.log(price);
       if (selectedDeliveryMethod) {
         switch (selectedDeliveryMethod) {
           case "Самовивіз з відділення Укрпошти":
@@ -98,7 +96,6 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
           price = 0;
         }
 
-        // console.log(price);
         setDeliveryPrice(price);
       }
     };

@@ -40,8 +40,6 @@ const Cart: React.FC<Props> = ({ closeCart }) => {
     dispatch(fetchOrdersData());
   }, [dispatch]);
 
-  console.log(status);
-
   return (
     <>
       {status === "loading" ? (
