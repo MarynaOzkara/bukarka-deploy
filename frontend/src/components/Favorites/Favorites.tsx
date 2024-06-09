@@ -1,8 +1,7 @@
 import { BookCard } from "components";
-import { IBookItem, IBooksData } from "components/Book";
+import { IBookItem } from "components/Book";
 
-import { Label } from "pages/CommonPages.styled";
-import { FlexWrapper, Wrapper } from "styles/CommonStyled";
+import { Wrapper } from "styles/CommonStyled";
 
 interface IFavProps {
   books: IBookItem[];

@@ -20,12 +20,12 @@ const CatalogPage: React.FC = () => {
     const page = searchParams.get("page")
       ? Number(searchParams.get("page"))
       : 1;
-    setCurrentPage(page);
-  }, [searchParams, setCurrentPage]);
-
-  useEffect(() => {
-    fetchBooks(currentPage);
-  }, []);
+    if (page !== currentPage) {
+      setCurrentPage(page);
+    } else {
+      fetchBooks(page);
+    }
+  }, [searchParams, currentPage, setCurrentPage, fetchBooks]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
