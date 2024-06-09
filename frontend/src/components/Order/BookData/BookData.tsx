@@ -22,7 +22,10 @@ import { useEffect, useState } from "react";
 import { EditIcon } from "assets/icons";
 import { useOrderContext } from "../OrderContext";
 import Loader from "components/Loader";
-import { instance } from "utils/fetchInstance";
+import { useSelector } from "react-redux";
+import { selectOrdersData } from "../../../redux/orders/selectors";
+import { useAppDispatch } from "../../../redux/hooks";
+import { fetchOrderById } from "../../../redux/orders/operations";
 
 interface BookDataProps {
   selectedDeliveryMethod: string;
@@ -30,29 +33,24 @@ interface BookDataProps {
 
 const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
   const { id } = useParams<{ id: string }>();
-  // console.log(id);
+  console.log(id);
 
   const { setBookData, setOrderNumber } = useOrderContext();
 
-  const [orderData, setOrderData] = useState<any>(null);
   const [deliveryPrice, setDeliveryPrice] = useState<number | null>(null);
   const [totalQuantity, setTotalQuantity] = useState<number>(0);
 
+  const orderData = useSelector(selectOrdersData);
+  console.log(orderData);
+
   // console.log(selectedDeliveryMethod);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await instance.get(`/api/orders/${id}`);
-        const data = response.data;
-        setOrderData(data);
-      } catch (error) {
-        console.error("Error fetching order data:", error);
-      }
-    };
-
-    fetchData();
-  }, [id]);
+    if (id) {
+      dispatch(fetchOrderById(id));
+    }
+  }, [dispatch, id]);
 
   useEffect(() => {
     if (orderData) {
@@ -67,9 +65,9 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
         totalQuantity: totalQuantity,
         deliveryPrice: deliveryPrice,
         bookPrice: orderData.totalPrice,
-        orderNumber: orderData.orderNumber,
+        orderNumber: orderData._id,
       });
-      setOrderNumber(orderData.orderNumber);
+      setOrderNumber(orderData._id);
     }
   }, [orderData, totalQuantity, deliveryPrice, setBookData, setOrderNumber]);
 
@@ -134,7 +132,7 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
                 </ImageWrapper>
                 <div>
                   <Title>{item.product.title}</Title>
-                  <Author>{item.product.author}</Author>{" "}
+                  <Author>{item.product.author}</Author>
                 </div>
                 <PriceQuantity>
                   <Price>{item.product.price}&nbsp;грн.</Price>
@@ -149,7 +147,7 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
               {deliveryPrice === null
                 ? ""
                 : deliveryPrice === 0
-                ? "Бескоштовно"
+                ? "Безкоштовно"
                 : `${deliveryPrice} грн.`}
             </DeliveryPrice>
           </Delivery>
@@ -157,7 +155,9 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
           <Total>
             <TotalTitle>Всього:</TotalTitle>
             <PriceWithDelivery>
-              {orderData.totalPrice + deliveryPrice}&nbsp;грн.
+              {deliveryPrice !== null
+                ? `${orderData.totalPrice + deliveryPrice} грн.`
+                : ""}
             </PriceWithDelivery>
           </Total>
         </>
