@@ -1,14 +1,15 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loader from "components/Loader";
 import CartList from "./CartList";
 import { fetchOrdersData } from "../../redux/orders/operations";
 import { useAppDispatch } from "../../redux/hooks";
+import { IRootState } from "../../redux/store";
 import {
   selectOrdersData,
   selectOrdersStatus,
 } from "../../redux/orders/selectors";
-import { IRootState } from "../../redux/store";
 import {
   Button,
   CartWrapper,
@@ -53,7 +54,9 @@ const Cart: React.FC<Props> = ({ closeCart }) => {
         <EmptyWrapper>
           <Title>Кошик</Title>
           <Message>В вашому кошику ще немає товарів</Message>
-          <Button onClick={closeCart}>Продовжити покупки</Button>
+          <Button onClick={closeCart}>
+            <Link to="/">Продовжити покупки</Link>
+          </Button>
         </EmptyWrapper>
       ) : (
         <CartWrapper>
