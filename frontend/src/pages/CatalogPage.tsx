@@ -25,7 +25,7 @@ const CatalogPage: React.FC = () => {
 
   useEffect(() => {
     fetchBooks(currentPage);
-  }, []);
+  }, [fetchBooks, currentPage]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);

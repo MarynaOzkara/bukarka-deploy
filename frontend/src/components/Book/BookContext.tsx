@@ -45,25 +45,25 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const fetchAllBooks = async (): Promise<IBookItem[]> => {
-    let books: IBookItem[] = [];
-    let page = 1;
-    let totalPages = 1;
+  // const fetchAllBooks = async (): Promise<IBookItem[]> => {
+  //   let books: IBookItem[] = [];
+  //   let page = 1;
+  //   let totalPages = 1;
 
-    do {
-      const response = await instance.get<IBooksData>("/api/books");
+  //   do {
+  //     const response = await instance.get<IBooksData>("/api/books");
 
-      books = books.concat(response.data.data);
+  //     books = books.concat(response.data.data);
 
-      totalPages =
-        response.data.total && response.data.limit
-          ? Math.round(response.data.total / response.data.limit)
-          : 1;
-      page += 1;
-    } while (page <= totalPages);
+  //     totalPages =
+  //       response.data.total && response.data.limit
+  //         ? Math.round(response.data.total / response.data.limit)
+  //         : 1;
+  //     page += 1;
+  //   } while (page <= totalPages);
 
-    return books;
-  };
+  //   return books;
+  // };
 
   const fetchBooks = useCallback(
     async (page: number = 1, limit: number = 4) => {
@@ -72,7 +72,6 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
         const response = await instance.get<IBooksData>("/api/books/", {
           params: { page, limit },
         });
-
         if (response.data.data.length) {
           setBooks(response.data.data);
           setPages(response.data);
@@ -88,23 +87,23 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
     []
   );
 
-  useEffect(() => {
-    fetchBooks(currentPage);
-  }, [fetchBooks, currentPage]);
+  // useEffect(() => {
+  //   fetchBooks(currentPage);
+  // }, [fetchBooks, currentPage]);
 
-  useEffect(() => {
-    const loadBooks = async () => {
-      try {
-        const allBooks = await fetchAllBooks();
+  // useEffect(() => {
+  //   const loadBooks = async () => {
+  //     try {
+  //       const allBooks = await fetchAllBooks();
 
-        setAllBooks(allBooks);
-      } catch (error) {
-        console.error("Error fetching books:", error);
-      }
-    };
+  //       setAllBooks(allBooks);
+  //     } catch (error) {
+  //       console.error("Error fetching books:", error);
+  //     }
+  //   };
 
-    loadBooks();
-  }, []);
+  //   loadBooks();
+  // }, []);
 
   useEffect(() => {
     const savedFavorites = JSON.parse(
