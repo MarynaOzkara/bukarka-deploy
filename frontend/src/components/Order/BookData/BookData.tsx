@@ -22,6 +22,7 @@ import { useEffect, useState } from "react";
 import { EditIcon } from "assets/icons";
 import { useOrderContext } from "../OrderContext";
 import Loader from "components/Loader";
+import { instance } from "utils/fetchInstance";
 
 interface BookDataProps {
   selectedDeliveryMethod: string;
@@ -40,25 +41,37 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
   // console.log(selectedDeliveryMethod);
 
   useEffect(() => {
-    fetch(`https://bukarka.onrender.com/api/orders/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        data && console.log(data);
-        data && console.log(data.totalPrice);
-
+    const fetchData = async () => {
+      try {
+        const response = await instance.get(`/api/orders/${id}`);
+        const data = response.data;
         setOrderData(data);
-        setBookData({
-          totalQuantity,
-          deliveryPrice,
-          bookPrice: data.totalPrice,
-          orderNumber: data.orderNumber,
-        });
-        setOrderNumber(data.orderNumber);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching order data:", error);
+      }
+    };
+
+    fetchData();
+  }, [id]);
+
+  useEffect(() => {
+    if (orderData) {
+      setTotalQuantity(
+        orderData.orderItems.reduce(
+          (total: number, item: any) => total + item.quantity,
+          0
+        )
+      );
+
+      setBookData({
+        totalQuantity: totalQuantity,
+        deliveryPrice: deliveryPrice,
+        bookPrice: orderData.totalPrice,
+        orderNumber: orderData.orderNumber,
       });
-  }, [deliveryPrice, id, setBookData, setOrderNumber, totalQuantity]);
+      setOrderNumber(orderData.orderNumber);
+    }
+  }, [orderData, totalQuantity, deliveryPrice, setBookData, setOrderNumber]);
 
   useEffect(() => {
     const countDeliveryPrice = () => {
