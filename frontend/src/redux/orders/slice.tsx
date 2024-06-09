@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   deleteItem,
   deleteOrderItem,
-  fetchOrderById,
   fetchOrdersData,
   updateItemQuantity,
 } from "./operations";
@@ -40,19 +39,6 @@ const ordersSlice = createSlice({
         state.status = "failed";
         state.error = action.payload as string;
       })
-
-      .addCase(fetchOrderById.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchOrderById.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.orders = action.payload;
-      })
-      .addCase(fetchOrderById.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload as string;
-      })
-
 
       .addCase(deleteOrderItem.pending, (state) => {
         state.status = "loading";
