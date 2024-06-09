@@ -61,7 +61,7 @@ const Cart: React.FC<Props> = ({ closeCart }) => {
       ) : (
         <CartWrapper>
           <Title>Кошик</Title>
-          {cartData && <CartList cartData={cartData} closeCart={closeCart} />}
+          {cartData && <CartList closeCart={closeCart} />}
         </CartWrapper>
       )}
     </>
