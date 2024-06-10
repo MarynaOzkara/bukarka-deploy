@@ -1,5 +1,5 @@
-// import CategoryList from "components/CategoryList";
-import { instance } from "utils/fetchInstance";
+import React, { useEffect, useState } from "react";
+
 import {
   Item,
   SmallSubTitle,
@@ -10,8 +10,14 @@ import {
   TitleLink,
   Wrapper,
 } from "./Catalog.styled";
-import { useEffect, useState } from "react";
+import { instance } from "utils/fetchInstance";
+
 interface Category {
+  title: string;
+  subcategories: Subcategory[];
+}
+
+interface Subcategory {
   title: string;
   links: string[];
 }
@@ -21,7 +27,7 @@ interface CatalogData {
   subcategories: Category[];
 }
 
-const Catalog: React.FC = () => {
+const Catalog: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
   const [categories, setCategories] = useState<CatalogData[]>([]);
 
   useEffect(() => {
@@ -37,42 +43,59 @@ const Catalog: React.FC = () => {
     fetchData();
   }, []);
 
-  // console.log(categories);
-
   return (
     <Wrapper>
       <StyledCatalog>
         <Item>
-          <TitleLink to="">Усі книги</TitleLink>
+          <TitleLink to="/catalog" onClick={closeModal}>
+            Усі книги
+          </TitleLink>
         </Item>
 
-        {categories.map((item, index) => (
-          <div key={`category-${index}`}>
-            <SubtitleLink to="" key={`subtitle-${index}`}>
-              {item.title}
-            </SubtitleLink>
-            <ul>
-              {item.subcategories.map(
-                (subcategory: Category, categoryIndex: number) => (
-                  <li key={categoryIndex}>
-                    <StyledBlock>
-                      <SmallSubTitle to="" key={`subTitle-${categoryIndex}`}>
-                        {subcategory.title}
-                      </SmallSubTitle>
-                      <ul>
-                        {subcategory.links.map((link, linkIndex) => (
-                          <li key={linkIndex}>
-                            <StyledItem to="">{link}</StyledItem>
-                          </li>
-                        ))}
-                      </ul>
-                    </StyledBlock>
-                  </li>
-                )
-              )}
-            </ul>
-          </div>
-        ))}
+        {categories.length > 0 &&
+          categories.map((item, index) => (
+            <div key={`category-${index}`}>
+              <SubtitleLink
+                to={`/catalog/${item.title}`}
+                key={`subtitle-${index}`}
+                onClick={closeModal}
+              >
+                {item.title}
+              </SubtitleLink>
+              <ul>
+                {item.subcategories.map(
+                  (subcategory: Category, categoryIndex: number) => (
+                    <li key={categoryIndex}>
+                      <StyledBlock>
+                        <SmallSubTitle
+                          to={`/catalog/${item.title}/${subcategory.title}`}
+                          key={`subTitle-${categoryIndex}`}
+                          onClick={closeModal}
+                        >
+                          {subcategory.title}
+                        </SmallSubTitle>
+                        <ul>
+                          {!!subcategory.subcategories &&
+                            subcategory.subcategories[categoryIndex].links.map(
+                              (link, linkIndex) => (
+                                <li key={linkIndex}>
+                                  <StyledItem
+                                    to={`/catalog/${item.title}/${subcategory.title}/${link}`}
+                                    onClick={closeModal}
+                                  >
+                                    {link}
+                                  </StyledItem>
+                                </li>
+                              )
+                            )}
+                        </ul>
+                      </StyledBlock>
+                    </li>
+                  )
+                )}
+              </ul>
+            </div>
+          ))}
       </StyledCatalog>
     </Wrapper>
   );
