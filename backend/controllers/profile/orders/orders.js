@@ -7,10 +7,8 @@ const getAllOrders = async (req, res) => {
   const { id } = req.user;
 
   const orders = await Checkout.find({ user: id })
-    .select(
-      "orderNumber paymentMetod checkoutItems totalPrice createdAt orderStatus"
-    )
-    .populate("checkoutItems.bookId", "_id title author");
+    .select("orderNumber checkoutItems totalPrice createdAt orderStatus")
+    .populate("checkoutItems.bookId", "_id imagesUrls title author");
 
   res.status(200).json({ orders });
 };

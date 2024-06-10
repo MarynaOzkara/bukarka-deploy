@@ -25,5 +25,11 @@ router.get(
 router.get("/orders", authenticate, profileController.getAllOrders);
 router.get("/orders/:orderId", authenticate, profileController.getOrederById);
 router.get("/bonuses");
+router.get("/favorites", authenticate, profileController.getFavorites);
+router.get(
+  "/favorites/:bookId",
+  authenticate,
+  profileController.addToFavorites
+);
 
 module.exports = router;

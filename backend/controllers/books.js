@@ -75,9 +75,9 @@ const getPromotions = async (req, res) => {
 
 const filtersBooks = async (req, res) => {
   const {
+    keyword,
     promotions,
     bestsellers,
-    title,
     category,
     subcategory,
     language,
@@ -87,72 +87,93 @@ const filtersBooks = async (req, res) => {
     priceMax,
     ratingMin,
     ratingMax,
-    page = 1,
-    limit = 12,
   } = req.query;
-  const skip = (page - 1) * limit;
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 12;
 
-  const filters = {};
-  if (title) {
-    filters.title = { $regex: title, $options: "i" };
+  const match = {};
+
+  if (keyword) {
+    match.$or = [
+      { title: { $regex: keyword, $options: "i" } },
+      { author: { $regex: keyword, $options: "i" } },
+    ];
   }
   if (category) {
-    filters.category = { $regex: category, $options: "i" };
+    match.category = { $regex: category, $options: "i" };
   }
   if (subcategory) {
-    filters.subcategory = { $regex: subcategory, $options: "i" };
+    match.subcategory = { $regex: subcategory, $options: "i" };
   }
   if (language) {
-    filters.language = { $regex: language, $options: "i" };
+    match.language = { $regex: language, $options: "i" };
   }
   if (author) {
-    filters.author = { $regex: author, $options: "i" };
+    match.author = { $regex: author, $options: "i" };
   }
   if (publisher) {
-    filters.publisher = { $regex: publisher, $options: "i" };
+    match.publisher = { $regex: publisher, $options: "i" };
   }
   if (promotions) {
-    filters.promotions = promotions;
+    match.promotions = true;
   }
   if (bestsellers) {
-    filters.bestsellers = bestsellers;
+    match.bestsellers = true;
   }
   if (req.query.new) {
-    filters.new = req.query.new;
+    match.new = true;
   }
   if (priceMin || priceMax) {
-    filters.price = {};
+    match.price = {};
     if (priceMin) {
-      filters.price.$gte = +priceMin;
+      match.price.$gte = +priceMin;
     }
     if (priceMax) {
-      filters.price.$lte = +priceMax;
+      match.price.$lte = +priceMax;
     }
   }
   if (ratingMin || ratingMax) {
-    filters.rating = {};
+    match.rating = {};
     if (ratingMin) {
-      filters.rating.$gte = +ratingMin;
+      match.rating.$gte = +ratingMin;
     }
     if (ratingMax) {
-      filters.rating.$lte = +ratingMax;
+      match.rating.$lte = +ratingMax;
     }
   }
+  const filters = [
+    { $match: match },
+    {
+      $facet: {
+        data: [
+          {
+            $skip: (page - 1) * limit,
+          },
+          {
+            $limit: limit,
+          },
+        ],
+        total: [{ $group: { _id: null, count: { $sum: 1 } } }],
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        total: { $first: "$total.count" },
+        page: `${page}`,
+        limit: `${limit}`,
+        books: "$data",
+      },
+    },
+  ];
 
-  const books = await Book.find(filters).skip(skip).limit(limit);
-  const total = await Book.countDocuments(filters);
-  if (!books) {
+  const data = await Book.aggregate(filters);
+
+  if (!data) {
     throw HttpError(404, "Books not found");
   }
-  if (total === 0) {
-    res.status(404).json({ massage: "Books not found" });
-  }
-  res.status(200).json({
-    total,
-    page,
-    limit,
-    books,
-  });
+
+  res.status(200).json(data[0]);
 };
 
 const getBookById = async (req, res) => {
