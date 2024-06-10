@@ -10,6 +10,7 @@ const {
 } = require("./settings/settings");
 
 const { getAllOrders, getOrederById } = require("./orders/orders");
+const { addToFavorites, getFavorites } = require("./favorites/favorites");
 
 module.exports = {
   getProfile,
@@ -22,4 +23,6 @@ module.exports = {
   unsubscribe,
   getAllOrders,
   getOrederById,
+  addToFavorites,
+  getFavorites,
 };

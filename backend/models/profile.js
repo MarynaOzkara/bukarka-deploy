@@ -11,6 +11,12 @@ const profileSchema = new Schema(
       required: true,
       unique: true,
     },
+    favorites: [
+      {
+        type: ObjectId,
+        ref: "Book",
+      },
+    ],
     newsletter: {
       type: Boolean,
       default: false,

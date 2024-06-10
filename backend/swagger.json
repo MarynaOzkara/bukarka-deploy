@@ -629,6 +629,79 @@
         }
       }
     },
+    "/profile/favorites": {
+      "get":{
+        "tags":["Profile"],
+        "summary": "Returns all user's books saved to favorites",
+        "parameters":[],
+        "security": [{ "Bearer": [] }],
+        "requestBody":{},
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FavoritesResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profile/favorites/{bookId}":{
+      "get":{
+        "tags":["Profile"],
+        "summary": "Returns all user's books saved to favorites",
+        "parameters":[
+          {
+            "in": "path",
+            "name": "bookId",
+            "required": true,
+            "description": "Book ID",
+            "schema": {
+              "type": "string",
+              "example": "65ed9f233000741d129b5557"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody":{},
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FavoritesResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/newsletter/subscribe": {
       "post":{
         "tags":["Newsletter"],
@@ -1468,9 +1541,9 @@
             } 
           },
           {
-            "name": "title",
+            "name": "keyword",
               "in": "query",
-              "description": "Search name of book",
+              "description": "Search name or author of the book",
               "schema": {
                 "type": "string",
                 "example": "Подорож "
@@ -3444,6 +3517,119 @@
           } 
         }
       },
+      "FavoritesResponse": {
+        "type": "object",
+        "properties": {
+          "favorites": {
+            "type": "array",
+            "items":{
+              "type":"object",
+              "properties": {
+                "imagesUrls":{
+                  "type":"array",
+                  "items":{
+                    "type": "string"
+                  }
+                },
+                "_id": {
+                  "type": "string",
+                  "description": "Book ID",
+                  "example": "65ed9f233000741d129b5557"
+                },
+                "author": {
+                  "type": "string",
+                  "description": "Book's author",
+                  "example": "Олена Степаненко"
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Book's title",
+                  "example": "Подорож на планету Марс"
+                },
+                "language": {
+                  "type": "string",
+                  "description": "Language",
+                  "example": "українська"
+                },
+                "publisher": {
+                  "type": "string",
+                  "description": "Publisher",
+                  "example": "Дивосвіт"
+                },
+                "price": {
+                  "type": "number",
+                  "description": "Book's price",
+                  "example": 100
+                },
+                "rating": {
+                  "type": "number",
+                  "description": "Rating",
+                  "example": 4.6
+                },
+                "category": {
+                  "type": "string",
+                  "description": "Book's category",
+                  "example": "Дитяча"
+                },
+                "subcategory": {
+                  "type": "string",
+                  "description": "Book's subcategory",
+                  "example": "Фентезі та фантастика"
+                },
+                "age": {
+                  "type": "string",
+                  "description": "Recommended age",
+                  "example": "9 - 12"
+                },
+                "genre": {
+                  "type":"array",
+                  "example": ["Дитяча", "Фентезі", "Фантастика"]
+                },
+                "format": {
+                  "type": "string",
+                  "description": "Format",
+                  "example": "205 х 260 мм"
+                },
+                "cover": {
+                  "type": "string",
+                  "description": "Book's cover",
+                  "example": "Тверда"
+                },
+                "pages": {
+                  "type": "number",
+                  "description": "Number of book's pages",
+                  "example": 120
+                },
+                "new": {
+                  "type": "boolean",
+                  "description": "State",
+                  "example": false
+                },
+                "promotions": {
+                  "type": "boolean",
+                  "description": "Promotions",
+                  "example": false
+                },
+                "bestsellers": {
+                  "type": "boolean",
+                  "description": "Bestsellers",
+                  "example": false
+                },
+                "year": {
+                  "type": "string",
+                  "description": "Year of publication",
+                  "example": "2020"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Book's description",
+                  "example": "Захоплива пригода про маленьких друзів, які вирушають у захопливу подорож у невідомість космосу на загадкову планету Марс. Це захопливе фантастичне оповідання, яке привабить читачів усіх вікових категорій своєю цікавою історією та несподіваними обертами подій."
+                }
+              }
+            }
+          }
+       }
+      },
       "OrderByIdErrorResponse": {
         "type": "object",
 				"properties": {
@@ -4443,16 +4629,18 @@
             "example": 2
           },
           "page": {
-            "type": "number",
+            "type": "string",
             "example": 1
           },
           "limit": {
-            "type": "number",
+            "type": "string",
             "example": 12
           },
           "books": {
-            "type": "object",
-            "properties": {
+            "type": "array",
+            "items":{
+              "type":"object",
+              "properties": {
               "_id": {
                 "type": "string",
                 "description": "Book ID",
@@ -4548,7 +4736,9 @@
                 "example": "Захоплива пригода про маленьких друзів, які вирушають у захопливу подорож у невідомість космосу на загадкову планету Марс. Це захопливе фантастичне оповідання, яке привабить читачів усіх вікових категорій своєю цікавою історією та несподіваними обертами подій."
               }
             }
+            }
           }
+       }
       },
       "CategoryResponse": {
         "type": "object",
@@ -4601,7 +4791,6 @@
             "example": "Books not found"
           }
         }
-      }
       },
       "BooksFiltersErrorResponse": {
         "type": "object",

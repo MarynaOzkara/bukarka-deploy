@@ -40,13 +40,29 @@ const createCheckout = async (req, res) => {
   });
   newCheckout.save();
   const { _id } = newCheckout;
+
   res.status(201).json({
     status: 201,
     message: "Checkout created successfull",
     orderId: _id,
   });
 };
-
+const getCheckoutById = async (req, res) => {
+  const { id } = req.user;
+  const { orderId } = req.params;
+  const order = await Checkout.findById(orderId);
+  if (order.user.toString() !== id.toString()) {
+    throw HttpError(404, "Order not found");
+  }
+  if (!order) {
+    throw HttpError(404, "Order not found");
+  }
+  const { _id, orderNumber, totalItems, deliveriAmount, totalPrice } = order;
+  res.json({
+    data: { _id, orderNumber, totalItems, deliveriAmount, totalPrice },
+  });
+};
 module.exports = {
   createCheckout: ctrlWrapper(createCheckout),
+  getCheckoutById: ctrlWrapper(getCheckoutById),
 };
