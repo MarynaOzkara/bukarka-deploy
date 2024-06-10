@@ -40,11 +40,6 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  // const [cache, setCache] = useState<Record<string, IBookItem[]>>({});
-
-  // const generateCacheKey = (params: Record<string, any>): string =>
-  //   JSON.stringify(params);
-
   const setPages = (data: ISearchResponse) => {
     if (data.total && data.limit) {
       const pages = Math.ceil(data.total / data.limit);
@@ -56,12 +51,6 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
     async (searchParams: Record<string, any>) => {
       const queryString = new URLSearchParams(searchParams).toString();
 
-      // const cacheKey = generateCacheKey(searchParams);
-
-      // if (cache[cacheKey]) {
-      //   setSearchResults(cache[cacheKey]);
-      //   return;
-      // }
       setLoading(true);
 
       try {
@@ -73,10 +62,6 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
           setSearchResults(response.data.books);
           setPages(response.data);
           setCurrentPage(searchParams.page || 1);
-          // setCache((prevCache) => ({
-          //   ...prevCache,
-          //   [cacheKey]: response.data.books,
-          // }));
         } else setSearchResults([]);
       } catch (error) {
         console.error("Error fetching search results:", error);

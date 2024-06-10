@@ -10,6 +10,9 @@ import {
   Wrapper,
 } from "styles/CommonStyled";
 import { Label } from "./CommonPages.styled";
+import Sort from "components/Sort&Filter/Sort";
+import { GroupWrapper } from "components/Sort&Filter/SortFilter.styled";
+import Filter from "../components/Sort&Filter/Filter";
 
 const CatalogPage: React.FC = () => {
   const { books, fetchBooks, currentPage, setCurrentPage, totalPages } =
@@ -37,25 +40,31 @@ const CatalogPage: React.FC = () => {
       <PageWrapper>
         <Wrapper>
           <Label>Каталог</Label>
-          <FlexWrapper
-            style={{
-              justifyContent: "space-around",
-              flexWrap: "wrap",
-              gap: "2rem",
-            }}
-          >
-            {(books.length > 0 &&
-              books.map((book, index) => (
-                <BookCard key={index} {...book} />
-              ))) || <div>No books in catalog</div>}
-          </FlexWrapper>
-          {books.length > 0 && (
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-          )}
+          <div>
+            <GroupWrapper>
+              <Filter />
+              <Sort />
+            </GroupWrapper>
+            <FlexWrapper
+              style={{
+                justifyContent: "space-around",
+                flexWrap: "wrap",
+                gap: "2rem",
+              }}
+            >
+              {(books.length > 0 &&
+                books.map((book, index) => (
+                  <BookCard key={index} {...book} />
+                ))) || <div>No books in catalog</div>}
+            </FlexWrapper>
+            {books.length > 0 && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            )}
+          </div>
         </Wrapper>
       </PageWrapper>
     </StyledCommonWrapper>
