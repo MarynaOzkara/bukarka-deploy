@@ -1639,7 +1639,35 @@
                 "default": "false",
                 "example": "true"
               }
-          }
+          },
+          {
+            "name": "sortBy",
+              "in": "query",
+              "description": "Sorting books by price or year",
+              "schema": {
+                "type": "string",
+                "example": "price",
+                "enum": [
+                  "price",
+                  "year",
+                  "createdAt",
+                  "_id"
+                ]
+              }   
+          },
+          {
+            "name": "orderSort",
+              "in": "query",
+              "description": "Order of sorting books from smaller value to bigger(asc) and from bigger value to smaller(dasc)",
+              "schema": {
+                "type": "string",
+                "example": "asc",
+                "enum": [
+                  "asc",
+                  "dasc"
+                ]
+              }   
+          } 
         ],
         "responses": {
           "200": {

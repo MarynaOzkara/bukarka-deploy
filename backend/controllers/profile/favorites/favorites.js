@@ -1,6 +1,5 @@
 const ctrlWrapper = require("../../../decorators/ctrlWrapper");
 const { Profile } = require("../../../models/profile");
-const { User } = require("../../../models/user");
 
 const getFavorites = async (req, res) => {
   const { id } = req.user;

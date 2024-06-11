@@ -87,11 +87,15 @@ const filtersBooks = async (req, res) => {
     priceMax,
     ratingMin,
     ratingMax,
+    sortBy,
+    orderSort,
   } = req.query;
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 12;
+  const skip = (page - 1) * limit;
 
   const match = {};
+  const sort = {};
 
   if (keyword) {
     match.$or = [
@@ -141,39 +145,25 @@ const filtersBooks = async (req, res) => {
       match.rating.$lte = +ratingMax;
     }
   }
-  const filters = [
-    { $match: match },
-    {
-      $facet: {
-        data: [
-          {
-            $skip: (page - 1) * limit,
-          },
-          {
-            $limit: limit,
-          },
-        ],
-        total: [{ $group: { _id: null, count: { $sum: 1 } } }],
-      },
-    },
-    {
-      $project: {
-        _id: 0,
-        total: { $first: "$total.count" },
-        page: `${page}`,
-        limit: `${limit}`,
-        books: "$data",
-      },
-    },
-  ];
-
-  const data = await Book.aggregate(filters);
-
-  if (!data) {
-    throw HttpError(404, "Books not found");
+  if (sortBy && orderSort) {
+    sort[sortBy] = orderSort === "asc" ? 1 : -1;
   }
 
-  res.status(200).json(data[0]);
+  const books = await Book.find(match).skip(skip).limit(limit).sort(sort);
+  const total = await Book.countDocuments(match);
+  if (!books) {
+    throw HttpError(404, "Books not found");
+  }
+  if (total === 0) {
+    res.status(404).json({ massage: "Books not found" });
+  }
+
+  res.status(200).json({
+    total,
+    page,
+    limit,
+    books,
+  });
 };
 
 const getBookById = async (req, res) => {
