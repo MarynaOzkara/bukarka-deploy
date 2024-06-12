@@ -36,7 +36,7 @@ export const Text = styled.p`
   color: var(--bukarka-black);
 `;
 
-export const NumberInfo = styled.p`
+export const NumberInfo = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 16px;

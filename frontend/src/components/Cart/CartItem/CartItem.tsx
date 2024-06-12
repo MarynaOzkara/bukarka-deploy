@@ -1,5 +1,5 @@
 import FavoriteButton from "components/FavoriteButton/FavoriteButton";
-import { images } from "../../../assets/images/";
+import { images } from "assets/images/";
 import {
   deleteItem,
   fetchOrdersData,

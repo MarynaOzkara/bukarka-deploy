@@ -1,11 +1,33 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { instance } from "../../utils/fetchInstance";
+import { instance } from "utils/fetchInstance";
+import { IOrders } from "types/Orders";
+
+export const addToCart = createAsyncThunk(
+  "cart/addToCart",
+  async (productId: string, { rejectWithValue }) => {
+    console.log(productId)
+    try {
+      const response = await instance.post(`/api/orders/${productId}`);
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue((error as Error).message);
+    }
+  }
+);
+
+export const fetchOrderById = createAsyncThunk<IOrders, string>(
+  "orders/fetchOrderById",
+  async (id: string) => {
+    const response = await instance.get(`/api/orders/${id}`);
+    return response.data;
+  }
+);
 
 export const fetchOrdersData = createAsyncThunk(
   "orders/fetchOrdersData",
   async (_, thunkAPI) => {
     const response = await instance.get(`/api/orders`);
-    console.log(response.data[0]);
     return response.data[0];
   }
 );

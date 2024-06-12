@@ -136,6 +136,8 @@ export const ChangeButton = styled.div`
   font-weight: 600;
   border-left: 1px solid #dad3cd;
   border-right: 1px solid #dad3cd;
+
+  cursor: pointer;
 `;
 
 export const TotalPrice = styled.p`

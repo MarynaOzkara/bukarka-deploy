@@ -34,6 +34,7 @@ import {
   ToPay,
   Total,
 } from "./PaymentPage.styled";
+import { instance } from "utils/fetchInstance";
 
 const PaymentPage: React.FC = () => {
   const [cardNumber, setCardNumber] = useState("");
@@ -56,10 +57,11 @@ const PaymentPage: React.FC = () => {
   // console.log(bookPrice);
 
   useEffect(() => {
-    fetch(`https://bukarka.onrender.com/api/orders/${id}`)
-      .then((response) => response.json())
+    instance
+      .get(`/api/orders/${id}`)
+      .then((response) => response.data)
       .then((data) => {
-        // data && console.log(data);
+        data && console.log(data);
         setOrderNumber(data.orderNumber);
       })
       .catch((error) => {
@@ -199,14 +201,8 @@ const PaymentPage: React.FC = () => {
               <Info>
                 <SubTitleBlue>Інформація про оплату</SubTitleBlue>
                 <OrderNumber>
-                  <OrderNumber>
-                    Замовлення №{" "}
-                    {orderNumber ? (
-                      orderNumber
-                    ) : (
-                      <span>Повідомимо пізніше</span>
-                    )}
-                  </OrderNumber>
+                  Замовлення №{" "}
+                  {orderNumber ? orderNumber : <span>Повідомимо пізніше</span>}
                 </OrderNumber>
 
                 <Bukarka>Онлайн-книгарня “Букарка”</Bukarka>
@@ -235,7 +231,7 @@ const PaymentPage: React.FC = () => {
                 placeholder="Введіть email"
                 onChange={handleEmailChange}
               />
-              <ReceiptLabel>Email для отримання квитанції:</ReceiptLabel>
+              <ReceiptLabel>Телефон:</ReceiptLabel>
               <ReceiptInput
                 type="phone"
                 value={phone}

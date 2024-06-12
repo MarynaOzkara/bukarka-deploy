@@ -1,4 +1,6 @@
-import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
   Number,
   NumberInfo,
@@ -9,10 +11,7 @@ import {
   Thanks,
   Wrapper,
 } from "./OrderConfirmationPage.styled";
-import { StyledCommonWrapper } from "styles/CommonStyled";
-import { useParams } from "react-router-dom";
-import { useOrderContext } from "components/Order/OrderContext";
-import { useEffect, useState } from "react";
+import { instance } from "utils/fetchInstance";
 
 const OrderConfirmationPage: React.FC = () => {
   const { id } = useParams();
@@ -22,8 +21,9 @@ const OrderConfirmationPage: React.FC = () => {
   const [orderNumber, setOrderNumber] = useState("");
 
   useEffect(() => {
-    fetch(`https://bukarka.onrender.com/api/orders/${id}`)
-      .then((response) => response.json())
+    instance
+      .get(`/api/orders/${id}`)
+      .then((response) => response.data)
       .then((data) => {
         data && console.log(data);
         setOrderNumber(data.orderNumber);
