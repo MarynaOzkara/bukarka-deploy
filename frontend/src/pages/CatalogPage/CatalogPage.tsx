@@ -4,6 +4,7 @@ import { BreadCrumbs, Label } from "pages/CommonPages.styled";
 import React, { useEffect } from "react";
 import { Outlet, useParams, useSearchParams } from "react-router-dom";
 import { PageWrapper, StyledCommonWrapper, Wrapper } from "styles/CommonStyled";
+import ContentSection from "./ContentSection/ContentSection";
 
 const CatalogPage: React.FC = () => {
   const { category, subcategory, link } = useParams();
@@ -19,9 +20,8 @@ const CatalogPage: React.FC = () => {
     const loadData = async () => {
       if (page !== currentPage) {
         setCurrentPage(page);
-      } else {
-        await fetchBooks(page, category, subcategory, link);
       }
+      await fetchBooks(page, category, subcategory, link);
     };
 
     loadData();
@@ -46,8 +46,7 @@ const CatalogPage: React.FC = () => {
         <Wrapper>
           <BreadCrumbs>Каталог | {category} </BreadCrumbs>
           <Label> {link || subcategory || category || "Усі книги"} </Label>
-
-          <Outlet context={{ books }} />
+          {<Outlet context={{ books }} /> || <ContentSection data={books} />}
 
           {!!books.length && (
             <Pagination

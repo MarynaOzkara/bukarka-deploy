@@ -30,7 +30,6 @@ export interface IBooksContextType {
   favorites: string[];
   addFavorite: (_id: string) => void;
   removeFavorite: (_id: string) => void;
-  loading: boolean;
   totalPages: number;
   currentPage: number;
   setCurrentPage: (page: number) => void;

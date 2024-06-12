@@ -42,7 +42,7 @@ const Catalog: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
     <Wrapper>
       <StyledCatalog>
         <Item>
-          <TitleLink to={`/catalog/`} onClick={closeModal}>
+          <TitleLink to={`catalog/`} onClick={closeModal}>
             Усі книги
           </TitleLink>
         </Item>
@@ -62,7 +62,7 @@ const Catalog: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
                   (subcategory: Subcategory, subcatIndex: number) => (
                     <li key={subcatIndex}>
                       <StyledBlock>
-                        <SmallSubTitle to="" key={`subTitle-${subcatIndex}`}>
+                        <SmallSubTitle to="#" key={`subTitle-${subcatIndex}`}>
                           {subcategory.title}
                         </SmallSubTitle>
                         <ul>

@@ -1,14 +1,14 @@
 import React, {
   ReactNode,
   createContext,
-  useContext,
-  useState,
-  useEffect,
   useCallback,
+  useContext,
+  useEffect,
   useMemo,
+  useState,
 } from "react";
 import { instance } from "utils/fetchInstance";
-import { IBooksContextType, IBookItem, IBooksDataResponse } from "./Book.types";
+import { IBookItem, IBooksContextType, IBooksDataResponse } from "./Book.types";
 
 const BooksContext = createContext<IBooksContextType | null>(null);
 
@@ -93,7 +93,6 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       favorites,
       currentPage,
       totalPages,
-      loading,
       setCurrentPage,
       addFavorite,
       removeFavorite,
@@ -104,7 +103,6 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       favorites,
       currentPage,
       totalPages,
-      loading,
       setCurrentPage,
       addFavorite,
       removeFavorite,

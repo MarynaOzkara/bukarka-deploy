@@ -21,7 +21,7 @@ const TermsOfUsePage = lazy(() => import("pages/TermsOfUsePage"));
 const BookPage = lazy(() => import("pages/BookPage"));
 const FavoritePage = lazy(() => import("pages/FavoritePage"));
 const SearchPage = lazy(() => import("pages/SearchPage"));
-const SectionPage = lazy(() => import("pages/CatalogPage/SectionPage"));
+const ContentSection = lazy(() => import("pages/CatalogPage/ContentSection"));
 
 const Providers = combineProviders(
   BooksContextProvider,
@@ -42,12 +42,13 @@ function App() {
           <Route path="club" element={<BookClubPage />} />
           <Route path="privacy" element={<PrivacyPolicyPage />} />
           <Route path="terms" element={<TermsOfUsePage />} />
-          <Route path="/catalog" element={<CatalogPage />}>
-            <Route path=":category" element={<SectionPage />} />
-            <Route path=":category/:subcategory" element={<SectionPage />} />
+          <Route path="catalog" element={<CatalogPage />}>
+            <Route index element={<ContentSection />} />
+            <Route path=":category" element={<ContentSection />} />
+            <Route path=":category/:subcategory" element={<ContentSection />} />
             <Route
               path=":category/:subcategory/:link"
-              element={<SectionPage />}
+              element={<ContentSection />}
             />
           </Route>
           <Route path="order/:id" element={<OrderPage />} />
