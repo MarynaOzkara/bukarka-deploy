@@ -1,17 +1,10 @@
 import { BookCard } from "components";
 import { IBookItem } from "components/Book";
-import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { FlexWrapper } from "styles/CommonStyled";
 
 const SectionPage = () => {
-  const { books: initialBooks } = useOutletContext<{ books: IBookItem[] }>();
-  const [books, setBooks] = useState(initialBooks);
-  console.log(books);
-
-  useEffect(() => {
-    setBooks(initialBooks);
-  }, [initialBooks]);
+  const { books } = useOutletContext<{ books: IBookItem[] }>();
 
   return (
     <>

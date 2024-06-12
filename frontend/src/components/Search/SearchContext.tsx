@@ -54,7 +54,7 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
 
       try {
         const response = await instance.get<IBooksDataResponse>(
-          `/api/books/filters?${queryString}&limit=4`
+          `/api/books/filters?${queryString}`
         );
 
         if (response.data.books.length) {

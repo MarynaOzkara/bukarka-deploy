@@ -40,8 +40,6 @@ const CatalogPage: React.FC = () => {
     setSearchParams({ page: page.toString() });
   };
 
-  console.log(books);
-
   return (
     <StyledCommonWrapper>
       <PageWrapper>

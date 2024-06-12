@@ -1,9 +1,10 @@
 import { BurgerIcon } from "assets/icons";
+import { Search } from "components";
 import Catalog from "components/Catalog";
 import Modal from "components/Modal";
 import UserMenu from "components/UserMenu";
-import { useCallback, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
   ButtonWrapper,
@@ -12,7 +13,6 @@ import {
   StyledLogo,
   Wrapper,
 } from "./Header.styled";
-import { Search } from "components";
 
 const Header: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);

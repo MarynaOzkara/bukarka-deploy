@@ -22,11 +22,6 @@ interface Subcategory {
   links: string[];
 }
 
-interface CatalogData {
-  title: string;
-  subcategories: Category[];
-}
-
 const Catalog: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
   const [categories, setCategories] = useState<Category[]>([]);
 
@@ -47,7 +42,7 @@ const Catalog: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
     <Wrapper>
       <StyledCatalog>
         <Item>
-          <TitleLink to="/catalog/" onClick={closeModal}>
+          <TitleLink to={`/catalog/`} onClick={closeModal}>
             Усі книги
           </TitleLink>
         </Item>
@@ -76,9 +71,7 @@ const Catalog: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
                               <li key={linkIndex}>
                                 <StyledItem
                                   to={`/catalog/${encodeURI(
-                                    subcategory.title
-                                  )}/${encodeURI(
-                                    subcategory.title
+                                    category.title
                                   )}/${encodeURI(link)}`}
                                   onClick={closeModal}
                                 >
