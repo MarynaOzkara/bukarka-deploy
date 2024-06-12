@@ -1,10 +1,12 @@
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import CartItem from "../CartItem";
 import {
   deleteOrderItem,
   fetchOrdersData,
 } from "../../../redux/orders/operations";
 import { useAppDispatch } from "../../../redux/hooks";
-import { CartData } from "../Cart";
+import { selectOrdersData } from "../../../redux/orders/selectors";
 import {
   AmountOfBooks,
   ButtonWrapper,
@@ -18,17 +20,16 @@ import {
   TotalPrice,
   Wrapper,
 } from "./CartList.styled";
-import { Link } from "react-router-dom";
 
 type CartListProps = {
-  cartData: CartData;
   closeCart: () => void;
 };
 
-const CartList: React.FC<CartListProps> = ({ cartData, closeCart }) => {
+const CartList: React.FC<CartListProps> = ({ closeCart }) => {
   const dispatch = useAppDispatch();
+  const cartData = useSelector(selectOrdersData);
 
-  // console.log(cartData.orderItems);
+  cartData && console.log(cartData.orderItems);
 
   const ordersId = cartData?._id;
 
@@ -38,17 +39,25 @@ const CartList: React.FC<CartListProps> = ({ cartData, closeCart }) => {
     });
   };
 
+  const totalBooks = cartData?.orderItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+
+  console.log(totalBooks);
+
   return (
     <Wrapper>
       <CartHeader>
-        <AmountOfBooks>{cartData?.orderItems.length} шт.</AmountOfBooks>
+        <AmountOfBooks>{totalBooks} шт.</AmountOfBooks>
         <DeleteButton onClick={handleDelete}>Видалити все</DeleteButton>
       </CartHeader>
 
       <ListWrapper>
-        {cartData.orderItems.map((item: any) => (
-          <CartItem item={item} key={item._id} />
-        ))}
+        {cartData &&
+          cartData.orderItems.map((item: any) => (
+            <CartItem item={item} key={item._id} />
+          ))}
       </ListWrapper>
 
       <PriceBlock>

@@ -1,4 +1,14 @@
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { EditIcon } from "assets/icons";
+import { useOrderContext } from "../OrderContext";
+import Loader from "components/Loader";
+import Modal from "components/Modal";
+import Cart from "components/Cart";
+import { selectOrdersData } from "../../../redux/orders/selectors";
+import { useAppDispatch } from "../../../redux/hooks";
+import { fetchOrderById } from "../../../redux/orders/operations";
 import { SubTitleBlue } from "../OrderCommonStyled";
 import {
   Author,
@@ -18,10 +28,6 @@ import {
   Total,
   TotalTitle,
 } from "./BookData.styled";
-import { useEffect, useState } from "react";
-import { EditIcon } from "assets/icons";
-import { useOrderContext } from "../OrderContext";
-import Loader from "components/Loader";
 
 interface BookDataProps {
   selectedDeliveryMethod: string;
@@ -29,42 +35,48 @@ interface BookDataProps {
 
 const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
   const { id } = useParams<{ id: string }>();
-  // console.log(id);
 
   const { setBookData, setOrderNumber } = useOrderContext();
 
-  const [orderData, setOrderData] = useState<any>(null);
   const [deliveryPrice, setDeliveryPrice] = useState<number | null>(null);
   const [totalQuantity, setTotalQuantity] = useState<number>(0);
+  const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
+
+  const orderData = useSelector(selectOrdersData);
+  // console.log(orderData);
 
   // console.log(selectedDeliveryMethod);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    fetch(`https://bukarka.onrender.com/api/orders/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        data && console.log(data);
-        data && console.log(data.totalPrice);
+    if (id) {
+      dispatch(fetchOrderById(id));
+    }
+  }, [dispatch, id]);
 
-        setOrderData(data);
-        setBookData({
-          totalQuantity,
-          deliveryPrice,
-          bookPrice: data.totalPrice,
-          orderNumber: data.orderNumber,
-        });
-        setOrderNumber(data.orderNumber);
-      })
-      .catch((error) => {
-        console.error("Error fetching order data:", error);
+  useEffect(() => {
+    if (orderData) {
+      setTotalQuantity(
+        orderData.orderItems.reduce(
+          (total: number, item: any) => total + item.quantity,
+          0
+        )
+      );
+
+      setBookData({
+        totalQuantity: totalQuantity,
+        deliveryPrice: deliveryPrice,
+        bookPrice: orderData.totalPrice,
+        orderNumber: orderData._id,
       });
-  }, [deliveryPrice, id, setBookData, setOrderNumber, totalQuantity]);
+      setOrderNumber(orderData._id);
+    }
+  }, [orderData, totalQuantity, deliveryPrice, setBookData, setOrderNumber]);
 
   useEffect(() => {
     const countDeliveryPrice = () => {
       let price = 0;
 
-      // console.log(price);
       if (selectedDeliveryMethod) {
         switch (selectedDeliveryMethod) {
           case "Самовивіз з відділення Укрпошти":
@@ -84,7 +96,6 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
           price = 0;
         }
 
-        // console.log(price);
         setDeliveryPrice(price);
       }
     };
@@ -104,10 +115,18 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
   // console.log("orderData", orderData);
   // console.log("totalQuantity", totalQuantity);
 
+  const openCart = () => {
+    setIsCartOpen(true);
+  };
+
+  const closeCart = () => {
+    setIsCartOpen(false);
+  };
+
   return (
     <BookDataWrapper>
       <SubTitleBlue>Ваше замовлення</SubTitleBlue>
-      <EditButton>
+      <EditButton onClick={openCart}>
         <EditIcon />
       </EditButton>
       {!orderData && <Loader />}
@@ -121,7 +140,7 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
                 </ImageWrapper>
                 <div>
                   <Title>{item.product.title}</Title>
-                  <Author>{item.product.author}</Author>{" "}
+                  <Author>{item.product.author}</Author>
                 </div>
                 <PriceQuantity>
                   <Price>{item.product.price}&nbsp;грн.</Price>
@@ -136,7 +155,7 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
               {deliveryPrice === null
                 ? ""
                 : deliveryPrice === 0
-                ? "Бескоштовно"
+                ? "Безкоштовно"
                 : `${deliveryPrice} грн.`}
             </DeliveryPrice>
           </Delivery>
@@ -144,10 +163,17 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
           <Total>
             <TotalTitle>Всього:</TotalTitle>
             <PriceWithDelivery>
-              {orderData.totalPrice + deliveryPrice}&nbsp;грн.
+              {deliveryPrice !== null
+                ? `${orderData.totalPrice + deliveryPrice} грн.`
+                : ""}
             </PriceWithDelivery>
           </Total>
         </>
+      )}
+      {isCartOpen && (
+        <Modal close={closeCart} showCloseButton={true}>
+          <Cart closeCart={closeCart} />
+        </Modal>
       )}
     </BookDataWrapper>
   );
