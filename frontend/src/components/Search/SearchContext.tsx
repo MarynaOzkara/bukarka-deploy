@@ -1,4 +1,4 @@
-import { IBookItem } from "components/Book";
+import { IBookItem, IBooksDataResponse } from "components/Book";
 import React, {
   ReactNode,
   createContext,
@@ -7,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import { instance } from "utils/fetchInstance";
-import { ISearchResponse } from "./Search.types";
 
 interface SearchContextProps {
   searchResults: IBookItem[];
@@ -40,7 +39,7 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const setPages = (data: ISearchResponse) => {
+  const setPages = (data: IBooksDataResponse) => {
     if (data.total && data.limit) {
       const pages = Math.ceil(data.total / data.limit);
       setTotalPages(pages);
@@ -54,7 +53,7 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
       setLoading(true);
 
       try {
-        const response = await instance.get<ISearchResponse>(
+        const response = await instance.get<IBooksDataResponse>(
           `/api/books/filters?${queryString}&limit=4`
         );
 

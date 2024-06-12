@@ -47,7 +47,7 @@ const Catalog: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
     <Wrapper>
       <StyledCatalog>
         <Item>
-          <TitleLink to="/catalog" onClick={closeModal}>
+          <TitleLink to="/catalog/" onClick={closeModal}>
             Усі книги
           </TitleLink>
         </Item>
@@ -56,7 +56,7 @@ const Catalog: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
           categories.map((item, index) => (
             <div key={`category-${index}`}>
               <SubtitleLink
-                to={`/catalog/${item.title}`}
+                to={`/catalog/${encodeURI(item.title)}`}
                 key={`subtitle-${index}`}
                 onClick={closeModal}
               >
@@ -68,7 +68,9 @@ const Catalog: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
                     <li key={categoryIndex}>
                       <StyledBlock>
                         <SmallSubTitle
-                          to={`/catalog/${item.title}/${subcategory.title}`}
+                          to={`/catalog/${encodeURI(item.title)}/${encodeURI(
+                            subcategory.title
+                          )}`}
                           key={`subTitle-${categoryIndex}`}
                           onClick={closeModal}
                         >
@@ -80,7 +82,11 @@ const Catalog: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
                               (link, linkIndex) => (
                                 <li key={linkIndex}>
                                   <StyledItem
-                                    to={`/catalog/${item.title}/${subcategory.title}/${link}`}
+                                    to={`/catalog/${encodeURI(
+                                      item.title
+                                    )}/${encodeURI(
+                                      subcategory.title
+                                    )}/${encodeURI(link)}`}
                                     onClick={closeModal}
                                   >
                                     {link}
