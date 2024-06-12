@@ -68,13 +68,13 @@ export const Hints = styled.ul`
     margin: 5px 0;
 
     &.highlighted {
-      background: var(--bukarka-grey);
-      color: var(--bukarka-dark-grey);
+      background: var(--bukarka-deep-blue);
+      color: var(--bukarka-white);
     }
 
     &:hover {
-      background: var(--bukarka-grey);
-      color: var(--bukarka-dark-grey);
+      background: var(--bukarka-deep-blue);
+      color: var(--bukarka-white);
     }
   }
 

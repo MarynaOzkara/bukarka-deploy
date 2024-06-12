@@ -33,12 +33,15 @@ const Search = () => {
 
   const navigate = useNavigate();
 
-  const goToSearchPage = useCallback((searchParams: Record<string, any>) => {
-    const queryString = new URLSearchParams(searchParams).toString();
-    navigate(`/search?${queryString}`);
-    setHighlightedIndex(-1);
-    setShowHints(false);
-  }, []);
+  const goToSearchPage = useCallback(
+    (searchParams: Record<string, any>) => {
+      const queryString = new URLSearchParams(searchParams).toString();
+      navigate(`/search?${queryString}`);
+      setHighlightedIndex(-1);
+      setShowHints(false);
+    },
+    [navigate]
+  );
 
   useEffect(() => {
     if (debouncedQuery) {

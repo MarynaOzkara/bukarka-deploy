@@ -10,9 +10,7 @@ import {
 } from "styles/CommonStyled";
 
 const FavoritePage: React.FC = () => {
-  const { allBooks, favorites } = useBooks();
-
-  const books = allBooks;
+  const { books = [], favorites } = useBooks();
 
   const favoriteBooks = books.length
     ? books.filter((book) => book && favorites.includes(book._id))
