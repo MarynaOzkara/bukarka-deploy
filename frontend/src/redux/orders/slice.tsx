@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
+  addToCart,
   deleteItem,
   deleteOrderItem,
   fetchOrderById,
@@ -26,6 +27,18 @@ const ordersSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(addToCart.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(addToCart.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.status = "succeeded";
+        state.orders = action.payload;
+      })
+      .addCase(addToCart.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload as string;
+      })
       .addCase(fetchOrdersData.pending, (state) => {
         state.status = "loading";
       })
