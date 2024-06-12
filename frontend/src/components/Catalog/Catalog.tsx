@@ -28,7 +28,7 @@ interface CatalogData {
 }
 
 const Catalog: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
-  const [categories, setCategories] = useState<CatalogData[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,47 +53,39 @@ const Catalog: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
         </Item>
 
         {categories.length > 0 &&
-          categories.map((item, index) => (
+          categories.map((category: Category, index) => (
             <div key={`category-${index}`}>
               <SubtitleLink
-                to={`/catalog/${encodeURI(item.title)}`}
+                to={`/catalog/${encodeURI(category.title)}`}
                 key={`subtitle-${index}`}
                 onClick={closeModal}
               >
-                {item.title}
+                {category.title}
               </SubtitleLink>
               <ul>
-                {item.subcategories.map(
-                  (subcategory: Category, categoryIndex: number) => (
-                    <li key={categoryIndex}>
+                {category.subcategories.map(
+                  (subcategory: Subcategory, subcatIndex: number) => (
+                    <li key={subcatIndex}>
                       <StyledBlock>
-                        <SmallSubTitle
-                          to={`/catalog/${encodeURI(item.title)}/${encodeURI(
-                            subcategory.title
-                          )}`}
-                          key={`subTitle-${categoryIndex}`}
-                          onClick={closeModal}
-                        >
+                        <SmallSubTitle to="" key={`subTitle-${subcatIndex}`}>
                           {subcategory.title}
                         </SmallSubTitle>
                         <ul>
-                          {!!subcategory.subcategories &&
-                            subcategory.subcategories[categoryIndex].links.map(
-                              (link, linkIndex) => (
-                                <li key={linkIndex}>
-                                  <StyledItem
-                                    to={`/catalog/${encodeURI(
-                                      item.title
-                                    )}/${encodeURI(
-                                      subcategory.title
-                                    )}/${encodeURI(link)}`}
-                                    onClick={closeModal}
-                                  >
-                                    {link}
-                                  </StyledItem>
-                                </li>
-                              )
-                            )}
+                          {!!subcategory.links &&
+                            subcategory.links.map((link, linkIndex) => (
+                              <li key={linkIndex}>
+                                <StyledItem
+                                  to={`/catalog/${encodeURI(
+                                    subcategory.title
+                                  )}/${encodeURI(
+                                    subcategory.title
+                                  )}/${encodeURI(link)}`}
+                                  onClick={closeModal}
+                                >
+                                  {link}
+                                </StyledItem>
+                              </li>
+                            ))}
                         </ul>
                       </StyledBlock>
                     </li>
