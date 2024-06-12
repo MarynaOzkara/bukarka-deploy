@@ -37,7 +37,7 @@ const addOneToCart = async (req, res) => {
 
         { new: true }
       )
-        .populate("cartItems.bookId", "_id title author")
+        .populate("cartItems.bookId", "_id imagesUrls title author")
         .select("-cartItems._id -createdAt -updatedAt -_id");
 
       res.status(200).json({
@@ -61,7 +61,7 @@ const addOneToCart = async (req, res) => {
         },
         { new: true }
       )
-        .populate("cartItems.bookId", "_id title author")
+        .populate("cartItems.bookId", "_id imagesUrls title author")
         .select("-cartItems._id -createdAt -updatedAt -_id");
 
       res.status(200).json({
@@ -85,7 +85,7 @@ const addOneToCart = async (req, res) => {
     });
     const createCart = await cart.populate(
       "cartItems.bookId",
-      "_id title author"
+      "_id imagesUrls title author"
     );
 
     res.status(201).json({

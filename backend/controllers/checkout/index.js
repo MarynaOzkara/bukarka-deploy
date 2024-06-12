@@ -1,2 +1,2 @@
-const { createCheckout } = require("./checkout");
-module.exports = { createCheckout };
+const { createCheckout, getCheckoutById } = require("./checkout");
+module.exports = { createCheckout, getCheckoutById };

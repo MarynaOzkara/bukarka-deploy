@@ -21,5 +21,10 @@ router.patch("/delete/:bookId", authenticate, cartController.deleteItem);
 router.delete("/clear", authenticate, cartController.clearCart);
 
 router.post("/checkout", authenticate, checkoutController.createCheckout);
+router.get(
+  "/checkout/:orderId",
+  authenticate,
+  checkoutController.getCheckoutById
+);
 
 module.exports = router;
