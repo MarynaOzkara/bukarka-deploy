@@ -58,7 +58,7 @@ export const StyledItemImage = styled.div`
 
 export const StyledStarIcon = styled(StarIcon)`
   path {
-    fill: ${(props) => props.fillColor || ""};
+    fill: ${(props) => props.$fillColor || ""};
   }
 `;
 
