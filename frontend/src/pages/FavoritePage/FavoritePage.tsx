@@ -28,7 +28,7 @@ const FavoritePage: React.FC = () => {
               gap: "2rem",
             }}
           >
-            {(books.length && <Favorites books={favoriteBooks} />) || (
+            {(!!books.length && <Favorites books={favoriteBooks} />) || (
               <div>No favorite books</div>
             )}
           </FlexWrapper>
