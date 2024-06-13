@@ -21,7 +21,7 @@ const CatalogPage: React.FC = () => {
       if (page !== currentPage) {
         setCurrentPage(page);
       }
-      await fetchBooks(page, category, subcategory, link);
+      await fetchBooks(category, subcategory, link, page);
     };
 
     loadData();

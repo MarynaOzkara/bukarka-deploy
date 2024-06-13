@@ -71,9 +71,10 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
           setPages(response.data);
           setCurrentPage(page || 1);
         } else setSearchResults([]);
-      } catch (error) {
-        console.error("Error fetching search results:", error);
-        setSearchResults([]);
+      } catch (error: any) {
+        if (error.response && error.response.status !== 404)
+          setSearchResults([]);
+        else throw error;
       } finally {
         setLoading(false);
       }

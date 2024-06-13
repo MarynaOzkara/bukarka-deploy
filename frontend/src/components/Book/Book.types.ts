@@ -21,10 +21,10 @@ export interface IBooksDataResponse {
 export interface IBooksContextType {
   books: IBookItem[];
   fetchBooks: (
-    page?: number,
     category?: string,
     subcategory?: string,
     link?: string,
+    page?: number,
     limit?: number
   ) => Promise<void>;
   favorites: string[];
