@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { images } from "../../../assets/images";
 import ReactStars from "react-rating-stars-component";
-import Modal from "../../Modal";
-import { instance } from "../../../utils/fetchInstance";
-import FavoriteButton from "../../FavoriteButton/FavoriteButton";
-import { StarsWrapper, StyledStarIcon } from "../../Slider/SimpleSlider.styled";
+import Cart from "components/Cart";
+import Modal from "components/Modal";
+import FavoriteButton from "components/FavoriteButton/FavoriteButton";
+import {
+  StarsWrapper,
+  StyledStarIcon,
+} from "components/Slider/SimpleSlider.styled";
+import { images } from "assets/images";
+import { instance } from "utils/fetchInstance";
 import {
   StyledItemCard,
   StyledItemImage,
@@ -15,7 +19,6 @@ import {
   StyledFavoriteButton,
   Button,
 } from "./BookCard.styled";
-import Cart from "components/Cart";
 
 interface IProps {
   _id: string;
@@ -49,7 +52,6 @@ const BookCard: React.FC<IProps> = ({
   rating,
   index,
 }) => {
-  // console.log("_id", _id);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentId] = useState<string | null>(null);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -64,22 +66,22 @@ const BookCard: React.FC<IProps> = ({
     filledIcon: <StyledStarIcon />,
   };
 
+  const fetchData = useCallback(async (currentId: string) => {
+    try {
+      await instance.post(`/api/orders/${currentId}`, {
+        id: currentId,
+      });
+      setIsOpen(true);
+    } catch (error) {
+      console.error("Error making POST request:", error);
+    }
+  }, []);
+
   useEffect(() => {
     if (currentId) {
-      const fetchData = async () => {
-        try {
-          await instance.post(`/api/orders/${currentId}`, {
-            id: currentId,
-          });
-          setIsOpen(true);
-        } catch (error) {
-          console.error("Error making POST request:", error);
-        }
-      };
-
-      fetchData();
+      fetchData(currentId);
     }
-  }, [currentId]);
+  }, [currentId, fetchData]);
 
   const closeModal = () => {
     setIsOpen(false);
@@ -127,13 +129,8 @@ const BookCard: React.FC<IProps> = ({
 
         <StyledItemImage id={_id} onClick={handleClick}>
           <img
-            src={
-              image ||
-              (index === 0 && images.BookNetflix) ||
-              (index === 2 && images.BookCover) ||
-              images.BookDarkSide
-            }
-            alt=""
+            src={image || images.imagePlaceholder}
+            alt={`${author} ${title} `}
           />
         </StyledItemImage>
         <StyledTitle style={{ width: "192px" }}>
