@@ -1,12 +1,18 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import ReactStars from "react-rating-stars-component";
 import Cart from "components/Cart";
 import Modal from "components/Modal";
-import { images } from "assets/images";
-import { instance } from "utils/fetchInstance";
-import { truncateString } from "utils/truncateString";
 import FavoriteButton from "components/FavoriteButton/";
+import { images } from "assets/images";
+import { truncateString } from "utils/truncateString";
+import { useAppDispatch } from "../../../redux/hooks";
+import { addToCart, fetchOrdersData } from "../../../redux/orders/operations";
+import {
+  selectOrdersError,
+  selectOrdersStatus,
+} from "../../../redux/orders/selectors";
 import {
   StarsWrapper,
   StyledStarIcon,
@@ -31,19 +37,6 @@ interface IProps {
   index: number;
 }
 
-interface CartItem {
-  _id: string;
-  orderItems: {
-    _id: string;
-    quantity: number;
-    product: {
-      _id: string;
-      author: string;
-      title: string;
-    };
-  }[];
-}
-
 const BookCard: React.FC<IProps> = ({
   _id,
   title,
@@ -54,67 +47,42 @@ const BookCard: React.FC<IProps> = ({
   index,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [currentId] = useState<string | null>(null);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const dispatch = useAppDispatch();
+  const ordersStatus = useSelector(selectOrdersStatus);
+  const ordersError = useSelector(selectOrdersError);
 
   let navigate = useNavigate();
 
-  const starsProps = {
-    size: 20,
-    count: 5,
-    edit: false,
-    color: "#fffbff",
-    activeColor: "#ffd700",
-
-    emptyIcon: <StyledStarIcon $fillColor= "var(--bukarka-white)" />,
-    filledIcon: <StyledStarIcon $fillColor="var(--bukarka-yellow)"  />,
-  };
-
-  const fetchData = useCallback(async (currentId: string) => {
-    try {
-      await instance.post(`/api/orders/${currentId}`, {
-        id: currentId,
-      });
-      setIsOpen(true);
-    } catch (error) {
-      console.error("Error making POST request:", error);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (currentId) {
-      fetchData(currentId);
-    }
-  }, [currentId, fetchData]);
+  const starsProps = useMemo(
+    () => ({
+      size: 20,
+      count: 5,
+      edit: false,
+      color: "#fffbff",
+      activeColor: "#ffd700",
+      emptyIcon: <StyledStarIcon $fillColor="var(--bukarka-white)" />,
+      filledIcon: <StyledStarIcon $fillColor="var(--bukarka-yellow)" />,
+    }),
+    []
+  );
 
   const closeModal = () => {
     setIsOpen(false);
   };
 
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const target = e.currentTarget as HTMLDivElement;
-    navigate(`/books/${target.id}`);
-  };
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      const target = e.currentTarget as HTMLDivElement;
+      navigate(`/books/${target.id}`);
+    },
+    [navigate]
+  );
 
-  const handleAddToCart = async () => {
-    try {
-      const bookExistsInCart = cartItems.some((cartItem) =>
-        cartItem.orderItems.some((item) => item.product._id === _id)
-      );
-
-      if (bookExistsInCart) {
-        setIsOpen(true);
-      } else {
-        await instance.post(`/api/orders/${_id}`);
-
-        const response = await instance.get("/api/orders");
-        setCartItems(response.data);
-        setIsOpen(true);
-      }
-    } catch (error) {
-      console.error("Error adding to cart:", error);
-    }
-  };
+  const handleAddToCart = useCallback(async () => {
+    await dispatch(addToCart(_id));
+    await dispatch(fetchOrdersData());
+    setIsOpen(true);
+  },[_id, dispatch]);
 
   return (
     <>
@@ -156,6 +124,7 @@ const BookCard: React.FC<IProps> = ({
           </Modal>
         )}
       </StyledItemCard>
+      {ordersStatus === "failed" && console.log(ordersError)}
     </>
   );
 };
