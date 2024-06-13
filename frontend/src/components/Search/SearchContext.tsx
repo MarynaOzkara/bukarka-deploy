@@ -56,9 +56,8 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
   };
 
   const handleSearch = useCallback(
-    async (keyword?: string, page?: number, limit?: number) => {
+    async (keyword?: string, page?: number, limit = 3) => {
       setLoading(true);
-
       try {
         const response = await instance.get<IBooksDataResponse>(
           `/api/books/filters`,
@@ -69,7 +68,6 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
 
         if (response.data.books.length) {
           setSearchResults(response.data.books);
-          console.log(searchResults);
           setPages(response.data);
           setCurrentPage(page || 1);
         } else setSearchResults([]);

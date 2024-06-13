@@ -15,28 +15,24 @@ const SearchPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
   const [isStart, setIsStart] = useState(true);
-  console.log(searchResults);
 
   useEffect(() => {
     const page = Number(searchParams.get("page")) || 1;
-    const authorQuery = searchParams.get("keyword") || "";
-    const titleQuery = searchParams.get("title") || "";
+    const keyword = searchParams.get("keyword") || "";
 
     setIsStart(true);
     setCurrentPage(page);
 
-    if (!isStart) handleSearch(authorQuery || titleQuery, page);
+    if (!isStart) handleSearch(keyword, page); // to rid of an extra request
   }, [searchParams]);
 
   const handlePageChange = (newPage: number) => {
     setIsStart(false);
 
-    const authorQuery = searchParams.get("author") || "";
-    const titleQuery = searchParams.get("title") || "";
+    const keyword = searchParams.get("keyword") || "";
 
     setSearchParams({
-      author: authorQuery,
-      title: titleQuery,
+      keyword,
       page: newPage.toString(),
     });
   };
