@@ -1,3 +1,4 @@
+import { StarIcon } from "assets/icons";
 import styled from "styled-components";
 
 export const StyledItemCard = styled.div`
@@ -78,4 +79,12 @@ export const StyledFavoriteButton = styled.div`
   position: absolute;
   top: 0;
   right: 0;
+`;
+
+export const EmptyIcon = styled(StarIcon)`
+  fill: var(--bukarka-white);
+`;
+
+export const FullIcon = styled(StarIcon)`
+  fill: var(--bukarka-yellow);
 `;

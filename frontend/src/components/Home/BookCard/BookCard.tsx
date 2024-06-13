@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { images } from "../../../assets/images";
 import ReactStars from "react-rating-stars-component";
-import Modal from "../../Modal";
-import { instance } from "../../../utils/fetchInstance";
-import FavoriteButton from "../../FavoriteButton/FavoriteButton";
-import { StarsWrapper, StyledStarIcon } from "../../Slider/SimpleSlider.styled";
+import Cart from "components/Cart";
+import Modal from "components/Modal";
+import { images } from "assets/images";
+import { instance } from "utils/fetchInstance";
+import { truncateString } from "utils/truncateString";
+import FavoriteButton from "components/FavoriteButton/";
+import {
+  StarsWrapper,
+  StyledStarIcon,
+} from "components/Slider/SimpleSlider.styled";
 import {
   StyledItemCard,
   StyledItemImage,
@@ -15,7 +20,6 @@ import {
   StyledFavoriteButton,
   Button,
 } from "./BookCard.styled";
-import Cart from "components/Cart";
 
 interface IProps {
   _id: string;
@@ -49,37 +53,39 @@ const BookCard: React.FC<IProps> = ({
   rating,
   index,
 }) => {
-  // console.log("_id", _id);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentId] = useState<string | null>(null);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   let navigate = useNavigate();
 
-  const firstExample = {
+  const starsProps = {
     size: 20,
     count: 5,
     edit: false,
-    emptyIcon: <StyledStarIcon $fillColor="#FFFBFF" />,
-    filledIcon: <StyledStarIcon />,
+    color: "#fffbff",
+    activeColor: "#ffd700",
+
+    emptyIcon: <StyledStarIcon $fillColor= "var(--bukarka-white)" />,
+    filledIcon: <StyledStarIcon $fillColor="var(--bukarka-yellow)"  />,
   };
+
+  const fetchData = useCallback(async (currentId: string) => {
+    try {
+      await instance.post(`/api/orders/${currentId}`, {
+        id: currentId,
+      });
+      setIsOpen(true);
+    } catch (error) {
+      console.error("Error making POST request:", error);
+    }
+  }, []);
 
   useEffect(() => {
     if (currentId) {
-      const fetchData = async () => {
-        try {
-          await instance.post(`/api/orders/${currentId}`, {
-            id: currentId,
-          });
-          setIsOpen(true);
-        } catch (error) {
-          console.error("Error making POST request:", error);
-        }
-      };
-
-      fetchData();
+      fetchData(currentId);
     }
-  }, [currentId]);
+  }, [currentId, fetchData]);
 
   const closeModal = () => {
     setIsOpen(false);
@@ -88,14 +94,6 @@ const BookCard: React.FC<IProps> = ({
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const target = e.currentTarget as HTMLDivElement;
     navigate(`/books/${target.id}`);
-  };
-
-  const truncateString = (str: string, num: number) => {
-    if (str.length > num) {
-      return str.slice(0, num) + "...";
-    } else {
-      return str;
-    }
   };
 
   const handleAddToCart = async () => {
@@ -127,13 +125,8 @@ const BookCard: React.FC<IProps> = ({
 
         <StyledItemImage id={_id} onClick={handleClick}>
           <img
-            src={
-              image ||
-              (index === 0 && images.BookNetflix) ||
-              (index === 2 && images.BookCover) ||
-              images.BookDarkSide
-            }
-            alt=""
+            src={image || images.imagePlaceholder}
+            alt={`${author} ${title} `}
           />
         </StyledItemImage>
         <StyledTitle style={{ width: "192px" }}>
@@ -151,7 +144,7 @@ const BookCard: React.FC<IProps> = ({
           </div>
         </StyledNameAuthor>
         <StarsWrapper>
-          <ReactStars {...firstExample} value={index === 0 ? 5 : rating} />
+          <ReactStars {...starsProps} value={rating} />
         </StarsWrapper>
         <StyledPrice>{price} грн</StyledPrice>
 
