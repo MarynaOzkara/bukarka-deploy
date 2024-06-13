@@ -56,7 +56,7 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
   };
 
   const handleSearch = useCallback(
-    async (keyword?: string, page?: number, limit = 3) => {
+    async (keyword?: string, page?: number, limit?: number) => {
       setLoading(true);
       try {
         const response = await instance.get<IBooksDataResponse>(

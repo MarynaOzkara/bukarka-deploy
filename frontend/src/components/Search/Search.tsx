@@ -95,6 +95,7 @@ const Search = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const searchParams = { keyword: inputQuery, page: "1" };
     handleSearch(inputQuery, 1);
     goToSearchPage(searchParams);
   };
@@ -112,7 +113,7 @@ const Search = () => {
 
       setInputQuery(author || title);
       setIsHintSelected(true);
-      const searchParams = { author, title };
+      const searchParams = { keyword: author || title, page: "1" };
       setSearchParams(searchParams);
       handleSearch(author || title, 1);
       goToSearchPage(searchParams);
@@ -150,25 +151,29 @@ const Search = () => {
       />
       {showHints && (
         <Hints ref={hintsRef}>
-          {loading ? (
-            <li>Loading...</li>
-          ) : hints.length > 0 ? (
-            hints.map((hint, index) => (
-              <li
-                className={`${index === highlightedIndex ? "highlighted" : ""}`}
-                key={index}
-                onClick={() => handleHintClick(hint)}
-              >
-                {(hint.author
-                  ?.toLowerCase()
-                  .includes(inputQuery.toLowerCase()) &&
-                  hint.author) ||
-                  (hint.title
+          {hints.length > 0 ? (
+            loading ? (
+              <li>Loading...</li>
+            ) : (
+              hints.map((hint, index) => (
+                <li
+                  className={`${
+                    index === highlightedIndex ? "highlighted" : ""
+                  }`}
+                  key={index}
+                  onClick={() => handleHintClick(hint)}
+                >
+                  {(hint.author
                     ?.toLowerCase()
                     .includes(inputQuery.toLowerCase()) &&
-                    hint.title)}
-              </li>
-            ))
+                    hint.author) ||
+                    (hint.title
+                      ?.toLowerCase()
+                      .includes(inputQuery.toLowerCase()) &&
+                      hint.title)}
+                </li>
+              ))
+            )
           ) : (
             <li>No results</li>
           )}
