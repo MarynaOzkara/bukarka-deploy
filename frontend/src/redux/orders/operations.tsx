@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { instance } from "utils/fetchInstance";
-import { IOrders } from "types/Orders";
+import { IOrders, UpdatedOrderPayload } from "types/Orders";
 
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async (productId: string, { rejectWithValue }) => {
-    console.log(productId)
+    console.log(productId);
     try {
       const response = await instance.post(`/api/orders/${productId}`);
       console.log(response);
@@ -76,6 +76,28 @@ export const deleteItem = createAsyncThunk(
       return itemIdToDelete;
     } catch (error) {
       console.error((error as Error).message);
+    }
+  }
+);
+
+export const updateOrderInfo = createAsyncThunk(
+  "order/updateOrderInfo",
+  async (payload:UpdatedOrderPayload, thunkAPI) => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/api/orders/checkout/${payload.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload.customerInfo),
+        }
+      );
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue((error as Error).message);
     }
   }
 );

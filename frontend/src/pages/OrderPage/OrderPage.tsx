@@ -7,6 +7,8 @@ import Comment from "components/Order/Comment";
 import BookData from "components/Order/BookData";
 import OrderData from "components/Order/OrderData";
 import Submit from "components/Order/Submit";
+import { useAppDispatch } from "../../redux/hooks";
+import { updateOrderInfo } from "../../redux/orders/operations";
 import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
   FlexWrapper,
@@ -30,7 +32,7 @@ const OrderPage: React.FC = () => {
   const [orderComment, setOrderComment] = useState<string>("");
 
   const { id } = useParams<{ id: string }>();
-  // console.log(id);
+  const dispatch = useAppDispatch();
 
   const handleCheckboxChange = (checked: boolean) => {
     setIsChecked(checked);
@@ -48,27 +50,9 @@ const OrderPage: React.FC = () => {
       comment: orderComment,
     };
 
-    // console.log(customerInfo);
+    console.log(customerInfo);
 
-    fetch(
-      // `https://bukarka.onrender.com/api/orders/checkout/${id}`
-      `http://localhost:4000/api/orders/checkout/${id}`,
-
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(customerInfo),
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Response from server:", data);
-      })
-      .catch((error) => {
-        console.error("Error sending data:", error);
-      });
+    dispatch(updateOrderInfo({ id, customerInfo }));
   };
 
   return (

@@ -6,6 +6,7 @@ import {
   fetchOrderById,
   fetchOrdersData,
   updateItemQuantity,
+  updateOrderInfo,
 } from "./operations";
 import { IOrders } from "types/Orders";
 
@@ -84,7 +85,6 @@ const ordersSlice = createSlice({
         state.error = action.payload as string;
       })
 
-      //deleteItem
       .addCase(deleteItem.pending, (state) => {
         state.status = "loading";
       })
@@ -122,7 +122,22 @@ const ordersSlice = createSlice({
       .addCase(updateItemQuantity.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload as string;
-      });
+      })
+      
+      .addCase(updateOrderInfo.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updateOrderInfo.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.orders = action.payload;
+      })
+      .addCase(updateOrderInfo.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload as string;
+      })
+      
+      
+      ;
   },
 });
 

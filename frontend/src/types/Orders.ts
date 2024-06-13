@@ -22,3 +22,17 @@ export interface IOrders {
   status: string;
   totalPrice: number;
 }
+
+export interface UpdatedOrderPayload {
+  id?: string;
+  customerInfo: {
+    name: string;
+    surname: string;
+    email: string;
+    phoneNumber: string;
+    city: string;
+    address: string;
+    payment: string;
+    comment: string;
+  };
+}
