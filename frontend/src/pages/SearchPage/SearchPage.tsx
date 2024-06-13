@@ -1,6 +1,7 @@
-import { BookCard, Pagination, SearchContext } from "components";
+import { BookCard, Pagination } from "components";
+import { useSearch } from "components/Search";
 import { Label } from "pages/CommonPages.styled";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
   FlexWrapper,
@@ -10,10 +11,11 @@ import {
 } from "styles/CommonStyled";
 
 const SearchPage = () => {
-  const { searchResults, handleSearch, totalPages } = useContext(SearchContext);
+  const { searchResults, handleSearch, totalPages } = useSearch();
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
   const [isStart, setIsStart] = useState(true);
+  console.log(searchResults);
 
   useEffect(() => {
     const page = Number(searchParams.get("page")) || 1;
@@ -23,8 +25,7 @@ const SearchPage = () => {
     setIsStart(true);
     setCurrentPage(page);
 
-    if (!isStart)
-      handleSearch({ author: authorQuery, title: titleQuery, page });
+    if (!isStart) handleSearch(authorQuery, titleQuery, page);
   }, [searchParams]);
 
   const handlePageChange = (newPage: number) => {

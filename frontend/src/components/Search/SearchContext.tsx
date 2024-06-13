@@ -3,30 +3,41 @@ import React, {
   ReactNode,
   createContext,
   useCallback,
+  useContext,
   useMemo,
   useState,
 } from "react";
 import { instance } from "utils/fetchInstance";
 
-interface SearchContextProps {
+interface ISearchContextType {
   searchResults: IBookItem[];
   hints: IBookItem[];
   loading: boolean;
   currentPage: number;
   totalPages: number;
-  handleSearch: (searchParams: Record<string, any>) => void;
-  fetchHints: (searchParams: Record<string, any>) => void;
+  handleSearch: (
+    author?: string,
+    title?: string,
+    page?: number,
+    limit?: number
+  ) => Promise<void>;
+  fetchHints: (
+    author?: string,
+    title?: string,
+    page?: number,
+    limit?: number
+  ) => Promise<void>;
 }
 
-const SearchContext = createContext<SearchContextProps>({
-  searchResults: [],
-  hints: [],
-  loading: false,
-  currentPage: 1,
-  totalPages: 1,
-  handleSearch: () => {},
-  fetchHints: () => {},
-});
+const SearchContext = createContext<ISearchContextType | null>(null);
+
+export const useSearch = (): ISearchContextType => {
+  const context = useContext(SearchContext);
+  if (!context) {
+    throw new Error("useBooks must be used within a SearchProvider");
+  }
+  return context;
+};
 
 interface ProviderProps {
   children: ReactNode;
@@ -47,20 +58,22 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
   };
 
   const handleSearch = useCallback(
-    async (searchParams: Record<string, any>) => {
-      const queryString = new URLSearchParams(searchParams).toString();
-
+    async (author?: string, title?: string, page?: number, limit?: number) => {
       setLoading(true);
 
       try {
         const response = await instance.get<IBooksDataResponse>(
-          `/api/books/filters?${queryString}`
+          `/api/books/filters`,
+          {
+            params: { author, title, page, limit },
+          }
         );
 
         if (response.data.books.length) {
           setSearchResults(response.data.books);
+          console.log(searchResults);
           setPages(response.data);
-          setCurrentPage(searchParams.page || 1);
+          setCurrentPage(page || 1);
         } else setSearchResults([]);
       } catch (error) {
         console.error("Error fetching search results:", error);
@@ -72,13 +85,15 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
     []
   );
 
-  const fetchHints = useCallback(async (searchParams: Record<string, any>) => {
-    const queryString = new URLSearchParams(searchParams).toString();
+  const fetchHints = useCallback(async (author?: string, title?: string) => {
     setLoading(true);
 
     try {
-      const response = await instance.get(
-        `/api/books/filters?${queryString}&limit=10`
+      const response = await instance.get<IBooksDataResponse>(
+        `/api/books/filters`,
+        {
+          params: { author, title },
+        }
       );
       setHints(response.data.books);
     } catch (error) {
