@@ -58,32 +58,35 @@ const Catalog: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
                 {category.title}
               </SubtitleLink>
               <ul>
-                {category.subcategories.map(
-                  (subcategory: Subcategory, subcatIndex: number) => (
-                    <li key={subcatIndex}>
-                      <StyledBlock>
-                        <SmallSubTitle to="#" key={`subTitle-${subcatIndex}`}>
-                          {subcategory.title}
-                        </SmallSubTitle>
-                        <ul>
-                          {!!subcategory.links &&
-                            subcategory.links.map((link, linkIndex) => (
-                              <li key={linkIndex}>
-                                <StyledItem
-                                  to={`/catalog/${encodeURI(
-                                    category.title
-                                  )}/${encodeURI(link)}`}
-                                  onClick={closeModal}
-                                >
-                                  {link}
-                                </StyledItem>
-                              </li>
-                            ))}
-                        </ul>
-                      </StyledBlock>
-                    </li>
-                  )
-                )}
+                {category.subcategories &&
+                  category.subcategories.length > 0 &&
+                  category.subcategories.map(
+                    (subcategory: Subcategory, subcatIndex: number) => (
+                      <li key={subcatIndex}>
+                        <StyledBlock>
+                          <SmallSubTitle to="#" key={`subTitle-${subcatIndex}`}>
+                            {subcategory.title}
+                          </SmallSubTitle>
+                          <ul>
+                            {subcategory.links &&
+                              subcategory.links.length > 0 &&
+                              subcategory.links.map((link, linkIndex) => (
+                                <li key={linkIndex}>
+                                  <StyledItem
+                                    to={`/catalog/${encodeURI(
+                                      category.title
+                                    )}/${encodeURI(link)}`}
+                                    onClick={closeModal}
+                                  >
+                                    {link}
+                                  </StyledItem>
+                                </li>
+                              ))}
+                          </ul>
+                        </StyledBlock>
+                      </li>
+                    )
+                  )}
               </ul>
             </div>
           ))}
