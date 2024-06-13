@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useAppDispatch } from "../../redux/hooks";
+import { fetchOrderById } from "../../redux/orders/operations";
 import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
   Number,
@@ -11,27 +13,28 @@ import {
   Thanks,
   Wrapper,
 } from "./OrderConfirmationPage.styled";
-import { instance } from "utils/fetchInstance";
 
 const OrderConfirmationPage: React.FC = () => {
   const { id } = useParams();
-  // const { orderNumber } = useOrderContext();
-  // console.log(orderNumber);
-  // console.log(id);
   const [orderNumber, setOrderNumber] = useState("");
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    instance
-      .get(`/api/orders/${id}`)
-      .then((response) => response.data)
-      .then((data) => {
-        data && console.log(data);
-        setOrderNumber(data.orderNumber);
-      })
-      .catch((error) => {
-        console.error("Error fetching order data:", error);
-      });
-  }, [id]);
+    const fetchOrder = async () => {
+      if (id) {
+        try {
+          const order = await dispatch(fetchOrderById(id)).unwrap();
+          console.log(order);
+          if (order && order.orderNumber) {
+            setOrderNumber(order.orderNumber.toString());
+          }
+        } catch (error) {
+          console.error("Error fetching order:", error);
+        }
+      }
+    };
+    fetchOrder();
+  }, [dispatch, id]);
 
   return (
     <StyledCommonWrapper>
@@ -53,7 +56,5 @@ const OrderConfirmationPage: React.FC = () => {
     </StyledCommonWrapper>
   );
 };
-
-OrderConfirmationPage.propTypes = {};
 
 export default OrderConfirmationPage;

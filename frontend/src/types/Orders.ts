@@ -21,6 +21,7 @@ export interface IOrders {
   orderItems: IOrderItems[];
   status: string;
   totalPrice: number;
+  orderNumber?: number;
 }
 
 export interface UpdatedOrderPayload {

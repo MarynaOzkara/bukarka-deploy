@@ -36,7 +36,6 @@ import {
   ToPay,
   Total,
 } from "./PaymentPage.styled";
-// import { instance } from "utils/fetchInstance";
 
 const PaymentPage: React.FC = () => {
   const [cardNumber, setCardNumber] = useState("");
@@ -57,9 +56,20 @@ const PaymentPage: React.FC = () => {
   const [orderNumber, setOrderNumber] = useState("");
 
   useEffect(() => {
-    if (id) {
-      dispatch(fetchOrderById(id));
-    }
+    const fetchOrder = async () => {
+      if (id) {
+        try {
+          const order = await dispatch(fetchOrderById(id)).unwrap();
+          console.log(order);
+          if (order && order.orderNumber) {
+            setOrderNumber(order.orderNumber.toString());
+          }
+        } catch (error) {
+          console.error("Error fetching order:", error);
+        }
+      }
+    };
+    fetchOrder();
   }, [dispatch, id]);
 
   const priceWithDelivery = (bookPrice ?? 0) + (deliveryPrice ?? 0);
