@@ -71,8 +71,9 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
           setPages(response.data);
           setCurrentPage(page || 1);
         } else setSearchResults([]);
-      } catch (error) {
-        console.error("Error fetching search results:", error);
+      } catch (error: any) {
+        if (error.response && error.response.status === 404)
+          console.warn("Books not found for the given search.");
         setSearchResults([]);
       } finally {
         setLoading(false);

@@ -18,10 +18,15 @@ const CatalogPage: React.FC = () => {
       : 1;
 
     const loadData = async () => {
-      if (page !== currentPage) {
-        setCurrentPage(page);
+      try {
+        if (page !== currentPage) {
+          setCurrentPage(page);
+        }
+        await fetchBooks(category, subcategory, link, page);
+      } catch (error: any) {
+        if (error.response && error.response.status === 404)
+          console.warn("Books not found for the given category/subcategory.");
       }
-      await fetchBooks(page, category, subcategory, link);
     };
 
     loadData();

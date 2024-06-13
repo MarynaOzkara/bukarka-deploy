@@ -46,10 +46,10 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
 
   const fetchBooks = useCallback(
     async (
-      page?: number,
       category?: string,
       subcategory?: string,
       link?: string,
+      page?: number,
       limit?: number
     ) => {
       setLoading(true);
@@ -57,7 +57,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
         const response = await instance.get<IBooksDataResponse>(
           "/api/books/filters",
           {
-            params: { page, category, subcategory, link, limit },
+            params: { category, subcategory, link, page, limit },
           }
         );
 
@@ -66,8 +66,11 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
           setPages(response.data);
           setCurrentPage(page || 1);
         }
-      } catch (error) {
-        console.error("Failed to fetch books:", error);
+      } catch (error: any) {
+        if (error.response && error.response.status === 404)
+          console.warn(
+            "Books not found for the given category/subcategory/link."
+          );
         setBooks([]);
       } finally {
         setLoading(false);
