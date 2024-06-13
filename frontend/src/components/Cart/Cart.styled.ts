@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
-export const LoaderWrapper = styled.div`
+export const LoaderWrapper = styled.div<{ height: number | null }>`
   display: flex;
   justify-content: center;
   align-items: center;
 
-  width: 70vw;
-  height: 30vh;
+  width: 1024px;
+  height: ${({ height }) => (height ? `${height}px` : "336px")};
   overflow: hidden;
 `;
 

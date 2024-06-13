@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loader from "components/Loader";
@@ -31,6 +31,8 @@ type Props = {
 
 const Cart: React.FC<Props> = ({ closeCart }) => {
   const dispatch = useAppDispatch();
+  const cartWrapperRef = useRef<HTMLDivElement>(null);
+  const [wrapperHeight, setWrapperHeight] = useState<number | null>(null);
 
   const cartData = useSelector(
     (state: IRootState) => selectOrdersData(state) as CartData | null
@@ -41,10 +43,16 @@ const Cart: React.FC<Props> = ({ closeCart }) => {
     dispatch(fetchOrdersData());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (cartWrapperRef.current) {
+      setWrapperHeight(cartWrapperRef.current.offsetHeight);
+    }
+  }, [cartData]);
+
   return (
     <>
       {status === "loading" ? (
-        <LoaderWrapper>
+        <LoaderWrapper height={wrapperHeight}>
           <Loader />
         </LoaderWrapper>
       ) : !cartData ||
@@ -59,7 +67,7 @@ const Cart: React.FC<Props> = ({ closeCart }) => {
           </Button>
         </EmptyWrapper>
       ) : (
-        <CartWrapper>
+        <CartWrapper ref={cartWrapperRef}>
           <Title>Кошик</Title>
           {cartData && <CartList closeCart={closeCart} />}
         </CartWrapper>
