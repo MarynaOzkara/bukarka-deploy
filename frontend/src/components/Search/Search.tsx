@@ -25,6 +25,7 @@ const Search = () => {
   const [showHints, setShowHints] = useState<boolean>(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isHintSelected, setIsHintSelected] = useState<boolean>(false);
 
   const hintsRef = useRef<HTMLUListElement>(null);
 
@@ -43,13 +44,13 @@ const Search = () => {
   );
 
   useEffect(() => {
-    if (debouncedQuery) {
-      fetchHints(debouncedQuery, debouncedQuery);
+    if (debouncedQuery && !isHintSelected) {
+      fetchHints(debouncedQuery);
       setShowHints(true);
     } else {
       setShowHints(false);
     }
-  }, [debouncedQuery, fetchHints]);
+  }, [debouncedQuery, fetchHints, isHintSelected]);
 
   useEffect(() => {
     if (
@@ -88,12 +89,13 @@ const Search = () => {
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputQuery(event.target.value);
+    setIsHintSelected(false);
     setShowHints(false);
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleSearch(inputQuery, inputQuery, 1);
+    handleSearch(inputQuery, 1);
     goToSearchPage(searchParams);
   };
 
@@ -108,9 +110,11 @@ const Search = () => {
         ? hint.title
         : "";
 
+      setInputQuery(author || title);
+      setIsHintSelected(true);
       const searchParams = { author, title };
       setSearchParams(searchParams);
-      handleSearch(author, title, 1);
+      handleSearch(author || title, 1);
       goToSearchPage(searchParams);
     }
   };

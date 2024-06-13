@@ -16,14 +16,12 @@ interface ISearchContextType {
   currentPage: number;
   totalPages: number;
   handleSearch: (
-    author?: string,
-    title?: string,
+    keyword?: string,
     page?: number,
     limit?: number
   ) => Promise<void>;
   fetchHints: (
-    author?: string,
-    title?: string,
+    keyword?: string,
     page?: number,
     limit?: number
   ) => Promise<void>;
@@ -58,14 +56,14 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
   };
 
   const handleSearch = useCallback(
-    async (author?: string, title?: string, page?: number, limit?: number) => {
+    async (keyword?: string, page?: number, limit?: number) => {
       setLoading(true);
 
       try {
         const response = await instance.get<IBooksDataResponse>(
           `/api/books/filters`,
           {
-            params: { author, title, page, limit },
+            params: { keyword, page, limit },
           }
         );
 
@@ -85,14 +83,14 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
     []
   );
 
-  const fetchHints = useCallback(async (author?: string, title?: string) => {
+  const fetchHints = useCallback(async (keyword?: string) => {
     setLoading(true);
 
     try {
       const response = await instance.get<IBooksDataResponse>(
         `/api/books/filters`,
         {
-          params: { author, title },
+          params: { keyword },
         }
       );
       setHints(response.data.books);

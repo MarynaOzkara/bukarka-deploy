@@ -19,13 +19,13 @@ const SearchPage = () => {
 
   useEffect(() => {
     const page = Number(searchParams.get("page")) || 1;
-    const authorQuery = searchParams.get("author") || "";
+    const authorQuery = searchParams.get("keyword") || "";
     const titleQuery = searchParams.get("title") || "";
 
     setIsStart(true);
     setCurrentPage(page);
 
-    if (!isStart) handleSearch(authorQuery, titleQuery, page);
+    if (!isStart) handleSearch(authorQuery || titleQuery, page);
   }, [searchParams]);
 
   const handlePageChange = (newPage: number) => {
