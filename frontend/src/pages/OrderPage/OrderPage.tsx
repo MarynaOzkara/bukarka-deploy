@@ -1,4 +1,13 @@
-import PersonalData from "components/Order/PersonalData/PersonalData";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+import PersonalData from "components/Order/PersonalData";
+import Delivery from "components/Order/Delivery";
+import Payment from "components/Order/Payment";
+import Comment from "components/Order/Comment";
+import BookData from "components/Order/BookData";
+import OrderData from "components/Order/OrderData";
+import Submit from "components/Order/Submit";
+import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
   FlexWrapper,
   LeftPart,
@@ -6,15 +15,6 @@ import {
   RightPart,
   Title,
 } from "./OrderPage.styled";
-import { StyledCommonWrapper } from "styles/CommonStyled";
-import Delivery from "components/Order/Delivery/Delivery";
-import Payment from "components/Order/Payment/Payment";
-import Comment from "components/Order/Comment/Comment";
-import BookData from "components/Order/BookData/BookData";
-import OrderData from "components/Order/OrderData/OrderData";
-import Submit from "components/Order/Submit/Submit";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
 
 const OrderPage: React.FC = () => {
   const [isChecked, setIsChecked] = useState(false);
