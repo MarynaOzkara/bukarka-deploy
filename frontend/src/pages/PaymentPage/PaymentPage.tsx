@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useOrderContext } from "components/Order/OrderContext";
 import { VisaIcon } from "assets/icons";
+import { useAppDispatch } from "../../redux/hooks";
+import { fetchOrderById } from "../../redux/orders/operations";
 import { StyleSheetManager } from "styled-components";
 import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
@@ -34,7 +36,7 @@ import {
   ToPay,
   Total,
 } from "./PaymentPage.styled";
-import { instance } from "utils/fetchInstance";
+// import { instance } from "utils/fetchInstance";
 
 const PaymentPage: React.FC = () => {
   const [cardNumber, setCardNumber] = useState("");
@@ -44,32 +46,21 @@ const PaymentPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
-  const { id } = useParams();
-  // console.log(id);
+  const { id } = useParams<{ id: string }>();
+  console.log(id);
 
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const { totalQuantity, deliveryPrice, bookPrice } = useOrderContext();
 
   const [orderNumber, setOrderNumber] = useState("");
 
-  // console.log(totalQuantity);
-  // console.log(deliveryPrice);
-  // console.log(bookPrice);
-
   useEffect(() => {
-    instance
-      .get(`/api/orders/${id}`)
-      .then((response) => response.data)
-      .then((data) => {
-        data && console.log(data);
-        setOrderNumber(data.orderNumber);
-      })
-      .catch((error) => {
-        console.error("Error fetching order data:", error);
-      });
-  }, [id]);
-
-  // console.log(orderNumber);
+    if (id) {
+      dispatch(fetchOrderById(id));
+    }
+  }, [dispatch, id]);
 
   const priceWithDelivery = (bookPrice ?? 0) + (deliveryPrice ?? 0);
 
