@@ -72,9 +72,9 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
           setCurrentPage(page || 1);
         } else setSearchResults([]);
       } catch (error: any) {
-        if (error.response && error.response.status === 404)
-          console.warn("Books not found for the given search.");
-        setSearchResults([]);
+        if (error.response && error.response.status !== 404)
+          setSearchResults([]);
+        else throw error;
       } finally {
         setLoading(false);
       }

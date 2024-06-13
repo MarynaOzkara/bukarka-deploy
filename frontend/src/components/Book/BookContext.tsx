@@ -67,10 +67,9 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
           setCurrentPage(page || 1);
         }
       } catch (error: any) {
-        if (error.response && error.response.status === 404)
-          console.warn(
-            "Books not found for the given category/subcategory/link."
-          );
+        if (error.response && error.response.status !== 404) {
+          throw error;
+        }
         setBooks([]);
       } finally {
         setLoading(false);
