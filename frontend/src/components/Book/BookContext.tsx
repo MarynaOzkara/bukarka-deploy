@@ -50,6 +50,8 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       subcategory?: string,
       link?: string,
       page?: number,
+      sortBy?: string,
+      orderSort?: string,
       limit?: number
     ) => {
       setLoading(true);
@@ -57,7 +59,15 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
         const response = await instance.get<IBooksDataResponse>(
           "/api/books/filters",
           {
-            params: { category, subcategory, link, page, limit },
+            params: {
+              category,
+              subcategory,
+              link,
+              page,
+              sortBy,
+              orderSort,
+              limit,
+            },
           }
         );
 

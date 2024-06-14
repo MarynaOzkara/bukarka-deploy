@@ -2,39 +2,52 @@ import { ChangeEvent } from "react";
 import { Options } from "./Sort.styled";
 
 interface ISortProps {
-  onSortChange: (sortKey: string) => void;
+  onSortChange: (sortKey: string, order: string) => void;
 }
 
 const Sort: React.FC<ISortProps> = ({ onSortChange }) => {
   const options = [
-    { key: "rating", label: "За рейтингом" },
-    { key: "new", label: "За новизною" },
-    { key: "titleAsc", label: "За назвою А-Я" },
-    { key: "titleDesc", label: "За назвою Я-А" },
-    { key: "priceUp", label: "Від найдешевших" },
-    { key: "priceDown", label: "Від найдорожчих" },
-    { key: "year", label: "За роком випуску" },
+    { label: "За рейтингом", sortBy: "rating", order: "desc" },
+    { label: "За назвою А-Я", sortBy: "title", order: "asc" },
+    {
+      label: "За назвою Я-А",
+      sortBy: "title",
+      order: "desc",
+    },
+    { label: "Від найдешевших", sortBy: "price", order: "asc" },
+    {
+      label: "Від найдорожчих",
+      sortBy: "price",
+      order: "desc",
+    },
+    { label: "За роком випуску", sortBy: "year", order: "asc" },
   ];
 
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    onSortChange(event.target.value);
+    const selectedValue = event.target.value;
+    const selectedOption = options.find(
+      (option) => option.label === selectedValue
+    );
+
+    if (selectedOption) {
+      onSortChange(selectedOption.sortBy, selectedOption.order);
+    }
   };
 
   return (
     <Options name="sort" onChange={handleChange}>
       <optgroup>
-        <option className="section" value="" selected disabled>
+        <option className="section" defaultValue="" disabled>
           Сортування:
         </option>
       </optgroup>
-
-      {options.map((option, index) => (
-        <optgroup>
-          <option value={option.key} key={index}>
+      <optgroup>
+        {options.map((option, index) => (
+          <option value={option.label} key={index}>
             {option.label}
           </option>
-        </optgroup>
-      ))}
+        ))}
+      </optgroup>
     </Options>
   );
 };

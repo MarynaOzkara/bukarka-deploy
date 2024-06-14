@@ -32,7 +32,6 @@ export const ModalWrapper = styled.div`
   inset: 0;
   display: flex;
   justify-content: center;
-  overflow-y: scroll;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.1);
   z-index: 2;
@@ -40,8 +39,7 @@ export const ModalWrapper = styled.div`
 
 export const ModalContent = styled.div<ModalContentProps>`
   position: relative;
-  max-height: 90vh;
-  overflow-y: auto;
+  max-height: content-fit;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
   background: var(--bukarka-white);
 

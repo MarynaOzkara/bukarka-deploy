@@ -16,18 +16,20 @@ const CatalogPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { books, currentPage, setCurrentPage, totalPages, fetchBooks } =
     useBooks();
-  const [sort, setSort] = useState("");
+  const [sortBy, setSortBy] = useState("");
+  const [orderSort, setOrderSort] = useState("asc");
 
   useEffect(() => {
     const page = searchParams.get("page")
       ? Number(searchParams.get("page"))
       : 1;
-
+    const sortBy = searchParams.get("sortBy") || "";
+    const sortOrder = searchParams.get("orderSort") || "asc";
     const loadData = async () => {
       if (page !== currentPage) {
         setCurrentPage(page);
       }
-      await fetchBooks(category, subcategory, link, page);
+      await fetchBooks(category, subcategory, link, page, sortBy, sortOrder);
     };
 
     loadData();
@@ -43,12 +45,13 @@ const CatalogPage: React.FC = () => {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    setSearchParams({ page: page.toString() });
+    setSearchParams({ page: page.toString(), sortBy, orderSort });
   };
 
-  const handleSortChange = (sortKey: string) => {
-    setSort(sortKey);
-    setSearchParams({ page: "1", sort: sortKey });
+  const handleSortChange = (sortKey: string, sortOrder: string) => {
+    setSortBy(sortKey);
+    setOrderSort(sortOrder);
+    setSearchParams({ page: "1", sortBy: sortKey, orderSort: sortOrder });
   };
 
   return (
