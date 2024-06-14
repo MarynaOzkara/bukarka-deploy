@@ -1,6 +1,11 @@
+import { ChangeEvent } from "react";
 import { Options } from "./Sort.styled";
 
-const Sort = () => {
+interface ISortProps {
+  onSortChange: (sortKey: string) => void;
+}
+
+const Sort: React.FC<ISortProps> = ({ onSortChange }) => {
   const options = [
     { key: "rating", label: "За рейтингом" },
     { key: "new", label: "За новизною" },
@@ -11,24 +16,26 @@ const Sort = () => {
     { key: "year", label: "За роком випуску" },
   ];
 
+  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    onSortChange(event.target.value);
+  };
+
   return (
-    <form>
-      <Options name="sort">
+    <Options name="sort" onChange={handleChange}>
+      <optgroup>
+        <option className="section" value="" selected disabled>
+          Сортування:
+        </option>
+      </optgroup>
+
+      {options.map((option, index) => (
         <optgroup>
-          <option className="section" value="" selected disabled>
-            Сортування:
+          <option value={option.key} key={index}>
+            {option.label}
           </option>
         </optgroup>
-
-        {options.map((option, index) => (
-          <optgroup>
-            <option value={option.key} key={index}>
-              {option.label}
-            </option>
-          </optgroup>
-        ))}
-      </Options>
-    </form>
+      ))}
+    </Options>
   );
 };
 

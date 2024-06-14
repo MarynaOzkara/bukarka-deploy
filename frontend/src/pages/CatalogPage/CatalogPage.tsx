@@ -1,7 +1,7 @@
 import { Pagination, Sort } from "components";
 import { useBooks } from "components/Book";
 import { BreadCrumbs, Label } from "pages/CommonPages.styled";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet, useParams, useSearchParams } from "react-router-dom";
 import {
   FlexWrapper,
@@ -16,6 +16,7 @@ const CatalogPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { books, currentPage, setCurrentPage, totalPages, fetchBooks } =
     useBooks();
+  const [sort, setSort] = useState("");
 
   useEffect(() => {
     const page = searchParams.get("page")
@@ -45,6 +46,11 @@ const CatalogPage: React.FC = () => {
     setSearchParams({ page: page.toString() });
   };
 
+  const handleSortChange = (sortKey: string) => {
+    setSort(sortKey);
+    setSearchParams({ page: "1", sort: sortKey });
+  };
+
   return (
     <StyledCommonWrapper>
       <PageWrapper>
@@ -54,13 +60,14 @@ const CatalogPage: React.FC = () => {
 
           <FlexWrapper
             style={{
-              justifyContent: "space-around",
+              justifyContent: "center",
               flexWrap: "wrap",
               gap: "2rem",
               position: "relative",
             }}
           >
-            <Sort />
+            {!!books.length && <Sort onSortChange={handleSortChange} />}
+
             {<Outlet context={{ books }} /> || <ContentSection data={books} />}
           </FlexWrapper>
           {!!books.length && (
