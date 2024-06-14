@@ -9,6 +9,7 @@ import Cart from "components/Cart";
 import { selectOrdersData } from "../../../redux/orders/selectors";
 import { useAppDispatch } from "../../../redux/hooks";
 import { fetchOrderById } from "../../../redux/orders/operations";
+import { calculateDeliveryPrice } from "utils/calculateDeliveryPrice";
 import { SubTitleBlue } from "../OrderCommonStyled";
 import {
   Author,
@@ -74,34 +75,11 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
   }, [orderData, totalQuantity, deliveryPrice, setBookData, setOrderNumber]);
 
   useEffect(() => {
-    const countDeliveryPrice = () => {
-      let price = 0;
-
-      if (selectedDeliveryMethod) {
-        switch (selectedDeliveryMethod) {
-          case "Самовивіз з відділення Укрпошти":
-            price = 50;
-            break;
-          case "Самовивіз з відділення Нової Пошти":
-          case "Самовивіз з поштомату Нової Пошти":
-            price = 60;
-            break;
-          case "Доставка кур’єром Нової Пошти":
-            price = 70;
-            break;
-          default:
-            price = 0;
-        }
-        if (orderData && orderData.totalPrice >= 500) {
-          price = 0;
-        }
-
-        setDeliveryPrice(price);
-      }
-    };
-
-    countDeliveryPrice();
+    if (orderData && selectedDeliveryMethod) {
+      setDeliveryPrice(calculateDeliveryPrice(selectedDeliveryMethod, orderData.totalPrice));
+    }
   }, [orderData, selectedDeliveryMethod]);
+
 
   useEffect(() => {
     let quantity = 0;
