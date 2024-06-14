@@ -1,9 +1,14 @@
-import { Pagination } from "components";
+import { Pagination, Sort } from "components";
 import { useBooks } from "components/Book";
 import { BreadCrumbs, Label } from "pages/CommonPages.styled";
 import React, { useEffect } from "react";
 import { Outlet, useParams, useSearchParams } from "react-router-dom";
-import { PageWrapper, StyledCommonWrapper, Wrapper } from "styles/CommonStyled";
+import {
+  FlexWrapper,
+  PageWrapper,
+  StyledCommonWrapper,
+  Wrapper,
+} from "styles/CommonStyled";
 import ContentSection from "./ContentSection/ContentSection";
 
 const CatalogPage: React.FC = () => {
@@ -46,8 +51,18 @@ const CatalogPage: React.FC = () => {
         <Wrapper>
           <BreadCrumbs>Каталог | {category} </BreadCrumbs>
           <Label> {link || subcategory || category || "Усі книги"} </Label>
-          {<Outlet context={{ books }} /> || <ContentSection data={books} />}
 
+          <FlexWrapper
+            style={{
+              justifyContent: "space-around",
+              flexWrap: "wrap",
+              gap: "2rem",
+              position: "relative",
+            }}
+          >
+            <Sort />
+            {<Outlet context={{ books }} /> || <ContentSection data={books} />}
+          </FlexWrapper>
           {!!books.length && (
             <Pagination
               currentPage={currentPage}
