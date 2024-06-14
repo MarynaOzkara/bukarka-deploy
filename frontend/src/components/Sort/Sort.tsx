@@ -37,17 +37,15 @@ const Sort: React.FC<ISortProps> = ({ onSortChange }) => {
   return (
     <Options name="sort" onChange={handleChange}>
       <optgroup>
-        <option className="section" defaultValue="" disabled>
-          Сортування:
-        </option>
-      </optgroup>
-      <optgroup>
+        <option className="section">Сортування:</option>
         {options.map((option, index) => (
           <option value={option.label} key={index}>
             {option.label}
           </option>
         ))}
       </optgroup>
+      {/*  Just to keep indent  */}
+      <optgroup></optgroup>
     </Options>
   );
 };
