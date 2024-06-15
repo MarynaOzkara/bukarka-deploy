@@ -47,10 +47,14 @@ const BookCard: React.FC<IProps> = ({
   index,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const dispatch = useAppDispatch();
+  const [isBookAdded, setIsBookAdded] = useState<boolean>(
+    localStorage.getItem(`isBookAdded_${_id}`) === "true"
+  );
+
   const ordersStatus = useSelector(selectOrdersStatus);
   const ordersError = useSelector(selectOrdersError);
 
+  const dispatch = useAppDispatch();
   let navigate = useNavigate();
 
   const starsProps = useMemo(
@@ -79,10 +83,17 @@ const BookCard: React.FC<IProps> = ({
   );
 
   const handleAddToCart = useCallback(async () => {
-    await dispatch(addToCart(_id));
-    await dispatch(fetchOrdersData());
-    setIsOpen(true);
-  },[_id, dispatch]);
+    if (isBookAdded) {
+      console.log("Книга вже є в кошику!");
+      setIsOpen(true);
+    } else {
+      await dispatch(addToCart(_id));
+      await dispatch(fetchOrdersData());
+      setIsOpen(true);
+      setIsBookAdded(true);
+      localStorage.setItem(`isBookAdded_${_id}`, "true");
+    }
+  }, [_id, dispatch, isBookAdded]);
 
   return (
     <>

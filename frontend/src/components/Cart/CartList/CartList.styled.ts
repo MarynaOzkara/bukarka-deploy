@@ -30,7 +30,7 @@ export const DeleteButton = styled.button`
 `;
 
 export const ListWrapper = styled.div`
-  max-height: 440px;
+  max-height: 456px;
   margin-bottom: 16px;
   overflow-y: auto;
 
