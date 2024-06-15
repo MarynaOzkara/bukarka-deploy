@@ -25,6 +25,8 @@ export interface IBooksContextType {
     subcategory?: string,
     link?: string,
     page?: number,
+    sortBy?: string,
+    orderSort?: string,
     limit?: number
   ) => Promise<void>;
   favorites: string[];

@@ -94,10 +94,8 @@ export const Hints = styled.ul`
     background: #555;
   }
 
-  /* Custom scrollbar styles for Firefox */
   scrollbar-width: thin;
   scrollbar-color: #888 #f1f1f1;
 
-  /* Smooth scrolling behavior */
   scroll-behavior: smooth;
 `;

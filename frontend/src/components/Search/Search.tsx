@@ -19,7 +19,7 @@ import {
 } from "./Search.styled";
 import { useSearch } from "./SearchContext";
 
-const Search = () => {
+const Search: React.FC = () => {
   const { hints, loading, handleSearch, fetchHints } = useSearch();
   const [inputQuery, setInputQuery] = useState<string>("");
   const [showHints, setShowHints] = useState<boolean>(false);

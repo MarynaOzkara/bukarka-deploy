@@ -1,9 +1,14 @@
-import { Pagination } from "components";
+import { Pagination, Sort } from "components";
 import { useBooks } from "components/Book";
 import { BreadCrumbs, Label } from "pages/CommonPages.styled";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet, useParams, useSearchParams } from "react-router-dom";
-import { PageWrapper, StyledCommonWrapper, Wrapper } from "styles/CommonStyled";
+import {
+  FlexWrapper,
+  PageWrapper,
+  StyledCommonWrapper,
+  Wrapper,
+} from "styles/CommonStyled";
 import ContentSection from "./ContentSection/ContentSection";
 
 const CatalogPage: React.FC = () => {
@@ -11,17 +16,20 @@ const CatalogPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { books, currentPage, setCurrentPage, totalPages, fetchBooks } =
     useBooks();
+  const [sortBy, setSortBy] = useState("");
+  const [orderSort, setOrderSort] = useState("asc");
 
   useEffect(() => {
     const page = searchParams.get("page")
       ? Number(searchParams.get("page"))
       : 1;
-
+    const sortBy = searchParams.get("sortBy") || "";
+    const sortOrder = searchParams.get("orderSort") || "asc";
     const loadData = async () => {
       if (page !== currentPage) {
         setCurrentPage(page);
       }
-      await fetchBooks(category, subcategory, link, page);
+      await fetchBooks(category, subcategory, link, page, sortBy, sortOrder);
     };
 
     loadData();
@@ -37,7 +45,13 @@ const CatalogPage: React.FC = () => {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    setSearchParams({ page: page.toString() });
+    setSearchParams({ page: page.toString(), sortBy, orderSort });
+  };
+
+  const handleSortChange = (sortKey: string, sortOrder: string) => {
+    setSortBy(sortKey);
+    setOrderSort(sortOrder);
+    setSearchParams({ page: "1", sortBy: sortKey, orderSort: sortOrder });
   };
 
   return (
@@ -46,8 +60,19 @@ const CatalogPage: React.FC = () => {
         <Wrapper>
           <BreadCrumbs>Каталог | {category} </BreadCrumbs>
           <Label> {link || subcategory || category || "Усі книги"} </Label>
-          {<Outlet context={{ books }} /> || <ContentSection data={books} />}
 
+          <FlexWrapper
+            style={{
+              justifyContent: "center",
+              flexWrap: "wrap",
+              gap: "2rem",
+              position: "relative",
+            }}
+          >
+            {!!books.length && <Sort onSortChange={handleSortChange} />}
+
+            {<Outlet context={{ books }} /> || <ContentSection data={books} />}
+          </FlexWrapper>
           {!!books.length && (
             <Pagination
               currentPage={currentPage}
