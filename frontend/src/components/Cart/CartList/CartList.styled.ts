@@ -30,7 +30,28 @@ export const DeleteButton = styled.button`
 `;
 
 export const ListWrapper = styled.div`
+  max-height: 440px;
   margin-bottom: 16px;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    width: 8px;
+    height: 48px;
+    border: 1px solid var(--bukarka-dark-grey);
+    border-radius: 4px;
+    background: var(--bukarka-grey);
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 4px;
+    width: 8px;
+    box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.25);
+    background: var(--bukarka-light-grey);
+  }
 `;
 
 export const PriceBlock = styled.div`
