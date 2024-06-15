@@ -32,7 +32,7 @@ export const DeleteButton = styled.button`
 export const ListWrapper = styled.div`
   max-height: 440px;
   margin-bottom: 16px;
-  overflow-y: scroll;
+  overflow-y: auto;
 
   &::-webkit-scrollbar {
     width: 8px;
