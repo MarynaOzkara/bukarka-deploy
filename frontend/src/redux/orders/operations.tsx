@@ -5,7 +5,6 @@ import { IOrders, UpdatedOrderPayload } from "types/Orders";
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async (productId: string, { rejectWithValue }) => {
-    console.log(productId);
     try {
       const response = await instance.post(`/api/orders/${productId}`);
       return response.data;

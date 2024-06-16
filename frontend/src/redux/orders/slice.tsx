@@ -32,7 +32,6 @@ const ordersSlice = createSlice({
         state.status = "loading";
       })
       .addCase(addToCart.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.status = "succeeded";
         state.orders = action.payload;
       })

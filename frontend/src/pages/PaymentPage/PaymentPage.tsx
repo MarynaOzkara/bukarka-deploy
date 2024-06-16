@@ -46,7 +46,7 @@ const PaymentPage: React.FC = () => {
   const [phone, setPhone] = useState("");
 
   const { id } = useParams<{ id: string }>();
-  console.log(id);
+  // console.log(id);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -60,7 +60,7 @@ const PaymentPage: React.FC = () => {
       if (id) {
         try {
           const order = await dispatch(fetchOrderById(id)).unwrap();
-          console.log(order);
+          // console.log(order);
           if (order && order.orderNumber) {
             setOrderNumber(order.orderNumber.toString());
           }
