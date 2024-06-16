@@ -32,6 +32,7 @@ type CartItemProps = {
     orderId: string;
 
     product: {
+      _id: string;
       title: string;
       author: string;
       price: number;
@@ -39,12 +40,14 @@ type CartItemProps = {
     };
   };
 };
+
 const CartItem: React.FC<CartItemProps> = ({ item }) => {
   // console.log(item.product);
   const { _id, quantity } = item;
   const { title, author, price, image } = item.product;
   const { imagePlaceholder } = images;
-
+  const bookId = item.product._id;
+  console.log(bookId);
   // console.log(item, title, author, price, quantity);
 
   const dispatch = useAppDispatch();
@@ -91,7 +94,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
           <Title>{truncateString(title, 36)}</Title>
           <Author>{truncateString(author, 36)}</Author>
           <FavoriteButtonWrapper>
-            <FavoriteButton itemId={_id} />
+            <FavoriteButton itemId={bookId} />
             <p>До обраного</p>
           </FavoriteButtonWrapper>
         </Description>
