@@ -1,13 +1,13 @@
 import React from "react";
 import { FlexWrapper } from "styles/CommonStyled";
 
-interface PaginationProps {
+interface IPaginationProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
 }
 
-const Pagination: React.FC<PaginationProps> = ({
+const Pagination: React.FC<IPaginationProps> = ({
   currentPage,
   totalPages,
   onPageChange,

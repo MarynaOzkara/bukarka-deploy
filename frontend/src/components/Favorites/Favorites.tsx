@@ -3,8 +3,6 @@ import { IBookItem } from "components/Book";
 
 interface IFavProps {
   books: IBookItem[];
-  limit?: number;
-  page?: number;
 }
 
 const Favorites: React.FC<IFavProps> = ({ books }) => {

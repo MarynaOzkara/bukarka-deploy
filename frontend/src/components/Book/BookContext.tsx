@@ -24,18 +24,9 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [books, setBooks] = useState<IBookItem[]>([]);
-  const [favorites, setFavorites] = useState<string[]>([]);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(false);
-
-  const addFavorite = useCallback((id: string) => {
-    setFavorites((prevFavorites) => [...prevFavorites, id]);
-  }, []);
-
-  const removeFavorite = useCallback((id: string) => {
-    setFavorites((prevFavorites) => prevFavorites.filter((fav) => fav !== id));
-  }, []);
 
   const setPages = (books: IBooksDataResponse) => {
     if (books.total && books.limit) {
@@ -54,7 +45,6 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       orderSort?: string,
       limit?: number
     ) => {
-      setLoading(true);
       try {
         const response = await instance.get<IBooksDataResponse>(
           "/api/books/filters",
@@ -81,45 +71,22 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
           throw error;
         }
         setBooks([]);
-      } finally {
-        setLoading(false);
       }
     },
     []
   );
 
-  useEffect(() => {
-    const savedFavorites = JSON.parse(
-      localStorage.getItem("favorites") || "[]"
-    );
-    setFavorites(savedFavorites);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
-
   const contextValue = useMemo(
     () => ({
       books,
-      favorites,
+
       currentPage,
       totalPages,
       setCurrentPage,
-      addFavorite,
-      removeFavorite,
+
       fetchBooks,
     }),
-    [
-      books,
-      favorites,
-      currentPage,
-      totalPages,
-      setCurrentPage,
-      addFavorite,
-      removeFavorite,
-      fetchBooks,
-    ]
+    [books, currentPage, totalPages, setCurrentPage, fetchBooks]
   );
 
   return (

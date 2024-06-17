@@ -29,9 +29,7 @@ export interface IBooksContextType {
     orderSort?: string,
     limit?: number
   ) => Promise<void>;
-  favorites: string[];
-  addFavorite: (_id: string) => void;
-  removeFavorite: (_id: string) => void;
+
   totalPages: number;
   currentPage: number;
   setCurrentPage: (page: number) => void;

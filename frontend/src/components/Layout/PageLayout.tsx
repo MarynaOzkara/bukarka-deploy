@@ -1,8 +1,8 @@
 import { useBooks } from "components/Book";
+import PageHeading from "components/PageHeading/PageHeading";
 import Pagination from "components/Pagination";
-import { BreadCrumbs, Label } from "pages/CommonPages.styled";
 import React, { ReactNode } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import {
   FlexWrapper,
   PageWrapper,
@@ -15,7 +15,6 @@ interface IPageLayoutProps {
 }
 
 const PageLayout: React.FC<IPageLayoutProps> = ({ children }) => {
-  const { category, subcategory, link } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const { books, currentPage, setCurrentPage, totalPages } = useBooks();
 
@@ -28,9 +27,7 @@ const PageLayout: React.FC<IPageLayoutProps> = ({ children }) => {
     <StyledCommonWrapper>
       <PageWrapper>
         <Wrapper>
-          <BreadCrumbs>Каталог | {category} </BreadCrumbs>
-          <Label> {link || subcategory || category || "Усі книги"} </Label>
-
+          <PageHeading />
           <FlexWrapper
             style={{
               justifyContent: "center",

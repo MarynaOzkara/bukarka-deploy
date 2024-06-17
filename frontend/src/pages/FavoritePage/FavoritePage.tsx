@@ -1,6 +1,7 @@
 import { Favorites } from "components";
 import { useBooks } from "components/Book";
 import { Label } from "pages/CommonPages.styled";
+import { useEffect, useState } from "react";
 
 import {
   FlexWrapper,
@@ -10,7 +11,16 @@ import {
 } from "styles/CommonStyled";
 
 const FavoritePage: React.FC = () => {
-  const { books = [], favorites } = useBooks();
+  const { books = [] } = useBooks();
+
+  const [favorites, setFavorites] = useState<string[]>([]);
+
+  useEffect(() => {
+    const savedFavorites = JSON.parse(
+      localStorage.getItem("favorites") || "[]"
+    );
+    setFavorites(savedFavorites);
+  }, []);
 
   const favoriteBooks = books.length
     ? books.filter((book) => book && favorites.includes(book._id))
@@ -28,7 +38,7 @@ const FavoritePage: React.FC = () => {
               gap: "2rem",
             }}
           >
-            {(!!books.length && <Favorites books={favoriteBooks} />) || (
+            {<Favorites books={favoriteBooks} /> || (
               <div>No favorite books</div>
             )}
           </FlexWrapper>
