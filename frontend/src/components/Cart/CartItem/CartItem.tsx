@@ -55,6 +55,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
   const handleDelete = (id: string) => {
     dispatch(deleteItem(id)).then(() => {
       dispatch(fetchOrdersData());
+      localStorage.removeItem(`isBookAdded_${bookId}`);
     });
   };
 
