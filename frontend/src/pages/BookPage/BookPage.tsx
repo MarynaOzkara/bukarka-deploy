@@ -23,7 +23,7 @@ const BookPage: React.FC = () => {
   }, [id]);
 
   return (
-    <PageLayout>
+    <PageLayout book={book}>
       {!!book ? <BookCard {...book} /> : <div>No book data</div>}
     </PageLayout>
   );

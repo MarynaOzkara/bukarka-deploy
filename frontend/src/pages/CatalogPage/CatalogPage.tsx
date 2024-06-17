@@ -43,7 +43,7 @@ const CatalogPage: React.FC = () => {
   };
 
   return (
-    <PageLayout>
+    <PageLayout books={books}>
       {!!books.length && books.length > 1 && (
         <Sort onSortChange={handleSortChange} />
       )}

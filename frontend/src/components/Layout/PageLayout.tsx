@@ -1,8 +1,8 @@
-import { useBooks } from "components/Book";
-import PageHeading from "components/PageHeading/PageHeading";
+import { IBookItem, useBooks } from "components/Book";
 import Pagination from "components/Pagination";
+import { BreadCrumbs, Label } from "pages/CommonPages.styled";
 import React, { ReactNode } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import {
   FlexWrapper,
   PageWrapper,
@@ -11,12 +11,21 @@ import {
 } from "styles/CommonStyled";
 
 interface IPageLayoutProps {
+  label?: string;
+  books?: IBookItem[];
+  book?: IBookItem;
   children: ReactNode;
 }
 
-const PageLayout: React.FC<IPageLayoutProps> = ({ children }) => {
+const PageLayout: React.FC<IPageLayoutProps> = ({
+  label,
+  books,
+  book,
+  children,
+}) => {
+  const { category, subcategory, link } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { books, currentPage, setCurrentPage, totalPages } = useBooks();
+  const { currentPage, setCurrentPage, totalPages } = useBooks();
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -27,7 +36,20 @@ const PageLayout: React.FC<IPageLayoutProps> = ({ children }) => {
     <StyledCommonWrapper>
       <PageWrapper>
         <Wrapper>
-          <PageHeading />
+          {!!label && <Label>{label}</Label>}
+          {!!books && (
+            <>
+              <BreadCrumbs>Каталог | {category} </BreadCrumbs>
+              <Label> {link || subcategory || category || "Усі книги"} </Label>
+            </>
+          )}
+          {!!book && (
+            <>
+              <BreadCrumbs>Каталог | {book.category} </BreadCrumbs>
+              <Label> {book.title} </Label>
+            </>
+          )}
+
           <FlexWrapper
             style={{
               justifyContent: "center",
@@ -38,7 +60,7 @@ const PageLayout: React.FC<IPageLayoutProps> = ({ children }) => {
           >
             {children}
           </FlexWrapper>
-          {!!books.length && (
+          {!!books && !!books.length && (
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}

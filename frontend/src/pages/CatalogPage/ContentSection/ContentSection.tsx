@@ -1,7 +1,6 @@
 import { BookCard } from "components";
 import { IBookItem } from "components/Book";
 import { useOutletContext } from "react-router-dom";
-import { FlexWrapper } from "styles/CommonStyled";
 
 interface ContentSectionProps {
   data?: IBookItem[];

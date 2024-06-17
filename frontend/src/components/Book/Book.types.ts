@@ -1,7 +1,10 @@
 import { Books } from "types/Books";
 
 export interface IBookItem
-  extends Pick<Books, "_id" | "title" | "author" | "price" | "rating"> {
+  extends Pick<
+    Books,
+    "_id" | "title" | "author" | "price" | "rating" | "category" | "subcategory"
+  > {
   _id: string;
   title: string;
   author: string;
@@ -9,6 +12,8 @@ export interface IBookItem
   price: number;
   rating: number;
   index: number;
+  category: string;
+  subcategory: string;
 }
 
 export interface IBooksDataResponse {
