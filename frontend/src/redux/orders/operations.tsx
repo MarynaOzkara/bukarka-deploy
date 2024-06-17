@@ -1,14 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { instance } from "utils/fetchInstance";
-import { IOrders } from "types/Orders";
+import { IOrders, UpdatedOrderPayload } from "types/Orders";
 
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async (productId: string, { rejectWithValue }) => {
-    console.log(productId)
     try {
       const response = await instance.post(`/api/orders/${productId}`);
-      console.log(response);
       return response.data;
     } catch (error) {
       return rejectWithValue((error as Error).message);
@@ -18,17 +16,25 @@ export const addToCart = createAsyncThunk(
 
 export const fetchOrderById = createAsyncThunk<IOrders, string>(
   "orders/fetchOrderById",
-  async (id: string) => {
-    const response = await instance.get(`/api/orders/${id}`);
-    return response.data;
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const response = await instance.get(`/api/orders/${id}`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue((error as Error).message);
+    }
   }
 );
 
 export const fetchOrdersData = createAsyncThunk(
   "orders/fetchOrdersData",
-  async (_, thunkAPI) => {
-    const response = await instance.get(`/api/orders`);
-    return response.data[0];
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await instance.get(`/api/orders`);
+      return response.data[0];
+    } catch (error) {
+      return rejectWithValue((error as Error).message);
+    }
   }
 );
 
@@ -76,6 +82,21 @@ export const deleteItem = createAsyncThunk(
       return itemIdToDelete;
     } catch (error) {
       console.error((error as Error).message);
+    }
+  }
+);
+
+export const updateOrderInfo = createAsyncThunk(
+  "order/updateOrderInfo",
+  async (payload: UpdatedOrderPayload, thunkAPI) => {
+    try {
+      const response = await instance.patch(
+        `api/orders/checkout/${payload.id}`,
+        payload.customerInfo
+      );
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue((error as Error).message);
     }
   }
 );

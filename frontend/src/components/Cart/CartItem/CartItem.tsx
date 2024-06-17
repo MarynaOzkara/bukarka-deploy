@@ -23,6 +23,7 @@ import {
   StyledCartItem,
   TotalPrice,
 } from "./CartItem.styled";
+import { truncateString } from "utils/truncateString";
 
 type CartItemProps = {
   item: {
@@ -31,6 +32,7 @@ type CartItemProps = {
     orderId: string;
 
     product: {
+      _id: string;
       title: string;
       author: string;
       price: number;
@@ -38,24 +40,17 @@ type CartItemProps = {
     };
   };
 };
+
 const CartItem: React.FC<CartItemProps> = ({ item }) => {
   // console.log(item.product);
   const { _id, quantity } = item;
   const { title, author, price, image } = item.product;
   const { imagePlaceholder } = images;
-
+  const bookId = item.product._id;
+  console.log(bookId);
   // console.log(item, title, author, price, quantity);
 
   const dispatch = useAppDispatch();
-
-  const truncateText = (text: string, maxLength: number) => {
-    if (!text) return "";
-
-    if (text.length <= maxLength) {
-      return text;
-    }
-    return text.slice(0, maxLength) + "...";
-  };
 
   const handleDelete = (id: string) => {
     dispatch(deleteItem(id)).then(() => {
@@ -96,10 +91,10 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
           <img src={image || imagePlaceholder} alt="" />
         </ImageWrapper>
         <Description>
-          <Title>{truncateText(title, 40)}</Title>
-          <Author>{truncateText(author, 40)}</Author>
+          <Title>{truncateString(title, 36)}</Title>
+          <Author>{truncateString(author, 36)}</Author>
           <FavoriteButtonWrapper>
-            <FavoriteButton itemId={_id} />
+            <FavoriteButton itemId={bookId} />
             <p>До обраного</p>
           </FavoriteButtonWrapper>
         </Description>

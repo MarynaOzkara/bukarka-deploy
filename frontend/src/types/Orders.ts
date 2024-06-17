@@ -21,4 +21,19 @@ export interface IOrders {
   orderItems: IOrderItems[];
   status: string;
   totalPrice: number;
+  orderNumber?: number;
+}
+
+export interface UpdatedOrderPayload {
+  id?: string;
+  customerInfo: {
+    name: string;
+    surname: string;
+    email: string;
+    phoneNumber: string;
+    city: string;
+    address: string;
+    payment: string;
+    comment: string;
+  };
 }

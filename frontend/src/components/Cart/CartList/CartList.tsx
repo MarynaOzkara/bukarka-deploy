@@ -29,8 +29,6 @@ const CartList: React.FC<CartListProps> = ({ closeCart }) => {
   const dispatch = useAppDispatch();
   const cartData = useSelector(selectOrdersData);
 
-  cartData && console.log(cartData.orderItems);
-
   const ordersId = cartData?._id;
 
   const handleDelete = () => {
@@ -43,8 +41,6 @@ const CartList: React.FC<CartListProps> = ({ closeCart }) => {
     (total, item) => total + item.quantity,
     0
   );
-
-  console.log(totalBooks);
 
   return (
     <Wrapper>

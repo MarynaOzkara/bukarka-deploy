@@ -5,6 +5,7 @@ export const StyledCartItem = styled.div`
   justify-content: space-between;
   margin-bottom: 16px;
   padding-bottom: 16px;
+  height: 136px;
   border-bottom: 1px solid var(--bukarka-grey);
 `;
 
