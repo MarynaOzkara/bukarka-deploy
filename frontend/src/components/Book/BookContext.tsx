@@ -66,9 +66,8 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
           setCurrentPage(page || 1);
         }
       } catch (error: any) {
-        if (error.response && error.response.status !== 404) {
-          throw error;
-        }
+        console.error("Error fetching data:", error);
+
         setBooks([]);
       }
     },
@@ -80,9 +79,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       const response = await instance.get(`/api/books/${id}`);
       setBook(response.data);
     } catch (error: any) {
-      if (error.response && error.response.status !== 404) {
-        throw error;
-      }
+      console.error("Error fetching data:", error);
     }
   }, []);
 

@@ -69,12 +69,12 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
         if (response.data.books.length) {
           setSearchResults(response.data.books);
           setPages(response.data);
+          console.log(response);
           setCurrentPage(page || 1);
         } else setSearchResults([]);
       } catch (error: any) {
-        if (error.response && error.response.status !== 404)
-          setSearchResults([]);
-        else throw error;
+        console.error("Error fetching data:", error);
+        setSearchResults([]);
       } finally {
         setLoading(false);
       }
@@ -93,7 +93,7 @@ const SearchContextProvider: React.FC<ProviderProps> = ({ children }) => {
         }
       );
       setHints(response.data.books);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error fetching suggestions:", error);
     } finally {
       setLoading(false);
