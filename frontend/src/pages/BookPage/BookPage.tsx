@@ -1,8 +1,8 @@
-import { BookCard } from "components";
 import { useBooks } from "components/Book";
 import { PageLayout } from "components/Layout";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import BookContent from "./BookContent/BookContent";
 
 const BookPage: React.FC = () => {
   const { book, fetchBookById } = useBooks();
@@ -17,7 +17,7 @@ const BookPage: React.FC = () => {
 
   return (
     <PageLayout book={book}>
-      {!!book ? <BookCard {...book} /> : <div>No book data</div>}
+      {!!book ? <BookContent book={book} /> : <div>No book data</div>}
     </PageLayout>
   );
 };

@@ -2,11 +2,11 @@ import { BookCard } from "components";
 import { IBookItem } from "components/Book";
 import { useOutletContext } from "react-router-dom";
 
-interface ContentSectionProps {
+interface SectionContentProps {
   data?: IBookItem[];
 }
 
-const ContentSection: React.FC<ContentSectionProps> = () => {
+const SectionContent: React.FC<SectionContentProps> = () => {
   const { books } = useOutletContext<{ books: IBookItem[] }>();
 
   return (
@@ -19,4 +19,4 @@ const ContentSection: React.FC<ContentSectionProps> = () => {
   );
 };
 
-export default ContentSection;
+export default SectionContent;

@@ -1,5 +1,5 @@
 import React from "react";
-import { FlexWrapper } from "styles/CommonStyled";
+import { PaginationWrapper } from "./Pagination.styled";
 
 interface IPaginationProps {
   currentPage: number;
@@ -25,14 +25,7 @@ const Pagination: React.FC<IPaginationProps> = ({
   };
 
   return (
-    <FlexWrapper
-      style={{
-        margin: "2rem auto",
-        maxWidth: "15rem",
-        color: "var(--bukarka-dark-grey)",
-        alignItems: "center",
-      }}
-    >
+    <PaginationWrapper>
       <button
         className="material-symbols-outlined"
         onClick={handlePrevious}
@@ -53,7 +46,7 @@ const Pagination: React.FC<IPaginationProps> = ({
       >
         arrow_forward
       </button>
-    </FlexWrapper>
+    </PaginationWrapper>
   );
 };
 

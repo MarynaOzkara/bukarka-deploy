@@ -26,6 +26,9 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
   const [book, setBook] = useState<IBookItem>();
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchResults, setSearchResults] = useState<IBookItem[]>([]);
+  const [hints, setHints] = useState<IBookItem[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const setPages = (books: IBooksDataResponse) => {
     if (books.total && books.limit) {
@@ -83,24 +86,85 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
     }
   }, []);
 
+  const handleSearch = useCallback(
+    async (
+      keyword?: string,
+      page?: number,
+      sortBy?: string,
+      orderSort?: string,
+      limit?: number
+    ) => {
+      setLoading(true);
+      try {
+        const response = await instance.get<IBooksDataResponse>(
+          "/api/books/filters",
+          {
+            params: { keyword, page, sortBy, orderSort, limit },
+          }
+        );
+
+        if (response.data.books.length) {
+          setSearchResults(response.data.books);
+          setPages(response.data);
+          setCurrentPage(page || 1);
+        } else {
+          setSearchResults([]);
+        }
+      } catch (error: any) {
+        console.error("Error fetching data:", error);
+        setSearchResults([]);
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
+  const fetchHints = useCallback(async (keyword?: string) => {
+    setLoading(true);
+
+    try {
+      const response = await instance.get<IBooksDataResponse>(
+        "/api/books/filters",
+        {
+          params: { keyword },
+        }
+      );
+      setHints(response.data.books);
+    } catch (error: any) {
+      console.error("Error fetching suggestions:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   const contextValue = useMemo(
     () => ({
       books,
       book,
+      searchResults,
+      hints,
+      loading,
       currentPage,
       totalPages,
       setCurrentPage,
       fetchBooks,
       fetchBookById,
+      handleSearch,
+      fetchHints,
     }),
     [
       books,
       book,
+      searchResults,
+      hints,
+      loading,
       currentPage,
       totalPages,
-      setCurrentPage,
       fetchBooks,
       fetchBookById,
+      handleSearch,
+      fetchHints,
     ]
   );
 

@@ -2,8 +2,9 @@ import { Sort } from "components";
 import { useBooks } from "components/Book";
 import React, { useEffect, useState } from "react";
 import { Outlet, useParams, useSearchParams } from "react-router-dom";
-import ContentSection from "./ContentSection/ContentSection";
+
 import { PageLayout } from "components/Layout";
+import SectionContent from "./SectionContent";
 
 const CatalogPage: React.FC = () => {
   const { category, subcategory, link } = useParams();
@@ -13,13 +14,8 @@ const CatalogPage: React.FC = () => {
   const [orderSort, setOrderSort] = useState("asc");
 
   useEffect(() => {
-    const page = searchParams.get("page")
-      ? Number(searchParams.get("page"))
-      : 1;
+    const page = Number(searchParams.get("page")) || 1;
     const loadData = async () => {
-      if (page !== currentPage) {
-        setCurrentPage(page);
-      }
       await fetchBooks(category, subcategory, link, page, sortBy, orderSort);
     };
 
@@ -48,7 +44,7 @@ const CatalogPage: React.FC = () => {
         <Sort onSortChange={handleSortChange} />
       )}
 
-      {<Outlet context={{ books }} /> || <ContentSection data={books} />}
+      {<Outlet context={{ books }} /> || <SectionContent data={books} />}
     </PageLayout>
   );
 };

@@ -34,6 +34,20 @@ export interface IBooksDataResponse {
 export interface IBooksContextType {
   books: IBookItem[];
   book?: IBookItem;
+  hints: IBookItem[];
+  loading: boolean;
+  totalPages: number;
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+  searchResults: IBookItem[];
+  fetchHints: (keyword?: string) => Promise<void>;
+  handleSearch: (
+    keyword: string,
+    page: number,
+    sortBy?: string,
+    orderSort?: string,
+    limit?: number
+  ) => Promise<void>;
   fetchBooks: (
     category?: string,
     subcategory?: string,
@@ -45,7 +59,4 @@ export interface IBooksContextType {
   ) => Promise<void>;
 
   fetchBookById: (id?: string) => Promise<void>;
-  totalPages: number;
-  currentPage: number;
-  setCurrentPage: (page: number) => void;
 }

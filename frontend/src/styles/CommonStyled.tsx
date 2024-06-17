@@ -81,7 +81,12 @@ export const Wrapper = styled.div`
 
 export const FlexWrapper = styled.div`
   display: flex;
-
   justify-content: space-between;
   gap: 16px;
+`;
+
+export const FlexWrap = styled(FlexWrapper)`
+  flex-wrap: wrap;
+  position: relative;
+  justify-content: center;
 `;

@@ -4,7 +4,7 @@ import { BreadCrumbs, Label } from "pages/CommonPages.styled";
 import React, { ReactNode } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import {
-  FlexWrapper,
+  FlexWrap,
   PageWrapper,
   StyledCommonWrapper,
   Wrapper,
@@ -28,20 +28,30 @@ const PageLayout: React.FC<IPageLayoutProps> = ({
   const { currentPage, setCurrentPage, totalPages } = useBooks();
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    setSearchParams({ page: page.toString() });
+    if (page !== currentPage) {
+      setCurrentPage(page);
+    }
+    const keyword = searchParams.get("keyword") || "";
+
+    setSearchParams({
+      keyword,
+      page: page.toString(),
+    });
   };
 
   return (
     <StyledCommonWrapper>
       <PageWrapper>
         <Wrapper>
-          {!!label && <Label>{label}</Label>}
-          {!!books && (
-            <>
-              <BreadCrumbs>Каталог | {category} </BreadCrumbs>
-              <Label> {link || subcategory || category || "Усі книги"} </Label>
-            </>
+          {label ? (
+            <Label>{label}</Label>
+          ) : (
+            !!books && (
+              <>
+                <BreadCrumbs>Каталог | {category} </BreadCrumbs>
+                <Label>{link || subcategory || category || "Усі книги"}</Label>
+              </>
+            )
           )}
           {!!book && (
             <>
@@ -49,17 +59,7 @@ const PageLayout: React.FC<IPageLayoutProps> = ({
               <Label> {book.subcategory} </Label>
             </>
           )}
-
-          <FlexWrapper
-            style={{
-              justifyContent: "center",
-              flexWrap: "wrap",
-              gap: "2rem",
-              position: "relative",
-            }}
-          >
-            {children}
-          </FlexWrapper>
+          <FlexWrap> {children} </FlexWrap>
           {!!books && !!books.length && (
             <Pagination
               currentPage={currentPage}

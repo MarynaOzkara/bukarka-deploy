@@ -1,4 +1,4 @@
-import { IBookItem } from "components/Book";
+import { IBookItem, useBooks } from "components/Book";
 import useDebounce from "hooks/useDebounce";
 import {
   ChangeEvent,
@@ -17,10 +17,9 @@ import {
   StyledForm,
   StyledLensIcon,
 } from "./Search.styled";
-import { useSearch } from "./SearchContext";
 
 const Search: React.FC = () => {
-  const { hints, loading, handleSearch, fetchHints } = useSearch();
+  const { hints, loading, handleSearch, fetchHints } = useBooks();
   const [inputQuery, setInputQuery] = useState<string>("");
   const [showHints, setShowHints] = useState<boolean>(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
@@ -97,6 +96,7 @@ const Search: React.FC = () => {
     event.preventDefault();
     const searchParams = { keyword: inputQuery, page: "1" };
     handleSearch(inputQuery, 1);
+
     goToSearchPage(searchParams);
   };
 
