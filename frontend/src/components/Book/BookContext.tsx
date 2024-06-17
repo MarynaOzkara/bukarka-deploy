@@ -3,7 +3,6 @@ import React, {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -24,7 +23,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [books, setBooks] = useState<IBookItem[]>([]);
-
+  const [book, setBook] = useState<IBookItem>();
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -76,17 +75,36 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
     []
   );
 
+  const fetchBookById = useCallback(async (id?: string) => {
+    try {
+      const response = await instance.get(`/api/books/${id}`);
+      setBook(response.data);
+    } catch (error: any) {
+      if (error.response && error.response.status !== 404) {
+        throw error;
+      }
+    }
+  }, []);
+
   const contextValue = useMemo(
     () => ({
       books,
-
+      book,
       currentPage,
       totalPages,
       setCurrentPage,
-
       fetchBooks,
+      fetchBookById,
     }),
-    [books, currentPage, totalPages, setCurrentPage, fetchBooks]
+    [
+      books,
+      book,
+      currentPage,
+      totalPages,
+      setCurrentPage,
+      fetchBooks,
+      fetchBookById,
+    ]
   );
 
   return (

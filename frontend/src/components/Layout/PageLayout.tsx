@@ -46,7 +46,7 @@ const PageLayout: React.FC<IPageLayoutProps> = ({
           {!!book && (
             <>
               <BreadCrumbs>Каталог | {book.category} </BreadCrumbs>
-              <Label> {book.title} </Label>
+              <Label> {book.subcategory} </Label>
             </>
           )}
 

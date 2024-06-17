@@ -3,7 +3,14 @@ import { Books } from "types/Books";
 export interface IBookItem
   extends Pick<
     Books,
-    "_id" | "title" | "author" | "price" | "rating" | "category" | "subcategory"
+    | "_id"
+    | "title"
+    | "author"
+    | "price"
+    | "rating"
+    | "category"
+    | "subcategory"
+    | "description"
   > {
   _id: string;
   title: string;
@@ -14,6 +21,7 @@ export interface IBookItem
   index: number;
   category: string;
   subcategory: string;
+  description: string;
 }
 
 export interface IBooksDataResponse {
@@ -25,6 +33,7 @@ export interface IBooksDataResponse {
 
 export interface IBooksContextType {
   books: IBookItem[];
+  book?: IBookItem;
   fetchBooks: (
     category?: string,
     subcategory?: string,
@@ -35,6 +44,7 @@ export interface IBooksContextType {
     limit?: number
   ) => Promise<void>;
 
+  fetchBookById: (id?: string) => Promise<void>;
   totalPages: number;
   currentPage: number;
   setCurrentPage: (page: number) => void;

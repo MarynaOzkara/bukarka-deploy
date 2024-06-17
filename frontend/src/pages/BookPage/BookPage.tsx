@@ -1,26 +1,19 @@
 import { BookCard } from "components";
-import { IBookItem } from "components/Book";
+import { useBooks } from "components/Book";
 import { PageLayout } from "components/Layout";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { instance } from "../../utils/fetchInstance";
 
 const BookPage: React.FC = () => {
-  const [book, setBook] = useState<IBookItem>();
-
+  const { book, fetchBookById } = useBooks();
   const { id } = useParams();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await instance.get(`/api/books/${id}`);
-        setBook(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+    const loadBook = async () => {
+      await fetchBookById(id);
     };
-    fetchData();
-  }, [id]);
+    !!id && loadBook();
+  }, [fetchBookById, id]);
 
   return (
     <PageLayout book={book}>

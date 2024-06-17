@@ -18,7 +18,7 @@ const CatalogPage = lazy(() => import("pages/CatalogPage"));
 const BookClubPage = lazy(() => import("pages/BookClubPage"));
 const PrivacyPolicyPage = lazy(() => import("pages/PrivacyPolicyPage"));
 const TermsOfUsePage = lazy(() => import("pages/TermsOfUsePage"));
-const BookPage = lazy(() => import("pages/BookPage/BookPage"));
+const BookPage = lazy(() => import("pages/BookPage"));
 const FavoritePage = lazy(() => import("pages/FavoritePage"));
 const SearchPage = lazy(() => import("pages/SearchPage"));
 const ContentSection = lazy(() => import("pages/CatalogPage/ContentSection"));
