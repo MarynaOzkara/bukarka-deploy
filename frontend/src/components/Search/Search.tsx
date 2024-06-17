@@ -1,4 +1,4 @@
-import { IBookItem, useBooks } from "components/Book";
+import { useBooks } from "components/Book";
 import useDebounce from "hooks/useDebounce";
 import {
   ChangeEvent,
@@ -17,6 +17,7 @@ import {
   StyledForm,
   StyledLensIcon,
 } from "./Search.styled";
+import { IBookItem } from "types/Books";
 
 const Search: React.FC = () => {
   const { hints, loading, handleSearch, fetchHints } = useBooks();

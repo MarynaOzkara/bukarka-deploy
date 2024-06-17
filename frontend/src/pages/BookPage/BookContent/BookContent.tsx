@@ -1,8 +1,7 @@
 import { images } from "assets/images";
-import { IBookItem } from "components/Book";
 import { FlexContainer } from "styles/CommonStyled";
 import { StyledBookDescription, StyledBookImage } from "./BookContent.styled";
-import BookRating from "components/BookRating";
+import { IBookItem } from "types/Books";
 
 interface IBookContentProps {
   book: IBookItem;

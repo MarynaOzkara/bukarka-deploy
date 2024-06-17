@@ -1,5 +1,5 @@
 import { BookCard } from "components";
-import { IBookItem } from "components/Book";
+import { IBookItem } from "types/Books";
 
 interface IFavProps {
   books: IBookItem[];

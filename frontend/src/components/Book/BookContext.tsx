@@ -6,8 +6,8 @@ import React, {
   useMemo,
   useState,
 } from "react";
+import { IBookItem, IBooksContextType, IBooksDataResponse } from "types/Books";
 import { instance } from "utils/fetchInstance";
-import { IBookItem, IBooksContextType, IBooksDataResponse } from "./Book.types";
 
 const BooksContext = createContext<IBooksContextType | null>(null);
 

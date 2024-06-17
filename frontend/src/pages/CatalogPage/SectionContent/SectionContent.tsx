@@ -1,6 +1,6 @@
 import { BookCard } from "components";
-import { IBookItem } from "components/Book";
 import { useOutletContext } from "react-router-dom";
+import { IBookItem } from "types/Books";
 
 interface SectionContentProps {
   data?: IBookItem[];

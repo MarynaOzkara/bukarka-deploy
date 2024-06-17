@@ -1,4 +1,4 @@
-import { IBookItem, useBooks } from "components/Book";
+import { useBooks } from "components/Book";
 import Pagination from "components/Pagination";
 import { BreadCrumbs, Label } from "pages/CommonPages.styled";
 import React, { ReactNode } from "react";
@@ -9,6 +9,7 @@ import {
   StyledCommonWrapper,
   Wrapper,
 } from "styles/CommonStyled";
+import { IBookItem } from "types/Books";
 
 interface IPageLayoutProps {
   label?: string;
