@@ -29,8 +29,8 @@ export const Separator = styled.div`
 export const DescTable = styled.ul`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-auto-rows: minmax(24px, auto);
-  gap: 8px;
+  grid-auto-rows: minmax(1.5rem, auto);
+  gap: 0.5rem;
 
   & li {
     display: contents;
