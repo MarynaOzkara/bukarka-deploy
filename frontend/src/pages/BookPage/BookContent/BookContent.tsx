@@ -73,7 +73,7 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
             </DescTable>
             <Separator />
             <Description>
-              <b>Про автора</b>
+              {!!book.description && <b>Про автора</b>}
               <p>{book.description}</p>
             </Description>
           </StyledBookDescription>
