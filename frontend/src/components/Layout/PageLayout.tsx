@@ -3,7 +3,7 @@ import Pagination from "components/Pagination";
 import { BreadCrumbs, Label } from "pages/CommonPages.styled";
 import React, { ReactNode } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import { FlexWrap, StyledCommonWrapper, TextCenter } from "styles/CommonStyled";
+import { FlexWrap, StyledCommonWrapper } from "styles/CommonStyled";
 import { IBookItem } from "types/Books";
 import { PageLayoutWrapper } from "./PageLayout.styled";
 
