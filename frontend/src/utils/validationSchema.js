@@ -7,6 +7,6 @@ export const validationPersonalDataSchema = Yup.object({
     .email("Невірний формат Email")
     .required("Email є обов'язковим полем"),
   phone: Yup.string()
-    .matches(/^\+380\d{9}$/, "Невірний формат номера телефону")
-    .required("Номер телефону є обов'язковим полем"),
+    .required("Номер телефону є обов'язковим полем")
+    .matches(/^\+380\d{9}$/, "Невірний формат номера телефону"),
 });

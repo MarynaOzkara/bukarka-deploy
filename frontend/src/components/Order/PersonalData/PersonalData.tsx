@@ -1,12 +1,18 @@
 import { useState } from "react";
+import * as yup from "yup";
 import { Label, SubTitle, Wrapper } from "../OrderCommonStyled";
 import { Input, PersonalDataInputs } from "./PersonalData.styled";
+import { validationPersonalDataSchema } from "utils/validationSchema";
 
 interface PersonalDataProps {
   setCustomerName: React.Dispatch<React.SetStateAction<string>>;
   setCustomerLastName: React.Dispatch<React.SetStateAction<string>>;
   setCustomerEmail: React.Dispatch<React.SetStateAction<string>>;
   setCustomerPhone: React.Dispatch<React.SetStateAction<string>>;
+}
+
+interface FieldValue {
+  [key: string]: string;
 }
 
 const PersonalData: React.FC<PersonalDataProps> = ({
@@ -19,25 +25,48 @@ const PersonalData: React.FC<PersonalDataProps> = ({
   const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
+  const fieldValue: FieldValue = { name, lastName, email, phone };
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [touched, setTouched] = useState<{ [key: string]: boolean }>({});
+
+  const validateField = (field: string, value: string) => {
+    validationPersonalDataSchema
+      .validateAt(field, { [field]: value })
+      .then(() => {
+        setErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));
+      })
+      .catch((err) => {
+        setErrors((prevErrors) => ({ ...prevErrors, [field]: err.message }));
+      });
+  };
+
+  const handleBlur = (field: string) => {
+    setTouched((prevTouched) => ({ ...prevTouched, [field]: true }));
+    validateField(field, fieldValue[field]);
+  };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
     setCustomerName(e.target.value);
+    validateField("name", e.target.value);
   };
 
   const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLastName(e.target.value);
     setCustomerLastName(e.target.value);
+    validateField("lastName", e.target.value);
   };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     setCustomerEmail(e.target.value);
+    validateField("email", e.target.value);
   };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(e.target.value);
     setCustomerPhone(e.target.value);
+    validateField("phone", e.target.value);
   };
 
   return (
@@ -52,7 +81,9 @@ const PersonalData: React.FC<PersonalDataProps> = ({
             placeholder="Ім’я"
             value={name}
             onChange={handleNameChange}
+            onBlur={() => handleBlur("name")}
           />
+          {touched.name && errors.name && <p>{errors.name}</p>}
         </li>
         <li>
           <Label htmlFor="last-name">Ваше прізвище*</Label>
@@ -62,7 +93,9 @@ const PersonalData: React.FC<PersonalDataProps> = ({
             placeholder="Прізвище"
             value={lastName}
             onChange={handleLastNameChange}
+            onBlur={() => handleBlur("lastName")}
           />
+          {touched.lastName && errors.lastName && <p>{errors.lastName}</p>}
         </li>
 
         <li>
@@ -73,7 +106,9 @@ const PersonalData: React.FC<PersonalDataProps> = ({
             placeholder="Email"
             value={email}
             onChange={handleEmailChange}
+            onBlur={() => handleBlur("email")}
           />
+          {touched.email && errors.email && <p>{errors.email}</p>}
         </li>
         <li>
           <Label htmlFor="name">Номер телефону*</Label>
@@ -83,7 +118,9 @@ const PersonalData: React.FC<PersonalDataProps> = ({
             placeholder="+380"
             value={phone}
             onChange={handlePhoneChange}
+            onBlur={() => handleBlur("phone")}
           />
+          {touched.phone && errors.phone && <p>{errors.phone}</p>}
         </li>
       </PersonalDataInputs>
     </Wrapper>
