@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const BookContentWrapper = styled.div`
   display: flex;
+  width: 100%;
   gap: 1rem;
 `;
 
