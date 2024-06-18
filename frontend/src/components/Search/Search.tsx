@@ -96,8 +96,6 @@ const Search: React.FC = () => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const searchParams = { keyword: inputQuery, page: "1" };
-    handleSearch(inputQuery, 1);
-
     goToSearchPage(searchParams);
   };
 
@@ -116,7 +114,6 @@ const Search: React.FC = () => {
       setIsHintSelected(true);
       const searchParams = { keyword: author || title, page: "1" };
       setSearchParams(searchParams);
-      handleSearch(author || title, 1);
       goToSearchPage(searchParams);
     }
   };

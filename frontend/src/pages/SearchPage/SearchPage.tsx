@@ -19,7 +19,7 @@ const SearchPage = () => {
       await handleSearch(keyword, page, sortBy, orderSort);
     };
     loadData();
-  }, [searchParams, handleSearch]);
+  }, [searchParams, sortBy, orderSort]);
 
   const handleSortChange = (sortKey: string, sortOrder: string) => {
     setSortBy(sortKey);
