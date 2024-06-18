@@ -10,3 +10,11 @@ export const validationPersonalDataSchema = Yup.object({
     .required("Номер телефону є обов'язковим полем")
     .matches(/^\+380\d{9}$/, "Невірний формат номера телефону"),
 });
+
+export const validationDeliverySchema = Yup.object().shape({
+  city: Yup.string().required("Місто є обов'язковим полем"),
+  address: Yup.string().required("Адреса є обов'язковим полем"),
+  deliveryMethod: Yup.string().required(
+    "Спосіб доставки обов'язковий до вибору"
+  ),
+});
