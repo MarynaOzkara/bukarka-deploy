@@ -93,3 +93,13 @@ export const FlexWrap = styled(FlexWrapper)`
 export const TextCenter = styled.p`
   margin: 0 auto;
 `;
+
+export const StyledPrice = styled.div`
+  font-family: "Montserrat-Bold";
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  color: #004f98;
+  margin-bottom: 8px;
+`;
+

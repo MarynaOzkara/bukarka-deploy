@@ -6,6 +6,7 @@ import {
   StyledBookImage,
   StyledCartOperations,
 } from "./BookContent.styled";
+import BookRating from "components/BookRating";
 
 interface IBookContentProps {
   book: IBookItem;
@@ -25,16 +26,42 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
           <StyledBookDescription>
             <h2>{book.title}</h2>
             <h3>{book.author}</h3>
-
+            <BookRating rating={book.rating} />
             <DescTable>
-              <li>Мова книги</li>
-              <li>Жанр</li>
-              <li>Серія</li>
-              <li>Формат</li>
-              <li>Обкладинка</li>
-              <li>Кількість сторінок</li>
-              <li>Видавництво</li>
-              <li>Рік видання</li>
+              <li>
+                <span>Мова книги</span>
+                <span>{book.language}</span>
+              </li>
+              <li>
+                <span>Жанр</span>
+                <span>
+                  {(!!book.genre &&
+                    book.genre.map((genre) => <span>{genre}</span>)) || (
+                    <span>-</span>
+                  )}
+                </span>
+              </li>
+
+              <li>
+                <span>Формат</span>
+                <>{book.format}</>
+              </li>
+              <li>
+                <span>Обкладинка</span>
+                <span>{book.cover}</span>
+              </li>
+              <li>
+                <span>Кількість сторінок</span>
+                <span>{book.pages}</span>
+              </li>
+              <li>
+                <span>Видавництво</span>
+                <span>{book.publisher}</span>
+              </li>
+              <li>
+                <span>Рік видання</span>
+                <span>{book.year}</span>
+              </li>
             </DescTable>
             <section>
               <h5>Про автора</h5>

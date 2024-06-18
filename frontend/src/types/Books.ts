@@ -31,17 +31,17 @@ export interface IBookItem
     | "category"
     | "subcategory"
     | "description"
+    | "age"
+    | "cover"
+    | "format"
+    | "language"
+    | "pages"
+    | "publisher"
+    | "year"
+    | "genre"
   > {
-  _id: string;
-  title: string;
-  author: string;
-  image: string | null;
-  price: number;
-  rating: number;
+  image: string;
   index: number;
-  category: string;
-  subcategory: string;
-  description: string;
 }
 
 export interface IBooksDataResponse {
