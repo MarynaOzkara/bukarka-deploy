@@ -28,7 +28,6 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
   const [totalPages, setTotalPages] = useState(1);
   const [searchResults, setSearchResults] = useState<IBookItem[]>([]);
   const [hints, setHints] = useState<IBookItem[]>([]);
-  const [loading, setLoading] = useState(false);
 
   const setPages = (books: IBooksDataResponse) => {
     if (books.total && books.limit) {
@@ -94,7 +93,6 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       orderSort?: string,
       limit?: number
     ) => {
-      setLoading(true);
       try {
         const response = await instance.get<IBooksDataResponse>(
           "/api/books/filters",
@@ -113,16 +111,12 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       } catch (error: any) {
         console.error("Error fetching data:", error);
         setSearchResults([]);
-      } finally {
-        setLoading(false);
       }
     },
     []
   );
 
   const fetchHints = useCallback(async (keyword?: string) => {
-    setLoading(true);
-
     try {
       const response = await instance.get<IBooksDataResponse>(
         "/api/books/filters",
@@ -133,8 +127,6 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       setHints(response.data.books);
     } catch (error: any) {
       console.error("Error fetching suggestions:", error);
-    } finally {
-      setLoading(false);
     }
   }, []);
 
@@ -144,7 +136,6 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       book,
       searchResults,
       hints,
-      loading,
       currentPage,
       totalPages,
       setCurrentPage,
@@ -158,7 +149,6 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       book,
       searchResults,
       hints,
-      loading,
       currentPage,
       totalPages,
       fetchBooks,

@@ -55,7 +55,6 @@ export interface IBooksContextType {
   books: IBookItem[];
   book?: IBookItem;
   hints: IBookItem[];
-  loading: boolean;
   totalPages: number;
   currentPage: number;
   setCurrentPage: (page: number) => void;
