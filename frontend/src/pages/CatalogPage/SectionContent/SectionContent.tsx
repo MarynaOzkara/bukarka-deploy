@@ -1,23 +1,23 @@
 import { BookCard } from "components";
-import { IBookItem } from "components/Book";
 import { useOutletContext } from "react-router-dom";
-import { FlexWrapper } from "styles/CommonStyled";
+import { TextCenter } from "styles/CommonStyled";
+import { IBookItem } from "types/Books";
 
-interface ContentSectionProps {
+interface SectionContentProps {
   data?: IBookItem[];
 }
 
-const ContentSection: React.FC<ContentSectionProps> = () => {
+const SectionContent: React.FC<SectionContentProps> = () => {
   const { books } = useOutletContext<{ books: IBookItem[] }>();
 
   return (
     <>
       {(books.length > 0 &&
         books.map((book, index) => <BookCard key={index} {...book} />)) || (
-        <div>No books in catalog</div>
+        <TextCenter>No books in catalog</TextCenter>
       )}
     </>
   );
 };
 
-export default ContentSection;
+export default SectionContent;

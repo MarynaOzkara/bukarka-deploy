@@ -1,13 +1,13 @@
 import React from "react";
-import { FlexWrapper } from "styles/CommonStyled";
+import { PaginationWrapper } from "./Pagination.styled";
 
-interface PaginationProps {
+interface IPaginationProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
 }
 
-const Pagination: React.FC<PaginationProps> = ({
+const Pagination: React.FC<IPaginationProps> = ({
   currentPage,
   totalPages,
   onPageChange,
@@ -25,14 +25,7 @@ const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <FlexWrapper
-      style={{
-        margin: "2rem auto",
-        maxWidth: "15rem",
-        color: "var(--bukarka-dark-grey)",
-        alignItems: "center",
-      }}
-    >
+    <PaginationWrapper>
       <button
         className="material-symbols-outlined"
         onClick={handlePrevious}
@@ -53,7 +46,7 @@ const Pagination: React.FC<PaginationProps> = ({
       >
         arrow_forward
       </button>
-    </FlexWrapper>
+    </PaginationWrapper>
   );
 };
 
