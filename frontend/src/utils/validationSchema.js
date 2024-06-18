@@ -18,3 +18,9 @@ export const validationDeliverySchema = Yup.object().shape({
     "Спосіб доставки обов'язковий до вибору"
   ),
 });
+
+export const validationPaymentSchema = Yup.string().required(
+  "Спосіб оплати є обов'язковим полем"
+);
+
+export const validationCommentSchema = Yup.string();

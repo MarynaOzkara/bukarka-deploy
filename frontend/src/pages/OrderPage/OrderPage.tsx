@@ -8,6 +8,12 @@ import Comment from "components/Order/Comment";
 import BookData from "components/Order/BookData";
 import OrderData from "components/Order/OrderData";
 import Submit from "components/Order/Submit";
+import {
+  validationCommentSchema,
+  validationDeliverySchema,
+  validationPaymentSchema,
+  validationPersonalDataSchema,
+} from "utils/validationSchema";
 import { useAppDispatch } from "../../redux/hooks";
 import { updateOrderInfo } from "../../redux/orders/operations";
 import { StyledCommonWrapper } from "styles/CommonStyled";
@@ -18,10 +24,6 @@ import {
   RightPart,
   Title,
 } from "./OrderPage.styled";
-import {
-  validationDeliverySchema,
-  validationPersonalDataSchema,
-} from "utils/validationSchema";
 
 const OrderPage: React.FC = () => {
   const [isChecked, setIsChecked] = useState(false);
@@ -60,6 +62,19 @@ const OrderPage: React.FC = () => {
           },
           { abortEarly: false }
         );
+        await validationPaymentSchema.validate(
+          {
+            payment: paymentMethod,
+          },
+          { abortEarly: false }
+        );
+        await validationCommentSchema.validate(
+          {
+            comment: orderComment,
+          },
+          { abortEarly: false }
+        );
+
         setIsFormValid(true);
       } catch (errors) {
         if (errors instanceof yup.ValidationError) {
@@ -77,6 +92,8 @@ const OrderPage: React.FC = () => {
     deliveryCity,
     deliveryAddress,
     deliveryMethod,
+    paymentMethod,
+    orderComment,
   ]);
 
   const handleCheckboxChange = (checked: boolean) => {
