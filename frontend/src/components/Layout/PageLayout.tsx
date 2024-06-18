@@ -3,13 +3,9 @@ import Pagination from "components/Pagination";
 import { BreadCrumbs, Label } from "pages/CommonPages.styled";
 import React, { ReactNode } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import {
-  FlexWrap,
-  PageWrapper,
-  StyledCommonWrapper,
-  Wrapper,
-} from "styles/CommonStyled";
+import { FlexWrap, StyledCommonWrapper, TextCenter } from "styles/CommonStyled";
 import { IBookItem } from "types/Books";
+import { PageLayoutWrapper } from "./PageLayout.styled";
 
 interface IPageLayoutProps {
   label?: string;
@@ -42,34 +38,32 @@ const PageLayout: React.FC<IPageLayoutProps> = ({
 
   return (
     <StyledCommonWrapper>
-      <PageWrapper>
-        <Wrapper>
-          {label ? (
-            <Label>{label}</Label>
-          ) : (
-            !!books && (
-              <>
-                <BreadCrumbs>Каталог | {category} </BreadCrumbs>
-                <Label>{link || subcategory || category || "Усі книги"}</Label>
-              </>
-            )
-          )}
-          {!!book && (
+      <PageLayoutWrapper>
+        {label ? (
+          <Label>{label}</Label>
+        ) : (
+          !!books && (
             <>
-              <BreadCrumbs>Каталог | {book.category} </BreadCrumbs>
-              <Label> {book.subcategory} </Label>
+              <BreadCrumbs>Каталог | {category} </BreadCrumbs>
+              <Label>{link || subcategory || category || "Усі книги"}</Label>
             </>
-          )}
-          <FlexWrap> {children} </FlexWrap>
-          {!!books && !!books.length && (
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-          )}
-        </Wrapper>
-      </PageWrapper>
+          )
+        )}
+        {!!book && (
+          <>
+            <BreadCrumbs>Каталог | {book.category} </BreadCrumbs>
+            <Label> {book.subcategory} </Label>
+          </>
+        )}
+        <FlexWrap>{children}</FlexWrap>
+        {!!books && !!books.length && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        )}
+      </PageLayoutWrapper>
     </StyledCommonWrapper>
   );
 };

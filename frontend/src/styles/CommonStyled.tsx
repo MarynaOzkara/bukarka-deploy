@@ -86,7 +86,6 @@ export const FlexWrapper = styled.div`
 `;
 
 export const FlexWrap = styled(FlexWrapper)`
-  width: 100%;
   flex-wrap: wrap;
   position: relative;
 `;
