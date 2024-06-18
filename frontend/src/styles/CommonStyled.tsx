@@ -86,6 +86,7 @@ export const FlexWrapper = styled.div`
 `;
 
 export const FlexWrap = styled(FlexWrapper)`
+  width: 100%;
   flex-wrap: wrap;
   position: relative;
 `;
@@ -94,12 +95,28 @@ export const TextCenter = styled.p`
   margin: 0 auto;
 `;
 
-export const StyledPrice = styled.div`
+export const Button = styled.button`
+  padding: 8px 16px;
+  width: 160px;
+  border: none;
+
+  color: var(--bukarka-black);
+
   font-family: "Montserrat-Bold";
   font-weight: 700;
   font-size: 16px;
-  line-height: 24px;
-  color: #004f98;
-  margin-bottom: 8px;
+  //transition: all 0.5s ease;
+  &:hover {
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
+  }
+  &:active {
+    color: var(--bukarka-yellow);
+  }
+`;
+export const ButtonOrange = styled(Button)`
+  background: var(--bukarka-orange);
 `;
 
+export const ButtonYellow = styled(Button)`
+  background: var(--bukarka-yellow);
+`;

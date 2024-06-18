@@ -1,12 +1,19 @@
 import { images } from "assets/images";
+import BookRating from "components/BookRating";
+import { StyledPrice } from "pages/CommonPages.styled";
+import { ButtonOrange, ButtonYellow } from "styles/CommonStyled";
 import { IBookItem } from "types/Books";
 import {
+  BookContentWrapper,
+  BookSubTitle,
+  BookTitle,
   DescTable,
+  Description,
+  Separator,
   StyledBookDescription,
   StyledBookImage,
-  StyledCartOperations,
+  StyledButtonContainer,
 } from "./BookContent.styled";
-import BookRating from "components/BookRating";
 
 interface IBookContentProps {
   book: IBookItem;
@@ -16,7 +23,7 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
   return (
     <>
       {!!book && (
-        <>
+        <BookContentWrapper>
           <StyledBookImage id={book._id}>
             <img
               src={book.image || images.imagePlaceholder}
@@ -24,9 +31,10 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
             />
           </StyledBookImage>
           <StyledBookDescription>
-            <h2>{book.title}</h2>
-            <h3>{book.author}</h3>
+            <BookTitle>{book.title}</BookTitle>
+            <BookSubTitle>{book.author}</BookSubTitle>
             <BookRating rating={book.rating} />
+            <Separator />
             <DescTable>
               <li>
                 <span>Мова книги</span>
@@ -36,7 +44,7 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
                 <span>Жанр</span>
                 <span>
                   {(!!book.genre &&
-                    book.genre.map((genre) => <span>{genre}</span>)) || (
+                    book.genre.map((genre) => <> {genre} </>)) || (
                     <span>-</span>
                   )}
                 </span>
@@ -63,13 +71,20 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
                 <span>{book.year}</span>
               </li>
             </DescTable>
-            <section>
-              <h5>Про автора</h5>
-              <p></p>
-            </section>
+            <Separator />
+            <Description>
+              <b>Про автора</b>
+              <p>{book.description}</p>
+            </Description>
           </StyledBookDescription>
-          <StyledCartOperations></StyledCartOperations>
-        </>
+          <StyledButtonContainer>
+            <StyledPrice>
+              {book.price}&nbsp;грн.<span></span>
+            </StyledPrice>
+            <ButtonOrange style={{ width: "296px" }}>Купити</ButtonOrange>
+            <ButtonYellow style={{ width: "296px" }}>До кошика</ButtonYellow>
+          </StyledButtonContainer>
+        </BookContentWrapper>
       )}
     </>
   );
