@@ -2,6 +2,7 @@ import { Favorites } from "components";
 import { useBooks } from "components/Book";
 import { PageLayout } from "components/Layout";
 import { useEffect, useState } from "react";
+import { TextCenter } from "styles/CommonStyled";
 
 const FavoritePage: React.FC = () => {
   const { books = [] } = useBooks();
@@ -21,7 +22,7 @@ const FavoritePage: React.FC = () => {
 
   return (
     <PageLayout label="Обране" books={favoriteBooks}>
-      {<Favorites books={favoriteBooks} /> || <div>No favorite books</div>}
+      {<Favorites books={favoriteBooks} />}
     </PageLayout>
   );
 };

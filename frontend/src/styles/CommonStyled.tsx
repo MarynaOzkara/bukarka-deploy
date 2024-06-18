@@ -88,5 +88,8 @@ export const FlexWrapper = styled.div`
 export const FlexWrap = styled(FlexWrapper)`
   flex-wrap: wrap;
   position: relative;
-  justify-content: center;
+`;
+
+export const TextCenter = styled.p`
+  margin: 0 auto;
 `;
