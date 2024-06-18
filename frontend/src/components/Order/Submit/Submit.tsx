@@ -7,7 +7,7 @@ import {
   SubmitButton,
   SubmitWrapper,
 } from "./Submit.styles";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface SubmitProps {
   onSubmit: () => void;
@@ -45,7 +45,7 @@ const Submit: React.FC<SubmitProps> = ({ onSubmit, onChange }) => {
       </CheckboxContainer>
 
       <SubmitButton onClick={handleClick} disabled={!isCheckboxChecked}>
-        <Link to={`/payment/${id}`}>Підтвердити замовлення</Link>{" "}
+        Підтвердити замовлення
       </SubmitButton>
       <ContinueButton>Продовжити покупки</ContinueButton>
     </SubmitWrapper>
