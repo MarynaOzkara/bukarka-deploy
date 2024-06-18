@@ -1,13 +1,12 @@
-import { lazy } from "react";
-import { Route, Routes } from "react-router-dom";
-import Layout from "./components/Layout/Layout";
-import OrderPage from "pages/OrderPage/OrderPage";
-import PaymentPage from "pages/PaymentPage";
+import { BooksContextProvider } from "components/Book";
 import { OrderContextProvider } from "components/Order/OrderContext";
 import OrderConfirmationPage from "pages/OrderConfirmationPage";
-import { BooksContextProvider } from "components/Book";
+import OrderPage from "pages/OrderPage/OrderPage";
+import PaymentPage from "pages/PaymentPage";
+import { lazy } from "react";
+import { Route, Routes } from "react-router-dom";
 import combineProviders from "utils/combineProviders";
-import { SearchContextProvider } from "components";
+import Layout from "./components/Layout/Layout";
 
 const HomePage = lazy(() => import("pages/HomePage"));
 const NotFoundPage = lazy(() => import("pages/NotFoundPage"));
@@ -21,13 +20,9 @@ const TermsOfUsePage = lazy(() => import("pages/TermsOfUsePage"));
 const BookPage = lazy(() => import("pages/BookPage"));
 const FavoritePage = lazy(() => import("pages/FavoritePage"));
 const SearchPage = lazy(() => import("pages/SearchPage"));
-const ContentSection = lazy(() => import("pages/CatalogPage/ContentSection"));
+const SectionContent = lazy(() => import("pages/CatalogPage/SectionContent"));
 
-const Providers = combineProviders(
-  BooksContextProvider,
-  OrderContextProvider,
-  SearchContextProvider
-);
+const Providers = combineProviders(BooksContextProvider, OrderContextProvider);
 
 function App() {
   return (
@@ -43,12 +38,12 @@ function App() {
           <Route path="privacy" element={<PrivacyPolicyPage />} />
           <Route path="terms" element={<TermsOfUsePage />} />
           <Route path="catalog" element={<CatalogPage />}>
-            <Route index element={<ContentSection />} />
-            <Route path=":category" element={<ContentSection />} />
-            <Route path=":category/:subcategory" element={<ContentSection />} />
+            <Route index element={<SectionContent />} />
+            <Route path=":category" element={<SectionContent />} />
+            <Route path=":category/:subcategory" element={<SectionContent />} />
             <Route
               path=":category/:subcategory/:link"
-              element={<ContentSection />}
+              element={<SectionContent />}
             />
           </Route>
           <Route path="order/:id" element={<OrderPage />} />

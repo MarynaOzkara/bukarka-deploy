@@ -1,10 +1,9 @@
 import { BookCard } from "components";
-import { IBookItem } from "components/Book";
+import { TextCenter } from "styles/CommonStyled";
+import { IBookItem } from "types/Books";
 
 interface IFavProps {
   books: IBookItem[];
-  limit?: number;
-  page?: number;
 }
 
 const Favorites: React.FC<IFavProps> = ({ books }) => {
@@ -13,7 +12,7 @@ const Favorites: React.FC<IFavProps> = ({ books }) => {
       {books.length ? (
         books.map((item: IBookItem) => <BookCard key={item._id} {...item} />)
       ) : (
-        <div>No favorite books</div>
+        <TextCenter>No favorite books</TextCenter>
       )}
     </>
   );

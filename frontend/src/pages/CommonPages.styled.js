@@ -152,3 +152,17 @@ export const BreadCrumbs = styled.h6`
   color: var(--bukarka-grey);
   margin: 1rem 0;
 `;
+
+export const StyledPrice = styled.div`
+  font-family: "Montserrat-Bold";
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  color: #004f98;
+  margin-bottom: 8px;
+  & span {
+    font-size: 16px;
+    text-decoration: line-through;
+    color: var(--bukarka-dark-grey);
+  }
+`;

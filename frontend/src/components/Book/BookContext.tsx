@@ -3,12 +3,11 @@ import React, {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useState,
 } from "react";
+import { IBookItem, IBooksContextType, IBooksDataResponse } from "types/Books";
 import { instance } from "utils/fetchInstance";
-import { IBookItem, IBooksContextType, IBooksDataResponse } from "./Book.types";
 
 const BooksContext = createContext<IBooksContextType | null>(null);
 
@@ -24,18 +23,11 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [books, setBooks] = useState<IBookItem[]>([]);
-  const [favorites, setFavorites] = useState<string[]>([]);
+  const [book, setBook] = useState<IBookItem>();
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(false);
-
-  const addFavorite = useCallback((id: string) => {
-    setFavorites((prevFavorites) => [...prevFavorites, id]);
-  }, []);
-
-  const removeFavorite = useCallback((id: string) => {
-    setFavorites((prevFavorites) => prevFavorites.filter((fav) => fav !== id));
-  }, []);
+  const [searchResults, setSearchResults] = useState<IBookItem[]>([]);
+  const [hints, setHints] = useState<IBookItem[]>([]);
 
   const setPages = (books: IBooksDataResponse) => {
     if (books.total && books.limit) {
@@ -54,7 +46,6 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       orderSort?: string,
       limit?: number
     ) => {
-      setLoading(true);
       try {
         const response = await instance.get<IBooksDataResponse>(
           "/api/books/filters",
@@ -77,48 +68,93 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
           setCurrentPage(page || 1);
         }
       } catch (error: any) {
-        if (error.response && error.response.status !== 404) {
-          throw error;
-        }
+        console.error("Error fetching data:", error);
+
         setBooks([]);
-      } finally {
-        setLoading(false);
       }
     },
     []
   );
 
-  useEffect(() => {
-    const savedFavorites = JSON.parse(
-      localStorage.getItem("favorites") || "[]"
-    );
-    setFavorites(savedFavorites);
+  const fetchBookById = useCallback(async (id?: string) => {
+    try {
+      const response = await instance.get(`/api/books/${id}`);
+      setBook(response.data);
+    } catch (error: any) {
+      console.error("Error fetching data:", error);
+    }
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
+  const handleSearch = useCallback(
+    async (
+      keyword?: string,
+      page?: number,
+      sortBy?: string,
+      orderSort?: string,
+      limit?: number
+    ) => {
+      try {
+        const response = await instance.get<IBooksDataResponse>(
+          "/api/books/filters",
+          {
+            params: { keyword, page, sortBy, orderSort, limit },
+          }
+        );
+
+        if (response.data.books.length) {
+          setSearchResults(response.data.books);
+          setPages(response.data);
+          setCurrentPage(page || 1);
+        } else {
+          setSearchResults([]);
+        }
+      } catch (error: any) {
+        console.error("Error fetching data:", error);
+        setSearchResults([]);
+      }
+    },
+    []
+  );
+
+  const fetchHints = useCallback(async (keyword?: string) => {
+    try {
+      const response = await instance.get<IBooksDataResponse>(
+        "/api/books/filters",
+        {
+          params: { keyword },
+        }
+      );
+      setHints(response.data.books);
+    } catch (error: any) {
+      console.error("Error fetching suggestions:", error);
+    }
+  }, []);
 
   const contextValue = useMemo(
     () => ({
       books,
-      favorites,
+      book,
+      searchResults,
+      hints,
       currentPage,
       totalPages,
       setCurrentPage,
-      addFavorite,
-      removeFavorite,
       fetchBooks,
+      fetchBookById,
+      handleSearch,
+      fetchHints,
     }),
     [
       books,
-      favorites,
+      book,
+      searchResults,
+      hints,
       currentPage,
       totalPages,
-      setCurrentPage,
-      addFavorite,
-      removeFavorite,
       fetchBooks,
+      fetchBookById,
+      handleSearch,
+      fetchHints,
     ]
   );
 

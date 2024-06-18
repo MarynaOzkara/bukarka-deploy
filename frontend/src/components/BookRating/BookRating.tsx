@@ -1,20 +1,28 @@
-import { RatingStars } from "react-rating-stars-component";
+import { useMemo } from "react";
+import ReactStars from "react-rating-stars-component";
+import { StarsWrapper, StyledStarIcon } from "./BookRating.styled";
 
-interface RatingProps {
-  value: number;
+interface IRatingProps {
+  rating: number;
 }
 
-const BookRating: React.FC<RatingProps> = ({ value }) => {
+const BookRating: React.FC<IRatingProps> = ({ rating }) => {
+  const starsProps = useMemo(
+    () => ({
+      size: 20,
+      count: 5,
+      edit: false,
+      color: "#fffbff",
+      activeColor: "#ffd700",
+      emptyIcon: <StyledStarIcon $fillColor="var(--bukarka-white)" />,
+      filledIcon: <StyledStarIcon $fillColor="var(--bukarka-yellow)" />,
+    }),
+    []
+  );
   return (
-    <RatingStars
-      count={5}
-      size={24}
-      value={value}
-      activeColor="#ffd700"
-      inactiveColor="#ddd"
-      edit={false}
-      isHalf={true}
-    />
+    <StarsWrapper>
+      <ReactStars {...starsProps} value={rating} />
+    </StarsWrapper>
   );
 };
 

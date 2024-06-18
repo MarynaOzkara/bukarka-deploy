@@ -81,7 +81,41 @@ export const Wrapper = styled.div`
 
 export const FlexWrapper = styled.div`
   display: flex;
-
   justify-content: space-between;
   gap: 16px;
+`;
+
+export const FlexWrap = styled(FlexWrapper)`
+  flex-wrap: wrap;
+  position: relative;
+`;
+
+export const TextCenter = styled.p`
+  margin: 0 auto;
+`;
+
+export const Button = styled.button`
+  padding: 8px 16px;
+  width: 160px;
+  border: none;
+
+  color: var(--bukarka-black);
+
+  font-family: "Montserrat-Bold";
+  font-weight: 700;
+  font-size: 16px;
+  //transition: all 0.5s ease;
+  &:hover {
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
+  }
+  &:active {
+    color: var(--bukarka-yellow);
+  }
+`;
+export const ButtonOrange = styled(Button)`
+  background: var(--bukarka-orange);
+`;
+
+export const ButtonYellow = styled(Button)`
+  background: var(--bukarka-yellow);
 `;

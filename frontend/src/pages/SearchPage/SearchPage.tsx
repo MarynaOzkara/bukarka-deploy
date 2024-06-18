@@ -1,72 +1,51 @@
-import { BookCard, Pagination } from "components";
-import { useSearch } from "components/Search";
-import { Label } from "pages/CommonPages.styled";
+import { BookCard, Sort } from "components";
+import { useBooks } from "components/Book";
+import { PageLayout } from "components/Layout";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import {
-  FlexWrapper,
-  PageWrapper,
-  StyledCommonWrapper,
-  Wrapper,
-} from "styles/CommonStyled";
+import { TextCenter } from "styles/CommonStyled";
 
 const SearchPage = () => {
-  const { searchResults, handleSearch, totalPages } = useSearch();
+  const { searchResults, handleSearch } = useBooks();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isStart, setIsStart] = useState(true);
+  const [keyword, setKeyword] = useState("");
+  const [sortBy, setSortBy] = useState("");
+  const [orderSort, setOrderSort] = useState("asc");
 
   useEffect(() => {
     const page = Number(searchParams.get("page")) || 1;
     const keyword = searchParams.get("keyword") || "";
+    setKeyword(keyword);
+    const loadData = async () => {
+      await handleSearch(keyword, page, sortBy, orderSort);
+    };
+    loadData();
+  }, [searchParams, sortBy, orderSort]);
 
-    setIsStart(true);
-    setCurrentPage(page);
-
-    if (!isStart) handleSearch(keyword, page); // to rid of an extra request
-  }, [searchParams]);
-
-  const handlePageChange = (newPage: number) => {
-    setIsStart(false);
-
-    const keyword = searchParams.get("keyword") || "";
-
+  const handleSortChange = (sortKey: string, sortOrder: string) => {
+    setSortBy(sortKey);
+    setOrderSort(sortOrder);
     setSearchParams({
+      page: "1",
+      sortBy: sortKey,
+      orderSort: sortOrder,
       keyword,
-      page: newPage.toString(),
     });
   };
 
   return (
-    <StyledCommonWrapper>
-      <PageWrapper>
-        <Wrapper>
-          <Label>Результати пошуку</Label>
-          <FlexWrapper
-            style={{
-              justifyContent: "space-around",
-              flexWrap: "wrap",
-              gap: "2rem",
-            }}
-          >
-            {searchResults.length > 0 ? (
-              searchResults.map((result, index) => (
-                <BookCard key={index} {...result} />
-              ))
-            ) : (
-              <p>No results found</p>
-            )}
-          </FlexWrapper>
-          {!!searchResults.length && (
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-          )}
-        </Wrapper>
-      </PageWrapper>
-    </StyledCommonWrapper>
+    <PageLayout label="Результати пошуку" books={searchResults}>
+      {!!searchResults.length && searchResults.length > 1 && (
+        <Sort onSortChange={handleSortChange} />
+      )}
+      {!!searchResults && !!searchResults.length ? (
+        searchResults.map((result, index) => (
+          <BookCard key={index} {...result} />
+        ))
+      ) : (
+        <TextCenter>No results found</TextCenter>
+      )}
+    </PageLayout>
   );
 };
 

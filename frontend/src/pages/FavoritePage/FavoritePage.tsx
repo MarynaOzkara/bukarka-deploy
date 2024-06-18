@@ -1,40 +1,29 @@
 import { Favorites } from "components";
 import { useBooks } from "components/Book";
-import { Label } from "pages/CommonPages.styled";
-
-import {
-  FlexWrapper,
-  PageWrapper,
-  StyledCommonWrapper,
-  Wrapper,
-} from "styles/CommonStyled";
+import { PageLayout } from "components/Layout";
+import { useEffect, useState } from "react";
+import { TextCenter } from "styles/CommonStyled";
 
 const FavoritePage: React.FC = () => {
-  const { books = [], favorites } = useBooks();
+  const { books = [] } = useBooks();
+
+  const [favorites, setFavorites] = useState<string[]>([]);
+
+  useEffect(() => {
+    const savedFavorites = JSON.parse(
+      localStorage.getItem("favorites") || "[]"
+    );
+    setFavorites(savedFavorites);
+  }, []);
 
   const favoriteBooks = books.length
     ? books.filter((book) => book && favorites.includes(book._id))
     : [];
 
   return (
-    <StyledCommonWrapper>
-      <PageWrapper>
-        <Wrapper>
-          <Label>Обране</Label>
-          <FlexWrapper
-            style={{
-              justifyContent: "space-around",
-              flexWrap: "wrap",
-              gap: "2rem",
-            }}
-          >
-            {(!!books.length && <Favorites books={favoriteBooks} />) || (
-              <div>No favorite books</div>
-            )}
-          </FlexWrapper>
-        </Wrapper>
-      </PageWrapper>
-    </StyledCommonWrapper>
+    <PageLayout label="Обране" books={favoriteBooks}>
+      {<Favorites books={favoriteBooks} />}
+    </PageLayout>
   );
 };
 
