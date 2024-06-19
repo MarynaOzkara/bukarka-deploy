@@ -1,22 +1,22 @@
 import { images } from "assets/images";
 import BookRating from "components/BookRating";
-import { StyledPrice } from "pages/CommonPages.styled";
+import Modal from "components/Modal";
+import { Price } from "pages/CommonPages.styled";
+import { useState } from "react";
 import { ButtonOrange, ButtonYellow } from "styles/CommonStyled";
 import { IBookItem } from "types/Books";
+import { BookImage } from "../BookPage.styled";
+import PictureViewer from "../PictureViewer/PictureViewer";
 import {
   BookContentWrapper,
+  BookDescription,
   BookSubTitle,
   BookTitle,
+  ButtonContainer,
   DescTable,
   Description,
   Separator,
-  StyledBookDescription,
-  StyledButtonContainer,
 } from "./BookContent.styled";
-import { useState } from "react";
-import Modal from "components/Modal";
-import { StyledBookImage } from "../BookPage.styled";
-import PictureViewer from "../PictureViewer/PictureViewer";
 
 interface IBookContentProps {
   book: IBookItem;
@@ -39,16 +39,13 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
     <>
       {!!book && (
         <BookContentWrapper>
-          <StyledBookImage
-            id={book._id}
-            onClick={() => showModal("pic-viewer")}
-          >
+          <BookImage id={book._id} onClick={() => showModal("pic-viewer")}>
             <img
               src={book.image || images.imagePlaceholder}
               alt={`${book.author} ${book.title} `}
             />
-          </StyledBookImage>
-          <StyledBookDescription>
+          </BookImage>
+          <BookDescription>
             <BookTitle>{book.title}</BookTitle>
             <BookSubTitle>{book.author}</BookSubTitle>
             <BookRating rating={book.rating} />
@@ -94,14 +91,14 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
               {!!book.description && <b>Про автора</b>}
               <p>{book.description}</p>
             </Description>
-          </StyledBookDescription>
-          <StyledButtonContainer>
-            <StyledPrice>
+          </BookDescription>
+          <ButtonContainer>
+            <Price>
               {book.price}&nbsp;грн.<span></span>
-            </StyledPrice>
+            </Price>
             <ButtonOrange style={{ width: "296px" }}>Купити</ButtonOrange>
             <ButtonYellow style={{ width: "296px" }}>До кошика</ButtonYellow>
-          </StyledButtonContainer>
+          </ButtonContainer>
           {isModalOpen && (
             <Modal close={closeModal} showCloseButton={true} animation="slide">
               {modalContent === "pic-viewer" && <PictureViewer book={book} />}

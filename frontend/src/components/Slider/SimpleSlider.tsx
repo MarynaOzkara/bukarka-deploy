@@ -31,7 +31,7 @@ interface IDataBooks {
   data: IProps[];
 }
 
-function NextArrow(props: any) {
+export function NextArrow(props: any) {
   const { className, style, onClick, isVisible } = props;
   return (
     <StyledNextArrow
@@ -43,7 +43,7 @@ function NextArrow(props: any) {
   );
 }
 
-function PrevArrow(props: any) {
+export function PrevArrow(props: any) {
   const { className, style, onClick, isVisible } = props;
   return (
     <StyledPrevArrow

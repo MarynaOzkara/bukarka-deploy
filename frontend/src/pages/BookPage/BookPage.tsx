@@ -1,11 +1,11 @@
 import { useBooks } from "components/Book";
 import { PageLayout } from "components/Layout";
+import SimpleSlider from "components/Slider/SimpleSlider";
+import { Label } from "pages/CommonPages.styled";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import BookContent from "./BookContent/BookContent";
-import { Label } from "pages/CommonPages.styled";
-import SimpleSlider from "components/Slider/SimpleSlider";
 import { TextCenter } from "styles/CommonStyled";
+import BookContent from "./BookContent/BookContent";
 
 const BookPage: React.FC = () => {
   const { book, fetchBookById } = useBooks();

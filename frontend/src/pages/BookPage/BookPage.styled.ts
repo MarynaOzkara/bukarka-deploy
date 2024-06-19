@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-export const StyledBookImage = styled.section`
-  width: 296px;
+export const BookImage = styled.section`
   flex-shrink: 0;
 `;
