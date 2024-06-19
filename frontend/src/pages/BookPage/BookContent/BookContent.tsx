@@ -45,11 +45,21 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
               alt={`${book.author} ${book.title} `}
               title={`${book.author} ${book.title} `}
             />
+            {!!book.imagesUrls && (
+              <div>
+                {book.imagesUrls.map((img) => (
+                  <img src={img || images.imagePlaceholder} alt="img" />
+                ))}
+              </div>
+            )}
           </BookImage>
           <BookDescription>
             <BookTitle>{book.title}</BookTitle>
             <BookSubTitle>{book.author}</BookSubTitle>
             <BookRating rating={book.rating} />
+            <Description>
+              <p>{book.description}</p>
+            </Description>
             <Separator />
             <DescTable>
               <li>

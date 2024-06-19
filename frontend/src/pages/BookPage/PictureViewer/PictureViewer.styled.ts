@@ -14,6 +14,6 @@ export const StyledFlexWrapper = styled(FlexWrapper)`
 
 export const StyledBookImage = styled(BookImage)`
   & img {
-    height: 672px;
+    height: ;
   }
 `;

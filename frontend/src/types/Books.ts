@@ -42,6 +42,7 @@ export interface IBookItem
   > {
   image: string;
   index: number;
+  imagesUrls: [];
 }
 
 export interface IBooksDataResponse {
