@@ -13,9 +13,15 @@ interface SubmitProps {
   onSubmit: () => void;
   onChange: (checked: boolean) => void;
   isFormValid: boolean;
+  paymentMethod: string;
 }
 
-const Submit: React.FC<SubmitProps> = ({ onSubmit, onChange, isFormValid }) => {
+const Submit: React.FC<SubmitProps> = ({
+  onSubmit,
+  onChange,
+  isFormValid,
+  paymentMethod,
+}) => {
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
   const { id } = useParams();
   // console.log(id);
@@ -25,7 +31,12 @@ const Submit: React.FC<SubmitProps> = ({ onSubmit, onChange, isFormValid }) => {
   const handleClick = () => {
     if (isCheckboxChecked && isFormValid) {
       onSubmit();
-      navigate(`/payment/${id}`);
+
+      if (paymentMethod === "Онлайн оплата карткою") {
+        navigate(`/payment/${id}`);
+      } else {
+        navigate(`/confirmation/${id}`);
+      }
     }
   };
 

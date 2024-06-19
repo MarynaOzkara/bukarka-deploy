@@ -192,6 +192,7 @@ const OrderPage: React.FC = () => {
               onChange={handleCheckboxChange}
               onSubmit={handleSubmit}
               isFormValid={isFormValid}
+              paymentMethod={paymentMethod}
             />
           </RightPart>
         </FlexWrapper>
