@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import getNovaPoshtaCities from "helpers/getNovaPoshtaCities";
+import getNovaPoshtaCities from "utils/getNovaPoshtaCities";
 import { Label, SubTitle, Wrapper } from "../OrderCommonStyled";
 import {
   AddressInput,
@@ -55,7 +55,7 @@ const Delivery: React.FC<DeliveryDataProps> = ({
   const handleCityInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim();
     setCity(value);
-    // setDeliveryCity(value);
+    setDeliveryCity(value);
 
     if (value !== "") {
       setShowOptions(true);
@@ -63,10 +63,8 @@ const Delivery: React.FC<DeliveryDataProps> = ({
       setShowOptions(false);
     }
 
-    // setShowOptions(e.target.value.trim() !== "");
-    // setShowOptions(true);
-
-    // console.log(city);
+    setAddress("");
+    setDeliveryAddress("");
   };
 
   const handleAddressInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -171,13 +169,18 @@ const Delivery: React.FC<DeliveryDataProps> = ({
         </RadioButton>
       </RadioWrapper>
 
-      <Label>Введіть адресу доставки*</Label>
-      <AddressInput
-        type="text"
-        placeholder="Наприклад, бульвар Т.Шевченко, буд. 20, кв. 15"
-        value={address}
-        onChange={handleAddressInputChange}
-      />
+      {selectedRadio === "Доставка кур’єром Нової Пошти" && (
+        <div>
+          <Label htmlFor="address">Введіть адресу доставки*</Label>
+          <AddressInput
+            name="address"
+            type="text"
+            placeholder="Наприклад, бульвар Т.Шевченко, буд. 20, кв. 15"
+            value={address}
+            onChange={handleAddressInputChange}
+          />
+        </div>
+      )}
     </Wrapper>
   );
 };

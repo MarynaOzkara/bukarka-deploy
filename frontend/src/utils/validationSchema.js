@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+import getNovaPoshtaCities from "./getNovaPoshtaCities";
 
 export const validationPersonalDataSchema = Yup.object({
   name: Yup.string().required("Ім'я є обов'язковим полем"),
@@ -12,12 +13,28 @@ export const validationPersonalDataSchema = Yup.object({
 });
 
 export const validationDeliverySchema = Yup.object().shape({
-  city: Yup.string().required("Місто є обов'язковим полем"),
+  city: Yup.string()
+    .required("Місто є обов'язковим полем")
+    .test("valid-city", "Некоректне місто", function (value) {
+      return cities.includes(value);
+    }),
   address: Yup.string().required("Адреса є обов'язковим полем"),
   deliveryMethod: Yup.string().required(
     "Спосіб доставки обов'язковий до вибору"
   ),
 });
+
+let cities = [];
+
+const fetchCities = async () => {
+  try {
+    cities = await getNovaPoshtaCities();
+    validationDeliverySchema.fields.city.oneOf(cities);
+  } catch (error) {
+    console.error("Error fetching cities:", error);
+  }
+};
+fetchCities();
 
 export const validationPaymentSchema = Yup.object().shape({
   payment: Yup.string().required("Спосіб оплати є обов'язковим полем"),
