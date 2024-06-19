@@ -9,20 +9,23 @@ interface IPictureProps {
 
 const PictureViewer: React.FC<IPictureProps> = ({ book }) => {
   return (
-    <>
+    <StyledFlexWrapper>
       {!!book && (
-        <StyledFlexWrapper>
-          <SliderArrowIcon style={{ transform: "rotate(180deg)" }} />
+        <>
+          <SliderArrowIcon
+            style={{ transform: "rotate(180deg)", cursor: "pointer" }}
+          />
           <StyledBookImage id={book._id}>
             <img
               src={book.image || images.imagePlaceholder}
               alt={`${book.author} ${book.title} `}
+              title={`${book.author} ${book.title} `}
             />
           </StyledBookImage>
-          <SliderArrowIcon />
-        </StyledFlexWrapper>
+          <SliderArrowIcon style={{ cursor: "pointer" }} />
+        </>
       )}
-    </>
+    </StyledFlexWrapper>
   );
 };
 

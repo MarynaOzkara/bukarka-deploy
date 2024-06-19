@@ -43,6 +43,7 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
             <img
               src={book.image || images.imagePlaceholder}
               alt={`${book.author} ${book.title} `}
+              title={`${book.author} ${book.title} `}
             />
           </BookImage>
           <BookDescription>
