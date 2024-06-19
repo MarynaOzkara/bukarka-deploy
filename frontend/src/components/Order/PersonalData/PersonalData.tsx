@@ -111,7 +111,7 @@ const PersonalData: React.FC<PersonalDataProps> = ({
           {touched.email && errors.email && <p>{errors.email}</p>}
         </li>
         <li>
-          <Label htmlFor="name">Номер телефону*</Label>
+          <Label htmlFor="phone">Номер телефону*</Label>
           <Input
             type="phone"
             name="phone"

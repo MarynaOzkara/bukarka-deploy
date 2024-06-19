@@ -37,8 +37,12 @@ const Submit: React.FC<SubmitProps> = ({ onSubmit, onChange, isFormValid }) => {
     <SubmitWrapper>
       <CheckboxContainer>
         <CheckboxLabel>
-          <CheckboxInput type="checkbox" onChange={handleInputChange} />
-          <span>
+          <CheckboxInput
+            type="checkbox"
+            onChange={handleInputChange}
+            aria-describedby="terms"
+          />
+          <span id="terms">
             Відправляючи це замовлення, я підтверджую, що прочитав та згоден(а)
             з Умовами користування
           </span>

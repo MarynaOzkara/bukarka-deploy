@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Label, SubTitle, Wrapper } from "../OrderCommonStyled";
+import { SubTitle, Wrapper, Label } from "../OrderCommonStyled";
 import { RadioButton, RadioInput, RadioWrapper } from "./Payment.styled";
 
 interface PaymentDataProps {
@@ -22,6 +22,7 @@ const Payment: React.FC<PaymentDataProps> = ({ setPaymentMethod }) => {
         <Label>Оберіть спосіб оплати*</Label>
         <RadioButton>
           <RadioInput
+            name="payment"
             type="radio"
             value="option1"
             checked={selectedRadio === "Онлайн оплата карткою"}
@@ -31,6 +32,7 @@ const Payment: React.FC<PaymentDataProps> = ({ setPaymentMethod }) => {
         </RadioButton>
         <RadioButton>
           <RadioInput
+            name="payment"
             type="radio"
             value="option2"
             checked={selectedRadio === "Післяплата"}
@@ -40,6 +42,7 @@ const Payment: React.FC<PaymentDataProps> = ({ setPaymentMethod }) => {
         </RadioButton>
         <RadioButton>
           <RadioInput
+            name="payment"
             type="radio"
             value="option3"
             checked={selectedRadio === "За реквізитами"}

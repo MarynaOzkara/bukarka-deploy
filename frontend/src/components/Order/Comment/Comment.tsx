@@ -21,6 +21,7 @@ const Comment: React.FC<CommentDataProps> = ({ setOrderComment }) => {
         value={inputValue}
         onChange={handleInputChange}
         placeholder="Залиште свій коментар (опціонально)"
+        aria-label="Коментар до замовлення"
       />
     </Wrapper>
   );

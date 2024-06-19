@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import getNovaPoshtaCities from "helpers/getNovaPoshtaCities";
 import { Label, SubTitle, Wrapper } from "../OrderCommonStyled";
 import {
   AddressInput,
@@ -10,7 +11,6 @@ import {
   RadioInput,
   RadioWrapper,
 } from "./Delivery.styled";
-import getNovaPoshtaCities from "helpers/getNovaPoshtaCities";
 
 interface DeliveryDataProps {
   setDeliveryMethod: React.Dispatch<React.SetStateAction<string>>;
@@ -97,22 +97,28 @@ const Delivery: React.FC<DeliveryDataProps> = ({
     <Wrapper>
       <SubTitle>Доставка</SubTitle>
       <FreeInfo>Безкоштовно при замовленні на суму від 500 грн.</FreeInfo>
-      <Label>Місто*</Label>
+      <Label htmlFor="cityInput">Місто*</Label>
       <CityInput
+        id="cityInput"
         type="text"
         placeholder="Введіть назву населеного пункту"
         value={city}
         onChange={handleCityInputChange}
       />
       {showOptions && (
-        <Options>
+        <Options role="listbox">
           {options
             .filter((option) =>
               option.toLowerCase().startsWith(city.toLowerCase())
             )
             .slice(0, 3)
             .map((option) => (
-              <Option key={option} onClick={() => handleOptionClick(option)}>
+              <Option
+                key={option}
+                role="option"
+                aria-selected="false"
+                onClick={() => handleOptionClick(option)}
+              >
                 {option}
               </Option>
             ))}
@@ -129,7 +135,6 @@ const Delivery: React.FC<DeliveryDataProps> = ({
             onChange={() =>
               handleOptionChange("Самовивіз з відділення Укрпошти")
             }
-            
           />
           <span>Самовивіз з відділення Укрпошти</span>
         </RadioButton>
