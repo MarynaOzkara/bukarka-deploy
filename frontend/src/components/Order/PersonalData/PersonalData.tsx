@@ -78,6 +78,7 @@ const PersonalData: React.FC<PersonalDataProps> = ({
           <Input
             type="text"
             name="name"
+            id="name"
             placeholder="Ім’я"
             value={name}
             onChange={handleNameChange}
@@ -90,6 +91,7 @@ const PersonalData: React.FC<PersonalDataProps> = ({
           <Input
             type="text"
             name="last-name"
+            id="last-name"
             placeholder="Прізвище"
             value={lastName}
             onChange={handleLastNameChange}
@@ -103,6 +105,7 @@ const PersonalData: React.FC<PersonalDataProps> = ({
           <Input
             type="email"
             name="email"
+            id="email"
             placeholder="Email"
             value={email}
             onChange={handleEmailChange}
@@ -115,6 +118,7 @@ const PersonalData: React.FC<PersonalDataProps> = ({
           <Input
             type="phone"
             name="phone"
+            id="phone"
             placeholder="+380"
             value={phone}
             onChange={handlePhoneChange}

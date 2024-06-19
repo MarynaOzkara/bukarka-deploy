@@ -194,9 +194,10 @@ const PaymentPage: React.FC = () => {
                   <SubTitle>Онлайн оплата карткою</SubTitle>
                   <VisaIcon />
                 </CardHeader>
-                <Label>Номер картки:</Label>
+                <Label htmlFor="cardNumber">Номер картки:</Label>
                 <NumberInput
                   type="text"
+                  id="cardNumber"
                   value={cardNumber}
                   placeholder="XXXX XXXX XXXX XXXX"
                   maxLength={19}

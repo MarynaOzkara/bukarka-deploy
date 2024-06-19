@@ -173,7 +173,7 @@ const Delivery: React.FC<DeliveryDataProps> = ({
         <div>
           <Label htmlFor="address">Введіть адресу доставки*</Label>
           <AddressInput
-            name="address"
+            id="address"
             type="text"
             placeholder="Наприклад, бульвар Т.Шевченко, буд. 20, кв. 15"
             value={address}
