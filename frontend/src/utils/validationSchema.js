@@ -19,8 +19,10 @@ export const validationDeliverySchema = Yup.object().shape({
   ),
 });
 
-export const validationPaymentSchema = Yup.string().required(
-  "Спосіб оплати є обов'язковим полем"
-);
+export const validationPaymentSchema = Yup.object().shape({
+  payment: Yup.string().required("Спосіб оплати є обов'язковим полем"),
+});
 
-export const validationCommentSchema = Yup.string();
+export const validationCommentSchema = Yup.object().shape({
+  payment: Yup.string(),
+});
