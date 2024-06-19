@@ -11,20 +11,38 @@ import {
   Description,
   Separator,
   StyledBookDescription,
-  StyledBookImage,
   StyledButtonContainer,
 } from "./BookContent.styled";
+import { useState } from "react";
+import Modal from "components/Modal";
+import { StyledBookImage } from "../BookPage.styled";
+import PictureViewer from "../PictureViewer/PictureViewer";
 
 interface IBookContentProps {
   book: IBookItem;
 }
 
 const BookContent: React.FC<IBookContentProps> = ({ book }) => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalContent, setModalContent] = useState<string>("");
+
+  const showModal = (content: string) => {
+    setModalContent(content);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalContent("");
+    setIsModalOpen(false);
+  };
   return (
     <>
       {!!book && (
         <BookContentWrapper>
-          <StyledBookImage id={book._id}>
+          <StyledBookImage
+            id={book._id}
+            onClick={() => showModal("pic-viewer")}
+          >
             <img
               src={book.image || images.imagePlaceholder}
               alt={`${book.author} ${book.title} `}
@@ -84,6 +102,11 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
             <ButtonOrange style={{ width: "296px" }}>Купити</ButtonOrange>
             <ButtonYellow style={{ width: "296px" }}>До кошика</ButtonYellow>
           </StyledButtonContainer>
+          {isModalOpen && (
+            <Modal close={closeModal} showCloseButton={true} animation="slide">
+              {modalContent === "pic-viewer" && <PictureViewer book={book} />}
+            </Modal>
+          )}
         </BookContentWrapper>
       )}
     </>

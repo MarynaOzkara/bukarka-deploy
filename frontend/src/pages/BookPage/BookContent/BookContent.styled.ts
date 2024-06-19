@@ -6,11 +6,6 @@ export const BookContentWrapper = styled.div`
   gap: 1rem;
 `;
 
-export const StyledBookImage = styled.section`
-  width: 296px;
-  flex-shrink: 0;
-`;
-
 export const StyledButtonContainer = styled.section`
   display: flex;
   flex-direction: column;
