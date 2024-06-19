@@ -102,6 +102,7 @@ const Delivery: React.FC<DeliveryDataProps> = ({
         placeholder="Введіть назву населеного пункту"
         value={city}
         onChange={handleCityInputChange}
+        autoComplete="off"
       />
       {showOptions && (
         <Options role="listbox">
