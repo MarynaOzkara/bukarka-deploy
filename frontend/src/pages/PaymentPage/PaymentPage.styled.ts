@@ -271,4 +271,14 @@ export const SubmitButton = styled.button<SubmitButtonProps>`
   font-weight: 700;
   font-size: 16px;
   line-height: 1.5;
+
+  &:hover:not(:disabled),
+  &:focus:not(:disabled) {
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
+  }
+
+  &:disabled {
+    background: var(--bukarka-grey);
+    border-color: var(--bukarka-grey);
+  }
 `;
