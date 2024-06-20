@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   addToCart,
   deleteItem,
-  deleteOrderItem,
+  deleteOrder,
   fetchOrderById,
   fetchOrdersData,
   updateItemQuantity,
@@ -66,11 +66,11 @@ const ordersSlice = createSlice({
         state.error = action.payload as string;
       })
 
-      .addCase(deleteOrderItem.pending, (state) => {
+      .addCase(deleteOrder.pending, (state) => {
         state.status = "loading";
       })
       .addCase(
-        deleteOrderItem.fulfilled,
+        deleteOrder.fulfilled,
         (state, action: PayloadAction<string | undefined, string>) => {
           if (state.orders) {
             state.orders.orderItems = state.orders.orderItems.filter(
@@ -79,7 +79,7 @@ const ordersSlice = createSlice({
           }
         }
       )
-      .addCase(deleteOrderItem.rejected, (state, action) => {
+      .addCase(deleteOrder.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload as string;
       })

@@ -1,10 +1,7 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import CartItem from "../CartItem";
-import {
-  deleteOrderItem,
-  fetchOrdersData,
-} from "../../../redux/orders/operations";
+import { deleteOrder, fetchOrdersData } from "../../../redux/orders/operations";
 import { useAppDispatch } from "../../../redux/hooks";
 import { selectOrdersData } from "../../../redux/orders/selectors";
 import {
@@ -32,7 +29,7 @@ const CartList: React.FC<CartListProps> = ({ closeCart }) => {
   const ordersId = cartData?._id;
 
   const handleDelete = () => {
-    dispatch(deleteOrderItem(ordersId!)).then(() => {
+    dispatch(deleteOrder(ordersId!)).then(() => {
       dispatch(fetchOrdersData());
     });
   };

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { PAYMENT_METHOD } from "constants/order";
 import {
   CheckboxContainer,
   CheckboxInput,
@@ -7,14 +9,20 @@ import {
   SubmitButton,
   SubmitWrapper,
 } from "./Submit.styles";
-import { Link, useNavigate, useParams } from "react-router-dom";
 
 interface SubmitProps {
   onSubmit: () => void;
   onChange: (checked: boolean) => void;
+  isFormValid: boolean;
+  paymentMethod: string;
 }
 
-const Submit: React.FC<SubmitProps> = ({ onSubmit, onChange }) => {
+const Submit: React.FC<SubmitProps> = ({
+  onSubmit,
+  onChange,
+  isFormValid,
+  paymentMethod,
+}) => {
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
   const { id } = useParams();
   // console.log(id);
@@ -22,9 +30,14 @@ const Submit: React.FC<SubmitProps> = ({ onSubmit, onChange }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    if (isCheckboxChecked) {
+    if (isCheckboxChecked && isFormValid) {
       onSubmit();
-      navigate(`/payment/${id}`);
+
+      if (paymentMethod === PAYMENT_METHOD.card) {
+        navigate(`/payment/${id}`);
+      } else {
+        navigate(`/confirmation/${id}`);
+      }
     }
   };
 
@@ -36,16 +49,23 @@ const Submit: React.FC<SubmitProps> = ({ onSubmit, onChange }) => {
     <SubmitWrapper>
       <CheckboxContainer>
         <CheckboxLabel>
-          <CheckboxInput type="checkbox" onChange={handleInputChange} />
-          <span>
+          <CheckboxInput
+            type="checkbox"
+            onChange={handleInputChange}
+            aria-describedby="terms"
+          />
+          <span id="terms">
             Відправляючи це замовлення, я підтверджую, що прочитав та згоден(а)
             з Умовами користування
           </span>
         </CheckboxLabel>
       </CheckboxContainer>
 
-      <SubmitButton onClick={handleClick} disabled={!isCheckboxChecked}>
-        <Link to={`/payment/${id}`}>Підтвердити замовлення</Link>{" "}
+      <SubmitButton
+        onClick={handleClick}
+        disabled={!isCheckboxChecked || !isFormValid}
+      >
+        Підтвердити замовлення
       </SubmitButton>
       <ContinueButton>Продовжити покупки</ContinueButton>
     </SubmitWrapper>

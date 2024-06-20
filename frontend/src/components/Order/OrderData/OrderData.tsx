@@ -4,7 +4,6 @@ import {
   Data,
   OrderDataWrapper,
   SmallSubTitle,
-  Text,
 } from "./OrderData.styled";
 
 interface OrderDataProps {
@@ -30,7 +29,8 @@ const OrderData: React.FC<OrderDataProps> = ({
   paymentMethod,
   orderComment,
 }) => {
-  // console.log(deliveryMethod);
+  const renderData = (data: string, placeholder: string) => data || placeholder;
+
   return (
     <OrderDataWrapper>
       <SubTitleBlue>Дані для замовлення</SubTitleBlue>
@@ -38,32 +38,34 @@ const OrderData: React.FC<OrderDataProps> = ({
       <BlockWrapper>
         <SmallSubTitle>Замовник</SmallSubTitle>
         <Data>
-          <span>{customerName ? customerName : "Вкажіть ім’я"}</span>{" "}
-          <span>{customerLastName ? customerLastName : "та прізвище"}</span>
+          <span>{renderData(customerName, "Вкажіть ім’я")}</span>
+          {" "}
+          <span>{renderData(customerLastName, "та прізвище")}</span>
         </Data>
-        <Data>{customerEmail ? customerEmail : "Вкажіть email"}</Data>
-        <Data>{customerPhone ? customerPhone : "Вкажіть номер телефону"}</Data>
+        <Data>{renderData(customerEmail, "Вкажіть email")}</Data>
+        <Data>{renderData(customerPhone, "Вкажіть номер телефону")}</Data>
       </BlockWrapper>
 
       <BlockWrapper>
         <SmallSubTitle>Доставка</SmallSubTitle>
-        <Text>{deliveryMethod && deliveryMethod}</Text>
+        <Data>{deliveryMethod && deliveryMethod}</Data>
         <Data>
-          {deliveryCity && deliveryAddress
-            ? `${deliveryCity} ${deliveryAddress}`
-            : "Вкажіть адресу доставки"}
+          {renderData(
+            `${deliveryCity} ${deliveryAddress}`,
+            "Вкажіть адресу доставки"
+          )}
         </Data>
       </BlockWrapper>
 
       <BlockWrapper>
         <SmallSubTitle>Оплата</SmallSubTitle>
-        <Data>{paymentMethod ? paymentMethod : "Виберіть спосіб оплати"}</Data>
+        <Data>{renderData(paymentMethod, "Виберіть спосіб оплати")}</Data>
       </BlockWrapper>
 
       <BlockWrapper>
         <SmallSubTitle>Коментар</SmallSubTitle>
         <Data>
-          {orderComment ? orderComment : "Залиште коментар (опціонально)"}
+          {renderData(orderComment, "Залиште коментар (опціонально)")}
         </Data>
       </BlockWrapper>
     </OrderDataWrapper>
