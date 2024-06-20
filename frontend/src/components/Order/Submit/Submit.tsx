@@ -8,6 +8,7 @@ import {
   SubmitWrapper,
 } from "./Submit.styles";
 import { useNavigate, useParams } from "react-router-dom";
+import { PAYMENT_METHOD } from "constants/order";
 
 interface SubmitProps {
   onSubmit: () => void;
@@ -32,7 +33,7 @@ const Submit: React.FC<SubmitProps> = ({
     if (isCheckboxChecked && isFormValid) {
       onSubmit();
 
-      if (paymentMethod === "Онлайн оплата карткою") {
+      if (paymentMethod === PAYMENT_METHOD.card) {
         navigate(`/payment/${id}`);
       } else {
         navigate(`/confirmation/${id}`);

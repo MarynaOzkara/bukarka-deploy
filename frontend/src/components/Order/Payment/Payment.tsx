@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { SubTitle, Wrapper, Label } from "../OrderCommonStyled";
 import { RadioButton, RadioInput, RadioWrapper } from "./Payment.styled";
+import { PAYMENT_METHOD } from "constants/order";
 
 interface PaymentDataProps {
   setPaymentMethod: React.Dispatch<React.SetStateAction<string>>;
@@ -25,30 +26,30 @@ const Payment: React.FC<PaymentDataProps> = ({ setPaymentMethod }) => {
             name="payment"
             type="radio"
             value="option1"
-            checked={selectedRadio === "Онлайн оплата карткою"}
-            onChange={() => handleOptionChange("Онлайн оплата карткою")}
+            checked={selectedRadio === PAYMENT_METHOD.card}
+            onChange={() => handleOptionChange(PAYMENT_METHOD.card)}
           />
-          <span>Онлайн оплата карткою</span>
+          <span>{PAYMENT_METHOD.card}</span>
         </RadioButton>
         <RadioButton>
           <RadioInput
             name="payment"
             type="radio"
             value="option2"
-            checked={selectedRadio === "Післяплата"}
-            onChange={() => handleOptionChange("Післяплата")}
+            checked={selectedRadio === PAYMENT_METHOD.postpaid}
+            onChange={() => handleOptionChange(PAYMENT_METHOD.postpaid)}
           />
-          <span>Післяплата</span>
+          <span>{PAYMENT_METHOD.postpaid}</span>
         </RadioButton>
         <RadioButton>
           <RadioInput
             name="payment"
             type="radio"
             value="option3"
-            checked={selectedRadio === "За реквізитами"}
-            onChange={() => handleOptionChange("За реквізитами")}
+            checked={selectedRadio === PAYMENT_METHOD.requisites}
+            onChange={() => handleOptionChange(PAYMENT_METHOD.requisites)}
           />
-          <span>За реквізитами</span>
+          <span>{PAYMENT_METHOD.requisites}</span>
         </RadioButton>
       </RadioWrapper>
     </Wrapper>
