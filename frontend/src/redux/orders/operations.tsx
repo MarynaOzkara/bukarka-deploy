@@ -60,8 +60,8 @@ export const updateItemQuantity = createAsyncThunk(
   }
 );
 
-export const deleteOrderItem = createAsyncThunk<string | undefined, string>(
-  "orders/deleteOrderItem",
+export const deleteOrder = createAsyncThunk<string | undefined, string>(
+  "orders/deleteOrder",
   async (orderItemId: string, { rejectWithValue }) => {
     try {
       const response = await instance.delete(`/api/orders/${orderItemId}`);

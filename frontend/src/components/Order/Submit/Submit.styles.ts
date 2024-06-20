@@ -65,6 +65,7 @@ export const SubmitButton = styled.button`
   margin-bottom: 16px;
 
   background: var(--bukarka-orange);
+  color: var(--bukarka-black);
   border: 2px solid var(--bukarka-orange);
 
   font-family: var(--bold);
@@ -74,19 +75,16 @@ export const SubmitButton = styled.button`
 
   & a {
     color: var(--bukarka-black);
-    
+
     &:active {
       color: var(--bukarka-yellow);
     }
-
-
   }
 
   &:hover:not(:disabled),
   &:focus:not(:disabled) {
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
   }
-
 
   &:disabled {
     background: var(--bukarka-grey);

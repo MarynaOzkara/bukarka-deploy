@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import * as yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useOrderContext } from "components/Order/OrderContext";
 import { VisaIcon } from "assets/icons";
+import { validationPaymentPageSchema } from "utils/validationSchema";
 import { useAppDispatch } from "../../redux/hooks";
 import { fetchOrderById } from "../../redux/orders/operations";
 import { StyleSheetManager } from "styled-components";
@@ -41,9 +43,12 @@ const PaymentPage: React.FC = () => {
   const [cardNumber, setCardNumber] = useState("");
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
-  const [CVV, setCVV] = useState("");
+  const [cvv, setCvv] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [orderNumber, setOrderNumber] = useState("");
+  const [errors, setErrors] = useState<string[]>([]);
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const { id } = useParams<{ id: string }>();
   // console.log(id);
@@ -52,8 +57,6 @@ const PaymentPage: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const { totalQuantity, deliveryPrice, bookPrice } = useOrderContext();
-
-  const [orderNumber, setOrderNumber] = useState("");
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -97,6 +100,28 @@ const PaymentPage: React.FC = () => {
     );
   }, []);
 
+  useEffect(() => {
+    const validateForm = async () => {
+      try {
+        await validationPaymentPageSchema.validate(
+          {
+            cardNumber,
+            month,
+            year,
+            cvv,
+            email,
+            phone,
+          },
+          { abortEarly: false }
+        );
+        setIsFormValid(true);
+      } catch (error) {
+        setIsFormValid(false);
+      }
+    };
+    validateForm();
+  }, [cardNumber, month, year, cvv, email, phone]);
+
   const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let formattedNumber = e.target.value
       .replace(/\s/g, "")
@@ -114,7 +139,7 @@ const PaymentPage: React.FC = () => {
   };
 
   const handleCVVChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCVV(e.target.value);
+    setCvv(e.target.value);
   };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -125,19 +150,31 @@ const PaymentPage: React.FC = () => {
     setPhone(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    // e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setErrors([]);
 
-    console.log("Form submitted:", {
+    const paymentData = {
       cardNumber,
       month,
       year,
-      CVV,
+      cvv,
       email,
       phone,
-    });
+    };
 
-    navigate(`/confirmation/${id}`);
+    try {
+      await validationPaymentPageSchema.validate(paymentData, {
+        abortEarly: false,
+      });
+      console.log("Form submitted:", paymentData);
+      navigate(`/confirmation/${id}`);
+    } catch (error) {
+      if (error instanceof yup.ValidationError) {
+        console.error(error.errors);
+        setErrors(error.errors);
+      }
+    }
   };
 
   return (
@@ -157,9 +194,10 @@ const PaymentPage: React.FC = () => {
                   <SubTitle>Онлайн оплата карткою</SubTitle>
                   <VisaIcon />
                 </CardHeader>
-                <Label>Номер картки:</Label>
+                <Label htmlFor="cardNumber">Номер картки:</Label>
                 <NumberInput
                   type="text"
+                  id="cardNumber"
                   value={cardNumber}
                   placeholder="XXXX XXXX XXXX XXXX"
                   maxLength={19}
@@ -192,8 +230,8 @@ const PaymentPage: React.FC = () => {
                     <span>Код CVV2:</span>
                     <CVVInput
                       type="text"
-                      maxLength={4}
-                      value={CVV}
+                      maxLength={3}
+                      value={cvv}
                       onChange={handleCVVChange}
                     />
                   </DateLabel>
@@ -202,7 +240,7 @@ const PaymentPage: React.FC = () => {
               <Info>
                 <SubTitleBlue>Інформація про оплату</SubTitleBlue>
                 <OrderNumber>
-                  Замовлення №{" "}
+                  Замовлення №
                   {orderNumber ? orderNumber : <span>Повідомимо пізніше</span>}
                 </OrderNumber>
 
@@ -240,9 +278,20 @@ const PaymentPage: React.FC = () => {
                 onChange={handlePhoneChange}
               />
             </Payment>
-            <SubmitButton type="submit" orderNumber={orderNumber}>
+            <SubmitButton
+              type="submit"
+              orderNumber={orderNumber}
+              disabled={!isFormValid}
+            >
               Оплатити замовлення
             </SubmitButton>
+            {errors.length > 0 && (
+              <div>
+                {errors.map((error, index) => (
+                  <p key={index}>{error}</p>
+                ))}
+              </div>
+            )}
           </form>
         </PaymentPageWrapper>
       </StyledCommonWrapper>

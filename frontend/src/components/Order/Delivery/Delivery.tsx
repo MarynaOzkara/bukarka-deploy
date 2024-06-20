@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import getNovaPoshtaCities from "utils/getNovaPoshtaCities";
 import { Label, SubTitle, Wrapper } from "../OrderCommonStyled";
 import {
   AddressInput,
@@ -10,7 +11,7 @@ import {
   RadioInput,
   RadioWrapper,
 } from "./Delivery.styled";
-import getNovaPoshtaCities from "helpers/getNovaPoshtaCities";
+import { DELIVERY_METHOD } from "constants/order";
 
 interface DeliveryDataProps {
   setDeliveryMethod: React.Dispatch<React.SetStateAction<string>>;
@@ -55,7 +56,7 @@ const Delivery: React.FC<DeliveryDataProps> = ({
   const handleCityInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim();
     setCity(value);
-    // setDeliveryCity(value);
+    setDeliveryCity(value);
 
     if (value !== "") {
       setShowOptions(true);
@@ -63,10 +64,8 @@ const Delivery: React.FC<DeliveryDataProps> = ({
       setShowOptions(false);
     }
 
-    // setShowOptions(e.target.value.trim() !== "");
-    // setShowOptions(true);
-
-    // console.log(city);
+    setAddress("");
+    setDeliveryAddress("");
   };
 
   const handleAddressInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,22 +96,29 @@ const Delivery: React.FC<DeliveryDataProps> = ({
     <Wrapper>
       <SubTitle>Доставка</SubTitle>
       <FreeInfo>Безкоштовно при замовленні на суму від 500 грн.</FreeInfo>
-      <Label>Місто*</Label>
+      <Label htmlFor="cityInput">Місто*</Label>
       <CityInput
+        id="cityInput"
         type="text"
         placeholder="Введіть назву населеного пункту"
         value={city}
         onChange={handleCityInputChange}
+        autoComplete="off"
       />
       {showOptions && (
-        <Options>
+        <Options role="listbox">
           {options
             .filter((option) =>
               option.toLowerCase().startsWith(city.toLowerCase())
             )
             .slice(0, 3)
             .map((option) => (
-              <Option key={option} onClick={() => handleOptionClick(option)}>
+              <Option
+                key={option}
+                role="option"
+                aria-selected="false"
+                onClick={() => handleOptionClick(option)}
+              >
                 {option}
               </Option>
             ))}
@@ -125,54 +131,58 @@ const Delivery: React.FC<DeliveryDataProps> = ({
           <RadioInput
             type="radio"
             value="option1"
-            checked={selectedRadio === "Самовивіз з відділення Укрпошти"}
-            onChange={() =>
-              handleOptionChange("Самовивіз з відділення Укрпошти")
-            }
-            
+            checked={selectedRadio === DELIVERY_METHOD.ukrPoshta}
+            onChange={() => handleOptionChange(DELIVERY_METHOD.ukrPoshta)}
           />
-          <span>Самовивіз з відділення Укрпошти</span>
+          <span>{DELIVERY_METHOD.ukrPoshta}</span>
         </RadioButton>
         <RadioButton>
           <RadioInput
             type="radio"
             value="option2"
-            checked={selectedRadio === "Самовивіз з відділення Нової Пошти"}
+            checked={selectedRadio === DELIVERY_METHOD.novaPoshtaBranch}
             onChange={() =>
-              handleOptionChange("Самовивіз з відділення Нової Пошти")
+              handleOptionChange(DELIVERY_METHOD.novaPoshtaBranch)
             }
           />
-          <span>Самовивіз з відділення Нової Пошти</span>
+          <span>{DELIVERY_METHOD.novaPoshtaBranch}</span>
         </RadioButton>
         <RadioButton>
           <RadioInput
             type="radio"
             value="option3"
-            checked={selectedRadio === "Самовивіз з поштомату Нової Пошти"}
+            checked={selectedRadio === DELIVERY_METHOD.novaPoshtaParcelLocker}
             onChange={() =>
-              handleOptionChange("Самовивіз з поштомату Нової Пошти")
+              handleOptionChange(DELIVERY_METHOD.novaPoshtaParcelLocker)
             }
           />
-          <span>Самовивіз з поштомату Нової Пошти</span>
+          <span>{DELIVERY_METHOD.novaPoshtaParcelLocker}</span>
         </RadioButton>
         <RadioButton>
           <RadioInput
             type="radio"
             value="option4"
-            checked={selectedRadio === "Доставка кур’єром Нової Пошти"}
-            onChange={() => handleOptionChange("Доставка кур’єром Нової Пошти")}
+            checked={selectedRadio === DELIVERY_METHOD.novaPoshtaCourier}
+            onChange={() =>
+              handleOptionChange(DELIVERY_METHOD.novaPoshtaCourier)
+            }
           />
-          <span>Доставка кур’єром Нової Пошти</span>
+          <span>{DELIVERY_METHOD.novaPoshtaCourier}</span>
         </RadioButton>
       </RadioWrapper>
 
-      <Label>Введіть адресу доставки*</Label>
-      <AddressInput
-        type="text"
-        placeholder="Наприклад, бульвар Т.Шевченко, буд. 20, кв. 15"
-        value={address}
-        onChange={handleAddressInputChange}
-      />
+      {selectedRadio === DELIVERY_METHOD.novaPoshtaCourier && (
+        <div>
+          <Label htmlFor="address">Введіть адресу доставки*</Label>
+          <AddressInput
+            id="address"
+            type="text"
+            placeholder="Наприклад, бульвар Т.Шевченко, буд. 20, кв. 15"
+            value={address}
+            onChange={handleAddressInputChange}
+          />
+        </div>
+      )}
     </Wrapper>
   );
 };

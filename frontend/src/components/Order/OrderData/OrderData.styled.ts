@@ -21,6 +21,7 @@ export const Data = styled.p`
   font-size: 16px;
   line-height: 1.5;
   color: var(--bukarka-dark-grey);
+  word-wrap: break-word;
 `;
 
 export const SmallSubTitle = styled.p`

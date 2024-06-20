@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import * as yup from "yup";
 import PersonalData from "components/Order/PersonalData";
 import Delivery from "components/Order/Delivery";
 import Payment from "components/Order/Payment";
@@ -9,6 +10,12 @@ import OrderData from "components/Order/OrderData";
 import Submit from "components/Order/Submit";
 import { useAppDispatch } from "../../redux/hooks";
 import { updateOrderInfo } from "../../redux/orders/operations";
+import {
+  validationCommentSchema,
+  validationDeliverySchema,
+  validationPaymentSchema,
+  validationPersonalDataSchema,
+} from "utils/validationSchema";
 import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
   FlexWrapper,
@@ -20,6 +27,7 @@ import {
 
 const OrderPage: React.FC = () => {
   const [isChecked, setIsChecked] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const [customerName, setCustomerName] = useState<string>("");
   const [customerLastName, setCustomerLastName] = useState<string>("");
@@ -34,11 +42,65 @@ const OrderPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    const validateForm = async () => {
+      try {
+        await validationPersonalDataSchema.validate(
+          {
+            name: customerName,
+            lastName: customerLastName,
+            email: customerEmail,
+            phone: customerPhone,
+          },
+          { abortEarly: false }
+        );
+        await validationDeliverySchema.validate(
+          {
+            city: deliveryCity,
+            address: deliveryAddress,
+            deliveryMethod: deliveryMethod,
+          },
+          { abortEarly: false }
+        );
+        await validationPaymentSchema.validate(
+          {
+            payment: paymentMethod,
+          },
+          { abortEarly: false }
+        );
+        await validationCommentSchema.validate(
+          {
+            comment: orderComment,
+          },
+          { abortEarly: false }
+        );
+
+        setIsFormValid(true);
+      } catch (errors) {
+        if (errors instanceof yup.ValidationError) {
+          setIsFormValid(false);
+        }
+      }
+    };
+
+    validateForm();
+  }, [
+    customerName,
+    customerLastName,
+    customerEmail,
+    customerPhone,
+    deliveryCity,
+    deliveryAddress,
+    deliveryMethod,
+    paymentMethod,
+    orderComment,
+  ]);
+
   const handleCheckboxChange = (checked: boolean) => {
     setIsChecked(checked);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const customerInfo = {
       name: customerName,
       surname: customerLastName,
@@ -50,9 +112,46 @@ const OrderPage: React.FC = () => {
       comment: orderComment,
     };
 
-    console.log(customerInfo);
+    // console.log(customerInfo);
 
-    dispatch(updateOrderInfo({ id, customerInfo }));
+    try {
+      await validationPersonalDataSchema.validate(
+        {
+          name: customerName,
+          lastName: customerLastName,
+          email: customerEmail,
+          phone: customerPhone,
+        },
+        { abortEarly: false }
+      );
+      await validationDeliverySchema.validate(
+        {
+          city: deliveryCity,
+          address: deliveryAddress,
+          deliveryMethod: deliveryMethod,
+        },
+        { abortEarly: false }
+      );
+      await validationPaymentSchema.validate(
+        {
+          payment: paymentMethod,
+        },
+        { abortEarly: false }
+      );
+      await validationCommentSchema.validate(
+        {
+          comment: orderComment,
+        },
+        { abortEarly: false }
+      );
+
+      // console.log(customerInfo);
+      dispatch(updateOrderInfo({ id, customerInfo }));
+    } catch (errors) {
+      if (errors instanceof yup.ValidationError) {
+        console.error(errors.errors);
+      }
+    }
   };
 
   return (
@@ -89,7 +188,12 @@ const OrderPage: React.FC = () => {
               paymentMethod={paymentMethod}
               orderComment={orderComment}
             />
-            <Submit onChange={handleCheckboxChange} onSubmit={handleSubmit} />
+            <Submit
+              onChange={handleCheckboxChange}
+              onSubmit={handleSubmit}
+              isFormValid={isFormValid}
+              paymentMethod={paymentMethod}
+            />
           </RightPart>
         </FlexWrapper>
       </OrderPageWrapper>
