@@ -52,13 +52,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
 
   const dispatch = useAppDispatch();
 
-  const deleteFromLocalStorage = () => {
-    localStorage.removeItem(`isBookAdded_${bookId}`);
-  };
-
   const handleDelete = (id: string) => {
-    deleteFromLocalStorage();
-
     dispatch(deleteItem(id)).then(() => {
       dispatch(fetchOrdersData());
     });
