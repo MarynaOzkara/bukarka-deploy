@@ -2,8 +2,13 @@ import { images } from "assets/images";
 import BookRating from "components/BookRating";
 import Modal from "components/Modal";
 import { Price } from "pages/CommonPages.styled";
-import { useState } from "react";
-import { ButtonOrange, ButtonYellow } from "styles/CommonStyled";
+import { useCallback, useState } from "react";
+import {
+  ButtonOrange,
+  ButtonYellow,
+  TextCenter,
+  Wrapper,
+} from "styles/CommonStyled";
 import { IBookItem } from "types/Books";
 import { BookImage } from "../BookPage.styled";
 import PictureViewer from "../PictureViewer/PictureViewer";
@@ -18,6 +23,10 @@ import {
   Separator,
 } from "./BookContent.styled";
 
+import { addToCart, fetchOrdersData } from "../../../redux/orders/operations";
+import { useAppDispatch } from "../../../redux/hooks";
+import Cart from "components/Cart";
+
 interface IBookContentProps {
   book: IBookItem;
 }
@@ -25,6 +34,8 @@ interface IBookContentProps {
 const BookContent: React.FC<IBookContentProps> = ({ book }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalContent, setModalContent] = useState<string>("");
+
+  const dispatch = useAppDispatch();
 
   const showModal = (content: string) => {
     setModalContent(content);
@@ -35,6 +46,26 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
     setModalContent("");
     setIsModalOpen(false);
   };
+
+  const handleBuy = useCallback(async () => {
+    if (!localStorage.getItem(`isBookAdded_${book._id}`)) {
+      localStorage.setItem(`isBookAdded_${book._id}`, "true");
+      await dispatch(addToCart(book._id));
+      await dispatch(fetchOrdersData());
+    }
+    showModal("cart");
+  }, [book._id, dispatch]);
+
+  const handleAddToCart = useCallback(async () => {
+    if (localStorage.getItem(`isBookAdded_${book._id}`)) {
+      showModal("isBookAdded");
+    } else {
+      await dispatch(addToCart(book._id));
+      await dispatch(fetchOrdersData());
+      localStorage.setItem(`isBookAdded_${book._id}`, "true");
+    }
+  }, [book._id, dispatch]);
+
   return (
     <>
       {!!book && (
@@ -47,8 +78,12 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
             />
             {!!book.imagesUrls && (
               <div>
-                {book.imagesUrls.map((img) => (
-                  <img src={img || images.imagePlaceholder} alt="img" />
+                {book.imagesUrls.map((img, index) => (
+                  <img
+                    key={index}
+                    src={img || images.imagePlaceholder}
+                    alt="img"
+                  />
                 ))}
               </div>
             )}
@@ -70,9 +105,9 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
                 <span>Жанр</span>
                 <span>
                   {(!!book.genre &&
-                    book.genre.map((genre) => <> {genre} </>)) || (
-                    <span>-</span>
-                  )}
+                    book.genre.map((genre, ind) => (
+                      <span key={ind}> {genre} </span>
+                    ))) || <span>-</span>}
                 </span>
               </li>
 
@@ -107,12 +142,22 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
             <Price>
               {book.price}&nbsp;грн.<span></span>
             </Price>
-            <ButtonOrange style={{ width: "296px" }}>Купити</ButtonOrange>
-            <ButtonYellow style={{ width: "296px" }}>До кошика</ButtonYellow>
+            <ButtonOrange style={{ width: "296px" }} onClick={handleBuy}>
+              Купити
+            </ButtonOrange>
+            <ButtonYellow style={{ width: "296px" }} onClick={handleAddToCart}>
+              До кошика
+            </ButtonYellow>
           </ButtonContainer>
           {isModalOpen && (
             <Modal close={closeModal} showCloseButton={true} animation="slide">
               {modalContent === "pic-viewer" && <PictureViewer book={book} />}
+              {modalContent === "isBookAdded" && (
+                <Wrapper>
+                  <TextCenter>Книга вже є в кошику!</TextCenter>
+                </Wrapper>
+              )}
+              {modalContent === "cart" && <Cart closeCart={closeModal} />}
             </Modal>
           )}
         </BookContentWrapper>
