@@ -1,13 +1,16 @@
 import { PageWrapper, StyledCommonWrapper } from "styles/CommonStyled";
 import CategorySlider from "../components/Home/CategorySlider/CategorySlider";
 import React from "react";
+import BannerBlock from "components/Home/BannerBlock/BannerBlock";
+import Subscribe from "components/Subscribe";
 
 const HomePage: React.FC = () => {
   return (
     <StyledCommonWrapper>
       <PageWrapper>
-        <h1>HomePage</h1>
+        <BannerBlock />
         <CategorySlider />
+        <Subscribe />
       </PageWrapper>
     </StyledCommonWrapper>
   );
