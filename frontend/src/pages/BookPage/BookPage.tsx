@@ -15,7 +15,7 @@ const BookPage: React.FC = () => {
     const loadBook = async () => {
       await fetchBookById(id);
     };
-    !!id && loadBook();
+    id && loadBook();
   }, [fetchBookById, id]);
 
   const { books, fetchBooks } = useBooks();
@@ -30,9 +30,11 @@ const BookPage: React.FC = () => {
 
   return (
     <PageLayout book={book}>
-      {!!book ? <BookContent book={book} /> : <div>No book data</div>}
+      {book ? <BookContent book={book} /> : <div>No book data</div>}
       <Label>Вас може зацікавити</Label>
-      <TextCenter>{!!books && <SimpleSlider data={books} />}</TextCenter>
+      <TextCenter>
+        {books.length > 0 && <SimpleSlider data={books} />}
+      </TextCenter>
     </PageLayout>
   );
 };

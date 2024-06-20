@@ -42,21 +42,22 @@ const PageLayout: React.FC<IPageLayoutProps> = ({
         {label ? (
           <Label>{label}</Label>
         ) : (
-          !!books && (
+          books &&
+          books.length > 0 && (
             <>
               <BreadCrumbs>Каталог | {category} </BreadCrumbs>
               <Label>{link || subcategory || category || "Усі книги"}</Label>
             </>
           )
         )}
-        {!!book && (
+        {book && (
           <>
             <BreadCrumbs>Каталог | {book.category} </BreadCrumbs>
             <Label> {book.subcategory} </Label>
           </>
         )}
         <FlexWrap>{children}</FlexWrap>
-        {!!books && !!books.length && (
+        {books && books.length > 0 && (
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}

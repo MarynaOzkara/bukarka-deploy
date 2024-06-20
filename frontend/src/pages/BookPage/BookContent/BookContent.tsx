@@ -68,7 +68,7 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
 
   return (
     <>
-      {!!book && (
+      {book && (
         <BookContentWrapper>
           <BookImage id={book._id} onClick={() => showModal("pic-viewer")}>
             <img
@@ -76,7 +76,7 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
               alt={`${book.author} ${book.title} `}
               title={`${book.author} ${book.title} `}
             />
-            {!!book.imagesUrls && (
+            {book.imagesUrls.length > 0 && (
               <div>
                 {book.imagesUrls.map((img, index) => (
                   <img
@@ -104,7 +104,7 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
               <li>
                 <span>Жанр</span>
                 <span>
-                  {(!!book.genre &&
+                  {(book.genre &&
                     book.genre.map((genre, ind) => (
                       <span key={ind}> {genre} </span>
                     ))) || <span>-</span>}
@@ -134,7 +134,7 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
             </DescTable>
             <Separator />
             <Description>
-              {!!book.description && <b>Про автора</b>}
+              {book.description && <b>Про автора</b>}
               <p>{book.description}</p>
             </Description>
           </BookDescription>
@@ -151,7 +151,12 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
           </ButtonContainer>
           {isModalOpen && (
             <Modal close={closeModal} showCloseButton={true} animation="slide">
-              {modalContent === "pic-viewer" && <PictureViewer book={book} />}
+              {modalContent === "pic-viewer" && (
+                <PictureViewer
+                  image={book.image}
+                  imagesUrls={book.imagesUrls}
+                />
+              )}
               {modalContent === "isBookAdded" && (
                 <Wrapper>
                   <TextCenter>Книга вже є в кошику!</TextCenter>
