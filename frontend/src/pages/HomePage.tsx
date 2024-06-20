@@ -2,6 +2,7 @@ import { PageWrapper, StyledCommonWrapper } from "styles/CommonStyled";
 import CategorySlider from "../components/Home/CategorySlider/CategorySlider";
 import React from "react";
 import BannerBlock from "components/Home/BannerBlock/BannerBlock";
+import Subscribe from "components/Subscribe";
 
 const HomePage: React.FC = () => {
   return (
@@ -9,6 +10,7 @@ const HomePage: React.FC = () => {
       <PageWrapper>
         <BannerBlock />
         <CategorySlider />
+        <Subscribe />
       </PageWrapper>
     </StyledCommonWrapper>
   );
