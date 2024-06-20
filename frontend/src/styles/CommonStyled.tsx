@@ -29,12 +29,6 @@ export const PageWrapper = styled.div`
 
   margin-top: 88px;
   background-color: var(--bukarka-white);
-
-  //todo
-  h1 {
-    visibility: hidden;
-  }
-  //todo end  */
 `;
 
 // export const InfoPageWrapper = styled.div`
