@@ -10,6 +10,12 @@ import OrderData from "components/Order/OrderData";
 import Submit from "components/Order/Submit";
 import { useAppDispatch } from "../../redux/hooks";
 import { updateOrderInfo } from "../../redux/orders/operations";
+import {
+  validationCommentSchema,
+  validationDeliverySchema,
+  validationPaymentSchema,
+  validationPersonalDataSchema,
+} from "utils/validationSchema";
 import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
   FlexWrapper,
@@ -18,12 +24,6 @@ import {
   RightPart,
   Title,
 } from "./OrderPage.styled";
-import {
-  validationCommentSchema,
-  validationDeliverySchema,
-  validationPaymentSchema,
-  validationPersonalDataSchema,
-} from "utils/validationSchema";
 
 const OrderPage: React.FC = () => {
   const [isChecked, setIsChecked] = useState(false);
@@ -112,7 +112,7 @@ const OrderPage: React.FC = () => {
       comment: orderComment,
     };
 
-    console.log(customerInfo);
+    // console.log(customerInfo);
 
     try {
       await validationPersonalDataSchema.validate(
@@ -145,7 +145,7 @@ const OrderPage: React.FC = () => {
         { abortEarly: false }
       );
 
-      console.log(customerInfo);
+      // console.log(customerInfo);
       dispatch(updateOrderInfo({ id, customerInfo }));
     } catch (errors) {
       if (errors instanceof yup.ValidationError) {

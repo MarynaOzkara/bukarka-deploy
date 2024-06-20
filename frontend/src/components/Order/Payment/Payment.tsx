@@ -1,7 +1,7 @@
 import { useState } from "react";
+import { PAYMENT_METHOD } from "constants/order";
 import { SubTitle, Wrapper, Label } from "../OrderCommonStyled";
 import { RadioButton, RadioInput, RadioWrapper } from "./Payment.styled";
-import { PAYMENT_METHOD } from "constants/order";
 
 interface PaymentDataProps {
   setPaymentMethod: React.Dispatch<React.SetStateAction<string>>;

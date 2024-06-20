@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { PAYMENT_METHOD } from "constants/order";
 import {
   CheckboxContainer,
   CheckboxInput,
@@ -7,8 +9,6 @@ import {
   SubmitButton,
   SubmitWrapper,
 } from "./Submit.styles";
-import { useNavigate, useParams } from "react-router-dom";
-import { PAYMENT_METHOD } from "constants/order";
 
 interface SubmitProps {
   onSubmit: () => void;

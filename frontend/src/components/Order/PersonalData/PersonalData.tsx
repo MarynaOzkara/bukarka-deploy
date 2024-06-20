@@ -1,8 +1,7 @@
 import { useState } from "react";
-import * as yup from "yup";
+import { validationPersonalDataSchema } from "utils/validationSchema";
 import { Label, SubTitle, Wrapper } from "../OrderCommonStyled";
 import { Input, PersonalDataInputs } from "./PersonalData.styled";
-import { validationPersonalDataSchema } from "utils/validationSchema";
 
 interface PersonalDataProps {
   setCustomerName: React.Dispatch<React.SetStateAction<string>>;

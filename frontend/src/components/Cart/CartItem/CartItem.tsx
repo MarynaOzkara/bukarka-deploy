@@ -6,6 +6,7 @@ import {
   updateItemQuantity,
 } from "../../../redux/orders/operations";
 import { useAppDispatch } from "../../../redux/hooks";
+import { truncateString } from "utils/truncateString";
 import {
   Title,
   Author,
@@ -23,7 +24,6 @@ import {
   StyledCartItem,
   TotalPrice,
 } from "./CartItem.styled";
-import { truncateString } from "utils/truncateString";
 
 type CartItemProps = {
   item: {
@@ -47,7 +47,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
   const { title, author, price, image } = item.product;
   const { imagePlaceholder } = images;
   const bookId = item.product._id;
-  console.log(bookId);
+  // console.log(bookId);
   // console.log(item, title, author, price, quantity);
 
   const dispatch = useAppDispatch();
