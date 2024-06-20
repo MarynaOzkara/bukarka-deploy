@@ -1,4 +1,4 @@
-import { LensIcon, Logo } from "assets/icons";
+import { Logo } from "assets/icons";
 import styled from "styled-components";
 
 export const StyledHeader = styled.div`

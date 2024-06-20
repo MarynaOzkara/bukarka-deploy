@@ -40,9 +40,7 @@ const CatalogPage: React.FC = () => {
 
   return (
     <PageLayout books={books}>
-      {!!books.length && books.length > 1 && (
-        <Sort onSortChange={handleSortChange} />
-      )}
+      {books && books.length > 1 && <Sort onSortChange={handleSortChange} />}
 
       {<Outlet context={{ books }} /> || <SectionContent data={books} />}
     </PageLayout>

@@ -145,7 +145,7 @@ const Search: React.FC = () => {
       />
       {showHints && (
         <Hints ref={hintsRef}>
-          {!!hints && !!hints.length ? (
+          {hints && hints.length > 0 ? (
             hints.map((hint, index) => (
               <li
                 className={`${index === highlightedIndex ? "highlighted" : ""}`}

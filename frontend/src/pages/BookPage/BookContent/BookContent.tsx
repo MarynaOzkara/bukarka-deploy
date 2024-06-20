@@ -1,39 +1,100 @@
 import { images } from "assets/images";
 import BookRating from "components/BookRating";
-import { StyledPrice } from "pages/CommonPages.styled";
-import { ButtonOrange, ButtonYellow } from "styles/CommonStyled";
+import Modal from "components/Modal";
+import { Price } from "pages/CommonPages.styled";
+import { useCallback, useState } from "react";
+import {
+  ButtonOrange,
+  ButtonYellow,
+  TextCenter,
+  Wrapper,
+} from "styles/CommonStyled";
 import { IBookItem } from "types/Books";
+import { BookImage } from "../BookPage.styled";
+import PictureViewer from "../PictureViewer/PictureViewer";
 import {
   BookContentWrapper,
+  BookDescription,
   BookSubTitle,
   BookTitle,
+  ButtonContainer,
   DescTable,
   Description,
   Separator,
-  StyledBookDescription,
-  StyledBookImage,
-  StyledButtonContainer,
 } from "./BookContent.styled";
+
+import { addToCart, fetchOrdersData } from "../../../redux/orders/operations";
+import { useAppDispatch } from "../../../redux/hooks";
+import Cart from "components/Cart";
 
 interface IBookContentProps {
   book: IBookItem;
 }
 
 const BookContent: React.FC<IBookContentProps> = ({ book }) => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalContent, setModalContent] = useState<string>("");
+
+  const dispatch = useAppDispatch();
+
+  const showModal = (content: string) => {
+    setModalContent(content);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalContent("");
+    setIsModalOpen(false);
+  };
+
+  const handleBuy = useCallback(async () => {
+    if (!localStorage.getItem(`isBookAdded_${book._id}`)) {
+      localStorage.setItem(`isBookAdded_${book._id}`, "true");
+      await dispatch(addToCart(book._id));
+      await dispatch(fetchOrdersData());
+    }
+    showModal("cart");
+  }, [book._id, dispatch]);
+
+  const handleAddToCart = useCallback(async () => {
+    if (localStorage.getItem(`isBookAdded_${book._id}`)) {
+      showModal("isBookAdded");
+    } else {
+      await dispatch(addToCart(book._id));
+      await dispatch(fetchOrdersData());
+      localStorage.setItem(`isBookAdded_${book._id}`, "true");
+    }
+  }, [book._id, dispatch]);
+
   return (
     <>
-      {!!book && (
+      {book && (
         <BookContentWrapper>
-          <StyledBookImage id={book._id}>
+          <BookImage id={book._id} onClick={() => showModal("pic-viewer")}>
             <img
               src={book.image || images.imagePlaceholder}
               alt={`${book.author} ${book.title} `}
+              title={`${book.author} ${book.title} `}
             />
-          </StyledBookImage>
-          <StyledBookDescription>
+            {book.imagesUrls.length > 0 && (
+              <div>
+                {book.imagesUrls.map((img, index) => (
+                  <img
+                    key={index}
+                    src={img || images.imagePlaceholder}
+                    alt="img"
+                  />
+                ))}
+              </div>
+            )}
+          </BookImage>
+          <BookDescription>
             <BookTitle>{book.title}</BookTitle>
             <BookSubTitle>{book.author}</BookSubTitle>
             <BookRating rating={book.rating} />
+            <Description>
+              <p>{book.description}</p>
+            </Description>
             <Separator />
             <DescTable>
               <li>
@@ -43,10 +104,10 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
               <li>
                 <span>Жанр</span>
                 <span>
-                  {(!!book.genre &&
-                    book.genre.map((genre) => <> {genre} </>)) || (
-                    <span>-</span>
-                  )}
+                  {(book.genre &&
+                    book.genre.map((genre, ind) => (
+                      <span key={ind}> {genre} </span>
+                    ))) || <span>-</span>}
                 </span>
               </li>
 
@@ -73,17 +134,37 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
             </DescTable>
             <Separator />
             <Description>
-              {!!book.description && <b>Про автора</b>}
+              {book.description && <b>Про автора</b>}
               <p>{book.description}</p>
             </Description>
-          </StyledBookDescription>
-          <StyledButtonContainer>
-            <StyledPrice>
+          </BookDescription>
+          <ButtonContainer>
+            <Price>
               {book.price}&nbsp;грн.<span></span>
-            </StyledPrice>
-            <ButtonOrange style={{ width: "296px" }}>Купити</ButtonOrange>
-            <ButtonYellow style={{ width: "296px" }}>До кошика</ButtonYellow>
-          </StyledButtonContainer>
+            </Price>
+            <ButtonOrange style={{ width: "296px" }} onClick={handleBuy}>
+              Купити
+            </ButtonOrange>
+            <ButtonYellow style={{ width: "296px" }} onClick={handleAddToCart}>
+              До кошика
+            </ButtonYellow>
+          </ButtonContainer>
+          {isModalOpen && (
+            <Modal close={closeModal} showCloseButton={true} animation="slide">
+              {modalContent === "pic-viewer" && (
+                <PictureViewer
+                  imagesUrls={book.imagesUrls}
+                  image={book.image}
+                />
+              )}
+              {modalContent === "isBookAdded" && (
+                <Wrapper>
+                  <TextCenter>Книга вже є в кошику!</TextCenter>
+                </Wrapper>
+              )}
+              {modalContent === "cart" && <Cart closeCart={closeModal} />}
+            </Modal>
+          )}
         </BookContentWrapper>
       )}
     </>

@@ -153,7 +153,7 @@ export const BreadCrumbs = styled.h6`
   margin: 1rem 0;
 `;
 
-export const StyledPrice = styled.div`
+export const Price = styled.div`
   font-family: "Montserrat-Bold";
   font-weight: 700;
   font-size: 16px;

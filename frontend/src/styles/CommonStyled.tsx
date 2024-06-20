@@ -90,7 +90,7 @@ export const FlexWrap = styled(FlexWrapper)`
   position: relative;
 `;
 
-export const TextCenter = styled.p`
+export const TextCenter = styled.div`
   margin: 0 auto;
 `;
 
