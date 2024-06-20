@@ -3,7 +3,7 @@ import { FlexWrapper } from "styles/CommonStyled";
 import { BookImage } from "../BookPage.styled";
 
 export const StyledFlexWrapper = styled(FlexWrapper)`
-  padding: 40px;
+  padding: 50px;
   gap: 3rem;
   align-items: center;
   & span {

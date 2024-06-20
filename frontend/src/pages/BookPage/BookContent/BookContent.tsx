@@ -153,8 +153,8 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
             <Modal close={closeModal} showCloseButton={true} animation="slide">
               {modalContent === "pic-viewer" && (
                 <PictureViewer
-                  image={book.image}
                   imagesUrls={book.imagesUrls}
+                  image={book.image}
                 />
               )}
               {modalContent === "isBookAdded" && (

@@ -33,7 +33,7 @@ const BookPage: React.FC = () => {
       {book ? <BookContent book={book} /> : <div>No book data</div>}
       <Label>Вас може зацікавити</Label>
       <TextCenter>
-        {books.length > 0 && <SimpleSlider data={books} />}
+        {books && books.length > 0 && <SimpleSlider data={books} />}
       </TextCenter>
     </PageLayout>
   );
