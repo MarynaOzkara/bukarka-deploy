@@ -7,6 +7,7 @@ interface IFavProps {
 }
 
 const Favorites: React.FC<IFavProps> = ({ books }) => {
+  console.log(books);
   return (
     <>
       {books.length ? (

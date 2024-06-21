@@ -2,27 +2,36 @@ import { Favorites } from "components";
 import { useBooks } from "components/Book";
 import { PageLayout } from "components/Layout";
 import { useEffect, useState } from "react";
-import { TextCenter } from "styles/CommonStyled";
+import { useSearchParams } from "react-router-dom";
 
 const FavoritePage: React.FC = () => {
-  const { books = [] } = useBooks();
-
-  const [favorites, setFavorites] = useState<string[]>([]);
+  const { favorites, fetchFavorites } = useBooks();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [ids, setIds] = useState(
+    JSON.parse(localStorage.getItem("favorites") || "[]")
+  );
+  const [sortBy, setSortBy] = useState("");
+  const [orderSort, setOrderSort] = useState("asc");
 
   useEffect(() => {
-    const savedFavorites = JSON.parse(
-      localStorage.getItem("favorites") || "[]"
-    );
-    setFavorites(savedFavorites);
+    setIds(JSON.parse(localStorage.getItem("favorites") || "[]"));
+  }, [favorites]);
+
+  useEffect(() => {
+    const page = Number(searchParams.get("page")) || 1;
+
+    console.log(ids);
+    const loadFavorites = async () => {
+      await fetchFavorites(ids, page, sortBy, orderSort);
+    };
+    loadFavorites();
   }, []);
 
-  const favoriteBooks = books.length
-    ? books.filter((book) => book && favorites.includes(book._id))
-    : [];
+  console.log(favorites);
 
   return (
-    <PageLayout label="Обране" books={favoriteBooks}>
-      {<Favorites books={favoriteBooks} />}
+    <PageLayout label="Обране" books={favorites}>
+      {<Favorites books={favorites} />}
     </PageLayout>
   );
 };
