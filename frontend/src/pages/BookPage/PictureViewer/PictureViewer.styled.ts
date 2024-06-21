@@ -20,5 +20,7 @@ export const StyledFlexWrapper = styled(FlexWrapper)`
 export const StyledBookImage = styled(BookImage)`
   & img {
     height: 672px;
+    width: 440px;
+    object-fit: cover;
   }
 `;
