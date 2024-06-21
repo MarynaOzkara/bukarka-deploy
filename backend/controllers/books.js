@@ -89,6 +89,7 @@ const filtersBooks = async (req, res) => {
     ratingMax,
     sortBy,
     orderSort,
+    ids,
   } = req.query;
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 12;
@@ -147,6 +148,11 @@ const filtersBooks = async (req, res) => {
   }
   if (sortBy && orderSort) {
     sort[sortBy] = orderSort === "asc" ? 1 : -1;
+  }
+
+  if (ids) {
+    match._id = {};
+    match._id.$in = ids;
   }
 
   const books = await Book.find(match).skip(skip).limit(limit).sort(sort);
