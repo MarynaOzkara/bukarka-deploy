@@ -8,37 +8,39 @@ interface IProp {
 }
 
 export const FavoriteButton: React.FC<IProp> = ({ itemId }) => {
-  const [favorites, setFavorites] = useState<string[]>([]);
+  const [favoriteIds, setFavoriteIds] = useState<string[]>(
+    JSON.parse(localStorage.getItem("favorites") || "[]")
+  );
+
+  const getSavedIds = () => {
+    return JSON.parse(localStorage.getItem("favorites") || "[]");
+  };
 
   useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
-
-  useEffect(() => {
-    const savedFavorites = JSON.parse(
-      localStorage.getItem("favorites") || "[]"
-    );
-    setFavorites(savedFavorites);
-  }, []);
-
-  const isFavorite = favorites.includes(itemId);
+    localStorage.setItem("favorites", JSON.stringify(favoriteIds));
+  }, [favoriteIds]);
 
   const addFavorite = useCallback((id: string) => {
-    setFavorites((prevFavorites) => [...prevFavorites, id]);
+    const savedFavorites = getSavedIds();
+    setFavoriteIds(() => [...savedFavorites, id]);
   }, []);
 
   const removeFavorite = useCallback((id: string) => {
-    setFavorites((prevFavorites) => prevFavorites.filter((fav) => fav !== id));
+    const savedFavorites = getSavedIds();
+    setFavoriteIds(() => savedFavorites.filter((fav: string) => fav !== id));
   }, []);
 
   const toggleFavorite = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (isFavorite) {
+
+    if (favoriteIds.includes(itemId)) {
       removeFavorite(itemId);
     } else {
       addFavorite(itemId);
     }
   };
+
+  const isFavorite = favoriteIds.includes(itemId);
 
   return (
     <StyledHeart $isFavorite={isFavorite} onClick={toggleFavorite}>
