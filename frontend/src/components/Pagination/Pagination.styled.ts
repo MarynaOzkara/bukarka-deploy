@@ -12,6 +12,10 @@ export const PaginationWrapper = styled(FlexWrapper)`
     padding: 0.5rem;
   }
 
+  svg path {
+    stroke: var(--bukarka-dark-grey);
+  }
+
   .active {
     background: var(--bukarka-yellow);
   }
