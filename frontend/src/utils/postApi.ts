@@ -1,6 +1,11 @@
 import axios from "axios";
 
-const getNovaPoshtaCities = async () => {
+interface City {
+  Description: string;
+  Ref: string;
+}
+
+export const getNovaPoshtaCities = async (): Promise<string[]> => {
   try {
     const apiKey = process.env.NOVAPOSHTA_API_KEY;
 
@@ -16,9 +21,9 @@ const getNovaPoshtaCities = async () => {
     const response = await axios.post(apiEndpoint, requestData);
 
     // console.log(response);
-    const cities = response.data.data;
+    const cities: City[] = response.data.data;
 
-    const cityDescriptions = cities.map((city) => city.Description);
+    const cityDescriptions = cities.map((city: City) => city.Description);
 
     return cityDescriptions;
   } catch (error) {
@@ -26,5 +31,3 @@ const getNovaPoshtaCities = async () => {
     throw new Error("Помилка отримання переліку міст з API Нової пошти");
   }
 };
-
-export default getNovaPoshtaCities;

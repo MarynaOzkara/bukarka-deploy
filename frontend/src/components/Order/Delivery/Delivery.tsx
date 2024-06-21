@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import getNovaPoshtaCities from "utils/getNovaPoshtaCities";
+import { getNovaPoshtaCities } from "utils/postApi";
 import { Label, SubTitle, Wrapper } from "../OrderCommonStyled";
 import {
   AddressInput,
