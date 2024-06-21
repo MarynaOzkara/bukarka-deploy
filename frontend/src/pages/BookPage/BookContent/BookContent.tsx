@@ -20,12 +20,14 @@ import {
   ButtonContainer,
   DescTable,
   Description,
+  FavoriteButtonContainer,
   Separator,
 } from "./BookContent.styled";
 
-import { addToCart, fetchOrdersData } from "../../../redux/orders/operations";
-import { useAppDispatch } from "../../../redux/hooks";
 import Cart from "components/Cart";
+import FavoriteButton from "components/FavoriteButton";
+import { useAppDispatch } from "../../../redux/hooks";
+import { addToCart, fetchOrdersData } from "../../../redux/orders/operations";
 
 interface IBookContentProps {
   book: IBookItem;
@@ -70,14 +72,23 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
     <>
       {book && (
         <BookContentWrapper>
-          <BookImage id={book._id} onClick={() => showModal("pic-viewer")}>
+          <BookImage
+            id={book._id}
+            onClick={() => showModal("pic-viewer")}
+            style={{ cursor: "pointer" }}
+          >
             <img
               src={book.image || images.imagePlaceholder}
               alt={`${book.author} ${book.title} `}
               title={`${book.author} ${book.title} `}
             />
+
+            <FavoriteButtonContainer>
+              <FavoriteButton itemId={book._id} />
+            </FavoriteButtonContainer>
+
             {book.imagesUrls.length > 0 && (
-              <div>
+              <div className="images-set">
                 {book.imagesUrls.map((img, index) => (
                   <img
                     key={index}

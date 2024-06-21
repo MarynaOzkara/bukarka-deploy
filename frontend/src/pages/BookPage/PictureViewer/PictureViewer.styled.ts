@@ -10,6 +10,11 @@ export const StyledFlexWrapper = styled(FlexWrapper)`
     font-size: 3rem;
     font-weight: 300;
   }
+
+  & button {
+    width: auto;
+    background: none;
+  }
 `;
 
 export const StyledBookImage = styled(BookImage)`

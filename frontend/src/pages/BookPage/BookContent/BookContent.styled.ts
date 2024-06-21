@@ -62,3 +62,9 @@ export const Description = styled.div`
     line-height: 24px;
   }
 `;
+
+export const FavoriteButtonContainer = styled.div`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+`;

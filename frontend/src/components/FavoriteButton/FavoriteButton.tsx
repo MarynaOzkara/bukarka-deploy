@@ -31,7 +31,8 @@ export const FavoriteButton: React.FC<IProp> = ({ itemId }) => {
     setFavorites((prevFavorites) => prevFavorites.filter((fav) => fav !== id));
   }, []);
 
-  const toggleFavorite = () => {
+  const toggleFavorite = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (isFavorite) {
       removeFavorite(itemId);
     } else {
