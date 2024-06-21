@@ -1,5 +1,6 @@
 import React from "react";
 import { PaginationWrapper } from "./Pagination.styled";
+import { SliderArrowIcon } from "assets/icons";
 
 interface IPaginationProps {
   currentPage: number;
@@ -24,28 +25,54 @@ const Pagination: React.FC<IPaginationProps> = ({
     }
   };
 
+  const handlePageClick = (page: number) => {
+    onPageChange(page);
+  };
+
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.min(5, totalPages); i++) {
+      pageNumbers.push(
+        <button
+          key={i}
+          className={i === currentPage ? "active" : ""}
+          onClick={() => handlePageClick(i)}
+        >
+          {i}
+        </button>
+      );
+    }
+    if (totalPages > 5) {
+      pageNumbers.push(<span key="ellipsis">...</span>);
+      pageNumbers.push(
+        <button
+          key={totalPages}
+          className={totalPages === currentPage ? "active" : ""}
+          onClick={() => handlePageClick(totalPages)}
+        >
+          {totalPages}
+        </button>
+      );
+    }
+    return pageNumbers;
+  };
+
   return (
     <PaginationWrapper>
-      <button
-        className="material-symbols-outlined"
+      <SliderArrowIcon
+        stroke="var(--bukarka-dark-grey)"
+        style={{ transform: "rotate(180deg)" }}
         onClick={handlePrevious}
         disabled={currentPage === 1}
-      >
-        arrow_back
-      </button>
+      />
 
-      <span>
-        <small> Page </small> <b> {currentPage} </b> <small> of </small>
-        <b> {totalPages} </b>
-      </span>
+      {renderPageNumbers()}
 
-      <button
-        className="material-symbols-outlined"
+      <SliderArrowIcon
+        stroke="var(--bukarka-dark-grey)"
         onClick={handleNext}
         disabled={currentPage === totalPages}
-      >
-        arrow_forward
-      </button>
+      />
     </PaginationWrapper>
   );
 };
