@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const BookImage = styled.section`
   position: relative;
-  flex-direction: column;
   flex-shrink: 0;
 
   & img {

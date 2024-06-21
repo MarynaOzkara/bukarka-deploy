@@ -39,7 +39,7 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
 
   const dispatch = useAppDispatch();
 
-  const showModal = (content: string) => {
+  const showModal = (content: string, img?: string) => {
     setModalContent(content);
     setIsModalOpen(true);
   };
@@ -81,20 +81,17 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
             />
             <FavoriteButtonContainer>
               <FavoriteButton itemId={book._id} />
-            </FavoriteButtonContainer>{" "}
+            </FavoriteButtonContainer>
             <BookImageSet>
-              {book.imagesUrls.length > 0 && (
-                <div className="images-set">
-                  {book.imagesUrls.map((img, index) => (
-                    <img
-                      key={index}
-                      src={img || images.imagePlaceholder}
-                      alt="img"
-                      onClick={() => showModal("pic-viewer")}
-                    />
-                  ))}
-                </div>
-              )}
+              {book.imagesUrls.length > 0 &&
+                book.imagesUrls.map((img, index) => (
+                  <img
+                    key={index}
+                    src={img || images.imagePlaceholder}
+                    alt="img"
+                    onClick={() => showModal("pic-viewer", img[index])}
+                  />
+                ))}
             </BookImageSet>
           </BookImage>
 

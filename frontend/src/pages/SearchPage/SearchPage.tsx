@@ -38,7 +38,7 @@ const SearchPage = () => {
       {searchResults && searchResults.length > 1 && (
         <Sort onSortChange={handleSortChange} />
       )}
-      {searchResults && !searchResults.length ? (
+      {searchResults && searchResults.length > 0 ? (
         searchResults.map((result, index) => (
           <BookCard key={index} {...result} />
         ))
