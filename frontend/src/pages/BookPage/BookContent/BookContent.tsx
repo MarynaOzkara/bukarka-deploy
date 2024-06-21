@@ -10,7 +10,7 @@ import {
   Wrapper,
 } from "styles/CommonStyled";
 import { IBookItem } from "types/Books";
-import { BookImage } from "../BookPage.styled";
+import { BookImage, BookImageSet } from "../BookPage.styled";
 import PictureViewer from "../PictureViewer/PictureViewer";
 import {
   BookContentWrapper,
@@ -72,33 +72,32 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
     <>
       {book && (
         <BookContentWrapper>
-          <BookImage
-            id={book._id}
-            onClick={() => showModal("pic-viewer")}
-            style={{ cursor: "pointer" }}
-          >
+          <BookImage id={book._id}>
             <img
               src={book.image || images.imagePlaceholder}
               alt={`${book.author} ${book.title} `}
               title={`${book.author} ${book.title} `}
+              onClick={() => showModal("pic-viewer")}
             />
-
             <FavoriteButtonContainer>
               <FavoriteButton itemId={book._id} />
-            </FavoriteButtonContainer>
-
-            {book.imagesUrls.length > 0 && (
-              <div className="images-set">
-                {book.imagesUrls.map((img, index) => (
-                  <img
-                    key={index}
-                    src={img || images.imagePlaceholder}
-                    alt="img"
-                  />
-                ))}
-              </div>
-            )}
+            </FavoriteButtonContainer>{" "}
+            <BookImageSet>
+              {book.imagesUrls.length > 0 && (
+                <div className="images-set">
+                  {book.imagesUrls.map((img, index) => (
+                    <img
+                      key={index}
+                      src={img || images.imagePlaceholder}
+                      alt="img"
+                      onClick={() => showModal("pic-viewer")}
+                    />
+                  ))}
+                </div>
+              )}
+            </BookImageSet>
           </BookImage>
+
           <BookDescription>
             <BookTitle>{book.title}</BookTitle>
             <BookSubTitle>{book.author}</BookSubTitle>
