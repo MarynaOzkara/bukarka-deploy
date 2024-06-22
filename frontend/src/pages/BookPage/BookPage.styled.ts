@@ -1,15 +1,20 @@
 import styled from "styled-components";
 
 export const BookImage = styled.section`
-  cursor: pointer;
+  position: relative;
   flex-shrink: 0;
 
-  & div {
-    display: flex;
-    gap: 1rem;
+  & img {
+    cursor: pointer;
+  }
+`;
 
-    & img {
-      width: 88px;
-    }
+export const BookImageSet = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+
+  & img {
+    width: 88px;
   }
 `;

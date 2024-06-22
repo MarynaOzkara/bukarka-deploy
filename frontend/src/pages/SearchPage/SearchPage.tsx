@@ -20,7 +20,7 @@ const SearchPage = () => {
       await handleSearch(keyword, page, sortBy, orderSort);
     };
     loadData();
-  }, [searchParams, sortBy, orderSort]);
+  }, [searchParams]);
 
   const handleSortChange = (sortKey: string, sortOrder: string) => {
     setSortBy(sortKey);
@@ -38,7 +38,7 @@ const SearchPage = () => {
       {searchResults && searchResults.length > 1 && (
         <Sort onSortChange={handleSortChange} />
       )}
-      {searchResults && !searchResults.length ? (
+      {searchResults && searchResults.length > 0 ? (
         searchResults.map((result, index) => (
           <BookCard key={index} {...result} />
         ))

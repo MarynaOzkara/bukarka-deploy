@@ -43,8 +43,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       link?: string,
       page?: number,
       sortBy?: string,
-      orderSort?: string,
-      limit?: number
+      orderSort?: string
     ) => {
       try {
         const response = await instance.get<IBooksDataResponse>(
@@ -57,7 +56,6 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
               page,
               sortBy,
               orderSort,
-              limit,
             },
           }
         );
@@ -90,14 +88,18 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       keyword?: string,
       page?: number,
       sortBy?: string,
-      orderSort?: string,
-      limit?: number
+      orderSort?: string
     ) => {
       try {
         const response = await instance.get<IBooksDataResponse>(
           "/api/books/filters",
           {
-            params: { keyword, page, sortBy, orderSort, limit },
+            params: {
+              keyword,
+              page,
+              sortBy,
+              orderSort,
+            },
           }
         );
 

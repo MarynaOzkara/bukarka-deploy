@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 interface StyledHeartProps extends React.HTMLAttributes<HTMLDivElement> {
   $isFavorite: boolean;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent) => void;
 }
 
 export const StyledHeart = styled.div<StyledHeartProps>`

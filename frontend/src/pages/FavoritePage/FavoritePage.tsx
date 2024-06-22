@@ -1,28 +1,41 @@
-import { Favorites } from "components";
-import { useBooks } from "components/Book";
+import { Favorites, Sort } from "components";
+import { useFavorites } from "components/Favorites/FavoritesContext";
 import { PageLayout } from "components/Layout";
 import { useEffect, useState } from "react";
-import { TextCenter } from "styles/CommonStyled";
+import { useSearchParams } from "react-router-dom";
 
 const FavoritePage: React.FC = () => {
-  const { books = [] } = useBooks();
-
-  const [favorites, setFavorites] = useState<string[]>([]);
+  const { favorites, favoriteIds, fetchFavoritesForGuest } = useFavorites();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [sortBy, setSortBy] = useState("");
+  const [orderSort, setOrderSort] = useState("asc");
 
   useEffect(() => {
-    const savedFavorites = JSON.parse(
-      localStorage.getItem("favorites") || "[]"
-    );
-    setFavorites(savedFavorites);
-  }, []);
+    const page = Number(searchParams.get("page")) || 1;
 
-  const favoriteBooks = books.length
-    ? books.filter((book) => book && favorites.includes(book._id))
-    : [];
+    const loadFavorites = async () => {
+      await fetchFavoritesForGuest(favoriteIds, page, sortBy, orderSort);
+    };
+    loadFavorites();
+  }, [searchParams, favoriteIds]);
+
+  const handleSortChange = (sortKey: string, sortOrder: string) => {
+    setSortBy(sortKey);
+    setOrderSort(sortOrder);
+    setSearchParams({
+      page: "1",
+      sortBy: sortKey,
+      orderSort: sortOrder,
+      ids: favoriteIds.join(","),
+    });
+  };
 
   return (
-    <PageLayout label="Обране" books={favoriteBooks}>
-      {<Favorites books={favoriteBooks} />}
+    <PageLayout label="Обране" books={favorites}>
+      {favorites && favorites.length > 1 && (
+        <Sort onSortChange={handleSortChange} />
+      )}
+      <Favorites favorites={favorites} />
     </PageLayout>
   );
 };

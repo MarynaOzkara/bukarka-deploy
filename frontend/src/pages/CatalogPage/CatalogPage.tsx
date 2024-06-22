@@ -20,17 +20,7 @@ const CatalogPage: React.FC = () => {
     };
 
     loadData();
-  }, [
-    category,
-    subcategory,
-    link,
-    searchParams,
-    currentPage,
-    orderSort,
-    sortBy,
-    setCurrentPage,
-    fetchBooks,
-  ]);
+  }, [searchParams]);
 
   const handleSortChange = (sortKey: string, sortOrder: string) => {
     setSortBy(sortKey);

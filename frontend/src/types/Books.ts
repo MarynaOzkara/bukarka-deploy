@@ -20,26 +20,7 @@ export interface Books {
   _id: string;
 }
 
-export interface IBookItem
-  extends Pick<
-    Books,
-    | "_id"
-    | "title"
-    | "author"
-    | "price"
-    | "rating"
-    | "category"
-    | "subcategory"
-    | "description"
-    | "age"
-    | "cover"
-    | "format"
-    | "language"
-    | "pages"
-    | "publisher"
-    | "year"
-    | "genre"
-  > {
+export interface IBookItem extends Books {
   image: string;
   index: number;
   imagesUrls: [];
@@ -58,8 +39,8 @@ export interface IBooksContextType {
   hints: IBookItem[];
   totalPages: number;
   currentPage: number;
-  setCurrentPage: (page: number) => void;
   searchResults: IBookItem[];
+  setCurrentPage: (page: number) => void;
   fetchHints: (keyword?: string) => Promise<void>;
   handleSearch: (
     keyword: string,

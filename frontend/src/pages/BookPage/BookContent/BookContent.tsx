@@ -10,7 +10,7 @@ import {
   Wrapper,
 } from "styles/CommonStyled";
 import { IBookItem } from "types/Books";
-import { BookImage } from "../BookPage.styled";
+import { BookImage, BookImageSet } from "../BookPage.styled";
 import PictureViewer from "../PictureViewer/PictureViewer";
 import {
   BookContentWrapper,
@@ -20,12 +20,14 @@ import {
   ButtonContainer,
   DescTable,
   Description,
+  FavoriteButtonContainer,
   Separator,
 } from "./BookContent.styled";
 
-import { addToCart, fetchOrdersData } from "../../../redux/orders/operations";
-import { useAppDispatch } from "../../../redux/hooks";
 import Cart from "components/Cart";
+import FavoriteButton from "components/FavoriteButton";
+import { useAppDispatch } from "../../../redux/hooks";
+import { addToCart, fetchOrdersData } from "../../../redux/orders/operations";
 
 interface IBookContentProps {
   book: IBookItem;
@@ -37,7 +39,7 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
 
   const dispatch = useAppDispatch();
 
-  const showModal = (content: string) => {
+  const showModal = (content: string, img?: string) => {
     setModalContent(content);
     setIsModalOpen(true);
   };
@@ -70,24 +72,29 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
     <>
       {book && (
         <BookContentWrapper>
-          <BookImage id={book._id} onClick={() => showModal("pic-viewer")}>
+          <BookImage id={book._id}>
             <img
               src={book.image || images.imagePlaceholder}
               alt={`${book.author} ${book.title} `}
               title={`${book.author} ${book.title} `}
+              onClick={() => showModal("pic-viewer")}
             />
-            {book.imagesUrls.length > 0 && (
-              <div>
-                {book.imagesUrls.map((img, index) => (
+            <FavoriteButtonContainer>
+              <FavoriteButton itemId={book._id} />
+            </FavoriteButtonContainer>
+            <BookImageSet>
+              {book.imagesUrls.length > 0 &&
+                book.imagesUrls.map((img, index) => (
                   <img
                     key={index}
                     src={img || images.imagePlaceholder}
                     alt="img"
+                    onClick={() => showModal("pic-viewer", img[index])}
                   />
                 ))}
-              </div>
-            )}
+            </BookImageSet>
           </BookImage>
+
           <BookDescription>
             <BookTitle>{book.title}</BookTitle>
             <BookSubTitle>{book.author}</BookSubTitle>
