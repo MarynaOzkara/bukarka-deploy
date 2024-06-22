@@ -172,19 +172,15 @@ const getBooksByIds = async (req, res) => {
   const limit = parseInt(req.query.limit) || 12;
   const skip = (page - 1) * limit;
 
-  const match = {};
+  const match = {
+    _id: {
+      $in: ids || [],
+    },
+  };
   const sort = {};
 
   if (sortBy && orderSort) {
     sort[sortBy] = orderSort === "asc" ? 1 : -1;
-  }
-
-  if (ids) {
-    match._id = {};
-    match._id.$in = ids;
-  } else {
-    match._id = {};
-    match._id.$in = [];
   }
 
   const books = await Book.find(match).skip(skip).limit(limit).sort(sort);
