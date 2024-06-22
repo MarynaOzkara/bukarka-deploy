@@ -7,6 +7,7 @@ import { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import combineProviders from "utils/combineProviders";
 import Layout from "./components/Layout/Layout";
+import { FavoritesProvider } from "components/Favorites/FavoritesContext";
 
 const HomePage = lazy(() => import("pages/HomePage"));
 const NotFoundPage = lazy(() => import("pages/NotFoundPage"));
@@ -22,7 +23,11 @@ const FavoritePage = lazy(() => import("pages/FavoritePage"));
 const SearchPage = lazy(() => import("pages/SearchPage"));
 const SectionContent = lazy(() => import("pages/CatalogPage/SectionContent"));
 
-const Providers = combineProviders(BooksContextProvider, OrderContextProvider);
+const Providers = combineProviders(
+  BooksContextProvider,
+  OrderContextProvider,
+  FavoritesProvider
+);
 
 function App() {
   return (

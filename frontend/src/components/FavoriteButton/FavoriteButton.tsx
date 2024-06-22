@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useFavorites } from "components/Favorites/FavoritesContext";
+import React from "react";
 import { HeartIconThin } from "../../assets/icons";
 import { StyledHeart } from "./FavoriteButton.styled";
 
@@ -8,27 +9,7 @@ interface IProp {
 }
 
 export const FavoriteButton: React.FC<IProp> = ({ itemId }) => {
-  const [favoriteIds, setFavoriteIds] = useState<string[]>(
-    JSON.parse(localStorage.getItem("favorites") || "[]")
-  );
-
-  const getSavedIds = () => {
-    return JSON.parse(localStorage.getItem("favorites") || "[]");
-  };
-
-  useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favoriteIds));
-  }, [favoriteIds]);
-
-  const addFavorite = useCallback((id: string) => {
-    const savedFavorites = getSavedIds();
-    setFavoriteIds(() => [...savedFavorites, id]);
-  }, []);
-
-  const removeFavorite = useCallback((id: string) => {
-    const savedFavorites = getSavedIds();
-    setFavoriteIds(() => savedFavorites.filter((fav: string) => fav !== id));
-  }, []);
+  const { favoriteIds, addFavorite, removeFavorite } = useFavorites();
 
   const toggleFavorite = (e: React.MouseEvent) => {
     e.stopPropagation();

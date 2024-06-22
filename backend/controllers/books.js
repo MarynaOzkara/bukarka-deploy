@@ -89,7 +89,6 @@ const filtersBooks = async (req, res) => {
     ratingMax,
     sortBy,
     orderSort,
-    ids,
   } = req.query;
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 12;
@@ -150,9 +149,42 @@ const filtersBooks = async (req, res) => {
     sort[sortBy] = orderSort === "asc" ? 1 : -1;
   }
 
+  const books = await Book.find(match).skip(skip).limit(limit).sort(sort);
+  const total = await Book.countDocuments(match);
+  if (!books) {
+    throw HttpError(404, "Books not found");
+  }
+  if (total === 0) {
+    res.status(404).json({ massage: "Books not found" });
+  }
+
+  res.status(200).json({
+    total,
+    page,
+    limit,
+    books,
+  });
+};
+
+const getBooksByIds = async (req, res) => {
+  const { sortBy, orderSort, ids } = req.query;
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 12;
+  const skip = (page - 1) * limit;
+
+  const match = {};
+  const sort = {};
+
+  if (sortBy && orderSort) {
+    sort[sortBy] = orderSort === "asc" ? 1 : -1;
+  }
+
   if (ids) {
     match._id = {};
     match._id.$in = ids;
+  } else {
+    match._id = {};
+    match._id.$in = [];
   }
 
   const books = await Book.find(match).skip(skip).limit(limit).sort(sort);
@@ -190,4 +222,5 @@ module.exports = {
   getPromotions: ctrlWrapper(getPromotions),
   filtersBooks: ctrlWrapper(filtersBooks),
   getBookById: ctrlWrapper(getBookById),
+  getBooksByIds: ctrlWrapper(getBooksByIds),
 };

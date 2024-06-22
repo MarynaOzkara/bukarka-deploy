@@ -1,32 +1,27 @@
 import { Favorites, Sort } from "components";
-import { useBooks } from "components/Book";
+import { useFavorites } from "components/Favorites/FavoritesContext";
 import { PageLayout } from "components/Layout";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 const FavoritePage: React.FC = () => {
-  const { favorites, fetchFavoritesForGuest } = useBooks();
+  const { favorites, favoriteIds, fetchFavoritesForGuest } = useFavorites();
   const [searchParams, setSearchParams] = useSearchParams();
   const [sortBy, setSortBy] = useState("");
   const [orderSort, setOrderSort] = useState("asc");
-  const [ids, setIds] = useState(
-    JSON.parse(localStorage.getItem("favorites") || "[]")
-  );
-
-  useEffect(() => {
-    setIds(JSON.parse(localStorage.getItem("favorites") || "[]"));
-  }, [favorites]);
 
   useEffect(() => {
     const page = Number(searchParams.get("page")) || 1;
-
-    const ids = JSON.parse(localStorage.getItem("favorites") || "[]");
-
+    console.log(favoriteIds);
+    setSearchParams({
+      page: "1",
+      ids: favoriteIds.join(","),
+    });
     const loadFavorites = async () => {
-      await fetchFavoritesForGuest(ids, page, sortBy, orderSort);
+      await fetchFavoritesForGuest(favoriteIds, page, sortBy, orderSort);
     };
     loadFavorites();
-  }, [searchParams]);
+  }, [searchParams, favoriteIds]);
 
   const handleSortChange = (sortKey: string, sortOrder: string) => {
     setSortBy(sortKey);
@@ -35,7 +30,7 @@ const FavoritePage: React.FC = () => {
       page: "1",
       sortBy: sortKey,
       orderSort: sortOrder,
-      ids,
+      ids: favoriteIds.join(","),
     });
   };
 
@@ -44,7 +39,7 @@ const FavoritePage: React.FC = () => {
       {favorites && favorites.length > 1 && (
         <Sort onSortChange={handleSortChange} />
       )}
-      {<Favorites books={favorites} />}
+      <Favorites favorites={favorites} />
     </PageLayout>
   );
 };

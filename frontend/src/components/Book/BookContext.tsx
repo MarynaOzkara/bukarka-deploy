@@ -28,7 +28,6 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
   const [totalPages, setTotalPages] = useState(1);
   const [searchResults, setSearchResults] = useState<IBookItem[]>([]);
   const [hints, setHints] = useState<IBookItem[]>([]);
-  const [favorites, setFavorites] = useState<IBookItem[]>([]);
 
   const setPages = (books: IBooksDataResponse) => {
     if (books.total && books.limit) {
@@ -119,41 +118,6 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
     []
   );
 
-  const fetchFavoritesForGuest = useCallback(
-    async (
-      ids?: string,
-      page?: number,
-      sortBy?: string,
-      orderSort?: string
-    ) => {
-      try {
-        const response = await instance.get<IBooksDataResponse>(
-          "/api/books/filters",
-          {
-            params: {
-              ids,
-              page,
-              sortBy,
-              orderSort,
-            },
-          }
-        );
-
-        if (response.data.books.length) {
-          setFavorites(response.data.books);
-          setPages(response.data);
-          setCurrentPage(page || 1);
-        } else {
-          setFavorites([]);
-        }
-      } catch (error: any) {
-        console.error("Error fetching data:", error);
-        setFavorites([]);
-      }
-    },
-    []
-  );
-
   const fetchHints = useCallback(async (keyword?: string) => {
     try {
       const response = await instance.get<IBooksDataResponse>(
@@ -181,8 +145,6 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       fetchBookById,
       handleSearch,
       fetchHints,
-      favorites,
-      fetchFavoritesForGuest,
     }),
     [
       books,
@@ -195,8 +157,6 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       fetchBookById,
       handleSearch,
       fetchHints,
-      favorites,
-      fetchFavoritesForGuest,
     ]
   );
 
