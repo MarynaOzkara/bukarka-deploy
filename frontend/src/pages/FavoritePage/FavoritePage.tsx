@@ -12,11 +12,7 @@ const FavoritePage: React.FC = () => {
 
   useEffect(() => {
     const page = Number(searchParams.get("page")) || 1;
-    console.log(favoriteIds);
-    setSearchParams({
-      page: "1",
-      ids: favoriteIds.join(","),
-    });
+
     const loadFavorites = async () => {
       await fetchFavoritesForGuest(favoriteIds, page, sortBy, orderSort);
     };

@@ -92,7 +92,6 @@ export const FavoritesProvider: React.FC<{ children: ReactNode }> = ({
         );
 
         if (response.data.books.length) {
-          console.log(response.data.books);
           setFavorites(response.data.books);
           setPages(response.data);
           setCurrentPage(page || 1);
