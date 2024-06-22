@@ -79,7 +79,7 @@ export interface IBooksContextType {
   ) => Promise<void>;
   fetchBookById: (id?: string) => Promise<void>;
   favorites: IBookItem[];
-  fetchFavorites: (
+  fetchFavoritesForGuest: (
     ids: string,
     page: number,
     sortBy?: string,

@@ -44,8 +44,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       link?: string,
       page?: number,
       sortBy?: string,
-      orderSort?: string,
-      limit?: number
+      orderSort?: string
     ) => {
       try {
         const response = await instance.get<IBooksDataResponse>(
@@ -58,7 +57,6 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
               page,
               sortBy,
               orderSort,
-              limit,
             },
           }
         );
@@ -91,14 +89,18 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       keyword?: string,
       page?: number,
       sortBy?: string,
-      orderSort?: string,
-      limit?: number
+      orderSort?: string
     ) => {
       try {
         const response = await instance.get<IBooksDataResponse>(
           "/api/books/filters",
           {
-            params: { keyword, page, sortBy, orderSort, limit },
+            params: {
+              keyword,
+              page,
+              sortBy,
+              orderSort,
+            },
           }
         );
 
@@ -117,19 +119,23 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
     []
   );
 
-  const fetchFavorites = useCallback(
+  const fetchFavoritesForGuest = useCallback(
     async (
       ids?: string,
       page?: number,
       sortBy?: string,
-      orderSort?: string,
-      limit?: number
+      orderSort?: string
     ) => {
       try {
         const response = await instance.get<IBooksDataResponse>(
           "/api/books/filters",
           {
-            params: { ids, page, sortBy, orderSort, limit },
+            params: {
+              ids,
+              page,
+              sortBy,
+              orderSort,
+            },
           }
         );
 
@@ -176,7 +182,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       handleSearch,
       fetchHints,
       favorites,
-      fetchFavorites,
+      fetchFavoritesForGuest,
     }),
     [
       books,
@@ -190,7 +196,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       handleSearch,
       fetchHints,
       favorites,
-      fetchFavorites,
+      fetchFavoritesForGuest,
     ]
   );
 
