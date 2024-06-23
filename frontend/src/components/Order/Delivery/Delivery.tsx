@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import {
-  getNovaPoshtaCities,
   getNovaPoshtaCitiesObject,
   getNovaPoshtaWarehouses,
 } from "utils/postApi";
@@ -14,6 +13,8 @@ import {
   RadioButton,
   RadioInput,
   RadioWrapper,
+  WarehouseInput,
+  WarehouseOptions,
 } from "./Delivery.styled";
 import { DELIVERY_METHOD } from "constants/order";
 
@@ -93,8 +94,9 @@ const Delivery: React.FC<DeliveryDataProps> = ({
 
   const handleCityOptionClick = async (value: string) => {
     setCity(value);
+    setDeliveryCity(value);
     setShowCityOptions(false);
-
+  
     const selectedCity = cities.find((city) => city.Description === value);
     if (selectedCity) {
       setCityRef(selectedCity.Ref);
@@ -104,10 +106,26 @@ const Delivery: React.FC<DeliveryDataProps> = ({
       setShowWarehouseOptions(true);
     }
   };
+  
+  const handleAddressInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.trim();
+    setAddress(value);
+    setDeliveryAddress(value);
 
-  const handleAddressInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAddress(e.target.value);
-    setDeliveryAddress(e.target.value);
+    if (selectedRadio === DELIVERY_METHOD.novaPoshtaBranch && cityRef) {
+      if (value !== "") {
+        const filteredWarehouses = warehouseOptions.filter((option) =>
+          option.toLowerCase().includes(value.toLowerCase())
+        );
+        setWarehouseOptions(filteredWarehouses);
+        setShowWarehouseOptions(true);
+      } else {
+        const warehouses = await getNovaPoshtaWarehouses(cityRef);
+        const warehouseDescriptions = warehouses.map((warehouse) => warehouse.Description);
+        setWarehouseOptions(warehouseDescriptions);
+        setShowWarehouseOptions(false);
+      }
+    }
   };
 
   const handleWarehouseOptionClick = (value: string) => {
@@ -224,18 +242,29 @@ const Delivery: React.FC<DeliveryDataProps> = ({
       {selectedRadio === DELIVERY_METHOD.novaPoshtaBranch && (
         <div>
           <Label htmlFor="branch">Оберіть відділення або поштомат*</Label>
-          <Options role="listbox">
-            {warehouseOptions.map((option) => (
-              <Option
-                key={option}
-                role="option"
-                aria-selected="false"
-                onClick={() => handleWarehouseOptionClick(option)}
-              >
-                {option}
-              </Option>
-            ))}
-          </Options>
+          <WarehouseInput
+            id="branch"
+            type="text"
+            placeholder="Введіть адресу відділення"
+            value={address}
+            onChange={handleAddressInputChange}
+          />
+          {showWarehouseOptions && warehouseOptions.length > 0 && (
+            <WarehouseOptions role="listbox">
+              {warehouseOptions
+                .slice(0, 10)
+                .map((option) => (
+                  <Option
+                    key={option}
+                    role="option"
+                    aria-selected="false"
+                    onClick={() => handleWarehouseOptionClick(option)}
+                  >
+                    {option}
+                  </Option>
+                ))}
+            </WarehouseOptions>
+          )}
         </div>
       )}
     </Wrapper>

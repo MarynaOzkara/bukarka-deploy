@@ -17,7 +17,30 @@ export const CityInput = styled.input`
   padding: 8px 16px;
   width: 384px;
   height: 40px;
-  
+
+  background-color: #fff;
+  color: var(--bukarka-black);
+
+  font-family: var(--regular);
+  font-size: 16px;
+  line-height: 1.5;
+
+  &::placeholder {
+    font-family: var(--regular);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--bukarka-dark-grey);
+  }
+`;
+
+export const WarehouseInput = styled.input`
+  margin-bottom: 32px;
+
+  border: 1px solid var(--bukarka-grey);
+  padding: 8px 16px;
+  width: 384px;
+  height: 40px;
+
   background-color: #fff;
   color: var(--bukarka-black);
 
@@ -41,6 +64,17 @@ export const Options = styled.div`
   background-color: #fff;
   border: 1px solid #ccc;
   max-height: 150px;
+  /* overflow-y: auto; */
+`;
+
+export const WarehouseOptions = styled.div`
+  position: absolute;
+  width: 384px;
+  height: auto;
+  margin-top: -31px;
+  z-index: 1;
+  background-color: #fff;
+  border: 1px solid #ccc;
   /* overflow-y: auto; */
 `;
 
@@ -108,7 +142,6 @@ export const RadioInput = styled.input`
     background-color: transparent;
   }
 
-
   &::after {
     content: "";
     position: absolute;
@@ -123,7 +156,6 @@ export const RadioInput = styled.input`
     opacity: 0;
     transition: opacity 0.3s ease;
   }
-
 
   &:checked::after {
     opacity: 1;
