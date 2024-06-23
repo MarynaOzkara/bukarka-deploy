@@ -69,7 +69,9 @@ const Delivery: React.FC<DeliveryDataProps> = ({
     };
   }, []);
 
-  const handleCityInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCityInputChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const value = e.target.value.trim();
     setCity(value);
     setDeliveryCity(value);
@@ -80,7 +82,9 @@ const Delivery: React.FC<DeliveryDataProps> = ({
       if (selectedCity) {
         setCityRef(selectedCity.Ref);
         const warehouses = await getNovaPoshtaWarehouses(selectedCity.Ref);
-        const warehouseDescriptions = warehouses.map((warehouse) => warehouse.Description);
+        const warehouseDescriptions = warehouses.map(
+          (warehouse) => warehouse.Description
+        );
         setWarehouseOptions(warehouseDescriptions);
       }
     } else {
@@ -96,23 +100,31 @@ const Delivery: React.FC<DeliveryDataProps> = ({
     setCity(value);
     setDeliveryCity(value);
     setShowCityOptions(false);
-  
+
     const selectedCity = cities.find((city) => city.Description === value);
     if (selectedCity) {
       setCityRef(selectedCity.Ref);
       const warehouses = await getNovaPoshtaWarehouses(selectedCity.Ref);
-      const warehouseDescriptions = warehouses.map((warehouse) => warehouse.Description);
+      const warehouseDescriptions = warehouses.map(
+        (warehouse) => warehouse.Description
+      );
       setWarehouseOptions(warehouseDescriptions);
       setShowWarehouseOptions(true);
     }
   };
-  
-  const handleAddressInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+
+  const handleAddressInputChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const value = e.target.value.trim();
     setAddress(value);
     setDeliveryAddress(value);
 
-    if (selectedRadio === DELIVERY_METHOD.novaPoshtaBranch && cityRef) {
+    if (
+      (selectedRadio === DELIVERY_METHOD.novaPoshtaBranch ||
+        selectedRadio === DELIVERY_METHOD.novaPoshtaParcelLocker) &&
+      cityRef
+    ) {
       if (value !== "") {
         const filteredWarehouses = warehouseOptions.filter((option) =>
           option.toLowerCase().includes(value.toLowerCase())
@@ -121,7 +133,9 @@ const Delivery: React.FC<DeliveryDataProps> = ({
         setShowWarehouseOptions(true);
       } else {
         const warehouses = await getNovaPoshtaWarehouses(cityRef);
-        const warehouseDescriptions = warehouses.map((warehouse) => warehouse.Description);
+        const warehouseDescriptions = warehouses.map(
+          (warehouse) => warehouse.Description
+        );
         setWarehouseOptions(warehouseDescriptions);
         setShowWarehouseOptions(false);
       }
@@ -239,30 +253,29 @@ const Delivery: React.FC<DeliveryDataProps> = ({
         </div>
       )}
 
-      {selectedRadio === DELIVERY_METHOD.novaPoshtaBranch && (
+      {(selectedRadio === DELIVERY_METHOD.novaPoshtaBranch ||
+        selectedRadio === DELIVERY_METHOD.novaPoshtaParcelLocker) && (
         <div>
           <Label htmlFor="branch">Оберіть відділення або поштомат*</Label>
           <WarehouseInput
             id="branch"
             type="text"
-            placeholder="Введіть адресу відділення"
+            placeholder="Введіть номер або адресу відділення чи поштомату"
             value={address}
             onChange={handleAddressInputChange}
           />
           {showWarehouseOptions && warehouseOptions.length > 0 && (
             <WarehouseOptions role="listbox">
-              {warehouseOptions
-                .slice(0, 10)
-                .map((option) => (
-                  <Option
-                    key={option}
-                    role="option"
-                    aria-selected="false"
-                    onClick={() => handleWarehouseOptionClick(option)}
-                  >
-                    {option}
-                  </Option>
-                ))}
+              {warehouseOptions.slice(0, 10).map((option) => (
+                <Option
+                  key={option}
+                  role="option"
+                  aria-selected="false"
+                  onClick={() => handleWarehouseOptionClick(option)}
+                >
+                  {option}
+                </Option>
+              ))}
             </WarehouseOptions>
           )}
         </div>
