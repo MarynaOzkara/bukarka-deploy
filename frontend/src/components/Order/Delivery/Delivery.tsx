@@ -121,7 +121,7 @@ const Delivery: React.FC<DeliveryDataProps> = ({
     setDeliveryAddress(value);
 
     if (
-      (selectedRadio === DELIVERY_METHOD.novaPoshtaBranch ||
+      (selectedRadio === DELIVERY_METHOD.novaPoshtaWarehouse ||
         selectedRadio === DELIVERY_METHOD.novaPoshtaParcelLocker) &&
       cityRef
     ) {
@@ -209,12 +209,12 @@ const Delivery: React.FC<DeliveryDataProps> = ({
           <RadioInput
             type="radio"
             value="option2"
-            checked={selectedRadio === DELIVERY_METHOD.novaPoshtaBranch}
+            checked={selectedRadio === DELIVERY_METHOD.novaPoshtaWarehouse}
             onChange={() =>
-              handleOptionChange(DELIVERY_METHOD.novaPoshtaBranch)
+              handleOptionChange(DELIVERY_METHOD.novaPoshtaWarehouse)
             }
           />
-          <span>{DELIVERY_METHOD.novaPoshtaBranch}</span>
+          <span>{DELIVERY_METHOD.novaPoshtaWarehouse}</span>
         </RadioButton>
         <RadioButton>
           <RadioInput
@@ -253,12 +253,12 @@ const Delivery: React.FC<DeliveryDataProps> = ({
         </div>
       )}
 
-      {(selectedRadio === DELIVERY_METHOD.novaPoshtaBranch ||
+      {(selectedRadio === DELIVERY_METHOD.novaPoshtaWarehouse ||
         selectedRadio === DELIVERY_METHOD.novaPoshtaParcelLocker) && (
         <div>
-          <Label htmlFor="branch">Оберіть відділення або поштомат*</Label>
+          <Label htmlFor="warehouse">Оберіть відділення або поштомат*</Label>
           <WarehouseInput
-            id="branch"
+            id="warehouse"
             type="text"
             placeholder="Введіть номер або адресу відділення чи поштомату"
             value={address}
