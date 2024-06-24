@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import CartItem from "../CartItem";
 import { deleteOrder, fetchOrdersData } from "../../../redux/orders/operations";
@@ -24,6 +24,7 @@ type CartListProps = {
 
 const CartList: React.FC<CartListProps> = ({ closeCart }) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const cartData = useSelector(selectOrdersData);
 
   const ordersId = cartData?._id;
@@ -54,6 +55,16 @@ const CartList: React.FC<CartListProps> = ({ closeCart }) => {
     0
   );
 
+  const handleCheckout = () => {
+    closeCart();
+    navigate(`/order/${ordersId}`);
+  };
+
+  const handleContinue = () => {
+    closeCart();
+    navigate(`/`);
+  };
+
   return (
     <Wrapper>
       <CartHeader>
@@ -74,11 +85,11 @@ const CartList: React.FC<CartListProps> = ({ closeCart }) => {
       </PriceBlock>
 
       <ButtonWrapper>
-        <ContinueButton onClick={closeCart}>
-          <Link to="/">Продовжити покупки</Link>
+        <ContinueButton onClick={handleContinue}>
+          Продовжити покупки
         </ContinueButton>
-        <CheckoutButton onClick={closeCart}>
-          <Link to={`/order/${ordersId}`}>Перейти до оформлення</Link>
+        <CheckoutButton onClick={handleCheckout}>
+          Перейти до оформлення
         </CheckoutButton>
       </ButtonWrapper>
     </Wrapper>
