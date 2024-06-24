@@ -29,7 +29,7 @@ const BookPage: React.FC = () => {
   }, [fetchBooks]);
 
   return (
-    <PageLayout book={book}>
+    <PageLayout>
       {book && (
         <>
           <BreadCrumbs>Каталог | {book.category} </BreadCrumbs>

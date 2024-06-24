@@ -1,25 +1,19 @@
 import { useBooks } from "components/Book";
 import Pagination from "components/Pagination";
-import { BreadCrumbs, Label } from "pages/CommonPages.styled";
+import { Label } from "pages/CommonPages.styled";
 import React, { ReactNode } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
-import { FlexWrap, StyledCommonWrapper } from "styles/CommonStyled";
+import { useSearchParams } from "react-router-dom";
+import { StyledCommonWrapper } from "styles/CommonStyled";
 import { IBookItem } from "types/Books";
 import { PageLayoutWrapper } from "./PageLayout.styled";
 
 interface IPageLayoutProps {
   label?: string;
   books?: IBookItem[];
-  book?: IBookItem;
   children: ReactNode;
 }
 
-const PageLayout: React.FC<IPageLayoutProps> = ({
-  label,
-  books,
-  book,
-  children,
-}) => {
+const PageLayout: React.FC<IPageLayoutProps> = ({ label, books, children }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { currentPage, setCurrentPage, totalPages } = useBooks();
 
