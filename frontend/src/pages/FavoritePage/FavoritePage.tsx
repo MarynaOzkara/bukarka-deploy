@@ -17,7 +17,7 @@ const FavoritePage: React.FC = () => {
       await fetchFavoritesForGuest(favoriteIds, page, sortBy, orderSort);
     };
     loadFavorites();
-  }, [searchParams, favoriteIds]);
+  }, [searchParams, favoriteIds, sortBy, orderSort]);
 
   const handleSortChange = (sortKey: string, sortOrder: string) => {
     setSortBy(sortKey);

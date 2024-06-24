@@ -1,6 +1,7 @@
-import { BookCard, Sort } from "components";
+import { Sort } from "components";
 import { useBooks } from "components/Book";
 import { PageLayout } from "components/Layout";
+import CatalogBookCard from "pages/CatalogPage/CatalogBookCard";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { FlexWrap, TextCenter } from "styles/CommonStyled";
@@ -20,7 +21,7 @@ const SearchPage = () => {
       await handleSearch(keyword, page, sortBy, orderSort);
     };
     loadData();
-  }, [searchParams]);
+  }, [searchParams, keyword, sortBy, orderSort]);
 
   const handleSortChange = (sortKey: string, sortOrder: string) => {
     setSortBy(sortKey);
@@ -41,7 +42,7 @@ const SearchPage = () => {
       <FlexWrap>
         {searchResults && searchResults.length > 0 ? (
           searchResults.map((result, index) => (
-            <BookCard key={index} {...result} />
+            <CatalogBookCard key={index} {...result} />
           ))
         ) : (
           <TextCenter>No results found</TextCenter>

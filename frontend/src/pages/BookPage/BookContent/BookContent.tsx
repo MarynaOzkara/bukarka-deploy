@@ -1,7 +1,7 @@
 import { images } from "assets/images";
 import BookRating from "components/BookRating";
 import Modal from "components/Modal";
-import { Price } from "pages/CommonPages.styled";
+import { Price, Separator } from "pages/CommonPages.styled";
 import { useCallback, useState } from "react";
 import {
   ButtonOrange,
@@ -17,11 +17,10 @@ import {
   BookDescription,
   BookSubTitle,
   BookTitle,
-  ButtonContainer,
   DescTable,
   Description,
   FavoriteButtonContainer,
-  Separator,
+  StyledButtonContainer,
 } from "./BookContent.styled";
 
 import Cart from "components/Cart";
@@ -145,17 +144,13 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
               <p>{book.description}</p>
             </Description>
           </BookDescription>
-          <ButtonContainer>
+          <StyledButtonContainer>
             <Price>
               {book.price}&nbsp;грн.<span></span>
             </Price>
-            <ButtonOrange style={{ width: "296px" }} onClick={handleBuy}>
-              Купити
-            </ButtonOrange>
-            <ButtonYellow style={{ width: "296px" }} onClick={handleAddToCart}>
-              До кошика
-            </ButtonYellow>
-          </ButtonContainer>
+            <ButtonOrange onClick={handleBuy}>Купити</ButtonOrange>
+            <ButtonYellow onClick={handleAddToCart}>До кошика</ButtonYellow>
+          </StyledButtonContainer>
           {isModalOpen && (
             <Modal close={closeModal} showCloseButton={true} animation="slide">
               {modalContent === "pic-viewer" && (

@@ -1,4 +1,4 @@
-import { BookCard } from "components";
+import CatalogBookCard from "pages/CatalogPage/CatalogBookCard/CatalogBookCard";
 import { FlexWrap, TextCenter } from "styles/CommonStyled";
 import { IBookItem } from "types/Books";
 
@@ -11,7 +11,7 @@ const Favorites: React.FC<IFavProps> = ({ favorites }) => {
     <FlexWrap>
       {favorites.length ? (
         favorites.map((item: IBookItem) => (
-          <BookCard key={item._id} {...item} />
+          <CatalogBookCard key={item._id} {...item} />
         ))
       ) : (
         <TextCenter>No favorite books</TextCenter>

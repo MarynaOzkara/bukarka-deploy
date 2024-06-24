@@ -1,32 +1,33 @@
-import { useCallback, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import ReactStars from "react-rating-stars-component";
-import Cart from "components/Cart";
-import Modal from "components/Modal";
-import FavoriteButton from "components/FavoriteButton/";
 import { images } from "assets/images";
+import Cart from "components/Cart";
+import FavoriteButton from "components/FavoriteButton/";
+import Modal from "components/Modal";
+
+import { useCallback, useMemo, useState } from "react";
+import ReactStars from "react-rating-stars-component";
+import { useNavigate } from "react-router-dom";
 import { truncateString } from "utils/truncateString";
 import { useAppDispatch } from "../../../redux/hooks";
 import { addToCart, fetchOrdersData } from "../../../redux/orders/operations";
+
 import {
-  selectOrdersError,
-  selectOrdersStatus,
-} from "../../../redux/orders/selectors";
+  ButtonOrange,
+  ButtonYellow,
+  TextCenter,
+  Wrapper,
+} from "styles/CommonStyled";
 import {
-  StarsWrapper,
-  StyledStarIcon,
-} from "components/Slider/SimpleSlider.styled";
-import {
+  StyledButtonContainer,
+  StyledFavoriteButton,
   StyledItemCard,
   StyledItemImage,
-  StyledTitle,
-  StyledPrice,
   StyledNameAuthor,
-  StyledFavoriteButton,
-  Button,
-} from "./BookCard.styled";
-import { ButtonYellow } from "styles/CommonStyled";
+  StyledPrice,
+  StyledStarsWrapper,
+  StyledTitle,
+} from "./CatalogBookCard.styled";
+
+import { StyledStarIcon } from "components/BookRating/BookRating.styled";
 
 interface IProps {
   _id: string;
@@ -45,16 +46,7 @@ const BookCard: React.FC<IProps> = ({
   image,
   price,
   rating,
-  index,
 }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isBookAdded, setIsBookAdded] = useState<boolean>(
-    localStorage.getItem(`isBookAdded_${_id}`) === "true"
-  );
-
-  const ordersStatus = useSelector(selectOrdersStatus);
-  const ordersError = useSelector(selectOrdersError);
-
   const dispatch = useAppDispatch();
   let navigate = useNavigate();
 
@@ -71,8 +63,17 @@ const BookCard: React.FC<IProps> = ({
     []
   );
 
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalContent, setModalContent] = useState<string>("");
+
+  const showModal = (content: string, img?: string) => {
+    setModalContent(content);
+    setIsModalOpen(true);
+  };
+
   const closeModal = () => {
-    setIsOpen(false);
+    setModalContent("");
+    setIsModalOpen(false);
   };
 
   const handleClick = useCallback(
@@ -83,18 +84,24 @@ const BookCard: React.FC<IProps> = ({
     [navigate]
   );
 
+  const handleBuy = useCallback(async () => {
+    if (!localStorage.getItem(`isBookAdded_${_id}`)) {
+      localStorage.setItem(`isBookAdded_${_id}`, "true");
+      await dispatch(addToCart(_id));
+      await dispatch(fetchOrdersData());
+    }
+    showModal("cart");
+  }, [_id, dispatch]);
+
   const handleAddToCart = useCallback(async () => {
-    if (isBookAdded) {
-      console.log("Книга вже є в кошику!");
-      setIsOpen(true);
+    if (localStorage.getItem(`isBookAdded_${_id}`)) {
+      showModal("isBookAdded");
     } else {
       await dispatch(addToCart(_id));
       await dispatch(fetchOrdersData());
-      setIsOpen(true);
-      setIsBookAdded(true);
       localStorage.setItem(`isBookAdded_${_id}`, "true");
     }
-  }, [_id, dispatch, isBookAdded]);
+  }, [_id, dispatch]);
 
   return (
     <>
@@ -109,6 +116,7 @@ const BookCard: React.FC<IProps> = ({
             alt={`${author} ${title} `}
           />
         </StyledItemImage>
+
         <StyledTitle style={{ width: "192px" }}>
           <div
             id={_id}
@@ -118,25 +126,35 @@ const BookCard: React.FC<IProps> = ({
             {truncateString(title, 25)}
           </div>
         </StyledTitle>
+
         <StyledNameAuthor>
           <div title={`${author.length > 25 ? author : ""}`}>
             {truncateString(author, 25)}
           </div>
         </StyledNameAuthor>
-        <StarsWrapper>
+
+        <StyledStarsWrapper>
           <ReactStars {...starsProps} value={rating} />
-        </StarsWrapper>
+        </StyledStarsWrapper>
+
         <StyledPrice>{price} грн</StyledPrice>
 
-        <Button onClick={handleAddToCart}>Купити</Button>
+        <StyledButtonContainer>
+          <ButtonOrange onClick={handleBuy}>Купити</ButtonOrange>
+          <ButtonYellow onClick={handleAddToCart}>До кошика</ButtonYellow>
+        </StyledButtonContainer>
 
-        {isOpen && (
+        {isModalOpen && (
           <Modal close={closeModal} showCloseButton={true}>
-            <Cart closeCart={closeModal} />
+            {modalContent === "isBookAdded" && (
+              <Wrapper>
+                <TextCenter>Книга вже є в кошику!</TextCenter>
+              </Wrapper>
+            )}
+            {modalContent === "cart" && <Cart closeCart={closeModal} />}
           </Modal>
         )}
       </StyledItemCard>
-      {ordersStatus === "failed" && console.log(ordersError)}
     </>
   );
 };
