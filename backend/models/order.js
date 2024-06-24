@@ -63,6 +63,14 @@ const orderSchema = new Schema(
           return this.isModified("customerInfo");
         },
       },
+
+      address: {
+        type: String,
+        required: function () {
+          return this.isModified("customerInfo");
+        },
+      },
+      
       comment: {
         type: String,
         // default: "",

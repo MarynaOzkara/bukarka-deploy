@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loader from "components/Loader";
 import CartList from "./CartList";
@@ -23,6 +23,7 @@ export interface CartData {
   _id: string;
   orderItems: { _id: string; name: string; price: number; quantity: number }[];
   totalPrice: number;
+  status:string
 }
 
 type Props = {
@@ -31,6 +32,10 @@ type Props = {
 
 const Cart: React.FC<Props> = ({ closeCart }) => {
   const dispatch = useAppDispatch();
+  const location = useLocation();
+
+  const isConfirmationPage = location.pathname.includes("/confirmation/");
+
   const cartWrapperRef = useRef<HTMLDivElement>(null);
   const [wrapperHeight, setWrapperHeight] = useState<number | null>(null);
 
@@ -38,6 +43,8 @@ const Cart: React.FC<Props> = ({ closeCart }) => {
     (state: IRootState) => selectOrdersData(state) as CartData | null
   );
   const status = useSelector((state: IRootState) => selectOrdersStatus(state));
+  console.log(cartData);
+  console.log(cartData?.status);
 
   useEffect(() => {
     dispatch(fetchOrdersData());
@@ -48,6 +55,18 @@ const Cart: React.FC<Props> = ({ closeCart }) => {
       setWrapperHeight(cartWrapperRef.current.offsetHeight);
     }
   }, [cartData]);
+
+  if (isConfirmationPage) {
+    return (
+      <EmptyWrapper>
+        <Title>Кошик</Title>
+        <Message>Ваше замовлення оформлене</Message>
+        <Button onClick={closeCart}>
+          <Link to="/">Продовжити покупки</Link>
+        </Button>
+      </EmptyWrapper>
+    );
+  }
 
   return (
     <>
