@@ -2,7 +2,8 @@ import imagePlaceholder from "./placeholder-vert.jpg";
 import BookCover from "./book-cover.png";
 import BookNetflix from "./book-netflix.png";
 import BookDarkSide from "./book-dark-side.png";
-import NotFoundImage from "./404.png";
+import NotFoundImage1 from "./404-1.png";
+import NotFoundImage2 from "./404-2.png";
 import AboutImage from "./about.png";
 import BookClub from "./book-club.png";
 import Banner1 from "./banner-1.jpg";
@@ -14,7 +15,8 @@ export const images = {
   BookCover,
   BookNetflix,
   BookDarkSide,
-  NotFoundImage,
+  NotFoundImage1,
+  NotFoundImage2,
   AboutImage,
   BookClub,
   Banner1,

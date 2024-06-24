@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { images } from "assets/images";
 import { PageWrapper, StyledCommonWrapper } from "styles/CommonStyled";
 import {
   Image,
@@ -7,10 +9,18 @@ import {
   Text,
   Title,
 } from "./NotFoundPage.styled";
-import {images} from "assets/images";
-
 
 const NotFoundPage: React.FC = () => {
+  const [isFirstIcon, setIsFirstIcon] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsFirstIcon((prev) => !prev);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <StyledCommonWrapper>
       <PageWrapper>
@@ -23,11 +33,13 @@ const NotFoundPage: React.FC = () => {
               і зворотний зв’язок.
             </Text>
 
-            {/* <StyledLink to={backRef.current}>Назад</StyledLink> */}
             <StyledLink to="/">Головна</StyledLink>
             <StyledLink to="/contacts">Контакти</StyledLink>
           </NotFoundInfo>
-          <Image src={images.NotFoundImage} alt="Букарка - онлайн-книгарня. Сторінка не знайдена" />
+          <Image
+            src={isFirstIcon ? images.NotFoundImage1 : images.NotFoundImage2}
+            alt="Букарка - онлайн-книгарня. Сторінка не знайдена"
+          />
         </Main>
       </PageWrapper>
     </StyledCommonWrapper>
