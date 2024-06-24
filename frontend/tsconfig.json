@@ -17,5 +17,5 @@
     "jsx": "react-jsx",
     "baseUrl": "src"
   },
-  "include": ["src", "@types", "src/assets/data/fiction.ts"]
+  "include": ["src", "@types", "src/assets/data/fiction.ts", "src/utils/postApi.ts"]
 }

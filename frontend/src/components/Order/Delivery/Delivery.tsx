@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import getNovaPoshtaCities from "utils/getNovaPoshtaCities";
+import {
+  getNovaPoshtaCitiesObject,
+  getNovaPoshtaWarehouses,
+} from "utils/postApi";
 import { Label, SubTitle, Wrapper } from "../OrderCommonStyled";
 import {
   AddressInput,
@@ -10,6 +13,8 @@ import {
   RadioButton,
   RadioInput,
   RadioWrapper,
+  WarehouseInput,
+  WarehouseOptions,
 } from "./Delivery.styled";
 import { DELIVERY_METHOD } from "constants/order";
 
@@ -17,6 +22,11 @@ interface DeliveryDataProps {
   setDeliveryMethod: React.Dispatch<React.SetStateAction<string>>;
   setDeliveryCity: React.Dispatch<React.SetStateAction<string>>;
   setDeliveryAddress: React.Dispatch<React.SetStateAction<string>>;
+}
+
+interface City {
+  Description: string;
+  Ref: string;
 }
 
 const Delivery: React.FC<DeliveryDataProps> = ({
@@ -28,15 +38,21 @@ const Delivery: React.FC<DeliveryDataProps> = ({
   const [address, setAddress] = useState("");
   const [selectedRadio, setSelectedRadio] = useState("");
 
-  const [showOptions, setShowOptions] = useState(false);
-  const [options, setOptions] = useState<string[]>([]);
+  const [showCityOptions, setShowCityOptions] = useState(false);
+  const [showWarehouseOptions, setShowWarehouseOptions] = useState(false);
+  const [cityOptions, setCityOptions] = useState<string[]>([]);
+  const [warehouseOptions, setWarehouseOptions] = useState<string[]>([]);
+
+  const [cities, setCities] = useState<City[]>([]);
+  const [cityRef, setCityRef] = useState<string>("");
 
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const cities = await getNovaPoshtaCities();
-        // console.log(cities);
-        setOptions(cities);
+        const citiesData = await getNovaPoshtaCitiesObject();
+        setCities(citiesData);
+        const cityDescriptions = citiesData.map((city) => city.Description);
+        setCityOptions(cityDescriptions);
       } catch (error) {
         console.error("Error fetching cities:", error);
       }
@@ -53,38 +69,91 @@ const Delivery: React.FC<DeliveryDataProps> = ({
     };
   }, []);
 
-  const handleCityInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCityInputChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const value = e.target.value.trim();
     setCity(value);
     setDeliveryCity(value);
 
     if (value !== "") {
-      setShowOptions(true);
+      setShowCityOptions(true);
+      const selectedCity = cities.find((city) => city.Description === value);
+      if (selectedCity) {
+        setCityRef(selectedCity.Ref);
+        const warehouses = await getNovaPoshtaWarehouses(selectedCity.Ref);
+        const warehouseDescriptions = warehouses.map(
+          (warehouse) => warehouse.Description
+        );
+        setWarehouseOptions(warehouseDescriptions);
+      }
     } else {
-      setShowOptions(false);
+      setShowCityOptions(false);
+      setWarehouseOptions([]);
     }
 
     setAddress("");
     setDeliveryAddress("");
   };
 
-  const handleAddressInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAddress(e.target.value);
-    setDeliveryAddress(e.target.value);
-    setDeliveryCity(city);
-    // console.log(address);
+  const handleCityOptionClick = async (value: string) => {
+    setCity(value);
+    setDeliveryCity(value);
+    setShowCityOptions(false);
+
+    const selectedCity = cities.find((city) => city.Description === value);
+    if (selectedCity) {
+      setCityRef(selectedCity.Ref);
+      const warehouses = await getNovaPoshtaWarehouses(selectedCity.Ref);
+      const warehouseDescriptions = warehouses.map(
+        (warehouse) => warehouse.Description
+      );
+      setWarehouseOptions(warehouseDescriptions);
+      setShowWarehouseOptions(true);
+    }
+  };
+
+  const handleAddressInputChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = e.target.value.trim();
+    setAddress(value);
+    setDeliveryAddress(value);
+
+    if (
+      (selectedRadio === DELIVERY_METHOD.novaPoshtaWarehouse ||
+        selectedRadio === DELIVERY_METHOD.novaPoshtaParcelLocker) &&
+      cityRef
+    ) {
+      if (value !== "") {
+        const filteredWarehouses = warehouseOptions.filter((option) =>
+          option.toLowerCase().includes(value.toLowerCase())
+        );
+        setWarehouseOptions(filteredWarehouses);
+        setShowWarehouseOptions(true);
+      } else {
+        const warehouses = await getNovaPoshtaWarehouses(cityRef);
+        const warehouseDescriptions = warehouses.map(
+          (warehouse) => warehouse.Description
+        );
+        setWarehouseOptions(warehouseDescriptions);
+        setShowWarehouseOptions(false);
+      }
+    }
+  };
+
+  const handleWarehouseOptionClick = (value: string) => {
+    setAddress(value);
+    setDeliveryAddress(value);
+    setShowWarehouseOptions(false);
   };
 
   const handleOutsideClick = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
     if (!target.closest(".Options")) {
-      setShowOptions(false);
+      setShowCityOptions(false);
+      setShowWarehouseOptions(false);
     }
-  };
-
-  const handleOptionClick = (value: string) => {
-    setCity(value);
-    setShowOptions(false);
   };
 
   const handleOptionChange = (value: string) => {
@@ -105,9 +174,9 @@ const Delivery: React.FC<DeliveryDataProps> = ({
         onChange={handleCityInputChange}
         autoComplete="off"
       />
-      {showOptions && (
+      {showCityOptions && (
         <Options role="listbox">
-          {options
+          {cityOptions
             .filter((option) =>
               option.toLowerCase().startsWith(city.toLowerCase())
             )
@@ -117,7 +186,7 @@ const Delivery: React.FC<DeliveryDataProps> = ({
                 key={option}
                 role="option"
                 aria-selected="false"
-                onClick={() => handleOptionClick(option)}
+                onClick={() => handleCityOptionClick(option)}
               >
                 {option}
               </Option>
@@ -140,12 +209,12 @@ const Delivery: React.FC<DeliveryDataProps> = ({
           <RadioInput
             type="radio"
             value="option2"
-            checked={selectedRadio === DELIVERY_METHOD.novaPoshtaBranch}
+            checked={selectedRadio === DELIVERY_METHOD.novaPoshtaWarehouse}
             onChange={() =>
-              handleOptionChange(DELIVERY_METHOD.novaPoshtaBranch)
+              handleOptionChange(DELIVERY_METHOD.novaPoshtaWarehouse)
             }
           />
-          <span>{DELIVERY_METHOD.novaPoshtaBranch}</span>
+          <span>{DELIVERY_METHOD.novaPoshtaWarehouse}</span>
         </RadioButton>
         <RadioButton>
           <RadioInput
@@ -181,6 +250,34 @@ const Delivery: React.FC<DeliveryDataProps> = ({
             value={address}
             onChange={handleAddressInputChange}
           />
+        </div>
+      )}
+
+      {(selectedRadio === DELIVERY_METHOD.novaPoshtaWarehouse ||
+        selectedRadio === DELIVERY_METHOD.novaPoshtaParcelLocker) && (
+        <div>
+          <Label htmlFor="warehouse">Оберіть відділення або поштомат*</Label>
+          <WarehouseInput
+            id="warehouse"
+            type="text"
+            placeholder="Введіть номер або адресу відділення чи поштомату"
+            value={address}
+            onChange={handleAddressInputChange}
+          />
+          {showWarehouseOptions && warehouseOptions.length > 0 && (
+            <WarehouseOptions role="listbox">
+              {warehouseOptions.slice(0, 10).map((option) => (
+                <Option
+                  key={option}
+                  role="option"
+                  aria-selected="false"
+                  onClick={() => handleWarehouseOptionClick(option)}
+                >
+                  {option}
+                </Option>
+              ))}
+            </WarehouseOptions>
+          )}
         </div>
       )}
     </Wrapper>

@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import getNovaPoshtaCities from "./getNovaPoshtaCities";
+import {getNovaPoshtaCities} from "./postApi";
 
 export const validationPersonalDataSchema = Yup.object({
   name: Yup.string().required("Ім'я є обов'язковим полем"),
