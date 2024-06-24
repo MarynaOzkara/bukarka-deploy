@@ -46,6 +46,15 @@ export const StyledLink = styled(Link)`
   font-weight: 600;
   font-size: 16px;
   line-height: 1.5;
+
+  &:hover {
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
+  }
+  
+  &:active {
+    color: var(--bukarka-orange);
+  }
+
   &:not(:last-child) {
     margin-right: 13px;
   }
