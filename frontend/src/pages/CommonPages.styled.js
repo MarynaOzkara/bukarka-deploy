@@ -159,7 +159,7 @@ export const Price = styled.div`
   font-weight: 700;
   font-size: 16px;
   line-height: 24px;
-  color: #004f98;
+  color: var(--bukarka-accent-blue);
   margin-bottom: 8px;
   & span {
     font-size: 16px;

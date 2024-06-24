@@ -69,7 +69,6 @@ export const FlexWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  position: relative;
 `;
 
 export const FlexWrap = styled(FlexWrapper)`
@@ -115,4 +114,22 @@ export const ButtonContainer = styled.section`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+`;
+
+export const Input = styled.input`
+  line-height: 2.5rem;
+  padding: 0 1rem;
+  width: 100%;
+  border: none;
+
+  &:focus-visible {
+    outline-color: var(--bukarka-grey);
+  }
+
+  &::placeholder {
+    font-family: var(--regular);
+    font-size: 16px;
+    line-height: 150%;
+    color: var(--bukarka-dark-grey);
+  }
 `;

@@ -8,6 +8,7 @@ import SectionContent from "./SectionContent";
 import Filter from "components/Filter";
 import { BreadCrumbs, Label } from "pages/CommonPages.styled";
 import { FlexWrap, FlexWrapper, TextCenter } from "styles/CommonStyled";
+import { StyledFlexWrapper } from "./CatalogPage.style";
 
 const CatalogPage: React.FC = () => {
   const { category, subcategory, link } = useParams();
@@ -39,11 +40,14 @@ const CatalogPage: React.FC = () => {
           <Label>{link || subcategory || category || "Усі книги"}</Label>
         </>
       )) || <Label>Каталог</Label>}
-      <FlexWrapper>
+
+      <StyledFlexWrapper>
         {books && !!books.length && <Filter />}
+
         {books && books.length > 1 && <Sort onSortChange={handleSortChange} />}
+
         {<Outlet context={{ books }} /> || <SectionContent data={books} />}
-      </FlexWrapper>
+      </StyledFlexWrapper>
     </PageLayout>
   );
 };

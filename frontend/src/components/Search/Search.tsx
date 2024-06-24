@@ -14,10 +14,11 @@ import { IBookItem } from "types/Books";
 import {
   FormButton,
   Hints,
-  Input,
+  SearchInput,
   StyledForm,
   StyledLensIcon,
 } from "./Search.styled";
+import { Input } from "styles/CommonStyled";
 
 const Search: React.FC = () => {
   const { hints, fetchHints } = useBooks();
@@ -135,7 +136,7 @@ const Search: React.FC = () => {
   return (
     <StyledForm onSubmit={handleSubmit}>
       <StyledLensIcon />
-      <Input
+      <SearchInput
         type="text"
         value={inputQuery}
         onBlur={() => setInputQuery("")}
