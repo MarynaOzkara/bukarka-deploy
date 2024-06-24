@@ -13,11 +13,59 @@ const Filter = () => {
       <FilterContent>
         <section>
           <SubTitle>Добірка</SubTitle>
+          <div>
+            <p>
+              <input type="checkbox" id="new" name="type" value="new" />
+              <label htmlFor="new">Новинки</label>
+            </p>
+            <p>
+              <input
+                type="checkbox"
+                id="bestsellers"
+                name="type"
+                value="bestsellers"
+              />
+              <label htmlFor="bestsellers">Бестселери</label>
+            </p>
+            <p>
+              <input
+                type="checkbox"
+                id="promotions"
+                name="type"
+                value="promotions"
+              />
+              <label htmlFor="promotions">Акції</label>
+            </p>
+          </div>
         </section>
         <section>
           <SubTitle>Тематика</SubTitle>
 
           <Input type="text" placeholder="Пошук за тематикою" />
+          <div>
+            <p>
+              <input type="checkbox" id="new" name="type" value="new" />
+              <label htmlFor="new">Новинки</label>
+            </p>
+            <p>
+              <input
+                type="checkbox"
+                id="bestsellers"
+                name="type"
+                value="bestsellers"
+              />
+              <label htmlFor="bestsellers">Бестселери</label>
+            </p>
+            <p>
+              <input
+                type="checkbox"
+                id="promotions"
+                name="type"
+                value="promotions"
+              />
+              <label htmlFor="promotions">Акції</label>
+            </p>
+          </div>
         </section>
         <section>
           <SubTitle>Мова</SubTitle>

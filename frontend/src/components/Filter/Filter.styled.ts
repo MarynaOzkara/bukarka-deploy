@@ -12,12 +12,20 @@ export const FilterWrapper = styled.div`
   & .input-range {
     width: 120px;
   }
+
+  & p {
+    margin: 0.5rem;
+  }
+
+  & p label {
+    padding: 1rem;
+  }
 `;
 
 export const SectionTitle = styled.p`
   font-weight: 600;
   font-size: 1.5rem;
-  top: -2rem;
+  top: -2.5rem;
   left: 0;
   position: absolute;
   color: var(--bukarka-deep-blue);
