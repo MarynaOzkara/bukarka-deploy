@@ -3,7 +3,7 @@ import { useBooks } from "components/Book";
 import { PageLayout } from "components/Layout";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { TextCenter } from "styles/CommonStyled";
+import { FlexWrap, TextCenter } from "styles/CommonStyled";
 
 const SearchPage = () => {
   const { searchResults, handleSearch } = useBooks();
@@ -38,13 +38,15 @@ const SearchPage = () => {
       {searchResults && searchResults.length > 1 && (
         <Sort onSortChange={handleSortChange} />
       )}
-      {searchResults && searchResults.length > 0 ? (
-        searchResults.map((result, index) => (
-          <BookCard key={index} {...result} />
-        ))
-      ) : (
-        <TextCenter>No results found</TextCenter>
-      )}
+      <FlexWrap>
+        {searchResults && searchResults.length > 0 ? (
+          searchResults.map((result, index) => (
+            <BookCard key={index} {...result} />
+          ))
+        ) : (
+          <TextCenter>No results found</TextCenter>
+        )}
+      </FlexWrap>
     </PageLayout>
   );
 };

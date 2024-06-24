@@ -20,7 +20,6 @@ const PageLayout: React.FC<IPageLayoutProps> = ({
   book,
   children,
 }) => {
-  const { category, subcategory, link } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const { currentPage, setCurrentPage, totalPages } = useBooks();
 
@@ -39,24 +38,10 @@ const PageLayout: React.FC<IPageLayoutProps> = ({
   return (
     <StyledCommonWrapper>
       <PageLayoutWrapper>
-        {label ? (
-          <Label>{label}</Label>
-        ) : (
-          books &&
-          books.length > 0 && (
-            <>
-              <BreadCrumbs>Каталог | {category} </BreadCrumbs>
-              <Label>{link || subcategory || category || "Усі книги"}</Label>
-            </>
-          )
-        )}
-        {book && (
-          <>
-            <BreadCrumbs>Каталог | {book.category} </BreadCrumbs>
-            <Label> {book.subcategory} </Label>
-          </>
-        )}
-        <FlexWrap>{children}</FlexWrap>
+        {label && <Label>{label}</Label>}
+
+        {children}
+
         {books && books.length > 0 && (
           <Pagination
             currentPage={currentPage}

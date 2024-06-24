@@ -5,11 +5,13 @@ import { Outlet, useParams, useSearchParams } from "react-router-dom";
 
 import { PageLayout } from "components/Layout";
 import SectionContent from "./SectionContent";
+import Filter from "components/Filter";
+import { BreadCrumbs, Label } from "pages/CommonPages.styled";
 
 const CatalogPage: React.FC = () => {
   const { category, subcategory, link } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { books, currentPage, setCurrentPage, fetchBooks } = useBooks();
+  const { books, fetchBooks } = useBooks();
   const [sortBy, setSortBy] = useState("");
   const [orderSort, setOrderSort] = useState("asc");
 
@@ -20,7 +22,7 @@ const CatalogPage: React.FC = () => {
     };
 
     loadData();
-  }, [searchParams]);
+  }, [searchParams, category, subcategory, sortBy, orderSort]);
 
   const handleSortChange = (sortKey: string, sortOrder: string) => {
     setSortBy(sortKey);
@@ -30,8 +32,14 @@ const CatalogPage: React.FC = () => {
 
   return (
     <PageLayout books={books}>
+      {(books && books.length > 0 && (
+        <>
+          <BreadCrumbs>Каталог | {category} </BreadCrumbs>
+          <Label>{link || subcategory || category || "Усі книги"}</Label>
+        </>
+      )) || <Label>Каталог</Label>}
+      {/* {books && !!books.length && <Filter />} */}
       {books && books.length > 1 && <Sort onSortChange={handleSortChange} />}
-
       {<Outlet context={{ books }} /> || <SectionContent data={books} />}
     </PageLayout>
   );

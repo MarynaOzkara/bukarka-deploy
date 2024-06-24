@@ -1,5 +1,5 @@
 import { BookCard } from "components";
-import { TextCenter } from "styles/CommonStyled";
+import { FlexWrap, TextCenter } from "styles/CommonStyled";
 import { IBookItem } from "types/Books";
 
 interface IFavProps {
@@ -8,7 +8,7 @@ interface IFavProps {
 
 const Favorites: React.FC<IFavProps> = ({ favorites }) => {
   return (
-    <>
+    <FlexWrap>
       {favorites.length ? (
         favorites.map((item: IBookItem) => (
           <BookCard key={item._id} {...item} />
@@ -16,7 +16,7 @@ const Favorites: React.FC<IFavProps> = ({ favorites }) => {
       ) : (
         <TextCenter>No favorite books</TextCenter>
       )}
-    </>
+    </FlexWrap>
   );
 };
 
