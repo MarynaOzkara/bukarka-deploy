@@ -36,10 +36,11 @@ const SearchPage = () => {
 
   return (
     <PageLayout label="Результати пошуку" books={searchResults}>
-      {searchResults && searchResults.length > 1 && (
-        <Sort onSortChange={handleSortChange} />
-      )}
       <FlexWrap>
+        {searchResults && searchResults.length > 1 && (
+          <Sort onSortChange={handleSortChange} />
+        )}
+
         {searchResults && searchResults.length > 0 ? (
           searchResults.map((result, index) => (
             <CatalogBookCard key={index} {...result} />

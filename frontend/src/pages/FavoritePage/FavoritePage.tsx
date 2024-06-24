@@ -3,6 +3,7 @@ import { useFavorites } from "components/Favorites/FavoritesContext";
 import { PageLayout } from "components/Layout";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { FlexWrap } from "styles/CommonStyled";
 
 const FavoritePage: React.FC = () => {
   const { favorites, favoriteIds, fetchFavoritesForGuest } = useFavorites();
@@ -32,10 +33,12 @@ const FavoritePage: React.FC = () => {
 
   return (
     <PageLayout label="Обране" books={favorites}>
-      {favorites && favorites.length > 1 && (
-        <Sort onSortChange={handleSortChange} />
-      )}
-      <Favorites favorites={favorites} />
+      <FlexWrap>
+        {favorites && favorites.length > 1 && (
+          <Sort onSortChange={handleSortChange} />
+        )}
+        <Favorites favorites={favorites} />
+      </FlexWrap>
     </PageLayout>
   );
 };
