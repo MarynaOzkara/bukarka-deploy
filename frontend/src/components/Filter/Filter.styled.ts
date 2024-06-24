@@ -20,6 +20,14 @@ export const FilterWrapper = styled.div`
   & p label {
     padding: 1rem;
   }
+
+  & .rating-range > div {
+    display: flex;
+    width: 156px;
+    justify-content: space-between;
+    align-items: end;
+    gap: 1rem;
+  }
 `;
 
 export const SectionTitle = styled.p`

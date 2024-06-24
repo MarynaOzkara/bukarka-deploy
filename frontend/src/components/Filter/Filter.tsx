@@ -5,6 +5,8 @@ import {
   SectionTitle,
   SubTitle,
 } from "./Filter.styled";
+import BookRating from "components/BookRating";
+import { bookLanguages, bookTypes } from "constants/filter";
 
 const Filter = () => {
   return (
@@ -14,64 +16,55 @@ const Filter = () => {
         <section>
           <SubTitle>Добірка</SubTitle>
           <div>
-            <p>
-              <input type="checkbox" id="new" name="type" value="new" />
-              <label htmlFor="new">Новинки</label>
-            </p>
-            <p>
-              <input
-                type="checkbox"
-                id="bestsellers"
-                name="type"
-                value="bestsellers"
-              />
-              <label htmlFor="bestsellers">Бестселери</label>
-            </p>
-            <p>
-              <input
-                type="checkbox"
-                id="promotions"
-                name="type"
-                value="promotions"
-              />
-              <label htmlFor="promotions">Акції</label>
-            </p>
+            {bookTypes &&
+              bookTypes.map((type, index) => (
+                <p key={index}>
+                  <input
+                    type="checkbox"
+                    id={type.value}
+                    name="type"
+                    value={type.value}
+                  />
+                  <label htmlFor="new"> {type.label} </label>
+                </p>
+              ))}
           </div>
         </section>
         <section>
           <SubTitle>Тематика</SubTitle>
 
           <Input type="text" placeholder="Пошук за тематикою" />
-          <div>
-            <p>
-              <input type="checkbox" id="new" name="type" value="new" />
-              <label htmlFor="new">Новинки</label>
-            </p>
-            <p>
-              <input
-                type="checkbox"
-                id="bestsellers"
-                name="type"
-                value="bestsellers"
-              />
-              <label htmlFor="bestsellers">Бестселери</label>
-            </p>
-            <p>
-              <input
-                type="checkbox"
-                id="promotions"
-                name="type"
-                value="promotions"
-              />
-              <label htmlFor="promotions">Акції</label>
-            </p>
-          </div>
         </section>
         <section>
           <SubTitle>Мова</SubTitle>
+          <div>
+            {bookLanguages &&
+              bookLanguages.map((lang, index) => (
+                <p key={index}>
+                  <input
+                    type="checkbox"
+                    id={lang}
+                    name="language"
+                    value={lang}
+                  />
+                  <label htmlFor="languages">{lang}</label>
+                </p>
+              ))}
+          </div>
         </section>
         <section>
           <SubTitle>Рейтинг</SubTitle>
+          <div className="rating-range">
+            <div>
+              <span>Від</span>
+
+              <BookRating rating={0} />
+            </div>
+            <div>
+              <span>До</span>
+              <BookRating rating={5} />
+            </div>
+          </div>
         </section>
         <section>
           <SubTitle>Автор</SubTitle>

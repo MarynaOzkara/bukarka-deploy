@@ -3,12 +3,11 @@ import { useBooks } from "components/Book";
 import React, { useEffect, useState } from "react";
 import { Outlet, useParams, useSearchParams } from "react-router-dom";
 
-import { PageLayout } from "components/Layout";
-import SectionContent from "./SectionContent";
 import Filter from "components/Filter";
+import { PageLayout } from "components/Layout";
 import { BreadCrumbs, Label } from "pages/CommonPages.styled";
-import { FlexWrap, FlexWrapper, TextCenter } from "styles/CommonStyled";
 import { StyledFlexWrapper } from "./CatalogPage.style";
+import SectionContent from "./SectionContent";
 
 const CatalogPage: React.FC = () => {
   const { category, subcategory, link } = useParams();

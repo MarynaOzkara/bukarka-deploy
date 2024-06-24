@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { FlexWrap } from "styles/CommonStyled";
 
 export const Label = styled.p`
   position: relative;

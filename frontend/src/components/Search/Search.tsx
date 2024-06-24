@@ -18,7 +18,6 @@ import {
   StyledForm,
   StyledLensIcon,
 } from "./Search.styled";
-import { Input } from "styles/CommonStyled";
 
 const Search: React.FC = () => {
   const { hints, fetchHints } = useBooks();
