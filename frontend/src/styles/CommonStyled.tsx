@@ -78,7 +78,8 @@ export const FlexWrap = styled(FlexWrapper)`
 `;
 
 export const TextCenter = styled.div`
-  margin: 0 auto;
+  margin: 0.5rem auto;
+  text-align: center;
 `;
 
 export const Button = styled.button`

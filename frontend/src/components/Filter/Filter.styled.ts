@@ -3,6 +3,26 @@ import styled from "styled-components";
 export const FilterWrapper = styled.div`
   height: fit-content;
   min-width: 296px;
+`;
+
+export const SectionTitle = styled.p`
+  font-weight: 600;
+  font-size: 1.5rem;
+  top: -2.5rem;
+  left: 0;
+  position: absolute;
+  color: var(--bukarka-deep-blue);
+`;
+
+export const FilterContent = styled.form`
+  position: relative;
+  text-align: left;
+  padding: 1rem;
+  background: var(--bukarka-light-grey);
+
+  & input[text] {
+    padding-bottom: 1rem;
+  }
 
   & .price-range {
     display: flex;
@@ -28,22 +48,6 @@ export const FilterWrapper = styled.div`
     align-items: end;
     gap: 1rem;
   }
-`;
-
-export const SectionTitle = styled.p`
-  font-weight: 600;
-  font-size: 1.5rem;
-  top: -2.5rem;
-  left: 0;
-  position: absolute;
-  color: var(--bukarka-deep-blue);
-`;
-
-export const FilterContent = styled.form`
-  position: relative;
-  text-align: left;
-  padding: 1rem;
-  background: var(--bukarka-light-grey);
 
   & section {
     padding-bottom: 1rem;

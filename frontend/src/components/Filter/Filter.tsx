@@ -1,4 +1,4 @@
-import { ButtonYellow, Input } from "styles/CommonStyled";
+import { ButtonYellow, Input, TextCenter } from "styles/CommonStyled";
 import {
   FilterContent,
   FilterWrapper,
@@ -34,6 +34,7 @@ const Filter = () => {
           <SubTitle>Тематика</SubTitle>
 
           <Input type="text" placeholder="Пошук за тематикою" />
+          <span className="more">Показати більше</span>
         </section>
         <section>
           <SubTitle>Мова</SubTitle>
@@ -68,19 +69,19 @@ const Filter = () => {
         </section>
         <section>
           <SubTitle>Автор</SubTitle>
-
           <Input type="text" placeholder="Пошук автора" />
+          <TextCenter>Показати більше</TextCenter>
         </section>
         <section>
           <SubTitle>Видавництво</SubTitle>
 
           <Input type="text" placeholder="Пошук видавництва" />
+          <TextCenter>Показати більше</TextCenter>
         </section>
         <section>
           <SubTitle>Ціна</SubTitle>
           <div className="price-range">
             <Input className="input-range" type="text" placeholder="Від" />
-            <span> </span>
 
             <Input className="input-range" type="text" placeholder="До" />
           </div>
