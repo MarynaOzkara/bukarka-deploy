@@ -6,6 +6,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { TextCenter } from "styles/CommonStyled";
 import BookContent from "./BookContent/BookContent";
+import { StyledBookPageSlider } from "./BookPage.styled";
 
 const BookPage: React.FC = () => {
   const { book, fetchBookById } = useBooks();
@@ -40,7 +41,11 @@ const BookPage: React.FC = () => {
       {book ? <BookContent book={book} /> : <div>No book data</div>}
       <Label>Вас може зацікавити</Label>
       <TextCenter>
-        {books && books.length > 0 && <SimpleSlider data={books} />}
+        {books && books.length > 0 && (
+          <StyledBookPageSlider>
+            <SimpleSlider data={books} />
+          </StyledBookPageSlider>
+        )}
       </TextCenter>
     </PageLayout>
   );

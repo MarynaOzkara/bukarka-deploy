@@ -110,10 +110,11 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
               <li>
                 <span>Жанр</span>
                 <span>
-                  {(book.genre &&
-                    book.genre.map((genre, ind) => (
-                      <span key={ind}> {genre} </span>
-                    ))) || <span>-</span>}
+                  {book.genre && book.genre.length > 0 ? (
+                    book.genre.join(", ")
+                  ) : (
+                    <span>-</span>
+                  )}
                 </span>
               </li>
 
