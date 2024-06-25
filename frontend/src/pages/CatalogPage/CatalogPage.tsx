@@ -1,6 +1,6 @@
 import { Sort } from "components";
 import { useBooks } from "components/Book";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Outlet, useParams, useSearchParams } from "react-router-dom";
 
 import Filter from "components/Filter";
@@ -18,27 +18,44 @@ const CatalogPage: React.FC = () => {
 
   useEffect(() => {
     const page = Number(searchParams.get("page")) || 1;
-    const loadData = async () => {
-      await fetchBooks(category, subcategory, link, page, sortBy, orderSort);
-    };
 
-    loadData();
-  }, [searchParams, category, subcategory, sortBy, orderSort]);
+    fetchBooks({
+      category,
+      subcategory,
+      link,
+      page,
+      sortBy,
+      orderSort,
+    });
+  }, [fetchBooks, searchParams, category, subcategory, sortBy, orderSort]);
 
-  const handleSortChange = (sortKey: string, sortOrder: string) => {
-    setSortBy(sortKey);
-    setOrderSort(sortOrder);
-    setSearchParams({ page: "1", sortBy: sortKey, orderSort: sortOrder });
+  const handleSortChange = useCallback(
+    (sortKey: string, sortOrder: string) => {
+      setSortBy(sortKey);
+      setOrderSort(sortOrder);
+      setSearchParams({ page: "1", sortBy: sortKey, orderSort: sortOrder });
+    },
+    [setSearchParams]
+  );
+
+  const renderBreadcrumbs = () => {
+    return <BreadCrumbs>Каталог | {category}</BreadCrumbs>;
+  };
+
+  const renderLabels = () => {
+    return <Label>{link || subcategory || category || "Усі книги"}</Label>;
   };
 
   return (
     <PageLayout books={books}>
-      {(books && books.length > 0 && (
+      {books && books.length > 0 ? (
         <>
-          <BreadCrumbs>Каталог | {category} </BreadCrumbs>
-          <Label>{link || subcategory || category || "Усі книги"}</Label>
+          {renderBreadcrumbs()}
+          {renderLabels()}
         </>
-      )) || <Label>Каталог</Label>}
+      ) : (
+        <Label>Каталог</Label>
+      )}
 
       <StyledFlexWrapper>
         {books && !!books.length && <Filter />}

@@ -1,6 +1,7 @@
 import React from "react";
 import { PaginationWrapper } from "./Pagination.styled";
 import { SliderArrowIcon } from "assets/icons";
+import { Button } from "styles/CommonStyled";
 
 interface IPaginationProps {
   currentPage: number;
@@ -59,20 +60,22 @@ const Pagination: React.FC<IPaginationProps> = ({
 
   return (
     <PaginationWrapper>
-      <SliderArrowIcon
-        stroke="var(--bukarka-dark-grey)"
-        style={{ transform: "rotate(180deg)" }}
-        onClick={handlePrevious}
-        disabled={currentPage === 1}
-      />
+      <button className="arrow" disabled={currentPage === 1}>
+        <SliderArrowIcon
+          stroke="var(--bukarka-dark-grey)"
+          style={{ transform: "rotate(180deg)" }}
+          onClick={handlePrevious}
+        />
+      </button>
 
       {renderPageNumbers()}
 
-      <SliderArrowIcon
-        stroke="var(--bukarka-dark-grey)"
-        onClick={handleNext}
-        disabled={currentPage === totalPages}
-      />
+      <button className="arrow" disabled={currentPage === totalPages}>
+        <SliderArrowIcon
+          stroke="var(--bukarka-dark-grey)"
+          onClick={handleNext}
+        />
+      </button>
     </PaginationWrapper>
   );
 };

@@ -17,11 +17,8 @@ const SearchPage = () => {
     const page = Number(searchParams.get("page")) || 1;
     const keyword = searchParams.get("keyword") || "";
     setKeyword(keyword);
-    const loadData = async () => {
-      await handleSearch(keyword, page, sortBy, orderSort);
-    };
-    loadData();
-  }, [searchParams, keyword, sortBy, orderSort]);
+    handleSearch({ keyword, page, sortBy, orderSort });
+  }, [searchParams, sortBy, orderSort]);
 
   const handleSortChange = (sortKey: string, sortOrder: string) => {
     setSortBy(sortKey);

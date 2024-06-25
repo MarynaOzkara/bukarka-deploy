@@ -9,24 +9,17 @@ import BookContent from "./BookContent/BookContent";
 import { StyledBookPageSlider } from "./BookPage.styled";
 
 const BookPage: React.FC = () => {
-  const { book, fetchBookById } = useBooks();
+  const { book, fetchBookById, books, fetchBooks } = useBooks();
   const { id } = useParams();
 
   useEffect(() => {
-    const loadBook = async () => {
-      await fetchBookById(id);
-    };
-    id && loadBook();
+    if (id) {
+      fetchBookById(id);
+    }
   }, [fetchBookById, id]);
 
-  const { books, fetchBooks } = useBooks();
-
   useEffect(() => {
-    const loadData = async () => {
-      await fetchBooks();
-    };
-
-    loadData();
+    fetchBooks({});
   }, [fetchBooks]);
 
   return (
