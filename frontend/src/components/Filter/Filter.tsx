@@ -7,8 +7,29 @@ import {
 } from "./Filter.styled";
 import BookRating from "components/BookRating";
 import { bookLanguages, bookTypes } from "constants/filter";
+import { useEffect, useState } from "react";
+import { instance } from "utils/fetchInstance";
+import { Category, Subcategory } from "types/Categories";
 
-const Filter = () => {
+const Filter: React.FC = () => {
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await instance.get("/api/categories");
+        setCategories(response.data || []);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        setCategories([]);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  const handleClickMore = () => {};
+
   return (
     <FilterWrapper>
       <SectionTitle>Фильтр</SectionTitle>
@@ -25,16 +46,45 @@ const Filter = () => {
                     name="type"
                     value={type.value}
                   />
-                  <label htmlFor="new"> {type.label} </label>
+                  <label htmlFor={type.value}> {type.label} </label>
                 </p>
               ))}
           </div>
         </section>
         <section>
           <SubTitle>Тематика</SubTitle>
-
           <Input type="text" placeholder="Пошук за тематикою" />
-          <span className="more">Показати більше</span>
+          <>
+            {categories &&
+              categories.length > 0 &&
+              categories.map((category: Category) => {
+                return (
+                  category.subcategories &&
+                  category.subcategories.length > 0 &&
+                  category.subcategories.map((subcategory: Subcategory) => {
+                    return (
+                      subcategory &&
+                      subcategory.links &&
+                      subcategory.links.length > 0 &&
+                      subcategory.links.map((link, index) => (
+                        <p key={index}>
+                          <input
+                            type="checkbox"
+                            id={link}
+                            name="subcategory"
+                            value={link}
+                          />
+                          <label htmlFor={link}> {link} </label>
+                        </p>
+                      ))
+                    );
+                  })
+                );
+              })}
+          </>
+          <TextCenter className="more" onClick={handleClickMore}>
+            Показати більше
+          </TextCenter>
         </section>
         <section>
           <SubTitle>Мова</SubTitle>
@@ -70,13 +120,14 @@ const Filter = () => {
         <section>
           <SubTitle>Автор</SubTitle>
           <Input type="text" placeholder="Пошук автора" />
-          <TextCenter>Показати більше</TextCenter>
+
+          <TextCenter className="more">Показати більше</TextCenter>
         </section>
         <section>
           <SubTitle>Видавництво</SubTitle>
 
           <Input type="text" placeholder="Пошук видавництва" />
-          <TextCenter>Показати більше</TextCenter>
+          <TextCenter className="more">Показати більше</TextCenter>
         </section>
         <section>
           <SubTitle>Ціна</SubTitle>

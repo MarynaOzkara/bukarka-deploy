@@ -38,7 +38,7 @@ export const FilterContent = styled.form`
   }
 
   & p label {
-    padding: 1rem;
+    margin-left: 0.5rem;
   }
 
   & .rating-range > div {
@@ -51,6 +51,12 @@ export const FilterContent = styled.form`
 
   & section {
     padding-bottom: 1rem;
+
+    & .more {
+      font-weight: 700;
+      font-size: 0.8em;
+      cursor: pointer;
+    }
   }
 `;
 
