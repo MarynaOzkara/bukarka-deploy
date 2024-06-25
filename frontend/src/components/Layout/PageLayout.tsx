@@ -36,7 +36,7 @@ const PageLayout: React.FC<IPageLayoutProps> = ({ label, books, children }) => {
 
         {children}
 
-        {books && books.length > 0 && (
+        {totalPages > 1 && (
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
