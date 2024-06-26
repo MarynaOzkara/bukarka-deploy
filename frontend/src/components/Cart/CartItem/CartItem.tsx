@@ -2,6 +2,7 @@ import FavoriteButton from "components/FavoriteButton/FavoriteButton";
 import { images } from "assets/images/";
 import {
   deleteItem,
+  fetchOrderById,
   fetchOrdersData,
   updateItemQuantity,
 } from "../../../redux/orders/operations";
@@ -52,17 +53,14 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
 
   const dispatch = useAppDispatch();
 
-  const deleteFromLocalStorage = () => {
-    localStorage.removeItem(`isBookAdded_${bookId}`);
-  };
+  const handleDelete = async (id: string) => {
+    const storedOrderId = localStorage.getItem("cartOrderId");
 
-  const handleDelete = (id: string) => {
-    deleteFromLocalStorage();
-
-    dispatch(deleteItem(id)).then(() => {
-      dispatch(fetchOrdersData());
+    if (storedOrderId) {
+      dispatch(deleteItem(id));
+      await dispatch(fetchOrderById(storedOrderId));
       localStorage.removeItem(`isBookAdded_${bookId}`);
-    });
+    }
   };
 
   const handleDecreaseQuantity = () => {
