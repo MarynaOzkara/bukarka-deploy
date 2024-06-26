@@ -9,7 +9,7 @@ export const StyledItemCard = styled.div`
 
 export const StyledItemImage = styled.div`
   width: 192px;
-  height: 264px;
+  height: 271px;
   overflow: hidden;
   cursor: pointer;
   img {
