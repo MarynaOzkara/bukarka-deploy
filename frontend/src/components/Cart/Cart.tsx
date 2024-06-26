@@ -39,14 +39,14 @@ const Cart: React.FC<Props> = ({ closeCart }) => {
   const cartWrapperRef = useRef<HTMLDivElement>(null);
   const [wrapperHeight, setWrapperHeight] = useState<number | null>(null);
   const [cartData, setCartData] = useState<CartData | null>(null);
-  const [cartOrderId, setCartOrderId] = useState<string | null>(null);
+  const [currentOrderId, setCurrentOrderId] = useState<string | null>(null);
 
   const status = useSelector((state: IRootState) => selectOrdersStatus(state));
   console.log(cartData?._id);
 
   useEffect(() => {
-    const storedOrderId = localStorage.getItem("cartOrderId");
-    setCartOrderId(storedOrderId);
+    const storedOrderId = localStorage.getItem("currentOrderId");
+    setCurrentOrderId(storedOrderId);
     if (storedOrderId) {
       dispatch(fetchOrderById(storedOrderId))
         .then((response: any) => {

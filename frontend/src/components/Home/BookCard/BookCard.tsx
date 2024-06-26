@@ -93,13 +93,13 @@ const BookCard: React.FC<IProps> = ({
       return;
     }
 
-    let orderId = localStorage.getItem("cartOrderId");
+    let orderId = localStorage.getItem("currentOrderId");
     if (!orderId) {
       const createCartResponse = await dispatch(createCart());
       console.log(createCartResponse);
       if (createCartResponse.meta.requestStatus === "fulfilled") {
         orderId = createCartResponse?.payload?.orderId;
-        orderId && localStorage.setItem("cartOrderId", orderId);
+        orderId && localStorage.setItem("currentOrderId", orderId);
       } else {
         console.log("Помилка при створенні кошика.");
         return;

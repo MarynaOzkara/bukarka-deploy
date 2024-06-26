@@ -27,7 +27,7 @@ const OrderConfirmationPage: React.FC = () => {
           console.log(order);
           if (order && order.orderNumber) {
             setOrderNumber(order.orderNumber.toString());
-            localStorage.removeItem("cartOrderId");
+            localStorage.removeItem("currentOrderId");
             Object.keys(localStorage).forEach((key) => {
               if (key.startsWith("isBookAdded_")) {
                 localStorage.removeItem(key);

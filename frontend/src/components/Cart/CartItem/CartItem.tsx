@@ -54,7 +54,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
   const dispatch = useAppDispatch();
 
   const handleDelete = async (id: string) => {
-    const storedOrderId = localStorage.getItem("cartOrderId");
+    const storedOrderId = localStorage.getItem("currentOrderId");
 
     if (storedOrderId) {
       dispatch(deleteItem(id));
@@ -65,7 +65,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
 
   const handleDecreaseQuantity = async () => {
     if (quantity > 1) {
-      const storedOrderId = localStorage.getItem("cartOrderId");
+      const storedOrderId = localStorage.getItem("currentOrderId");
       if (storedOrderId) {
         await dispatch(
           updateItemQuantity({
@@ -80,7 +80,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
   };
 
   const handleIncreaseQuantity = async () => {
-    const storedOrderId = localStorage.getItem("cartOrderId");
+    const storedOrderId = localStorage.getItem("currentOrderId");
     if (storedOrderId) {
       await dispatch(
         updateItemQuantity({

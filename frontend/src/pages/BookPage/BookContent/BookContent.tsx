@@ -52,7 +52,7 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
 
   useEffect(() => {
     const fetchCartData = async () => {
-      const storedOrderId = localStorage.getItem("cartOrderId");
+      const storedOrderId = localStorage.getItem("currentOrderId");
       if (storedOrderId) {
         const response = await dispatch(fetchOrderById(storedOrderId));
         if (response.meta.requestStatus !== "rejected") {
@@ -65,7 +65,7 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
   }, [dispatch]);
 
   const handleBuy = useCallback(async () => {
-    const storedOrderId = localStorage.getItem("cartOrderId");
+    const storedOrderId = localStorage.getItem("currentOrderId");
     if (!localStorage.getItem(`isBookAdded_${book._id}`)) {
       localStorage.setItem(`isBookAdded_${book._id}`, "true");
       if (storedOrderId) {
@@ -82,7 +82,7 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
   }, [book._id, dispatch]);
 
   const handleAddToCart = useCallback(async () => {
-    const storedOrderId = localStorage.getItem("cartOrderId");
+    const storedOrderId = localStorage.getItem("currentOrderId");
     if (localStorage.getItem(`isBookAdded_${book._id}`)) {
       showModal("isBookAdded");
     } else {
