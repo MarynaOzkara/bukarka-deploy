@@ -7,12 +7,16 @@ import React, {
   useState,
 } from "react";
 import {
+  Author,
+  Category,
   IBookItem,
   IBooksContextType,
   IBooksDataResponse,
   IFetchBooksParams,
   IFetchFavoritesParams,
+  Publisher,
 } from "types/Books";
+
 import { instance } from "utils/fetchInstance";
 
 const BooksContext = createContext<IBooksContextType | null>(null);
@@ -35,6 +39,9 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
   const [searchResults, setSearchResults] = useState<IBookItem[]>([]);
   const [hints, setHints] = useState<IBookItem[]>([]);
   const [favorites, setFavorites] = useState<IBookItem[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [authors, setAuthors] = useState<Author[]>([]);
+  const [publishers, setPublishers] = useState<Publisher[]>([]);
 
   const fetchBooks = useCallback(async (params: IFetchBooksParams) => {
     try {
@@ -119,6 +126,36 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
     []
   );
 
+  const fetchCategories = useCallback(async () => {
+    try {
+      const response = await instance.get<Category[]>("/api/categories");
+      setCategories(response.data || []);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      setCategories([]);
+    }
+  }, []);
+
+  const fetchPublishers = useCallback(async () => {
+    try {
+      const response = await instance.get<Publisher[]>("/api/books/publishers");
+      setPublishers(response.data || []);
+    } catch (error) {
+      console.error("Error fetching publishers:", error);
+      setPublishers([]);
+    }
+  }, []);
+
+  const fetchAuthors = useCallback(async () => {
+    try {
+      const response = await instance.get<Author[]>("/api/books/authors");
+      setAuthors(response.data || []);
+    } catch (error) {
+      console.error("Error fetching authors:", error);
+      setAuthors([]);
+    }
+  }, []);
+
   const contextValue = useMemo(
     () => ({
       books,
@@ -128,12 +165,18 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       favorites,
       currentPage,
       totalPages,
+      categories,
+      publishers,
+      authors,
       setCurrentPage,
       fetchBooks,
       handleSearch,
       fetchHints,
       fetchBookById,
       fetchFavoritesForGuest,
+      fetchCategories,
+      fetchPublishers,
+      fetchAuthors,
     }),
     [
       books,
@@ -143,11 +186,17 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       favorites,
       currentPage,
       totalPages,
+      categories,
+      publishers,
+      authors,
       fetchBooks,
       handleSearch,
       fetchHints,
       fetchBookById,
       fetchFavoritesForGuest,
+      fetchCategories,
+      fetchPublishers,
+      fetchAuthors,
     ]
   );
 

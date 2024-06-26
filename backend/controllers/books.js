@@ -234,6 +234,32 @@ const getUniqueAuthors = async (req, res) => {
   }
 };
 
+const getUniquePublishers = async (req, res) => {
+  try {
+    const publishers = await Book.aggregate([
+      {
+        $group: {
+          _id: "$publisher",
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          publisher: "$_id",
+        },
+      },
+    ]);
+
+    console.log("Publishers fetched: ", publishers);
+    res.json(publishers);
+  } catch (error) {
+    console.error("Error fetching unique publishers:", error);
+    res
+      .status(500)
+      .json({ message: "Server error while retrieving publishers" });
+  }
+};
+
 module.exports = {
   getAll,
   getBooksByType,
@@ -241,6 +267,7 @@ module.exports = {
   getNewBooks,
   getPromotions,
   getUniqueAuthors,
+  getUniquePublishers,
   filtersBooks,
   getBooksByIds,
   getBookById,
@@ -256,4 +283,5 @@ module.exports = {
   getBookById: ctrlWrapper(getBookById),
   getBooksByIds: ctrlWrapper(getBooksByIds),
   getUniqueAuthors: ctrlWrapper(getUniqueAuthors),
+  getUniquePublishers: ctrlWrapper(getUniquePublishers),
 };

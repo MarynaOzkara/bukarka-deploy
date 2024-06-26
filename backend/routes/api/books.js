@@ -10,6 +10,7 @@ router.get("/bestsellers", booksController.getBestsellers);
 router.get("/new", booksController.getNewBooks);
 router.get("/promotions", booksController.getPromotions);
 router.get("/authors", booksController.getUniqueAuthors);
+router.get("/publishers", booksController.getUniquePublishers);
 router.get("/filters", booksController.filtersBooks);
 router.get("/ids", booksController.getBooksByIds);
 router.get("/:id", booksController.getBookById);

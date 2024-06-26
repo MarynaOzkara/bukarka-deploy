@@ -1,32 +1,38 @@
+import { useBooks } from "components/Book";
+import BookRating from "components/BookRating";
+import { bookLanguages, bookTypes } from "constants/filter";
+import { useEffect } from "react";
 import { ButtonYellow, Input, TextCenter } from "styles/CommonStyled";
+
 import {
   FilterContent,
   FilterWrapper,
   SectionTitle,
   SubTitle,
 } from "./Filter.styled";
-import BookRating from "components/BookRating";
-import { bookLanguages, bookTypes } from "constants/filter";
-import { useEffect, useState } from "react";
-import { instance } from "utils/fetchInstance";
-import { Category, Subcategory } from "types/Categories";
+import { Category, Subcategory } from "types/Books";
 
 const Filter: React.FC = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const {
+    categories,
+    fetchCategories,
+    authors,
+    fetchAuthors,
+    publishers,
+    fetchPublishers,
+  } = useBooks();
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await instance.get("/api/categories");
-        setCategories(response.data || []);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-        setCategories([]);
-      }
-    };
-
     fetchCategories();
-  }, []);
+  }, [fetchCategories]);
+
+  useEffect(() => {
+    fetchAuthors();
+  }, [fetchAuthors]);
+
+  useEffect(() => {
+    fetchPublishers();
+  }, [fetchPublishers]);
 
   const handleClickMore = () => {};
 
@@ -121,12 +127,42 @@ const Filter: React.FC = () => {
           <SubTitle>Автор</SubTitle>
           <Input type="text" placeholder="Пошук автора" />
 
+          {authors &&
+            authors.length > 0 &&
+            authors.map((author, index) => (
+              <p key={index}>
+                <input
+                  type="checkbox"
+                  id={author.author}
+                  name="author"
+                  value={author.author}
+                />
+                <label htmlFor="languages">{author.author}</label>
+              </p>
+            ))}
+
           <TextCenter className="more">Показати більше</TextCenter>
         </section>
         <section>
           <SubTitle>Видавництво</SubTitle>
 
           <Input type="text" placeholder="Пошук видавництва" />
+          {publishers &&
+            publishers.length > 0 &&
+            publishers.map(
+              (publisher, index) =>
+                !!publisher.publisher && (
+                  <p key={index}>
+                    <input
+                      type="checkbox"
+                      id={publisher.publisher}
+                      name="publisher"
+                      value={publisher.publisher}
+                    />
+                    <label htmlFor="languages">{publisher.publisher}</label>
+                  </p>
+                )
+            )}
           <TextCenter className="more">Показати більше</TextCenter>
         </section>
         <section>

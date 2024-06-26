@@ -51,6 +51,24 @@ export interface IFetchFavoritesParams {
   orderSort?: string;
 }
 
+export interface Category {
+  title: string;
+  subcategories: Subcategory[];
+}
+
+export interface Subcategory {
+  title: string;
+  links: string[];
+}
+
+export interface Author {
+  author: string;
+}
+
+export interface Publisher {
+  publisher: string;
+}
+
 export interface IBooksContextType {
   books: IBookItem[];
   book?: IBookItem;
@@ -59,10 +77,16 @@ export interface IBooksContextType {
   totalPages: number;
   currentPage: number;
   searchResults: IBookItem[];
+  categories: Category[];
+  authors: Author[];
+  publishers: Publisher[];
   setCurrentPage: (page: number) => void;
   fetchHints: (params: IFetchBooksParams) => Promise<void>;
   handleSearch: (params: IFetchBooksParams) => Promise<void>;
   fetchBooks: (params: IFetchBooksParams) => Promise<void>;
   fetchBookById: (id?: string) => Promise<void>;
   fetchFavoritesForGuest: (params: IFetchFavoritesParams) => Promise<void>;
+  fetchCategories: () => Promise<void>;
+  fetchPublishers: () => Promise<void>;
+  fetchAuthors: () => Promise<void>;
 }
