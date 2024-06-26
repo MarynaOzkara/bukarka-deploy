@@ -63,30 +63,34 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
     }
   };
 
-  const handleDecreaseQuantity = () => {
+  const handleDecreaseQuantity = async () => {
     if (quantity > 1) {
-      dispatch(
-        updateItemQuantity({
-          orderId: item.orderId,
-          orderItemId: _id,
-          quantity: quantity - 1,
-        })
-      ).then(() => {
-        dispatch(fetchOrdersData());
-      });
+      const storedOrderId = localStorage.getItem("cartOrderId");
+      if (storedOrderId) {
+        await dispatch(
+          updateItemQuantity({
+            orderId: item.orderId,
+            orderItemId: _id,
+            quantity: quantity - 1,
+          })
+        );
+        await dispatch(fetchOrderById(storedOrderId));
+      }
     }
   };
 
-  const handleIncreaseQuantity = () => {
-    dispatch(
-      updateItemQuantity({
-        orderId: item.orderId,
-        orderItemId: _id,
-        quantity: quantity + 1,
-      })
-    ).then(() => {
-      dispatch(fetchOrdersData());
-    });
+  const handleIncreaseQuantity = async () => {
+    const storedOrderId = localStorage.getItem("cartOrderId");
+    if (storedOrderId) {
+      await dispatch(
+        updateItemQuantity({
+          orderId: item.orderId,
+          orderItemId: _id,
+          quantity: quantity + 1,
+        })
+      );
+      await dispatch(fetchOrderById(storedOrderId));
+    }
   };
 
   return (
