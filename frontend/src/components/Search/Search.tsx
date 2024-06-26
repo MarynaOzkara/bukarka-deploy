@@ -1,20 +1,12 @@
 import { useBooks } from "components/Book";
 import useDebounce from "hooks/useDebounce";
-import {
-  ChangeEvent,
-  FormEvent,
-  KeyboardEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IBookItem } from "types/Books";
 import {
   FormButton,
   Hints,
-  Input,
+  SearchInput,
   StyledForm,
   StyledLensIcon,
 } from "./Search.styled";
@@ -27,24 +19,21 @@ const Search: React.FC = () => {
   const [isHintSelected, setIsHintSelected] = useState<boolean>(false);
 
   const hintsRef = useRef<HTMLUListElement>(null);
-
   const debouncedQuery = useDebounce(inputQuery, 500);
-
   const navigate = useNavigate();
 
   const goToSearchPage = useCallback(
     (searchParams: Record<string, any>) => {
-      const queryString = new URLSearchParams(searchParams).toString();
-      navigate(`/search?${queryString}`);
-      setHighlightedIndex(-1);
+      navigate(`/search?${new URLSearchParams(searchParams).toString()}`);
       setShowHints(false);
+      setHighlightedIndex(-1);
     },
     [navigate]
   );
 
   useEffect(() => {
     if (debouncedQuery && !isHintSelected) {
-      fetchHints(debouncedQuery);
+      fetchHints({ keyword: debouncedQuery });
       setShowHints(true);
     } else {
       setShowHints(false);
@@ -71,95 +60,85 @@ const Search: React.FC = () => {
 
   useEffect(() => {
     const handleClickOutsideHints = (event: MouseEvent) => {
-      if (
-        hintsRef.current &&
-        !hintsRef.current.contains(event.target as Node)
-      ) {
+      if (!hintsRef.current?.contains(event.target as Node)) {
         setShowHints(false);
+        setHighlightedIndex(-1);
       }
-      setHighlightedIndex(-1);
     };
 
     document.addEventListener("mousedown", handleClickOutsideHints);
-    return () => {
+    return () =>
       document.removeEventListener("mousedown", handleClickOutsideHints);
-    };
   }, []);
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputQuery(event.target.value);
     setIsHintSelected(false);
-    setShowHints(false);
+    setShowHints(!!event.target.value);
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    goToSearchPage({ keyword: inputQuery, page: "1" });
-  };
-
-  const handleHintClick = (hint: IBookItem) => {
-    if (hint) {
-      const author = hint.author
-        ?.toLowerCase()
-        .includes(inputQuery.toLowerCase())
-        ? hint.author
-        : "";
-      const title = hint.title?.toLowerCase().includes(inputQuery.toLowerCase())
-        ? hint.title
-        : "";
-
-      setInputQuery(author || title);
-      setIsHintSelected(true);
-      goToSearchPage({ keyword: author || title, page: "1" });
+    if (inputQuery.trim()) {
+      goToSearchPage({ keyword: inputQuery.trim(), page: "1" });
     }
   };
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "ArrowDown") {
-      setHighlightedIndex((prevIndex) =>
-        prevIndex === hints.length - 1 ? 0 : prevIndex + 1
-      );
-    } else if (event.key === "ArrowUp") {
-      setHighlightedIndex((prevIndex) =>
-        prevIndex <= 0 ? hints.length - 1 : prevIndex - 1
-      );
-    } else if (event.key === "Enter" && highlightedIndex >= 0) {
-      event.preventDefault();
+  const handleHintClick = (hint: IBookItem) => {
+    const searchKey = hint.author
+      ?.toLowerCase()
+      .includes(inputQuery.toLowerCase())
+      ? hint.author
+      : hint.title;
+    setInputQuery(searchKey);
+    setIsHintSelected(true);
+    goToSearchPage({ keyword: searchKey, page: "1" });
+  };
 
-      handleHintClick(hints[highlightedIndex]);
-    } else if (event.key === "Escape") {
-      setShowHints(false);
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    switch (event.key) {
+      case "ArrowDown":
+        setHighlightedIndex((index) => (index + 1) % hints.length);
+        break;
+      case "ArrowUp":
+        setHighlightedIndex(
+          (index) => (index - 1 + hints.length) % hints.length
+        );
+        break;
+      case "Enter":
+        if (highlightedIndex >= 0) {
+          event.preventDefault();
+          handleHintClick(hints[highlightedIndex]);
+        }
+        break;
+      case "Escape":
+        setShowHints(false);
+        break;
     }
   };
 
   return (
     <StyledForm onSubmit={handleSubmit}>
       <StyledLensIcon />
-      <Input
+      <SearchInput
         type="text"
         value={inputQuery}
-        onBlur={() => setInputQuery("")}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
+        onBlur={() => setInputQuery("")}
         placeholder="Знайти книгу"
+        aria-label="Search books"
       />
       {showHints && (
-        <Hints ref={hintsRef}>
-          {hints && hints.length > 0 ? (
+        <Hints ref={hintsRef} aria-label="Search suggestions">
+          {hints.length > 0 ? (
             hints.map((hint, index) => (
               <li
-                className={`${index === highlightedIndex ? "highlighted" : ""}`}
                 key={index}
+                className={index === highlightedIndex ? "highlighted" : ""}
                 onClick={() => handleHintClick(hint)}
               >
-                {(hint.author
-                  ?.toLowerCase()
-                  .includes(inputQuery.toLowerCase()) &&
-                  hint.author) ||
-                  (hint.title
-                    ?.toLowerCase()
-                    .includes(inputQuery.toLowerCase()) &&
-                    hint.title)}
+                {hint.author || hint.title}
               </li>
             ))
           ) : (
@@ -167,7 +146,7 @@ const Search: React.FC = () => {
           )}
         </Hints>
       )}
-      <FormButton>Знайти</FormButton>
+      <FormButton type="submit">Знайти</FormButton>
     </StyledForm>
   );
 };

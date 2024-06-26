@@ -74,10 +74,12 @@ export const FlexWrapper = styled.div`
 export const FlexWrap = styled(FlexWrapper)`
   flex-wrap: wrap;
   position: relative;
+  width: 100%;
 `;
 
 export const TextCenter = styled.div`
-  margin: 0 auto;
+  margin: 0.5rem auto;
+  text-align: center;
 `;
 
 export const Button = styled.button`
@@ -98,10 +100,33 @@ export const Button = styled.button`
     color: var(--bukarka-yellow);
   }
 `;
+
 export const ButtonOrange = styled(Button)`
+  width: 100%;
   background: var(--bukarka-orange);
 `;
 
 export const ButtonYellow = styled(Button)`
+  width: 100%;
   background: var(--bukarka-yellow);
+`;
+
+export const ButtonContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+
+export const Input = styled.input`
+  line-height: 2.5rem;
+  padding: 0 1rem;
+  width: 100%;
+  border: none;
+
+  &::placeholder {
+    font-family: var(--regular);
+    font-size: 16px;
+    line-height: 150%;
+    color: var(--bukarka-dark-grey);
+  }
 `;

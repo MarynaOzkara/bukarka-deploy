@@ -210,6 +210,69 @@ const getBookById = async (req, res) => {
   res.json(book);
 };
 
+const getUniqueAuthors = async (req, res) => {
+  try {
+    const authors = await Book.aggregate([
+      {
+        $group: {
+          _id: "$author",
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          author: "$_id",
+        },
+      },
+    ]);
+
+    console.log("Authors fetched: ", authors);
+    res.json(authors);
+  } catch (error) {
+    console.error("Error fetching unique authors:", error);
+    res.status(500).json({ message: "Server error while retrieving authors" });
+  }
+};
+
+const getUniquePublishers = async (req, res) => {
+  try {
+    const publishers = await Book.aggregate([
+      {
+        $group: {
+          _id: "$publisher",
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          publisher: "$_id",
+        },
+      },
+    ]);
+
+    console.log("Publishers fetched: ", publishers);
+    res.json(publishers);
+  } catch (error) {
+    console.error("Error fetching unique publishers:", error);
+    res
+      .status(500)
+      .json({ message: "Server error while retrieving publishers" });
+  }
+};
+
+module.exports = {
+  getAll,
+  getBooksByType,
+  getBestsellers,
+  getNewBooks,
+  getPromotions,
+  getUniqueAuthors,
+  getUniquePublishers,
+  filtersBooks,
+  getBooksByIds,
+  getBookById,
+};
+
 module.exports = {
   getAll: ctrlWrapper(getAll),
   getBooksByType: ctrlWrapper(getBooksByType),
@@ -219,4 +282,6 @@ module.exports = {
   filtersBooks: ctrlWrapper(filtersBooks),
   getBookById: ctrlWrapper(getBookById),
   getBooksByIds: ctrlWrapper(getBooksByIds),
+  getUniqueAuthors: ctrlWrapper(getUniqueAuthors),
+  getUniquePublishers: ctrlWrapper(getUniquePublishers),
 };

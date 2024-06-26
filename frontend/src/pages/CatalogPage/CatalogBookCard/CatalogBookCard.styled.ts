@@ -1,20 +1,27 @@
 import { StarIcon } from "assets/icons";
+import { StarsWrapper } from "components/Slider/SimpleSlider.styled";
 import styled from "styled-components";
+import { ButtonContainer } from "styles/CommonStyled";
 
 export const StyledItemCard = styled.div`
   margin-top: 0;
   position: relative;
-  width: 192px;
+  width: fit-content;
+`;
+
+export const StyledFavoriteButton = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
 `;
 
 export const StyledItemImage = styled.div`
-  width: 192px;
-  height: 271px;
+  width: 248px;
+  height: 352px;
   overflow: hidden;
   cursor: pointer;
+
   img {
-    width: 192px;
-    height: auto;
     object-fit: contain;
     object-position: 50% 50%;
   }
@@ -55,36 +62,19 @@ export const StyledNameAuthor = styled.div`
   color: #7c7165;
 `;
 
-export const Button = styled.button`
-  padding: 8px 16px;
-  width: 160px;
-  border: none;
-
-  background: var(--bukarka-orange);
-  color: var(--bukarka-black);
-
-  font-family: "Montserrat-Bold";
-  font-weight: 700;
-  font-size: 16px;
-  //transition: all 0.5s ease;
-  &:hover {
-    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
-  }
-  &:active {
-    color: var(--bukarka-yellow);
-  }
-`;
-
-export const StyledFavoriteButton = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-`;
-
 export const EmptyIcon = styled(StarIcon)`
   fill: var(--bukarka-white);
 `;
 
 export const FullIcon = styled(StarIcon)`
   fill: var(--bukarka-yellow);
+`;
+
+export const StyledButtonContainer = styled(ButtonContainer)`
+  margin: 0 auto;
+  width: 216px;
+`;
+
+export const StyledStarsWrapper = styled(StarsWrapper)`
+  margin: 0 auto;
 `;

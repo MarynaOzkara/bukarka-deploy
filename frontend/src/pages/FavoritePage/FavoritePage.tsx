@@ -1,23 +1,28 @@
 import { Favorites, Sort } from "components";
+import { useBooks } from "components/Book";
 import { useFavorites } from "components/Favorites/FavoritesContext";
 import { PageLayout } from "components/Layout";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { FlexWrap } from "styles/CommonStyled";
 
 const FavoritePage: React.FC = () => {
-  const { favorites, favoriteIds, fetchFavoritesForGuest } = useFavorites();
+  const { favoriteIds } = useFavorites();
+  const { favorites, fetchFavoritesForGuest } = useBooks();
   const [searchParams, setSearchParams] = useSearchParams();
   const [sortBy, setSortBy] = useState("");
   const [orderSort, setOrderSort] = useState("asc");
 
   useEffect(() => {
     const page = Number(searchParams.get("page")) || 1;
-
-    const loadFavorites = async () => {
-      await fetchFavoritesForGuest(favoriteIds, page, sortBy, orderSort);
+    const fetchParams = {
+      ids: favoriteIds,
+      page,
+      sortBy,
+      orderSort,
     };
-    loadFavorites();
-  }, [searchParams, favoriteIds]);
+    fetchFavoritesForGuest(fetchParams);
+  }, [searchParams, favoriteIds, sortBy, orderSort, fetchFavoritesForGuest]);
 
   const handleSortChange = (sortKey: string, sortOrder: string) => {
     setSortBy(sortKey);
@@ -32,10 +37,12 @@ const FavoritePage: React.FC = () => {
 
   return (
     <PageLayout label="Обране" books={favorites}>
-      {favorites && favorites.length > 1 && (
-        <Sort onSortChange={handleSortChange} />
-      )}
-      <Favorites favorites={favorites} />
+      <FlexWrap>
+        {favorites && favorites.length > 1 && (
+          <Sort onSortChange={handleSortChange} />
+        )}
+        <Favorites favorites={favorites} />
+      </FlexWrap>
     </PageLayout>
   );
 };

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { ButtonContainer } from "styles/CommonStyled";
 
 export const BookContentWrapper = styled.div`
   display: flex;
@@ -6,21 +7,11 @@ export const BookContentWrapper = styled.div`
   gap: 1rem;
 `;
 
-export const ButtonContainer = styled.section`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  width: 296px;
-  flex-shrink: 0;
-`;
 export const BookDescription = styled.section`
   flex-grow: 1;
   text-align: left;
 `;
-export const Separator = styled.div`
-  margin: 1rem 0;
-  border: 1px solid var(--bukarka-light-grey);
-`;
+
 export const DescTable = styled.ul`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -45,6 +36,7 @@ export const BookTitle = styled.h2`
   line-height: 2.5rem;
   font-size: 2rem;
 `;
+
 export const BookSubTitle = styled.h3`
   font-size: 1.5rem;
   line-height: 2rem;
@@ -67,4 +59,9 @@ export const FavoriteButtonContainer = styled.div`
   position: absolute;
   top: 1rem;
   right: 1rem;
+`;
+
+export const StyledButtonContainer = styled(ButtonContainer)`
+  width: 296px;
+  flex-shrink: 0;
 `;

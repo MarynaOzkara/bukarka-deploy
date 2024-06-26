@@ -1,5 +1,6 @@
 import { LensIcon } from "assets/icons";
 import styled from "styled-components";
+import { Input } from "styles/CommonStyled";
 
 export const StyledForm = styled.form`
   position: relative;
@@ -9,16 +10,11 @@ export const StyledForm = styled.form`
   gap: 2px;
 `;
 
-export const Input = styled.input`
-  padding: 8px 16px 8px 48px;
+export const SearchInput = styled(Input)`
+  padding: 0 16px 0 48px;
   width: 400px;
-  min-height: 40px;
 
   border: none;
-
-  &:focus-visible {
-    outline-color: var(--bukarka-grey);
-  }
 
   &::placeholder {
     font-family: var(--regular);

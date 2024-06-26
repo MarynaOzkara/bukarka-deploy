@@ -6,7 +6,17 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { IBookItem, IBooksContextType, IBooksDataResponse } from "types/Books";
+import {
+  Author,
+  Category,
+  IBookItem,
+  IBooksContextType,
+  IBooksDataResponse,
+  IFetchBooksParams,
+  IFetchFavoritesParams,
+  Publisher,
+} from "types/Books";
+
 import { instance } from "utils/fetchInstance";
 
 const BooksContext = createContext<IBooksContextType | null>(null);
@@ -28,50 +38,59 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
   const [totalPages, setTotalPages] = useState(1);
   const [searchResults, setSearchResults] = useState<IBookItem[]>([]);
   const [hints, setHints] = useState<IBookItem[]>([]);
+  const [favorites, setFavorites] = useState<IBookItem[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [authors, setAuthors] = useState<Author[]>([]);
+  const [publishers, setPublishers] = useState<Publisher[]>([]);
 
-  const setPages = (books: IBooksDataResponse) => {
-    if (books.total && books.limit) {
-      const pages = Math.ceil(books.total / books.limit);
-      setTotalPages(pages);
-    }
-  };
+  const fetchBooks = useCallback(async (params: IFetchBooksParams) => {
+    try {
+      const response = await instance.get<IBooksDataResponse>(
+        "/api/books/filters",
+        { params }
+      );
+      const { books, total, limit } = response.data;
+      if (books.length) {
+        setBooks(books);
+        setHints(books);
 
-  const fetchBooks = useCallback(
-    async (
-      category?: string,
-      subcategory?: string,
-      link?: string,
-      page?: number,
-      sortBy?: string,
-      orderSort?: string
-    ) => {
-      try {
-        const response = await instance.get<IBooksDataResponse>(
-          "/api/books/filters",
-          {
-            params: {
-              category,
-              subcategory,
-              link,
-              page,
-              sortBy,
-              orderSort,
-            },
-          }
-        );
-
-        if (response.data.books.length) {
-          setBooks(response.data.books);
-          setPages(response.data);
-          setCurrentPage(page || 1);
-        }
-      } catch (error: any) {
-        console.error("Error fetching data:", error);
-
+        if (total && limit) setTotalPages(Math.ceil(total / limit));
+        if (params) setCurrentPage(params.page || 1);
+      } else {
         setBooks([]);
       }
+    } catch (error) {
+      console.error("Error fetching books:", error);
+      setBooks([]);
+    }
+  }, []);
+
+  const handleSearch = useCallback(async (params: IFetchBooksParams) => {
+    try {
+      const response = await instance.get<IBooksDataResponse>(
+        "/api/books/filters",
+        { params }
+      );
+      const { books, total, limit } = response.data;
+      if (books.length) {
+        setSearchResults(books);
+
+        if (total && limit) setTotalPages(Math.ceil(total / limit));
+        if (params) setCurrentPage(params.page || 1);
+      } else {
+        setSearchResults([]);
+      }
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+      setSearchResults([]);
+    }
+  }, []);
+
+  const fetchHints = useCallback(
+    async (params: IFetchBooksParams) => {
+      fetchBooks(params);
     },
-    []
+    [fetchBooks]
   );
 
   const fetchBookById = useCallback(async (id?: string) => {
@@ -83,52 +102,57 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
     }
   }, []);
 
-  const handleSearch = useCallback(
-    async (
-      keyword?: string,
-      page?: number,
-      sortBy?: string,
-      orderSort?: string
-    ) => {
+  const fetchFavoritesForGuest = useCallback(
+    async (params: IFetchFavoritesParams) => {
       try {
         const response = await instance.get<IBooksDataResponse>(
-          "/api/books/filters",
-          {
-            params: {
-              keyword,
-              page,
-              sortBy,
-              orderSort,
-            },
-          }
+          "/api/books/ids",
+          { params }
         );
-
         if (response.data.books.length) {
-          setSearchResults(response.data.books);
-          setPages(response.data);
-          setCurrentPage(page || 1);
+          setFavorites(response.data.books);
+          if (response.data.total && response.data.limit) {
+            setTotalPages(Math.ceil(response.data.total / response.data.limit));
+          }
+          setCurrentPage(params.page || 1);
         } else {
-          setSearchResults([]);
+          setFavorites([]);
         }
       } catch (error: any) {
-        console.error("Error fetching data:", error);
-        setSearchResults([]);
+        console.error("Error fetching favorites:", error);
+        setFavorites([]);
       }
     },
     []
   );
 
-  const fetchHints = useCallback(async (keyword?: string) => {
+  const fetchCategories = useCallback(async () => {
     try {
-      const response = await instance.get<IBooksDataResponse>(
-        "/api/books/filters",
-        {
-          params: { keyword },
-        }
-      );
-      setHints(response.data.books);
-    } catch (error: any) {
-      console.error("Error fetching suggestions:", error);
+      const response = await instance.get<Category[]>("/api/categories");
+      setCategories(response.data || []);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      setCategories([]);
+    }
+  }, []);
+
+  const fetchPublishers = useCallback(async () => {
+    try {
+      const response = await instance.get<Publisher[]>("/api/books/publishers");
+      setPublishers(response.data || []);
+    } catch (error) {
+      console.error("Error fetching publishers:", error);
+      setPublishers([]);
+    }
+  }, []);
+
+  const fetchAuthors = useCallback(async () => {
+    try {
+      const response = await instance.get<Author[]>("/api/books/authors");
+      setAuthors(response.data || []);
+    } catch (error) {
+      console.error("Error fetching authors:", error);
+      setAuthors([]);
     }
   }, []);
 
@@ -138,25 +162,41 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       book,
       searchResults,
       hints,
+      favorites,
       currentPage,
       totalPages,
+      categories,
+      publishers,
+      authors,
       setCurrentPage,
       fetchBooks,
-      fetchBookById,
       handleSearch,
       fetchHints,
+      fetchBookById,
+      fetchFavoritesForGuest,
+      fetchCategories,
+      fetchPublishers,
+      fetchAuthors,
     }),
     [
       books,
       book,
       searchResults,
       hints,
+      favorites,
       currentPage,
       totalPages,
+      categories,
+      publishers,
+      authors,
       fetchBooks,
-      fetchBookById,
       handleSearch,
       fetchHints,
+      fetchBookById,
+      fetchFavoritesForGuest,
+      fetchCategories,
+      fetchPublishers,
+      fetchAuthors,
     ]
   );
 
