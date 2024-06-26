@@ -17,6 +17,7 @@ import {
   TotalPrice,
   Wrapper,
 } from "./CartList.styled";
+import { Button, Message } from "../Cart.styled";
 
 type CartListProps = {
   closeCart: () => void;
@@ -29,7 +30,7 @@ const CartList: React.FC<CartListProps> = ({ closeCart }) => {
 
   const ordersId = cartData?._id;
   console.log(cartData);
-  
+
   const clearLocalStorage = () => {
     const keysToRemove: string[] = [];
 
@@ -41,12 +42,13 @@ const CartList: React.FC<CartListProps> = ({ closeCart }) => {
     }
 
     keysToRemove.forEach((key) => localStorage.removeItem(key));
+    localStorage.removeItem("currentOrderId");
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     clearLocalStorage();
 
-    dispatch(deleteOrder(ordersId!)).then(() => {
+    await dispatch(deleteOrder(ordersId!)).then(() => {
       dispatch(fetchOrdersData());
     });
   };
@@ -65,6 +67,17 @@ const CartList: React.FC<CartListProps> = ({ closeCart }) => {
     closeCart();
     navigate(`/`);
   };
+
+  if (!cartData) {
+    return (
+      <div style={{ textAlign: "center" }}>
+        <Message>В вашому кошику ще немає товарів</Message>
+        <Button onClick={closeCart}>
+          <Link to="/">Продовжити покупки</Link>
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <Wrapper>
