@@ -16,10 +16,6 @@ export const SearchInput = styled(Input)`
 
   border: none;
 
-  &:focus-visible {
-    outline-color: var(--bukarka-grey);
-  }
-
   &::placeholder {
     font-family: var(--regular);
     font-size: 16px;
