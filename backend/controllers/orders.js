@@ -3,8 +3,21 @@ const { Order } = require("../models/order");
 const { OrderItem } = require("../models/order-item");
 const { Counter } = require("../models/counter");
 
+const createCart = async (req, res) => {
+  const order = new Order({ status: "Pending" });
+
+  await order.save();
+
+  res.status(201).json({
+    message: "Кошик успішно створено",
+    status: "OK",
+    code: 201,
+    orderId: order._id,
+  });
+};
+
 const addToCart = async (req, res) => {
-  const { productId } = req.params;
+  const { productId, orderId } = req.params;
 
   const orderItem = new OrderItem({
     quantity: 1,
@@ -13,10 +26,14 @@ const addToCart = async (req, res) => {
 
   await orderItem.save();
 
-  let order = await Order.findOne({ status: "Pending" });
+  let order = await Order.findById(orderId);
 
   if (!order) {
-    order = new Order({ status: "Pending" });
+    return res.status(404).json({
+      message: "Кошик не знайдено",
+      status: "NOT_FOUND",
+      code: 404,
+    });
   }
 
   order.orderItems.push(orderItem);
@@ -180,6 +197,7 @@ const placeOrder = async (req, res) => {
 };
 
 module.exports = {
+  createCart: ctrlWrapper(createCart),
   addToCart: ctrlWrapper(addToCart),
   getAllOrders: ctrlWrapper(getAllOrders),
   updateBookQuantity: ctrlWrapper(updateBookQuantity),

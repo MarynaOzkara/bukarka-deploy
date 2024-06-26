@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loader from "components/Loader";
 import CartList from "./CartList";
-import { fetchOrdersData } from "../../redux/orders/operations";
+import { fetchOrderById, fetchOrdersData } from "../../redux/orders/operations";
 import { useAppDispatch } from "../../redux/hooks";
 import { IRootState } from "../../redux/store";
 import {
@@ -23,7 +23,7 @@ export interface CartData {
   _id: string;
   orderItems: { _id: string; name: string; price: number; quantity: number }[];
   totalPrice: number;
-  status:string
+  status: string;
 }
 
 type Props = {
@@ -38,16 +38,28 @@ const Cart: React.FC<Props> = ({ closeCart }) => {
 
   const cartWrapperRef = useRef<HTMLDivElement>(null);
   const [wrapperHeight, setWrapperHeight] = useState<number | null>(null);
+  const [cartData, setCartData] = useState<CartData | null>(null);
+  const [cartOrderId, setCartOrderId] = useState<string | null>(null);
 
-  const cartData = useSelector(
-    (state: IRootState) => selectOrdersData(state) as CartData | null
-  );
   const status = useSelector((state: IRootState) => selectOrdersStatus(state));
-  console.log(cartData);
-  console.log(cartData?.status);
+  console.log(cartData?._id);
 
   useEffect(() => {
-    dispatch(fetchOrdersData());
+    const storedOrderId = localStorage.getItem("cartOrderId");
+    setCartOrderId(storedOrderId);
+    if (storedOrderId) {
+      dispatch(fetchOrderById(storedOrderId))
+        .then((response: any) => {
+          if (response.meta.requestStatus !== "rejected") {
+            setCartData(response.payload as CartData);
+          } else {
+            console.error("Error fetching order data");
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching order data:", error);
+        });
+    }
   }, [dispatch]);
 
   useEffect(() => {

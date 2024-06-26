@@ -2,7 +2,7 @@ import { images } from "assets/images";
 import BookRating from "components/BookRating";
 import Modal from "components/Modal";
 import { Price } from "pages/CommonPages.styled";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   ButtonOrange,
   ButtonYellow,
@@ -27,7 +27,8 @@ import {
 import Cart from "components/Cart";
 import FavoriteButton from "components/FavoriteButton";
 import { useAppDispatch } from "../../../redux/hooks";
-import { addToCart, fetchOrdersData } from "../../../redux/orders/operations";
+import { addToCart, fetchOrderById } from "../../../redux/orders/operations";
+import { CartData } from "components/Cart/Cart";
 
 interface IBookContentProps {
   book: IBookItem;
@@ -36,7 +37,7 @@ interface IBookContentProps {
 const BookContent: React.FC<IBookContentProps> = ({ book }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalContent, setModalContent] = useState<string>("");
-
+  const [cartData, setCartData] = useState<CartData | null>(null);
   const dispatch = useAppDispatch();
 
   const showModal = (content: string, img?: string) => {
@@ -49,22 +50,52 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
     setIsModalOpen(false);
   };
 
+  useEffect(() => {
+    const fetchCartData = async () => {
+      const storedOrderId = localStorage.getItem("cartOrderId");
+      if (storedOrderId) {
+        const response = await dispatch(fetchOrderById(storedOrderId));
+        if (response.meta.requestStatus !== "rejected") {
+          setCartData(response.payload as CartData);
+        }
+      }
+    };
+
+    fetchCartData();
+  }, [dispatch]);
+
   const handleBuy = useCallback(async () => {
+    const storedOrderId = localStorage.getItem("cartOrderId");
     if (!localStorage.getItem(`isBookAdded_${book._id}`)) {
       localStorage.setItem(`isBookAdded_${book._id}`, "true");
-      await dispatch(addToCart(book._id));
-      await dispatch(fetchOrdersData());
+      if (storedOrderId) {
+        await dispatch(
+          addToCart({ orderId: storedOrderId, productId: book._id })
+        );
+        const response = await dispatch(fetchOrderById(storedOrderId));
+        if (response.meta.requestStatus !== "rejected") {
+          setCartData(response.payload as CartData);
+        }
+      }
     }
     showModal("cart");
   }, [book._id, dispatch]);
 
   const handleAddToCart = useCallback(async () => {
+    const storedOrderId = localStorage.getItem("cartOrderId");
     if (localStorage.getItem(`isBookAdded_${book._id}`)) {
       showModal("isBookAdded");
     } else {
-      await dispatch(addToCart(book._id));
-      await dispatch(fetchOrdersData());
-      localStorage.setItem(`isBookAdded_${book._id}`, "true");
+      if (storedOrderId) {
+        await dispatch(
+          addToCart({ orderId: storedOrderId, productId: book._id })
+        );
+        const response = await dispatch(fetchOrderById(storedOrderId));
+        if (response.meta.requestStatus !== "rejected") {
+          setCartData(response.payload as CartData);
+        }
+        localStorage.setItem(`isBookAdded_${book._id}`, "true");
+      }
     }
   }, [book._id, dispatch]);
 

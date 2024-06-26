@@ -8,7 +8,11 @@ import FavoriteButton from "components/FavoriteButton/";
 import { images } from "assets/images";
 import { truncateString } from "utils/truncateString";
 import { useAppDispatch } from "../../../redux/hooks";
-import { addToCart, fetchOrdersData } from "../../../redux/orders/operations";
+import {
+  addToCart,
+  createCart,
+  fetchOrderById,
+} from "../../../redux/orders/operations";
 import {
   selectOrdersError,
   selectOrdersStatus,
@@ -86,12 +90,37 @@ const BookCard: React.FC<IProps> = ({
     if (isBookAdded) {
       console.log("Книга вже є в кошику!");
       setIsOpen(true);
-    } else {
-      await dispatch(addToCart(_id));
-      await dispatch(fetchOrdersData());
+      return;
+    }
+
+    let orderId = localStorage.getItem("cartOrderId");
+    if (!orderId) {
+      const createCartResponse = await dispatch(createCart());
+      console.log(createCartResponse);
+      if (createCartResponse.meta.requestStatus === "fulfilled") {
+        orderId = createCartResponse?.payload?.orderId;
+        orderId && localStorage.setItem("cartOrderId", orderId);
+      } else {
+        console.log("Помилка при створенні кошика.");
+        return;
+      }
+    }
+
+    if (!orderId) {
+      console.log("orderId є нульовим або не встановлено");
+      return;
+    }
+
+    const addToCartResponse = await dispatch(
+      addToCart({ orderId, productId: _id })
+    );
+    if (addToCartResponse.meta.requestStatus === "fulfilled") {
+      await dispatch(fetchOrderById(orderId));
       setIsOpen(true);
       setIsBookAdded(true);
       localStorage.setItem(`isBookAdded_${_id}`, "true");
+    } else {
+      console.log("Помилка при додаванні товару до кошика.");
     }
   }, [_id, dispatch, isBookAdded]);
 

@@ -5,7 +5,7 @@ const orderSchema = new Schema(
   {
     orderNumber: {
       type: Number,
-      unique: true,
+      // unique: true,
       // required: true
     },
     orderItems: [
@@ -70,7 +70,7 @@ const orderSchema = new Schema(
           return this.isModified("customerInfo");
         },
       },
-      
+
       comment: {
         type: String,
         // default: "",
