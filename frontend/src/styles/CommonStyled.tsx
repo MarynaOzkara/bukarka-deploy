@@ -123,10 +123,6 @@ export const Input = styled.input`
   width: 100%;
   border: none;
 
-  &:focus-visible {
-    outline-color: var(--bukarka-grey);
-  }
-
   &::placeholder {
     font-family: var(--regular);
     font-size: 16px;
