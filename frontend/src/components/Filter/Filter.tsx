@@ -4,7 +4,7 @@ import { bookTypes } from "constants/filter";
 import { useCallback, useEffect, useState } from "react";
 import { ButtonYellow } from "styles/CommonStyled";
 
-import { Author, Category, Publisher } from "types/Books";
+import { FilterData } from "types/Filter";
 import {
   FilterContent,
   FilterWrapper,
@@ -18,20 +18,23 @@ import CategoriesSection from "./filterParts/CategoriesSection";
 
 const Filter: React.FC = () => {
   const { fetchFilterData } = useBooks();
-  const [authors, setAuthors] = useState<Author[]>([]);
-  const [publishers, setPublishers] = useState<Publisher[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [price, setPrice] = useState({ minPrice: 0, maxPrice: 0 });
-  const [languages, setLanguages] = useState<[]>([]);
+
+  const [filterData, setFilterData] = useState<FilterData>({
+    authors: [],
+    publishers: [],
+    categories: [],
+    price: { minPrice: 0, maxPrice: 0 },
+    rating: { minRating: 0, maxRating: 0 },
+    languages: [],
+  });
+
+  const { authors, publishers, categories, price, rating, languages } =
+    filterData;
 
   const fetchData = useCallback(async () => {
     try {
       const data = await fetchFilterData();
-      setAuthors(data.authors);
-      setPublishers(data.publishers);
-      setCategories(data.categories);
-      setPrice(data.price);
-      setLanguages(data.languages);
+      setFilterData(data);
     } catch (error) {
       console.error("Error fetching filter data:", error);
     }
@@ -88,11 +91,15 @@ const Filter: React.FC = () => {
             <div>
               <span>Від</span>
 
-              <BookRating rating={0} />
+              {rating.minRating && (
+                <BookRating rating={rating.minRating || 0} />
+              )}
             </div>
             <div>
               <span>До</span>
-              <BookRating rating={5} />
+              {rating.maxRating && (
+                <BookRating rating={rating.maxRating || 5} />
+              )}
             </div>
           </div>
         </section>

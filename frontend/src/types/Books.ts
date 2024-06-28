@@ -71,6 +71,10 @@ export interface Publisher {
   publisher: string;
 }
 
+export interface Language {
+  language: string;
+}
+
 export interface IBooksContextType {
   books: IBookItem[];
   book?: IBookItem;
