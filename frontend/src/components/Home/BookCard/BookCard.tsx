@@ -1,16 +1,10 @@
-import { images } from "assets/images";
+import { useCallback, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import ReactStars from "react-rating-stars-component";
 import Cart from "components/Cart";
 import FavoriteButton from "components/FavoriteButton/";
 import Modal from "components/Modal";
-import {
-  StarsWrapper,
-  StyledStarIcon,
-} from "components/Slider/SimpleSlider.styled";
-import { useCallback, useMemo, useState } from "react";
-import ReactStars from "react-rating-stars-component";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { truncateString } from "utils/truncateString";
 import { useAppDispatch } from "../../../redux/hooks";
 import {
   addToCart,
@@ -21,6 +15,12 @@ import {
   selectOrdersError,
   selectOrdersStatus,
 } from "../../../redux/orders/selectors";
+import { truncateString } from "utils/truncateString";
+import { images } from "assets/images";
+import {
+  StarsWrapper,
+  StyledStarIcon,
+} from "components/Slider/SimpleSlider.styled";
 import {
   Button,
   StyledFavoriteButton,

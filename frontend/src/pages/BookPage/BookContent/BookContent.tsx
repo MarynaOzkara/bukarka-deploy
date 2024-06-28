@@ -1,17 +1,25 @@
-import { images } from "assets/images";
+import { useCallback, useEffect, useState } from "react";
 import BookRating from "components/BookRating";
 import Modal from "components/Modal";
-import { Price, Separator } from "pages/CommonPages.styled";
-import { useCallback, useEffect, useState } from "react";
+import Cart from "components/Cart";
+import FavoriteButton from "components/FavoriteButton";
+import PictureViewer from "../PictureViewer/PictureViewer";
+import { images } from "assets/images";
+import { IBookItem } from "types/Books";
+import { useAppDispatch } from "../../../redux/hooks";
+import {
+  addToCart,
+  createCart,
+  fetchOrderById,
+} from "../../../redux/orders/operations";
 import {
   ButtonOrange,
   ButtonYellow,
   TextCenter,
   Wrapper,
 } from "styles/CommonStyled";
-import { IBookItem } from "types/Books";
+import { Price, Separator } from "pages/CommonPages.styled";
 import { BookImage, BookImageSet } from "../BookPage.styled";
-import PictureViewer from "../PictureViewer/PictureViewer";
 import {
   BookContentWrapper,
   BookDescription,
@@ -23,14 +31,6 @@ import {
   StyledButtonContainer,
 } from "./BookContent.styled";
 
-import Cart from "components/Cart";
-import FavoriteButton from "components/FavoriteButton";
-import { useAppDispatch } from "../../../redux/hooks";
-import {
-  addToCart,
-  createCart,
-  fetchOrderById,
-} from "../../../redux/orders/operations";
 import { CartData } from "components/Cart/Cart";
 
 interface IBookContentProps {
