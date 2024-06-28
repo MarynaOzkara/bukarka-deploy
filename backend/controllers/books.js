@@ -1,4 +1,5 @@
 const { Book } = require("../models/book");
+const Category = require("../models/category");
 // const { HttpError } = require("../helpers");
 const { ctrlWrapper } = require("../decorators");
 const { query } = require("express");
@@ -260,6 +261,59 @@ const getUniquePublishers = async (req, res) => {
   }
 };
 
+const getFilterData = async (req, res) => {
+  try {
+    const [authors, publishers, categories] = await Promise.all([
+      Book.aggregate([
+        {
+          $group: {
+            _id: "$author",
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            author: "$_id",
+          },
+        },
+      ]),
+      Book.aggregate([
+        {
+          $group: {
+            _id: "$publisher",
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            publisher: "$_id",
+          },
+        },
+      ]),
+
+      Category.find().sort({ order: 1 }),
+    ]);
+
+    res.json({
+      authors,
+      publishers,
+      categories,
+    });
+  } catch (error) {
+    console.error("Error fetching initial data:", error);
+
+    res
+      .status(500)
+      .json({ message: "Server error while retrieving initial data" });
+
+    return {
+      authors: [],
+      publishers: [],
+      categories: [],
+    };
+  }
+};
+
 module.exports = {
   getAll,
   getBooksByType,
@@ -268,6 +322,7 @@ module.exports = {
   getPromotions,
   getUniqueAuthors,
   getUniquePublishers,
+  getFilterData,
   filtersBooks,
   getBooksByIds,
   getBookById,
@@ -284,4 +339,5 @@ module.exports = {
   getBooksByIds: ctrlWrapper(getBooksByIds),
   getUniqueAuthors: ctrlWrapper(getUniqueAuthors),
   getUniquePublishers: ctrlWrapper(getUniquePublishers),
+  getFilterData: ctrlWrapper(getFilterData),
 };
