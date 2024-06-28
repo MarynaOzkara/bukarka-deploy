@@ -24,7 +24,7 @@ const AuthorsSection: React.FC<IProps> = ({ authors }) => {
         visibleAuthors.map(({ author }, index) => (
           <p key={index}>
             <input type="checkbox" id={author} name="author" value={author} />
-            <label htmlFor="languages">{author}</label>
+            <label htmlFor={author}>{author}</label>
           </p>
         ))}
 

@@ -1,20 +1,27 @@
 import { Input, TextCenter } from "styles/CommonStyled";
 import { SubTitle } from "./Filter.styled";
 import { Publisher } from "types/Books";
+import { useState } from "react";
 
 interface IProps {
   publishers: Publisher[];
 }
 
 const PublishersSection: React.FC<IProps> = ({ publishers }) => {
+  const [showAll, setShowAll] = useState(false);
+  const visiblePublishers = showAll ? publishers : publishers.slice(0, 6);
+
+  const handleToggleShow = () => {
+    setShowAll((prevShowAll) => !prevShowAll);
+  };
   return (
     <section>
       <SubTitle>Видавництво</SubTitle>
       <Input type="text" placeholder="Пошук видавництва" />
 
-      {publishers &&
-        publishers.length > 0 &&
-        publishers.map(
+      {visiblePublishers &&
+        visiblePublishers.length > 0 &&
+        visiblePublishers.map(
           ({ publisher }, index) =>
             !!publisher && (
               <p key={index}>
@@ -24,11 +31,15 @@ const PublishersSection: React.FC<IProps> = ({ publishers }) => {
                   name="publisher"
                   value={publisher}
                 />
-                <label htmlFor="languages">{publisher}</label>
+                <label htmlFor={publisher}>{publisher}</label>
               </p>
             )
         )}
-      <TextCenter className="more">Показати більше</TextCenter>
+      {visiblePublishers.length > 6 && (
+        <TextCenter className="more" onClick={handleToggleShow}>
+          {showAll ? "Показати менше" : "Показати більше"}
+        </TextCenter>
+      )}
     </section>
   );
 };
