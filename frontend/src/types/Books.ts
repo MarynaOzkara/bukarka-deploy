@@ -33,30 +33,60 @@ export interface IBooksDataResponse {
   page?: string;
 }
 
+export interface IFetchBooksParams {
+  keyword?: string;
+  category?: string;
+  subcategory?: string;
+  link?: string;
+  page?: number;
+  sortBy?: string;
+  orderSort?: string;
+  limit?: number;
+}
+
+export interface IFetchFavoritesParams {
+  ids: string[];
+  page?: number;
+  sortBy?: string;
+  orderSort?: string;
+}
+
+export interface Category {
+  title: string;
+  subcategories: Subcategory[];
+}
+
+export interface Subcategory {
+  title: string;
+  links: string[];
+}
+
+export interface Author {
+  author: string;
+}
+
+export interface Publisher {
+  publisher: string;
+}
+
 export interface IBooksContextType {
   books: IBookItem[];
   book?: IBookItem;
   hints: IBookItem[];
+  favorites: IBookItem[];
   totalPages: number;
   currentPage: number;
   searchResults: IBookItem[];
+  categories: Category[];
+  authors: Author[];
+  publishers: Publisher[];
   setCurrentPage: (page: number) => void;
-  fetchHints: (keyword?: string) => Promise<void>;
-  handleSearch: (
-    keyword: string,
-    page: number,
-    sortBy?: string,
-    orderSort?: string,
-    limit?: number
-  ) => Promise<void>;
-  fetchBooks: (
-    category?: string,
-    subcategory?: string,
-    link?: string,
-    page?: number,
-    sortBy?: string,
-    orderSort?: string,
-    limit?: number
-  ) => Promise<void>;
+  fetchHints: (params: IFetchBooksParams) => Promise<void>;
+  handleSearch: (params: IFetchBooksParams) => Promise<void>;
+  fetchBooks: (params: IFetchBooksParams) => Promise<void>;
   fetchBookById: (id?: string) => Promise<void>;
+  fetchFavoritesForGuest: (params: IFetchFavoritesParams) => Promise<void>;
+  fetchCategories: () => Promise<void>;
+  fetchPublishers: () => Promise<void>;
+  fetchAuthors: () => Promise<void>;
 }

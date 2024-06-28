@@ -158,11 +158,16 @@ export const Price = styled.div`
   font-weight: 700;
   font-size: 16px;
   line-height: 24px;
-  color: #004f98;
+  color: var(--bukarka-accent-blue);
   margin-bottom: 8px;
   & span {
     font-size: 16px;
     text-decoration: line-through;
     color: var(--bukarka-dark-grey);
   }
+`;
+
+export const Separator = styled.div`
+  margin: 1rem 0;
+  border: 1px solid var(--bukarka-light-grey);
 `;

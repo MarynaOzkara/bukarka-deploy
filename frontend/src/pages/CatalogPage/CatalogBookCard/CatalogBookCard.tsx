@@ -2,34 +2,32 @@ import { images } from "assets/images";
 import Cart from "components/Cart";
 import FavoriteButton from "components/FavoriteButton/";
 import Modal from "components/Modal";
-import {
-  StarsWrapper,
-  StyledStarIcon,
-} from "components/Slider/SimpleSlider.styled";
+
 import { useCallback, useMemo, useState } from "react";
 import ReactStars from "react-rating-stars-component";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { truncateString } from "utils/truncateString";
 import { useAppDispatch } from "../../../redux/hooks";
+import { addToCart, fetchOrdersData } from "../../../redux/orders/operations";
+
 import {
-  addToCart,
-  createCart,
-  fetchOrderById,
-} from "../../../redux/orders/operations";
+  ButtonOrange,
+  ButtonYellow,
+  TextCenter,
+  Wrapper,
+} from "styles/CommonStyled";
 import {
-  selectOrdersError,
-  selectOrdersStatus,
-} from "../../../redux/orders/selectors";
-import {
-  Button,
+  StyledButtonContainer,
   StyledFavoriteButton,
   StyledItemCard,
   StyledItemImage,
   StyledNameAuthor,
   StyledPrice,
+  StyledStarsWrapper,
   StyledTitle,
-} from "./BookCard.styled";
+} from "./CatalogBookCard.styled";
+
+import { StyledStarIcon } from "components/BookRating/BookRating.styled";
 
 interface IProps {
   _id: string;
@@ -48,16 +46,7 @@ const BookCard: React.FC<IProps> = ({
   image,
   price,
   rating,
-  index,
 }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isBookAdded, setIsBookAdded] = useState<boolean>(
-    localStorage.getItem(`isBookAdded_${_id}`) === "true"
-  );
-
-  const ordersStatus = useSelector(selectOrdersStatus);
-  const ordersError = useSelector(selectOrdersError);
-
   const dispatch = useAppDispatch();
   let navigate = useNavigate();
 
@@ -74,8 +63,17 @@ const BookCard: React.FC<IProps> = ({
     []
   );
 
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalContent, setModalContent] = useState<string>("");
+
+  const showModal = (content: string, img?: string) => {
+    setModalContent(content);
+    setIsModalOpen(true);
+  };
+
   const closeModal = () => {
-    setIsOpen(false);
+    setModalContent("");
+    setIsModalOpen(false);
   };
 
   const handleClick = useCallback(
@@ -86,43 +84,24 @@ const BookCard: React.FC<IProps> = ({
     [navigate]
   );
 
-  const handleAddToCart = useCallback(async () => {
-    if (isBookAdded) {
-      console.log("Книга вже є в кошику!");
-      setIsOpen(true);
-      return;
-    }
-
-    let orderId = localStorage.getItem("currentOrderId");
-    if (!orderId) {
-      const createCartResponse = await dispatch(createCart());
-      console.log(createCartResponse);
-      if (createCartResponse.meta.requestStatus === "fulfilled") {
-        orderId = createCartResponse?.payload?.orderId;
-        orderId && localStorage.setItem("currentOrderId", orderId);
-      } else {
-        console.log("Помилка при створенні кошика.");
-        return;
-      }
-    }
-
-    if (!orderId) {
-      console.log("orderId є нульовим або не встановлено");
-      return;
-    }
-
-    const addToCartResponse = await dispatch(
-      addToCart({ orderId, productId: _id })
-    );
-    if (addToCartResponse.meta.requestStatus === "fulfilled") {
-      await dispatch(fetchOrderById(orderId));
-      setIsOpen(true);
-      setIsBookAdded(true);
+  const handleBuy = useCallback(async () => {
+    if (!localStorage.getItem(`isBookAdded_${_id}`)) {
       localStorage.setItem(`isBookAdded_${_id}`, "true");
-    } else {
-      console.log("Помилка при додаванні товару до кошика.");
+      await dispatch(addToCart(_id));
+      await dispatch(fetchOrdersData());
     }
-  }, [_id, dispatch, isBookAdded]);
+    showModal("cart");
+  }, [_id, dispatch]);
+
+  const handleAddToCart = useCallback(async () => {
+    if (localStorage.getItem(`isBookAdded_${_id}`)) {
+      showModal("isBookAdded");
+    } else {
+      await dispatch(addToCart(_id));
+      await dispatch(fetchOrdersData());
+      localStorage.setItem(`isBookAdded_${_id}`, "true");
+    }
+  }, [_id, dispatch]);
 
   return (
     <>
@@ -137,6 +116,7 @@ const BookCard: React.FC<IProps> = ({
             alt={`${author} ${title} `}
           />
         </StyledItemImage>
+
         <StyledTitle style={{ width: "192px" }}>
           <div
             id={_id}
@@ -146,25 +126,35 @@ const BookCard: React.FC<IProps> = ({
             {truncateString(title, 25)}
           </div>
         </StyledTitle>
+
         <StyledNameAuthor>
           <div title={`${author.length > 25 ? author : ""}`}>
             {truncateString(author, 25)}
           </div>
         </StyledNameAuthor>
-        <StarsWrapper>
+
+        <StyledStarsWrapper>
           <ReactStars {...starsProps} value={rating} />
-        </StarsWrapper>
+        </StyledStarsWrapper>
+
         <StyledPrice>{price} грн</StyledPrice>
 
-        <Button onClick={handleAddToCart}>Купити</Button>
+        <StyledButtonContainer>
+          <ButtonOrange onClick={handleBuy}>Купити</ButtonOrange>
+          <ButtonYellow onClick={handleAddToCart}>До кошика</ButtonYellow>
+        </StyledButtonContainer>
 
-        {isOpen && (
+        {isModalOpen && (
           <Modal close={closeModal} showCloseButton={true}>
-            <Cart closeCart={closeModal} />
+            {modalContent === "isBookAdded" && (
+              <Wrapper>
+                <TextCenter>Книга вже є в кошику!</TextCenter>
+              </Wrapper>
+            )}
+            {modalContent === "cart" && <Cart closeCart={closeModal} />}
           </Modal>
         )}
       </StyledItemCard>
-      {ordersStatus === "failed" && console.log(ordersError)}
     </>
   );
 };

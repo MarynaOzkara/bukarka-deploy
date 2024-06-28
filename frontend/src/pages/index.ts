@@ -6,3 +6,6 @@ export { default as CatalogPage } from "./CatalogPage/CatalogPage";
 export { default as ContactsPage } from "./ContactsPage/ContactsPage";
 export { default as BookClubPage } from "./BookClubPage/BookClubPage";
 export { default as PrivacyPolicyPage } from "./PrivacyPolicyPage/PrivacyPolicyPage";
+export { default as FavoritePage } from "./FavoritePage";
+export { default as BookPage } from "./BookPage/BookPage";
+export { default as SearchPage } from "./SearchPage";

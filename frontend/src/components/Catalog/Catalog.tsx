@@ -11,16 +11,7 @@ import {
   Wrapper,
 } from "./Catalog.styled";
 import { instance } from "utils/fetchInstance";
-
-interface Category {
-  title: string;
-  subcategories: Subcategory[];
-}
-
-interface Subcategory {
-  title: string;
-  links: string[];
-}
+import { Category, Subcategory } from "types/Books";
 
 const Catalog: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
   const [categories, setCategories] = useState<Category[]>([]);

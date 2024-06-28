@@ -8,15 +8,15 @@ export const PaginationWrapper = styled(FlexWrapper)`
   color: var(--bukarka-dark-grey);
   align-items: center;
 
-  button {
-    padding: 0.5rem;
+  & button {
+    padding: 0.25rem 0.5rem;
   }
 
-  svg path {
+  & svg path {
     stroke: var(--bukarka-dark-grey);
   }
 
-  .active {
+  & .active {
     background: var(--bukarka-yellow);
   }
 `;

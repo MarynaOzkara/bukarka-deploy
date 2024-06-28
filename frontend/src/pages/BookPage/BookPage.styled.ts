@@ -18,3 +18,11 @@ export const BookImageSet = styled.div`
     width: 88px;
   }
 `;
+
+export const StyledBookPageSlider = styled.div`
+  width: 1220px;
+
+  & .slick-slider {
+    width: 100%;
+  }
+`;

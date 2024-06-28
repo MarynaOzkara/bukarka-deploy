@@ -1,9 +1,10 @@
-import { BookCard, Sort } from "components";
+import { Sort } from "components";
 import { useBooks } from "components/Book";
 import { PageLayout } from "components/Layout";
+import CatalogBookCard from "pages/CatalogPage/CatalogBookCard";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { TextCenter } from "styles/CommonStyled";
+import { FlexWrap, TextCenter } from "styles/CommonStyled";
 
 const SearchPage = () => {
   const { searchResults, handleSearch } = useBooks();
@@ -16,11 +17,8 @@ const SearchPage = () => {
     const page = Number(searchParams.get("page")) || 1;
     const keyword = searchParams.get("keyword") || "";
     setKeyword(keyword);
-    const loadData = async () => {
-      await handleSearch(keyword, page, sortBy, orderSort);
-    };
-    loadData();
-  }, [searchParams]);
+    handleSearch({ keyword, page, sortBy, orderSort });
+  }, [searchParams, sortBy, orderSort]);
 
   const handleSortChange = (sortKey: string, sortOrder: string) => {
     setSortBy(sortKey);
@@ -35,16 +33,19 @@ const SearchPage = () => {
 
   return (
     <PageLayout label="Результати пошуку" books={searchResults}>
-      {searchResults && searchResults.length > 1 && (
-        <Sort onSortChange={handleSortChange} />
-      )}
-      {searchResults && searchResults.length > 0 ? (
-        searchResults.map((result, index) => (
-          <BookCard key={index} {...result} />
-        ))
-      ) : (
-        <TextCenter>No results found</TextCenter>
-      )}
+      <FlexWrap>
+        {searchResults && searchResults.length > 1 && (
+          <Sort onSortChange={handleSortChange} />
+        )}
+
+        {searchResults && searchResults.length > 0 ? (
+          searchResults.map((result, index) => (
+            <CatalogBookCard key={index} {...result} />
+          ))
+        ) : (
+          <TextCenter>No results found</TextCenter>
+        )}
+      </FlexWrap>
     </PageLayout>
   );
 };
