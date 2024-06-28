@@ -1,38 +1,40 @@
 import { useBooks } from "components/Book";
 import BookRating from "components/BookRating";
 import { bookLanguages, bookTypes } from "constants/filter";
-import { useEffect } from "react";
-import { ButtonYellow, Input, TextCenter } from "styles/CommonStyled";
+import { useCallback, useEffect, useState } from "react";
+import { ButtonYellow, Input } from "styles/CommonStyled";
 
+import AuthorsSection from "./AuthorsSection";
+import CategoriesSection from "./CategoriesSection";
 import {
   FilterContent,
   FilterWrapper,
   SectionTitle,
   SubTitle,
 } from "./Filter.styled";
-import { Category, Subcategory } from "types/Books";
+import PublishersSection from "./PublishersSection";
+import { Author, Category, Publisher } from "types/Books";
 
 const Filter: React.FC = () => {
-  const {
-    categories,
-    fetchCategories,
-    authors,
-    fetchAuthors,
-    publishers,
-    fetchPublishers,
-  } = useBooks();
+  const { fetchFilterData } = useBooks();
+  const [authors, setAuthors] = useState<Author[]>([]);
+  const [publishers, setPublishers] = useState<Publisher[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  const fetchData = useCallback(async () => {
+    try {
+      const data = await fetchFilterData();
+      setAuthors(data.authors);
+      setPublishers(data.publishers);
+      setCategories(data.categories);
+    } catch (error) {
+      console.error("Error fetching filter data:", error);
+    }
+  }, []);
 
   useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
-
-  useEffect(() => {
-    fetchAuthors();
-  }, [fetchAuthors]);
-
-  useEffect(() => {
-    fetchPublishers();
-  }, [fetchPublishers]);
+    fetchData();
+  }, [fetchData]);
 
   const handleClickMore = () => {};
 
@@ -57,41 +59,9 @@ const Filter: React.FC = () => {
               ))}
           </div>
         </section>
-        <section>
-          <SubTitle>Тематика</SubTitle>
-          <Input type="text" placeholder="Пошук за тематикою" />
-          <>
-            {categories &&
-              categories.length > 0 &&
-              categories.map((category: Category) => {
-                return (
-                  category.subcategories &&
-                  category.subcategories.length > 0 &&
-                  category.subcategories.map((subcategory: Subcategory) => {
-                    return (
-                      subcategory &&
-                      subcategory.links &&
-                      subcategory.links.length > 0 &&
-                      subcategory.links.map((link, index) => (
-                        <p key={index}>
-                          <input
-                            type="checkbox"
-                            id={link}
-                            name="subcategory"
-                            value={link}
-                          />
-                          <label htmlFor={link}> {link} </label>
-                        </p>
-                      ))
-                    );
-                  })
-                );
-              })}
-          </>
-          <TextCenter className="more" onClick={handleClickMore}>
-            Показати більше
-          </TextCenter>
-        </section>
+        {categories && categories.length > 0 && (
+          <CategoriesSection categories={categories} />
+        )}
         <section>
           <SubTitle>Мова</SubTitle>
           <div>
@@ -123,48 +93,11 @@ const Filter: React.FC = () => {
             </div>
           </div>
         </section>
-        <section>
-          <SubTitle>Автор</SubTitle>
-          <Input type="text" placeholder="Пошук автора" />
+        {authors && authors.length > 0 && <AuthorsSection authors={authors} />}
 
-          {authors &&
-            authors.length > 0 &&
-            authors.map((author, index) => (
-              <p key={index}>
-                <input
-                  type="checkbox"
-                  id={author.author}
-                  name="author"
-                  value={author.author}
-                />
-                <label htmlFor="languages">{author.author}</label>
-              </p>
-            ))}
-
-          <TextCenter className="more">Показати більше</TextCenter>
-        </section>
-        <section>
-          <SubTitle>Видавництво</SubTitle>
-
-          <Input type="text" placeholder="Пошук видавництва" />
-          {publishers &&
-            publishers.length > 0 &&
-            publishers.map(
-              (publisher, index) =>
-                !!publisher.publisher && (
-                  <p key={index}>
-                    <input
-                      type="checkbox"
-                      id={publisher.publisher}
-                      name="publisher"
-                      value={publisher.publisher}
-                    />
-                    <label htmlFor="languages">{publisher.publisher}</label>
-                  </p>
-                )
-            )}
-          <TextCenter className="more">Показати більше</TextCenter>
-        </section>
+        {publishers && publishers.length > 0 && (
+          <PublishersSection publishers={publishers} />
+        )}
         <section>
           <SubTitle>Ціна</SubTitle>
           <div className="price-range">

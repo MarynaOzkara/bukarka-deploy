@@ -20,8 +20,8 @@ export const FilterContent = styled.form`
   padding: 1rem;
   background: var(--bukarka-light-grey);
 
-  & input[text] {
-    padding-bottom: 1rem;
+  & input[type="text"] {
+    margin-bottom: 0.5rem;
   }
 
   & .price-range {

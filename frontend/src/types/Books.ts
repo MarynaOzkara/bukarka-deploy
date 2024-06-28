@@ -1,3 +1,5 @@
+import { FilterData } from "./Filter";
+
 export interface Books {
   age: string;
   author: string;
@@ -89,4 +91,5 @@ export interface IBooksContextType {
   fetchCategories: () => Promise<void>;
   fetchPublishers: () => Promise<void>;
   fetchAuthors: () => Promise<void>;
+  fetchFilterData: () => Promise<FilterData>;
 }
