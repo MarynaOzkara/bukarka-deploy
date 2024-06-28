@@ -263,53 +263,68 @@ const getUniquePublishers = async (req, res) => {
 
 const getFilterData = async (req, res) => {
   try {
-    const [authors, publishers, categories, priceStats] = await Promise.all([
-      Book.aggregate([
-        {
-          $group: {
-            _id: "$author",
+    const [authors, publishers, categories, priceStats, languages] =
+      await Promise.all([
+        Book.aggregate([
+          {
+            $group: {
+              _id: "$author",
+            },
           },
-        },
-        {
-          $project: {
-            _id: 0,
-            author: "$_id",
+          {
+            $project: {
+              _id: 0,
+              author: "$_id",
+            },
           },
-        },
-      ]),
-      Book.aggregate([
-        {
-          $group: {
-            _id: "$publisher",
+        ]),
+        Book.aggregate([
+          {
+            $group: {
+              _id: "$publisher",
+            },
           },
-        },
-        {
-          $project: {
-            _id: 0,
-            publisher: "$_id",
+          {
+            $project: {
+              _id: 0,
+              publisher: "$_id",
+            },
           },
-        },
-      ]),
+        ]),
 
-      Category.find().sort({ order: 1 }),
+        Category.find().sort({ order: 1 }),
 
-      Book.aggregate([
-        {
-          $group: {
-            _id: null,
-            maxPrice: { $max: "$price" },
-            minPrice: { $min: "$price" },
+        Book.aggregate([
+          {
+            $group: {
+              _id: null,
+              maxPrice: { $max: "$price" },
+              minPrice: { $min: "$price" },
+            },
           },
-        },
-        {
-          $project: {
-            _id: 0,
-            maxPrice: 1,
-            minPrice: 1,
+          {
+            $project: {
+              _id: 0,
+              maxPrice: 1,
+              minPrice: 1,
+            },
           },
-        },
-      ]),
-    ]);
+        ]),
+
+        Book.aggregate([
+          {
+            $group: {
+              _id: "$language",
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+              language: "$_id",
+            },
+          },
+        ]),
+      ]);
 
     const priceData = priceStats[0];
 
@@ -318,6 +333,7 @@ const getFilterData = async (req, res) => {
       publishers,
       categories,
       price: { minPrice: priceData.minPrice, maxPrice: priceData.maxPrice },
+      languages,
     });
   } catch (error) {
     console.error("Error fetching filter data:", error);

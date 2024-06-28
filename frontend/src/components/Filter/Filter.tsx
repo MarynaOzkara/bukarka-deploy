@@ -1,12 +1,10 @@
 import { useBooks } from "components/Book";
 import BookRating from "components/BookRating";
-import { bookLanguages, bookTypes } from "constants/filter";
+import { bookTypes } from "constants/filter";
 import { useCallback, useEffect, useState } from "react";
 import { ButtonYellow } from "styles/CommonStyled";
 
 import { Author, Category, Publisher } from "types/Books";
-import AuthorsSection from "./filterParts/AuthorsSection";
-import CategoriesSection from "./filterParts/CategoriesSection";
 import {
   FilterContent,
   FilterWrapper,
@@ -15,6 +13,8 @@ import {
   SubTitle,
 } from "./Filter.styled";
 import PublishersSection from "./PublishersSection";
+import AuthorsSection from "./filterParts/AuthorsSection";
+import CategoriesSection from "./filterParts/CategoriesSection";
 
 const Filter: React.FC = () => {
   const { fetchFilterData } = useBooks();
@@ -22,6 +22,7 @@ const Filter: React.FC = () => {
   const [publishers, setPublishers] = useState<Publisher[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [price, setPrice] = useState({ minPrice: 0, maxPrice: 0 });
+  const [languages, setLanguages] = useState<[]>([]);
 
   const fetchData = useCallback(async () => {
     try {
@@ -30,6 +31,7 @@ const Filter: React.FC = () => {
       setPublishers(data.publishers);
       setCategories(data.categories);
       setPrice(data.price);
+      setLanguages(data.languages);
     } catch (error) {
       console.error("Error fetching filter data:", error);
     }
@@ -66,16 +68,16 @@ const Filter: React.FC = () => {
         <section>
           <SubTitle>Мова</SubTitle>
           <div>
-            {bookLanguages &&
-              bookLanguages.map((lang, index) => (
+            {languages.length &&
+              languages.map(({ language }, index) => (
                 <p key={index}>
                   <input
                     type="checkbox"
-                    id={lang}
+                    id={language}
                     name="language"
-                    value={lang}
+                    value={language}
                   />
-                  <label htmlFor={lang}>{lang}</label>
+                  <label htmlFor={language}>{language}</label>
                 </p>
               ))}
           </div>

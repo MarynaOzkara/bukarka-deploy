@@ -169,6 +169,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
         publishers: [],
         categories: [],
         price: { minPrice: 0, maxPrice: 0 },
+        languages: [],
       };
     }
   }, []);
