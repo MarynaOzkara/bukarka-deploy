@@ -4,4 +4,5 @@ export interface FilterData {
   authors: Author[];
   publishers: Publisher[];
   categories: Category[];
+  price: { maxPrice: number; minPrice: number };
 }

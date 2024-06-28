@@ -263,7 +263,7 @@ const getUniquePublishers = async (req, res) => {
 
 const getFilterData = async (req, res) => {
   try {
-    const [authors, publishers, categories] = await Promise.all([
+    const [authors, publishers, categories, priceStats] = await Promise.all([
       Book.aggregate([
         {
           $group: {
@@ -292,25 +292,38 @@ const getFilterData = async (req, res) => {
       ]),
 
       Category.find().sort({ order: 1 }),
+
+      Book.aggregate([
+        {
+          $group: {
+            _id: null,
+            maxPrice: { $max: "$price" },
+            minPrice: { $min: "$price" },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            maxPrice: 1,
+            minPrice: 1,
+          },
+        },
+      ]),
     ]);
+
+    const priceData = priceStats[0];
 
     res.json({
       authors,
       publishers,
       categories,
+      price: { minPrice: priceData.minPrice, maxPrice: priceData.maxPrice },
     });
   } catch (error) {
-    console.error("Error fetching initial data:", error);
-
+    console.error("Error fetching filter data:", error);
     res
       .status(500)
-      .json({ message: "Server error while retrieving initial data" });
-
-    return {
-      authors: [],
-      publishers: [],
-      categories: [],
-    };
+      .json({ message: "Server error while retrieving filter data" });
   }
 };
 

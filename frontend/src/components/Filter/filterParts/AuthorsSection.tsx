@@ -1,5 +1,5 @@
 import { Input, TextCenter } from "styles/CommonStyled";
-import { SubTitle } from "./Filter.styled";
+import { SubTitle } from "../Filter.styled";
 import { Author } from "types/Books";
 import { useState } from "react";
 

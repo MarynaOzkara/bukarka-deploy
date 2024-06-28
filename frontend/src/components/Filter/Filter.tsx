@@ -2,24 +2,26 @@ import { useBooks } from "components/Book";
 import BookRating from "components/BookRating";
 import { bookLanguages, bookTypes } from "constants/filter";
 import { useCallback, useEffect, useState } from "react";
-import { ButtonYellow, Input } from "styles/CommonStyled";
+import { ButtonYellow } from "styles/CommonStyled";
 
-import AuthorsSection from "./AuthorsSection";
-import CategoriesSection from "./CategoriesSection";
+import { Author, Category, Publisher } from "types/Books";
+import AuthorsSection from "./filterParts/AuthorsSection";
+import CategoriesSection from "./filterParts/CategoriesSection";
 import {
   FilterContent,
   FilterWrapper,
+  PriceRangeInput,
   SectionTitle,
   SubTitle,
 } from "./Filter.styled";
 import PublishersSection from "./PublishersSection";
-import { Author, Category, Publisher } from "types/Books";
 
 const Filter: React.FC = () => {
   const { fetchFilterData } = useBooks();
   const [authors, setAuthors] = useState<Author[]>([]);
   const [publishers, setPublishers] = useState<Publisher[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [price, setPrice] = useState({ minPrice: 0, maxPrice: 0 });
 
   const fetchData = useCallback(async () => {
     try {
@@ -27,6 +29,7 @@ const Filter: React.FC = () => {
       setAuthors(data.authors);
       setPublishers(data.publishers);
       setCategories(data.categories);
+      setPrice(data.price);
     } catch (error) {
       console.error("Error fetching filter data:", error);
     }
@@ -35,8 +38,6 @@ const Filter: React.FC = () => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
-  const handleClickMore = () => {};
 
   return (
     <FilterWrapper>
@@ -74,7 +75,7 @@ const Filter: React.FC = () => {
                     name="language"
                     value={lang}
                   />
-                  <label htmlFor="languages">{lang}</label>
+                  <label htmlFor={lang}>{lang}</label>
                 </p>
               ))}
           </div>
@@ -101,9 +102,21 @@ const Filter: React.FC = () => {
         <section>
           <SubTitle>Ціна</SubTitle>
           <div className="price-range">
-            <Input className="input-range" type="text" placeholder="Від" />
+            <PriceRangeInput
+              className="input-range"
+              type="number"
+              min={price.minPrice}
+              max={price.maxPrice}
+              placeholder="Від"
+            />
 
-            <Input className="input-range" type="text" placeholder="До" />
+            <PriceRangeInput
+              className="input-range"
+              type="number"
+              min={price.minPrice}
+              max={price.maxPrice}
+              placeholder="До"
+            />
           </div>
         </section>
         <ButtonYellow>Застосувати фільтр</ButtonYellow>

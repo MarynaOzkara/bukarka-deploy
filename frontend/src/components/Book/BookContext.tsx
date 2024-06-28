@@ -160,6 +160,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
   const fetchFilterData = useCallback(async (): Promise<FilterData> => {
     try {
       const response = await instance.get<FilterData>("/api/books/filterdata");
+      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error("Error fetching filter data:", error);
@@ -167,6 +168,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
         authors: [],
         publishers: [],
         categories: [],
+        price: { minPrice: 0, maxPrice: 0 },
       };
     }
   }, []);

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Input } from "styles/CommonStyled";
 
 export const FilterWrapper = styled.div`
   height: fit-content;
@@ -63,4 +64,8 @@ export const FilterContent = styled.form`
 export const SubTitle = styled.p`
   font-weight: 700;
   padding-bottom: 1rem;
+`;
+
+export const PriceRangeInput = styled(Input)`
+  font-family: var(--regular);
 `;

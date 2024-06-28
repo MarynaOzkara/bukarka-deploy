@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Input, TextCenter } from "styles/CommonStyled";
-import { SubTitle } from "./Filter.styled";
+import { SubTitle } from "../Filter.styled";
 
 interface IProps<T> {
   options: T[];

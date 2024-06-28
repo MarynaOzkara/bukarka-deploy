@@ -1,6 +1,6 @@
 import { Input, TextCenter } from "styles/CommonStyled";
 import { Category, Subcategory } from "types/Books";
-import { SubTitle } from "./Filter.styled";
+import { SubTitle } from "../Filter.styled";
 import { useState } from "react";
 
 interface IProps {
