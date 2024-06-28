@@ -19,7 +19,7 @@ const Sort: React.FC<ISortProps> = ({ onSortChange }) => {
   };
 
   return (
-    <Options name="sort" onChange={handleChange}>
+    <Options name="sort" onChange={handleChange} aria-labelledby="Сортування:">
       <optgroup>
         <option className="section">Сортування:</option>
         {options.map((option, index) => (

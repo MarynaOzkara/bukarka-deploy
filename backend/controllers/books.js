@@ -1,4 +1,5 @@
 const { Book } = require("../models/book");
+const Category = require("../models/category");
 // const { HttpError } = require("../helpers");
 const { ctrlWrapper } = require("../decorators");
 const { query } = require("express");
@@ -260,6 +261,116 @@ const getUniquePublishers = async (req, res) => {
   }
 };
 
+const getFilterData = async (req, res) => {
+  try {
+    const [
+      authors,
+      publishers,
+      categories,
+      priceStats,
+      ratingStats,
+      languages,
+    ] = await Promise.all([
+      Book.aggregate([
+        {
+          $group: {
+            _id: "$author",
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            author: "$_id",
+          },
+        },
+      ]),
+      Book.aggregate([
+        {
+          $group: {
+            _id: "$publisher",
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            publisher: "$_id",
+          },
+        },
+      ]),
+
+      Category.find().sort({ order: 1 }),
+
+      Book.aggregate([
+        {
+          $group: {
+            _id: null,
+            maxPrice: { $max: "$price" },
+            minPrice: { $min: "$price" },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            maxPrice: 1,
+            minPrice: 1,
+          },
+        },
+      ]),
+
+      Book.aggregate([
+        {
+          $group: {
+            _id: null,
+            maxRating: { $max: "$rating" },
+            minRating: { $min: "$rating" },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            maxRating: 1,
+            minRating: 1,
+          },
+        },
+      ]),
+
+      Book.aggregate([
+        {
+          $group: {
+            _id: "$language",
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            language: "$_id",
+          },
+        },
+      ]),
+    ]);
+
+    const priceData = priceStats[0];
+    const ratingData = ratingStats[0];
+
+    res.json({
+      authors,
+      publishers,
+      categories,
+      price: { minPrice: priceData.minPrice, maxPrice: priceData.maxPrice },
+      rating: {
+        minRating: ratingData.minRating,
+        maxRating: ratingData.maxRating,
+      },
+      languages,
+    });
+  } catch (error) {
+    console.error("Error fetching filter data:", error);
+    res
+      .status(500)
+      .json({ message: "Server error while retrieving filter data" });
+  }
+};
+
 module.exports = {
   getAll,
   getBooksByType,
@@ -268,6 +379,7 @@ module.exports = {
   getPromotions,
   getUniqueAuthors,
   getUniquePublishers,
+  getFilterData,
   filtersBooks,
   getBooksByIds,
   getBookById,
@@ -284,4 +396,5 @@ module.exports = {
   getBooksByIds: ctrlWrapper(getBooksByIds),
   getUniqueAuthors: ctrlWrapper(getUniqueAuthors),
   getUniquePublishers: ctrlWrapper(getUniquePublishers),
+  getFilterData: ctrlWrapper(getFilterData),
 };
