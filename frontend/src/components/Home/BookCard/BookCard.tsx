@@ -5,16 +5,11 @@ import ReactStars from "react-rating-stars-component";
 import Cart from "components/Cart";
 import FavoriteButton from "components/FavoriteButton/";
 import Modal from "components/Modal";
-import { useAppDispatch } from "../../../redux/hooks";
-import {
-  addToCart,
-  createCart,
-  fetchOrderById,
-} from "../../../redux/orders/operations";
 import {
   selectOrdersError,
   selectOrdersStatus,
 } from "../../../redux/orders/selectors";
+import useCart from "hooks/useCart";
 import { truncateString } from "utils/truncateString";
 import { images } from "assets/images";
 import {
@@ -58,8 +53,8 @@ const BookCard: React.FC<IProps> = ({
   const ordersStatus = useSelector(selectOrdersStatus);
   const ordersError = useSelector(selectOrdersError);
 
-  const dispatch = useAppDispatch();
   let navigate = useNavigate();
+  const { handleCart } = useCart(_id);
 
   const starsProps = useMemo(
     () => ({
@@ -86,43 +81,19 @@ const BookCard: React.FC<IProps> = ({
     [navigate]
   );
 
-  const handleAddToCart = useCallback(async () => {
+  const handleBuy = useCallback(async () => {
     if (isBookAdded) {
       console.log("Книга вже є в кошику!");
       setIsOpen(true);
       return;
     }
 
-    let orderId = localStorage.getItem("currentOrderId");
-    if (!orderId) {
-      const createCartResponse = await dispatch(createCart());
-      console.log(createCartResponse);
-      if (createCartResponse.meta.requestStatus === "fulfilled") {
-        orderId = createCartResponse?.payload?.orderId;
-        orderId && localStorage.setItem("currentOrderId", orderId);
-      } else {
-        console.log("Помилка при створенні кошика.");
-        return;
-      }
-    }
+    await handleCart();
 
-    if (!orderId) {
-      console.log("orderId є нульовим або не встановлено");
-      return;
-    }
-
-    const addToCartResponse = await dispatch(
-      addToCart({ orderId, productId: _id })
-    );
-    if (addToCartResponse.meta.requestStatus === "fulfilled") {
-      await dispatch(fetchOrderById(orderId));
-      setIsOpen(true);
-      setIsBookAdded(true);
-      localStorage.setItem(`isBookAdded_${_id}`, "true");
-    } else {
-      console.log("Помилка при додаванні товару до кошика.");
-    }
-  }, [_id, dispatch, isBookAdded]);
+    setIsOpen(true);
+    setIsBookAdded(true);
+    localStorage.setItem(`isBookAdded_${_id}`, "true");
+  }, [_id, handleCart, isBookAdded]);
 
   return (
     <>
@@ -156,7 +127,7 @@ const BookCard: React.FC<IProps> = ({
         </StarsWrapper>
         <StyledPrice>{price} грн</StyledPrice>
 
-        <Button onClick={handleAddToCart}>Купити</Button>
+        <Button onClick={handleBuy}>Купити</Button>
 
         {isOpen && (
           <Modal close={closeModal} showCloseButton={true}>
