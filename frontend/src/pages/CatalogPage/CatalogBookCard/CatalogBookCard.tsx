@@ -152,7 +152,7 @@ const BookCard: React.FC<IProps> = ({
         addToCart({ orderId, productId: _id })
       );
       if (addToCartResponse.meta.requestStatus === "fulfilled") {
-        await dispatch(fetchOrdersData());
+        await dispatch(fetchOrderById(orderId));
         localStorage.setItem(`isBookAdded_${_id}`, "true");
       } else {
         console.log("Помилка при додаванні товару до кошика.");
