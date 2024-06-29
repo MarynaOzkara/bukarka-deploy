@@ -38,7 +38,6 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
   const [modalContent, setModalContent] = useState<string>("");
   const [cartData, setCartData] = useState<CartData | null>(null);
 
-  console.log(book._id);
   const dispatch = useAppDispatch();
   const { handleCart } = useCart(book._id);
 

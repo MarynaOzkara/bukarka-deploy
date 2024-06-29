@@ -29,7 +29,6 @@ const CartList: React.FC<CartListProps> = ({ closeCart }) => {
   const cartData = useSelector(selectOrdersData);
 
   const ordersId = cartData?._id;
-  console.log(cartData);
 
   const clearLocalStorage = () => {
     const keysToRemove: string[] = [];

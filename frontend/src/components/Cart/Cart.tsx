@@ -39,7 +39,6 @@ const Cart: React.FC<Props> = ({ closeCart }) => {
   const [currentOrderId, setCurrentOrderId] = useState<string | null>(null);
 
   const status = useSelector((state: IRootState) => selectOrdersStatus(state));
-  console.log(cartData?._id);
 
   useEffect(() => {
     const storedOrderId = localStorage.getItem("currentOrderId");

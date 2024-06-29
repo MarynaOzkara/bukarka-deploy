@@ -43,13 +43,10 @@ type CartItemProps = {
 };
 
 const CartItem: React.FC<CartItemProps> = ({ item }) => {
-  // console.log(item.product);
   const { _id, quantity } = item;
   const { title, author, price, image } = item.product;
   const { imagePlaceholder } = images;
   const bookId = item.product._id;
-  // console.log(bookId);
-  // console.log(item, title, author, price, quantity);
 
   const dispatch = useAppDispatch();
 

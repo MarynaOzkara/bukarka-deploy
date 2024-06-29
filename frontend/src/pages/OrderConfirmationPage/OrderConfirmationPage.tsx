@@ -24,7 +24,7 @@ const OrderConfirmationPage: React.FC = () => {
       if (id) {
         try {
           const order = await dispatch(fetchOrderById(id)).unwrap();
-          console.log(order);
+
           if (order && order.orderNumber) {
             setOrderNumber(order.orderNumber.toString());
             localStorage.removeItem("currentOrderId");
