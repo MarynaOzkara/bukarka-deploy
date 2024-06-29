@@ -7,7 +7,6 @@ import FavoriteButton from "components/FavoriteButton/";
 import Modal from "components/Modal";
 import useCart from "hooks/useCart";
 import { truncateString } from "utils/truncateString";
-import { useAppDispatch } from "../../../redux/hooks";
 import { images } from "assets/images";
 import {
   ButtonOrange,
