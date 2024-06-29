@@ -125,14 +125,38 @@ const BookCard: React.FC<IProps> = ({
     showModal("cart");
   }, [_id, dispatch]);
 
-
   const handleAddToCart = useCallback(async () => {
     if (localStorage.getItem(`isBookAdded_${_id}`)) {
       showModal("isBookAdded");
     } else {
-      // await dispatch(addToCart(_id));
-      await dispatch(fetchOrdersData());
-      localStorage.setItem(`isBookAdded_${_id}`, "true");
+      let orderId = localStorage.getItem("currentOrderId");
+
+      if (!orderId) {
+        const createCartResponse = await dispatch(createCart());
+        console.log(createCartResponse);
+        if (createCartResponse.meta.requestStatus === "fulfilled") {
+          orderId = createCartResponse?.payload?.orderId;
+          if (orderId) {
+            localStorage.setItem("currentOrderId", orderId);
+          } else {
+            console.log("orderId не встановлений");
+            return;
+          }
+        } else {
+          console.log("Помилка при створенні кошика.");
+          return;
+        }
+      }
+
+      const addToCartResponse = await dispatch(
+        addToCart({ orderId, productId: _id })
+      );
+      if (addToCartResponse.meta.requestStatus === "fulfilled") {
+        await dispatch(fetchOrdersData());
+        localStorage.setItem(`isBookAdded_${_id}`, "true");
+      } else {
+        console.log("Помилка при додаванні товару до кошика.");
+      }
     }
   }, [_id, dispatch]);
 
