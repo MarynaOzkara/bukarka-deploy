@@ -8,7 +8,12 @@ import ReactStars from "react-rating-stars-component";
 import { useNavigate } from "react-router-dom";
 import { truncateString } from "utils/truncateString";
 import { useAppDispatch } from "../../../redux/hooks";
-import { addToCart, fetchOrdersData } from "../../../redux/orders/operations";
+import {
+  addToCart,
+  createCart,
+  fetchOrderById,
+  fetchOrdersData,
+} from "../../../redux/orders/operations";
 
 import {
   ButtonOrange,
@@ -87,17 +92,45 @@ const BookCard: React.FC<IProps> = ({
   const handleBuy = useCallback(async () => {
     if (!localStorage.getItem(`isBookAdded_${_id}`)) {
       localStorage.setItem(`isBookAdded_${_id}`, "true");
-      await dispatch(addToCart(_id));
-      await dispatch(fetchOrdersData());
+
+      let orderId = localStorage.getItem("currentOrderId");
+
+      if (!orderId) {
+        const createCartResponse = await dispatch(createCart());
+        console.log(createCartResponse);
+        if (createCartResponse.meta.requestStatus === "fulfilled") {
+          orderId = createCartResponse?.payload?.orderId;
+          if (orderId) {
+            localStorage.setItem("currentOrderId", orderId);
+          } else {
+            console.log("orderId не встановлений");
+            return;
+          }
+        } else {
+          console.log("Помилка при створенні кошика.");
+          return;
+        }
+      }
+      const addToCartResponse = await dispatch(
+        addToCart({ orderId, productId: _id })
+      );
+      if (addToCartResponse.meta.requestStatus === "fulfilled") {
+        await dispatch(fetchOrderById(orderId));
+        localStorage.setItem(`isBookAdded_${_id}`, "true");
+      } else {
+        console.log("Помилка при додаванні товару до кошика.");
+      }
     }
+
     showModal("cart");
   }, [_id, dispatch]);
+
 
   const handleAddToCart = useCallback(async () => {
     if (localStorage.getItem(`isBookAdded_${_id}`)) {
       showModal("isBookAdded");
     } else {
-      await dispatch(addToCart(_id));
+      // await dispatch(addToCart(_id));
       await dispatch(fetchOrdersData());
       localStorage.setItem(`isBookAdded_${_id}`, "true");
     }
