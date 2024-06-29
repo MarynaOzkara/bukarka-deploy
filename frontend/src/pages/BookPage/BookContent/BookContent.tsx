@@ -4,14 +4,12 @@ import Modal from "components/Modal";
 import Cart from "components/Cart";
 import FavoriteButton from "components/FavoriteButton";
 import PictureViewer from "../PictureViewer/PictureViewer";
-import { images } from "assets/images";
+import { CartData } from "components/Cart/Cart";
 import { IBookItem } from "types/Books";
+import useCart from "hooks/useCart";
 import { useAppDispatch } from "../../../redux/hooks";
-import {
-  addToCart,
-  createCart,
-  fetchOrderById,
-} from "../../../redux/orders/operations";
+import { images } from "assets/images";
+import { fetchOrderById } from "../../../redux/orders/operations";
 import {
   ButtonOrange,
   ButtonYellow,
@@ -31,8 +29,6 @@ import {
   StyledButtonContainer,
 } from "./BookContent.styled";
 
-import { CartData } from "components/Cart/Cart";
-
 interface IBookContentProps {
   book: IBookItem;
 }
@@ -44,6 +40,7 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
 
   console.log(book._id);
   const dispatch = useAppDispatch();
+  const { handleCart } = useCart(book._id);
 
   const showModal = (content: string, img?: string) => {
     setModalContent(content);
@@ -70,53 +67,22 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
   }, [dispatch]);
 
   const handleBuy = useCallback(async () => {
-    let orderId = localStorage.getItem("currentOrderId");
+    if (!localStorage.getItem(`isBookAdded_${book._id}`)) {
+      localStorage.setItem(`isBookAdded_${book._id}`, "true");
 
-    if (cartData?.orderItems.some((item) => item._id === book._id)) {
-      showModal("isBookAdded");
-      return;
+      await handleCart();
     }
 
-    if (!orderId) {
-      const createCartResponse = await dispatch(createCart());
-      if (createCartResponse.meta.requestStatus === "fulfilled") {
-        orderId = createCartResponse?.payload?.orderId;
-        orderId && localStorage.setItem("currentOrderId", orderId);
-      } else {
-        console.log("Помилка при створенні кошика.");
-        return;
-      }
-    }
-
-    const addToCartResponse = await dispatch(
-      addToCart({ orderId: orderId!, productId: book._id })
-    );
-    if (addToCartResponse.meta.requestStatus === "fulfilled") {
-      await dispatch(fetchOrderById(orderId!));
-      setIsModalOpen(true);
-      showModal("cart");
-    } else {
-      console.log("Помилка при додаванні товару до кошика.");
-    }
-  }, [book._id, cartData, dispatch]);
+    showModal("cart");
+  }, [book._id, handleCart]);
 
   const handleAddToCart = useCallback(async () => {
-    const storedOrderId = localStorage.getItem("currentOrderId");
     if (localStorage.getItem(`isBookAdded_${book._id}`)) {
       showModal("isBookAdded");
     } else {
-      if (storedOrderId) {
-        await dispatch(
-          addToCart({ orderId: storedOrderId, productId: book._id })
-        );
-        const response = await dispatch(fetchOrderById(storedOrderId));
-        if (response.meta.requestStatus !== "rejected") {
-          setCartData(response.payload as CartData);
-        }
-        localStorage.setItem(`isBookAdded_${book._id}`, "true");
-      }
+      await handleCart();
     }
-  }, [book._id, dispatch]);
+  }, [book._id, handleCart]);
 
   return (
     <>
