@@ -1,10 +1,12 @@
-import { Input, TextCenter } from "styles/CommonStyled";
-import { Category, Subcategory } from "types/Books";
-import { SubTitle } from "../Filter.styled";
 import { useState } from "react";
+import { Input, TextCenter } from "styles/CommonStyled";
+import { Category } from "types/Books";
+import { SubTitle } from "../Filter.styled";
 
 interface IProps {
   categories: Category[];
+  selected?: string[];
+  onChange?: (value: string) => void;
 }
 
 const flattenLinks = (categories: Category[]): string[] => {

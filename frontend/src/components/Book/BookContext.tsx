@@ -16,7 +16,7 @@ import {
   IFetchFavoritesParams,
   Publisher,
 } from "types/Books";
-import { FilterData } from "types/Filter";
+import { FilterCriteriaRequest, FilterData } from "types/Filter";
 
 import { instance } from "utils/fetchInstance";
 
@@ -160,7 +160,6 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
   const fetchFilterData = useCallback(async (): Promise<FilterData> => {
     try {
       const response = await instance.get<FilterData>("/api/books/filterdata");
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error("Error fetching filter data:", error);
@@ -172,6 +171,17 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
         rating: { minRating: 0, maxRating: 0 },
         languages: [],
       };
+    }
+  }, []);
+
+  const applyFilters = useCallback(async (filters: FilterCriteriaRequest) => {
+    try {
+      const response = await instance.get("/api/books/filter", {
+        params: filters,
+      });
+      setBooks(response.data);
+    } catch (error) {
+      console.error("Error applying filters:", error);
     }
   }, []);
 
@@ -197,6 +207,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       fetchPublishers,
       fetchAuthors,
       fetchFilterData,
+      applyFilters,
     }),
     [
       books,
@@ -218,6 +229,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       fetchPublishers,
       fetchAuthors,
       fetchFilterData,
+      applyFilters,
     ]
   );
 

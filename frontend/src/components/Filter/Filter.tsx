@@ -1,7 +1,15 @@
 import { useBooks } from "components/Book";
 import BookRating from "components/BookRating";
 import { bookTypes } from "constants/filter";
-import { useCallback, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  FormEventHandler,
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { ButtonYellow } from "styles/CommonStyled";
 
 import { FilterData } from "types/Filter";
@@ -12,12 +20,13 @@ import {
   SectionTitle,
   SubTitle,
 } from "./Filter.styled";
-import PublishersSection from "./PublishersSection";
+
 import AuthorsSection from "./filterParts/AuthorsSection";
 import CategoriesSection from "./filterParts/CategoriesSection";
+import PublishersSection from "./filterParts/PublishersSection";
 
 const Filter: React.FC = () => {
-  const { fetchFilterData } = useBooks();
+  const { fetchFilterData, applyFilters } = useBooks();
 
   const [filterData, setFilterData] = useState<FilterData>({
     authors: [],
@@ -30,6 +39,19 @@ const Filter: React.FC = () => {
 
   const { authors, publishers, categories, price, rating, languages } =
     filterData;
+
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
+  const [selectedAuthors, setSelectedAuthors] = useState<string[]>([]);
+  const [selectedPublishers, setSelectedPublishers] = useState<string[]>([]);
+  const [selectedRating, setSelectedRating] = useState<{
+    minRating: number;
+    maxRating: number;
+  }>({ minRating: 0, maxRating: 5 });
+  const [selectedPrice, setSelectedPrice] = useState<{
+    minPrice: number;
+    maxPrice: number;
+  }>({ minPrice: 0, maxPrice: 0 });
 
   const fetchData = useCallback(async () => {
     try {
@@ -44,10 +66,77 @@ const Filter: React.FC = () => {
     fetchData();
   }, [fetchData]);
 
+  const handleTypeChange = (category: string) => {
+    setSelectedCategories((prev) =>
+      prev.includes(category)
+        ? prev.filter((c) => c !== category)
+        : [...prev, category]
+    );
+  };
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategories((prev) =>
+      prev.includes(category)
+        ? prev.filter((c) => c !== category)
+        : [...prev, category]
+    );
+  };
+
+  const handleLanguageChange = (language: string) => {
+    setSelectedLanguages((prev) =>
+      prev.includes(language)
+        ? prev.filter((l) => l !== language)
+        : [...prev, language]
+    );
+  };
+
+  const handleAuthorChange = (author: string) => {
+    setSelectedAuthors((prev) =>
+      prev.includes(author)
+        ? prev.filter((a) => a !== author)
+        : [...prev, author]
+    );
+  };
+
+  const handlePublisherChange = (publisher: string) => {
+    setSelectedPublishers((prev) =>
+      prev.includes(publisher)
+        ? prev.filter((p) => p !== publisher)
+        : [...prev, publisher]
+    );
+  };
+
+  const handleRatingChange = (min: number, max: number) => {
+    setSelectedRating({ minRating: min, maxRating: max });
+  };
+
+  const handlePriceChange = (min: number, max: number) => {
+    if (min && max && min > max) min = max;
+
+    setSelectedPrice({
+      minPrice: min,
+      maxPrice: max,
+    });
+  };
+
+  const handleSubmitFilters = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const filterCriteria = {
+      categories: selectedCategories,
+      languages: selectedLanguages,
+      authors: selectedAuthors,
+      publishers: selectedPublishers,
+      rating: selectedRating,
+      price: selectedPrice,
+    };
+
+    applyFilters(filterCriteria);
+  };
+
   return (
     <FilterWrapper>
       <SectionTitle>Фильтр</SectionTitle>
-      <FilterContent>
+      <FilterContent onSubmit={handleSubmitFilters}>
         <section>
           <SubTitle>Добірка</SubTitle>
           <div>
@@ -59,6 +148,7 @@ const Filter: React.FC = () => {
                     id={type.value}
                     name="type"
                     value={type.value}
+                    onChange={() => handleCategoryChange(type.value)}
                   />
                   <label htmlFor={type.value}> {type.label} </label>
                 </p>
@@ -66,7 +156,11 @@ const Filter: React.FC = () => {
           </div>
         </section>
         {categories && categories.length > 0 && (
-          <CategoriesSection categories={categories} />
+          <CategoriesSection
+            categories={categories}
+            selected={selectedCategories}
+            onChange={handleCategoryChange}
+          />
         )}
         <section>
           <SubTitle>Мова</SubTitle>
@@ -79,6 +173,7 @@ const Filter: React.FC = () => {
                     id={language}
                     name="language"
                     value={language}
+                    onChange={() => handleLanguageChange(language)}
                   />
                   <label htmlFor={language}>{language}</label>
                 </p>
@@ -91,22 +186,39 @@ const Filter: React.FC = () => {
             <div>
               <span>Від</span>
 
-              {rating.minRating && (
-                <BookRating rating={rating.minRating || 0} />
-              )}
+              <BookRating
+                rating={selectedRating.minRating || rating.minRating}
+                onChange={(rating) =>
+                  handleRatingChange(rating, selectedRating.maxRating)
+                }
+              />
             </div>
             <div>
               <span>До</span>
-              {rating.maxRating && (
-                <BookRating rating={rating.maxRating || 5} />
-              )}
+
+              <BookRating
+                rating={selectedRating.maxRating || rating.maxRating}
+                onChange={(rating) =>
+                  handleRatingChange(selectedRating.minRating, rating)
+                }
+              />
             </div>
           </div>
         </section>
-        {authors && authors.length > 0 && <AuthorsSection authors={authors} />}
+        {authors && authors.length > 0 && (
+          <AuthorsSection
+            authors={authors}
+            selected={selectedAuthors}
+            onChange={handleAuthorChange}
+          />
+        )}
 
         {publishers && publishers.length > 0 && (
-          <PublishersSection publishers={publishers} />
+          <PublishersSection
+            publishers={publishers}
+            selected={selectedPublishers}
+            onChange={handlePublisherChange}
+          />
         )}
         <section>
           <SubTitle>Ціна</SubTitle>
@@ -114,17 +226,35 @@ const Filter: React.FC = () => {
             <PriceRangeInput
               className="input-range"
               type="number"
+              step="10"
+              pattern="^[0-9]*$"
               min={price.minPrice}
               max={price.maxPrice}
               placeholder="Від"
+              value={selectedPrice.minPrice || ""}
+              onChange={(e) =>
+                handlePriceChange(
+                  parseInt(e.target.value) || price.minPrice,
+                  selectedPrice.maxPrice
+                )
+              }
             />
 
             <PriceRangeInput
               className="input-range"
               type="number"
+              step="10"
+              pattern="^[0-9]*$"
               min={price.minPrice}
               max={price.maxPrice}
               placeholder="До"
+              value={selectedPrice.maxPrice || ""}
+              onChange={(e) =>
+                handlePriceChange(
+                  selectedPrice.minPrice,
+                  parseInt(e.target.value) || price.maxPrice
+                )
+              }
             />
           </div>
         </section>

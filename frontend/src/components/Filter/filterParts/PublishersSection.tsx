@@ -1,10 +1,12 @@
 import { Input, TextCenter } from "styles/CommonStyled";
-import { SubTitle } from "./Filter.styled";
 import { Publisher } from "types/Books";
 import { useState } from "react";
+import { SubTitle } from "../Filter.styled";
 
 interface IProps {
   publishers: Publisher[];
+  selected?: string[];
+  onChange?: (value: string) => void;
 }
 
 const PublishersSection: React.FC<IProps> = ({ publishers }) => {

@@ -5,9 +5,11 @@ import { useState } from "react";
 
 interface IProps {
   authors: Author[];
+  selected?: string[];
+  onChange?: (value: string) => void;
 }
 
-const AuthorsSection: React.FC<IProps> = ({ authors }) => {
+const AuthorsSection: React.FC<IProps> = ({ authors, selected }) => {
   const [showAll, setShowAll] = useState(false);
   const visibleAuthors = showAll ? authors : authors.slice(0, 6);
 

@@ -4,6 +4,7 @@ import { StarsWrapper, StyledStarIcon } from "./BookRating.styled";
 
 interface IRatingProps {
   rating: number;
+  onChange?: (rating: number) => void;
 }
 
 const BookRating: React.FC<IRatingProps> = ({ rating }) => {
