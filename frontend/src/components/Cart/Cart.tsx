@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loader from "components/Loader";
 import CartList from "./CartList";
@@ -93,9 +93,7 @@ const Cart: React.FC<Props> = ({ closeCart }) => {
         <EmptyWrapper>
           <Title>Кошик</Title>
           <Message>В вашому кошику ще немає товарів</Message>
-          <Button onClick={closeCart}>
-            <Link to="/">Продовжити покупки</Link>
-          </Button>
+          <Button onClick={handleButtonClick}>Продовжити покупки</Button>
         </EmptyWrapper>
       ) : (
         <CartWrapper ref={cartWrapperRef}>
