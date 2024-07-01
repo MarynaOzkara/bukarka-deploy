@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loader from "components/Loader";
 import CartList from "./CartList";
@@ -37,6 +37,7 @@ const Cart: React.FC<Props> = ({ closeCart }) => {
   const [wrapperHeight, setWrapperHeight] = useState<number | null>(null);
   const [cartData, setCartData] = useState<CartData | null>(null);
   const [currentOrderId, setCurrentOrderId] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const status = useSelector((state: IRootState) => selectOrdersStatus(state));
 
@@ -64,14 +65,17 @@ const Cart: React.FC<Props> = ({ closeCart }) => {
     }
   }, [cartData]);
 
+  const handleButtonClick = () => {
+    closeCart();
+    navigate("/");
+  };
+
   if (isConfirmationPage) {
     return (
       <EmptyWrapper>
         <Title>Кошик</Title>
         <Message>Ваше замовлення оформлене</Message>
-        <Button onClick={closeCart}>
-          <Link to="/">Продовжити покупки</Link>
-        </Button>
+        <Button onClick={handleButtonClick}>Продовжити покупки</Button>
       </EmptyWrapper>
     );
   }
