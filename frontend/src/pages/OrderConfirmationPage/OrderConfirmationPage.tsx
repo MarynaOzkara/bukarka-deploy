@@ -20,20 +20,30 @@ const OrderConfirmationPage: React.FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const fetchOrder = async () => {
-      if (id) {
+    let attempts = 0;
+
+    const fetchOrderAndCheckStatus = async () => {
+      if (id && attempts < 2) {
         try {
           const order = await dispatch(fetchOrderById(id)).unwrap();
 
-          if (order && order.orderNumber) {
+          if (
+            order &&
+            order.status === "processing" &&
+            order.orderNumber !== undefined
+          ) {
             setOrderNumber(order.orderNumber.toString());
+          } else {
+            attempts++;
+            setTimeout(fetchOrderAndCheckStatus, 2000);
           }
         } catch (error) {
           console.error("Error fetching order:", error);
         }
       }
     };
-    fetchOrder();
+
+    fetchOrderAndCheckStatus();
 
     localStorage.removeItem("currentOrderId");
     Object.keys(localStorage).forEach((key) => {
@@ -51,7 +61,7 @@ const OrderConfirmationPage: React.FC = () => {
         <OrderInfo>
           <NumberInfo>
             <NumberText>Номер вашого замовлення:</NumberText>
-            <Number>{orderNumber}</Number>
+            <Number>{!orderNumber ? "Завантажуємо..." : orderNumber}</Number>
           </NumberInfo>
           <Text>
             Ми надіслали вам лист с даними замовлення, включаючи інформацію про
