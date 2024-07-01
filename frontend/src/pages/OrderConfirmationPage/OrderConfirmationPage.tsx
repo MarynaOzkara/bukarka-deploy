@@ -27,12 +27,6 @@ const OrderConfirmationPage: React.FC = () => {
 
           if (order && order.orderNumber) {
             setOrderNumber(order.orderNumber.toString());
-            localStorage.removeItem("currentOrderId");
-            Object.keys(localStorage).forEach((key) => {
-              if (key.startsWith("isBookAdded_")) {
-                localStorage.removeItem(key);
-              }
-            });
           }
         } catch (error) {
           console.error("Error fetching order:", error);
@@ -40,6 +34,13 @@ const OrderConfirmationPage: React.FC = () => {
       }
     };
     fetchOrder();
+
+    localStorage.removeItem("currentOrderId");
+    Object.keys(localStorage).forEach((key) => {
+      if (key.startsWith("isBookAdded_")) {
+        localStorage.removeItem(key);
+      }
+    });
   }, [dispatch, id]);
 
   return (
