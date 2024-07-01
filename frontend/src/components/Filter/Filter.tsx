@@ -24,6 +24,7 @@ import {
 import AuthorsSection from "./filterParts/AuthorsSection";
 import CategoriesSection from "./filterParts/CategoriesSection";
 import PublishersSection from "./filterParts/PublishersSection";
+import bestsellers from "./../../assets/data/bestsellers";
 
 const Filter: React.FC = () => {
   const { fetchFilterData, applyFilters } = useBooks();
@@ -40,6 +41,15 @@ const Filter: React.FC = () => {
   const { authors, publishers, categories, price, rating, languages } =
     filterData;
 
+  const [selectedTypes, setSelectedTypes] = useState<{
+    new: boolean;
+    promotions: boolean;
+    bestsellers: boolean;
+  }>({
+    new: false,
+    promotions: false,
+    bestsellers: false,
+  });
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [selectedAuthors, setSelectedAuthors] = useState<string[]>([]);
@@ -66,12 +76,11 @@ const Filter: React.FC = () => {
     fetchData();
   }, [fetchData]);
 
-  const handleTypeChange = (category: string) => {
-    setSelectedCategories((prev) =>
-      prev.includes(category)
-        ? prev.filter((c) => c !== category)
-        : [...prev, category]
-    );
+  const handleTypeChange = (type: string) => {
+    setSelectedTypes((prev) => ({
+      ...prev,
+      [type]: !prev[type as keyof typeof prev],
+    }));
   };
 
   const handleCategoryChange = (category: string) => {
@@ -121,7 +130,10 @@ const Filter: React.FC = () => {
 
   const handleSubmitFilters = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const filterCriteria = {
+    const filterQuery = {
+      new: selectedTypes.new,
+      promotions: selectedTypes.promotions,
+      bestsellers: selectedTypes.bestsellers,
       categories: selectedCategories,
       languages: selectedLanguages,
       authors: selectedAuthors,
@@ -130,7 +142,7 @@ const Filter: React.FC = () => {
       price: selectedPrice,
     };
 
-    applyFilters(filterCriteria);
+    applyFilters(filterQuery);
   };
 
   return (
@@ -148,7 +160,10 @@ const Filter: React.FC = () => {
                     id={type.value}
                     name="type"
                     value={type.value}
-                    onChange={() => handleCategoryChange(type.value)}
+                    checked={
+                      selectedTypes[type.value as keyof typeof selectedTypes]
+                    }
+                    onChange={() => handleTypeChange(type.value)}
                   />
                   <label htmlFor={type.value}> {type.label} </label>
                 </p>

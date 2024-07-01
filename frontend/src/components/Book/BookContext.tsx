@@ -68,18 +68,18 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
     }
   }, []);
 
-  const handleSearch = useCallback(async (params: IFetchBooksParams) => {
+  const handleSearch = useCallback(async (search: IFetchBooksParams) => {
     try {
       const response = await instance.get<IBooksDataResponse>(
         "/api/books/filters",
-        { params }
+        { params: search }
       );
       const { books, total, limit } = response.data;
       if (books.length) {
         setSearchResults(books);
 
         if (total && limit) setTotalPages(Math.ceil(total / limit));
-        if (params) setCurrentPage(params.page || 1);
+        if (search) setCurrentPage(search.page || 1);
       } else {
         setSearchResults([]);
       }
@@ -90,8 +90,8 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
   }, []);
 
   const fetchHints = useCallback(
-    async (params: IFetchBooksParams) => {
-      fetchBooks(params);
+    async (hintsParams: IFetchBooksParams) => {
+      fetchBooks(hintsParams);
     },
     [fetchBooks]
   );
@@ -106,18 +106,18 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
   }, []);
 
   const fetchFavoritesForGuest = useCallback(
-    async (params: IFetchFavoritesParams) => {
+    async (favoritesParams: IFetchFavoritesParams) => {
       try {
         const response = await instance.get<IBooksDataResponse>(
           "/api/books/ids",
-          { params }
+          { params: favoritesParams }
         );
         if (response.data.books.length) {
           setFavorites(response.data.books);
           if (response.data.total && response.data.limit) {
             setTotalPages(Math.ceil(response.data.total / response.data.limit));
           }
-          setCurrentPage(params.page || 1);
+          setCurrentPage(favoritesParams.page || 1);
         } else {
           setFavorites([]);
         }
@@ -178,10 +178,13 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
 
   const applyFilters = useCallback(async (filters: FilterCriteriaRequest) => {
     try {
-      const response = await instance.get("/api/books/filter", {
-        params: filters,
-      });
-      setBooks(response.data);
+      const response = await instance.get<IBooksDataResponse>(
+        "/api/books/filters",
+        {
+          params: filters,
+        }
+      );
+      setBooks(response.data.books);
     } catch (error) {
       console.error("Error applying filters:", error);
     }
