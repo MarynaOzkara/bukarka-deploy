@@ -59,10 +59,12 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
         if (params) setCurrentPage(params.page || 1);
       } else {
         setBooks([]);
+        setHints([]);
       }
     } catch (error) {
-      console.error("Error fetching books:", error);
       setBooks([]);
+      setHints([]);
+      console.error("Error fetching books:", error);
     }
   }, []);
 
@@ -82,8 +84,8 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
         setSearchResults([]);
       }
     } catch (error) {
-      console.error("Error fetching search results:", error);
       setSearchResults([]);
+      console.error("Error fetching search results:", error);
     }
   }, []);
 
@@ -120,8 +122,8 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
           setFavorites([]);
         }
       } catch (error: any) {
-        console.error("Error fetching favorites:", error);
         setFavorites([]);
+        console.error("Error fetching favorites:", error);
       }
     },
     []
@@ -132,8 +134,8 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       const response = await instance.get<Category[]>("/api/categories");
       setCategories(response.data || []);
     } catch (error) {
-      console.error("Error fetching categories:", error);
       setCategories([]);
+      console.error("Error fetching categories:", error);
     }
   }, []);
 
@@ -142,8 +144,8 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       const response = await instance.get<Publisher[]>("/api/books/publishers");
       setPublishers(response.data || []);
     } catch (error) {
-      console.error("Error fetching publishers:", error);
       setPublishers([]);
+      console.error("Error fetching publishers:", error);
     }
   }, []);
 
@@ -152,8 +154,8 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       const response = await instance.get<Author[]>("/api/books/authors");
       setAuthors(response.data || []);
     } catch (error) {
-      console.error("Error fetching authors:", error);
       setAuthors([]);
+      console.error("Error fetching authors:", error);
     }
   }, []);
 
