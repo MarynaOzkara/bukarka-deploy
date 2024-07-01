@@ -1,15 +1,13 @@
-import { images } from "assets/images";
+import { useCallback, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ReactStars from "react-rating-stars-component";
+
 import Cart from "components/Cart";
 import FavoriteButton from "components/FavoriteButton/";
 import Modal from "components/Modal";
-
-import { useCallback, useMemo, useState } from "react";
-import ReactStars from "react-rating-stars-component";
-import { useNavigate } from "react-router-dom";
+import useCart from "hooks/useCart";
 import { truncateString } from "utils/truncateString";
-import { useAppDispatch } from "../../../redux/hooks";
-import { addToCart, fetchOrdersData } from "../../../redux/orders/operations";
-
+import { images } from "assets/images";
 import {
   ButtonOrange,
   ButtonYellow,
@@ -26,7 +24,6 @@ import {
   StyledStarsWrapper,
   StyledTitle,
 } from "./CatalogBookCard.styled";
-
 import { StyledStarIcon } from "components/BookRating/BookRating.styled";
 
 interface IProps {
@@ -47,8 +44,9 @@ const BookCard: React.FC<IProps> = ({
   price,
   rating,
 }) => {
-  const dispatch = useAppDispatch();
+
   let navigate = useNavigate();
+  const { handleCart } = useCart(_id);
 
   const starsProps = useMemo(
     () => ({
@@ -87,21 +85,20 @@ const BookCard: React.FC<IProps> = ({
   const handleBuy = useCallback(async () => {
     if (!localStorage.getItem(`isBookAdded_${_id}`)) {
       localStorage.setItem(`isBookAdded_${_id}`, "true");
-      await dispatch(addToCart(_id));
-      await dispatch(fetchOrdersData());
+
+      await handleCart();
     }
+
     showModal("cart");
-  }, [_id, dispatch]);
+  }, [_id, handleCart]);
 
   const handleAddToCart = useCallback(async () => {
     if (localStorage.getItem(`isBookAdded_${_id}`)) {
       showModal("isBookAdded");
     } else {
-      await dispatch(addToCart(_id));
-      await dispatch(fetchOrdersData());
-      localStorage.setItem(`isBookAdded_${_id}`, "true");
+      await handleCart();
     }
-  }, [_id, dispatch]);
+  }, [_id, handleCart]);
 
   return (
     <>

@@ -199,15 +199,6 @@ const Delivery: React.FC<DeliveryDataProps> = ({
         <RadioButton>
           <RadioInput
             type="radio"
-            value="option1"
-            checked={selectedRadio === DELIVERY_METHOD.ukrPoshta}
-            onChange={() => handleOptionChange(DELIVERY_METHOD.ukrPoshta)}
-          />
-          <span>{DELIVERY_METHOD.ukrPoshta}</span>
-        </RadioButton>
-        <RadioButton>
-          <RadioInput
-            type="radio"
             value="option2"
             checked={selectedRadio === DELIVERY_METHOD.novaPoshtaWarehouse}
             onChange={() =>

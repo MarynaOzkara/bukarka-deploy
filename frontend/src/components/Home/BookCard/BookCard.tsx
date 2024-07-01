@@ -1,22 +1,21 @@
-import { images } from "assets/images";
+import { useCallback, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import ReactStars from "react-rating-stars-component";
 import Cart from "components/Cart";
 import FavoriteButton from "components/FavoriteButton/";
 import Modal from "components/Modal";
 import {
-  StarsWrapper,
-  StyledStarIcon,
-} from "components/Slider/SimpleSlider.styled";
-import { useCallback, useMemo, useState } from "react";
-import ReactStars from "react-rating-stars-component";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { truncateString } from "utils/truncateString";
-import { useAppDispatch } from "../../../redux/hooks";
-import { addToCart, fetchOrdersData } from "../../../redux/orders/operations";
-import {
   selectOrdersError,
   selectOrdersStatus,
 } from "../../../redux/orders/selectors";
+import useCart from "hooks/useCart";
+import { truncateString } from "utils/truncateString";
+import { images } from "assets/images";
+import {
+  StarsWrapper,
+  StyledStarIcon,
+} from "components/Slider/SimpleSlider.styled";
 import {
   Button,
   StyledFavoriteButton,
@@ -54,8 +53,8 @@ const BookCard: React.FC<IProps> = ({
   const ordersStatus = useSelector(selectOrdersStatus);
   const ordersError = useSelector(selectOrdersError);
 
-  const dispatch = useAppDispatch();
   let navigate = useNavigate();
+  const { handleCart } = useCart(_id);
 
   const starsProps = useMemo(
     () => ({
@@ -82,18 +81,19 @@ const BookCard: React.FC<IProps> = ({
     [navigate]
   );
 
-  const handleAddToCart = useCallback(async () => {
+  const handleBuy = useCallback(async () => {
     if (isBookAdded) {
       console.log("Книга вже є в кошику!");
       setIsOpen(true);
-    } else {
-      await dispatch(addToCart(_id));
-      await dispatch(fetchOrdersData());
-      setIsOpen(true);
-      setIsBookAdded(true);
-      localStorage.setItem(`isBookAdded_${_id}`, "true");
+      return;
     }
-  }, [_id, dispatch, isBookAdded]);
+
+    await handleCart();
+
+    setIsOpen(true);
+    setIsBookAdded(true);
+    localStorage.setItem(`isBookAdded_${_id}`, "true");
+  }, [_id, handleCart, isBookAdded]);
 
   return (
     <>
@@ -127,7 +127,7 @@ const BookCard: React.FC<IProps> = ({
         </StarsWrapper>
         <StyledPrice>{price} грн</StyledPrice>
 
-        <Button onClick={handleAddToCart}>Купити</Button>
+        <Button onClick={handleBuy}>Купити</Button>
 
         {isOpen && (
           <Modal close={closeModal} showCloseButton={true}>
