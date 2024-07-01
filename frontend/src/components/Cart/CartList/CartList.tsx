@@ -1,7 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import CartItem from "../CartItem";
-import { deleteOrder, fetchOrdersData } from "../../../redux/orders/operations";
+import {
+  deleteOrder,
+  fetchOrderById,
+} from "../../../redux/orders/operations";
 import { useAppDispatch } from "../../../redux/hooks";
 import { selectOrdersData } from "../../../redux/orders/selectors";
 import {
@@ -48,7 +51,7 @@ const CartList: React.FC<CartListProps> = ({ closeCart }) => {
     clearLocalStorage();
 
     await dispatch(deleteOrder(ordersId!)).then(() => {
-      dispatch(fetchOrdersData());
+      dispatch(fetchOrderById(ordersId!)).then(closeCart);
     });
   };
 

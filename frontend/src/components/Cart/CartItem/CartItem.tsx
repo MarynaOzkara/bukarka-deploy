@@ -3,7 +3,6 @@ import { images } from "assets/images/";
 import {
   deleteItem,
   fetchOrderById,
-  fetchOrdersData,
   updateItemQuantity,
 } from "../../../redux/orders/operations";
 import { useAppDispatch } from "../../../redux/hooks";
