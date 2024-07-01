@@ -72,6 +72,12 @@ const Search: React.FC = () => {
   }, []);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (
+      /^[a-zA-Z\u0400-\u04ff]{0,64}$/.test(event.target.value) &&
+      event.target.value.length <= 64
+    ) {
+      setInputQuery("");
+    }
     setInputQuery(event.target.value);
     setIsHintSelected(false);
     setShowHints(!!event.target.value);
@@ -122,6 +128,7 @@ const Search: React.FC = () => {
       <StyledLensIcon />
       <SearchInput
         type="text"
+        pattern="^[a-zA-Z\u0400-\u04ff]{0,64}"
         value={inputQuery}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
@@ -138,7 +145,9 @@ const Search: React.FC = () => {
                 className={index === highlightedIndex ? "highlighted" : ""}
                 onClick={() => handleHintClick(hint)}
               >
-                {hint.author || hint.title}
+                {hint.author.toLowerCase().includes(inputQuery.toLowerCase())
+                  ? hint.author
+                  : hint.title}
               </li>
             ))
           ) : (
