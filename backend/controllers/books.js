@@ -295,9 +295,13 @@ const filterBooks = async (req, res) => {
     promotions,
     bestsellers,
     subcategory,
+    subcategories,
     language,
+    languages,
     author,
+    authors,
     publisher,
+    publishers,
     priceMin,
     priceMax,
     ratingMin,
@@ -313,7 +317,6 @@ const filterBooks = async (req, res) => {
   const match = {};
   const sort = {};
 
-  // Convert query parameters to boolean if needed
   if (isNew !== undefined) {
     match.new = isNew === "true";
   }
@@ -324,7 +327,6 @@ const filterBooks = async (req, res) => {
     match.bestsellers = bestsellers === "true";
   }
 
-  // Handle array parameters
   if (subcategory) {
     match.subcategory = { $regex: subcategory, $options: "i" };
   }
@@ -338,7 +340,34 @@ const filterBooks = async (req, res) => {
     match.publisher = { $in: publisher.split(",") };
   }
 
-  // Handle price range
+  if (language) {
+    match.language = { $regex: language, $options: "i" };
+  }
+
+  if (subcategories) {
+    match.subcategory = {
+      $in: subcategories.map((subcategory) => new RegExp(subcategory, "i")),
+    };
+  }
+
+  if (languages) {
+    match.language = {
+      $in: languages.map((language) => new RegExp(language, "i")),
+    };
+  }
+
+  if (authors) {
+    match.author = {
+      $in: authors.map((author) => new RegExp(author, "i")),
+    };
+  }
+
+  if (publishers) {
+    match.publisher = {
+      $in: publishers.map((publisher) => new RegExp(publisher, "i")),
+    };
+  }
+
   if (priceMin !== undefined || priceMax !== undefined) {
     match.price = {};
     if (priceMin !== undefined) {
@@ -349,7 +378,6 @@ const filterBooks = async (req, res) => {
     }
   }
 
-  // Handle rating range
   if (ratingMin !== undefined || ratingMax !== undefined) {
     match.rating = {};
     if (ratingMin !== undefined) {
@@ -360,7 +388,6 @@ const filterBooks = async (req, res) => {
     }
   }
 
-  // Handle sorting
   if (sortBy && orderSort) {
     sort[sortBy] = orderSort === "asc" ? 1 : -1;
   }
