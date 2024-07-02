@@ -21,6 +21,7 @@ const Filter: React.FC = () => {
   const { fetchFilterData, applyFilter } = useBooks();
 
   const [filterData, setFilterData] = useState<FilterData>({
+    ages: [],
     authors: [],
     publishers: [],
     categories: [],
@@ -32,14 +33,15 @@ const Filter: React.FC = () => {
   const { authors, publishers, categories, price, rating, languages } =
     filterData;
 
+  const [selectedAge, setSelectedAge] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState<{
-    new: boolean;
-    promotions: boolean;
-    bestsellers: boolean;
+    new: boolean | undefined;
+    promotions: boolean | undefined;
+    bestsellers: boolean | undefined;
   }>({
-    new: false,
-    promotions: false,
-    bestsellers: false,
+    new: undefined,
+    promotions: undefined,
+    bestsellers: undefined,
   });
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
@@ -144,6 +146,7 @@ const Filter: React.FC = () => {
       publishers: selectedPublishers,
       rating: selectedRating,
       price: { minPrice: finalMinPrice, maxPrice: finalMaxPrice },
+      ages: selectedAge,
     };
 
     applyFilter(filterQuery);
