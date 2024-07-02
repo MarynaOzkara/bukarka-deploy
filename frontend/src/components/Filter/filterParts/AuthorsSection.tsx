@@ -5,17 +5,24 @@ import { useState } from "react";
 
 interface IProps {
   authors: Author[];
-  selected?: string[];
+  selected: string[];
   onChange?: (value: string) => void;
 }
 
-const AuthorsSection: React.FC<IProps> = ({ authors, selected }) => {
+const AuthorsSection: React.FC<IProps> = ({ authors, selected, onChange }) => {
   const [showAll, setShowAll] = useState(false);
   const visibleAuthors = showAll ? authors : authors.slice(0, 6);
 
   const handleToggleShow = () => {
     setShowAll((prevShowAll) => !prevShowAll);
   };
+
+  const handleCheckboxChange = (author: string) => {
+    if (onChange) {
+      onChange(author);
+    }
+  };
+
   return (
     <section>
       <SubTitle>Автор</SubTitle>
@@ -25,7 +32,14 @@ const AuthorsSection: React.FC<IProps> = ({ authors, selected }) => {
         visibleAuthors.length > 0 &&
         visibleAuthors.map(({ author }, index) => (
           <p key={index}>
-            <input type="checkbox" id={author} name="author" value={author} />
+            <input
+              type="checkbox"
+              id={author}
+              name="author"
+              value={author}
+              checked={selected.includes(author)}
+              onChange={() => handleCheckboxChange(author)}
+            />
             <label htmlFor={author}>{author}</label>
           </p>
         ))}

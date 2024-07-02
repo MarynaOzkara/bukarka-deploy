@@ -176,16 +176,16 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
     }
   }, []);
 
-  const applyFilters = useCallback(async (filters: FilterCriteriaRequest) => {
+  const applyFilter = useCallback(async (filters: FilterCriteriaRequest) => {
     try {
-      const response = await instance.get<IBooksDataResponse>(
-        "/api/books/filters",
-        {
-          params: filters,
-        }
+      const response = await instance.post<IBooksDataResponse>(
+        "/api/books/filter",
+        filters
       );
+      console.log(response.data);
       setBooks(response.data.books);
     } catch (error) {
+      setBooks([]);
       console.error("Error applying filters:", error);
     }
   }, []);
@@ -212,7 +212,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       fetchPublishers,
       fetchAuthors,
       fetchFilterData,
-      applyFilters,
+      applyFilter,
     }),
     [
       books,
@@ -234,7 +234,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       fetchPublishers,
       fetchAuthors,
       fetchFilterData,
-      applyFilters,
+      applyFilter,
     ]
   );
 

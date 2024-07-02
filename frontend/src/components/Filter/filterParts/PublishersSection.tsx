@@ -5,17 +5,28 @@ import { SubTitle } from "../Filter.styled";
 
 interface IProps {
   publishers: Publisher[];
-  selected?: string[];
-  onChange?: (value: string) => void;
+  selected: string[];
+  onChange: (value: string) => void;
 }
 
-const PublishersSection: React.FC<IProps> = ({ publishers }) => {
+const PublishersSection: React.FC<IProps> = ({
+  publishers,
+  selected,
+  onChange,
+}) => {
   const [showAll, setShowAll] = useState(false);
   const visiblePublishers = showAll ? publishers : publishers.slice(0, 6);
 
   const handleToggleShow = () => {
     setShowAll((prevShowAll) => !prevShowAll);
   };
+
+  const handleCheckboxChange = (publisher: string) => {
+    if (onChange) {
+      onChange(publisher);
+    }
+  };
+
   return (
     <section>
       <SubTitle>Видавництво</SubTitle>
@@ -32,6 +43,8 @@ const PublishersSection: React.FC<IProps> = ({ publishers }) => {
                   id={publisher}
                   name="publisher"
                   value={publisher}
+                  checked={selected.includes(publisher)}
+                  onChange={() => handleCheckboxChange(publisher)}
                 />
                 <label htmlFor={publisher}>{publisher}</label>
               </p>

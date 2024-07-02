@@ -5,8 +5,8 @@ import { SubTitle } from "../Filter.styled";
 
 interface IProps {
   categories: Category[];
-  selected?: string[];
-  onChange?: (value: string) => void;
+  selected: string[];
+  onChange: (value: string) => void;
 }
 
 const flattenLinks = (categories: Category[]): string[] => {
@@ -25,7 +25,11 @@ const flattenLinks = (categories: Category[]): string[] => {
   return links;
 };
 
-const CategoriesSection: React.FC<IProps> = ({ categories }) => {
+const CategoriesSection: React.FC<IProps> = ({
+  categories,
+  selected,
+  onChange,
+}) => {
   const [visibleCount, setVisibleCount] = useState(6);
 
   const options = flattenLinks(categories);
@@ -36,6 +40,12 @@ const CategoriesSection: React.FC<IProps> = ({ categories }) => {
 
   const handleShowLess = () => {
     setVisibleCount(6);
+  };
+
+  const handleCheckboxChange = (category: string) => {
+    if (onChange) {
+      onChange(category);
+    }
   };
 
   const visibleLinks = options.slice(0, visibleCount);
@@ -54,6 +64,8 @@ const CategoriesSection: React.FC<IProps> = ({ categories }) => {
                 id={link}
                 name="subcategory"
                 value={link}
+                checked={selected.includes(link)}
+                onChange={() => handleCheckboxChange(link)}
               />
               <label htmlFor={link}> {link} </label>
             </p>

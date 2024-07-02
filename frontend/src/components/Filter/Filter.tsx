@@ -1,15 +1,7 @@
 import { useBooks } from "components/Book";
 import BookRating from "components/BookRating";
 import { bookTypes } from "constants/filter";
-import {
-  ChangeEvent,
-  FormEvent,
-  FormEventHandler,
-  MouseEventHandler,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ButtonYellow } from "styles/CommonStyled";
 
 import { FilterData } from "types/Filter";
@@ -24,10 +16,9 @@ import {
 import AuthorsSection from "./filterParts/AuthorsSection";
 import CategoriesSection from "./filterParts/CategoriesSection";
 import PublishersSection from "./filterParts/PublishersSection";
-import bestsellers from "./../../assets/data/bestsellers";
 
 const Filter: React.FC = () => {
-  const { fetchFilterData, applyFilters } = useBooks();
+  const { fetchFilterData, applyFilter } = useBooks();
 
   const [filterData, setFilterData] = useState<FilterData>({
     authors: [],
@@ -142,7 +133,7 @@ const Filter: React.FC = () => {
       price: selectedPrice,
     };
 
-    applyFilters(filterQuery);
+    applyFilter(filterQuery);
   };
 
   return (

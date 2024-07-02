@@ -97,5 +97,5 @@ export interface IBooksContextType {
   fetchPublishers: () => Promise<void>;
   fetchAuthors: () => Promise<void>;
   fetchFilterData: () => Promise<FilterData>;
-  applyFilters: (filters: FilterCriteriaRequest) => Promise<void>;
+  applyFilter: (filters: FilterCriteriaRequest) => Promise<void>;
 }

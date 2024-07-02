@@ -167,6 +167,104 @@ const filtersBooks = async (req, res) => {
   });
 };
 
+const filterBooks = async (req, res) => {
+  const {
+    keyword,
+    promotions,
+    bestsellers,
+    category,
+    subcategory,
+    language,
+    author,
+    publisher,
+    priceMin,
+    priceMax,
+    ratingMin,
+    ratingMax,
+    sortBy,
+    orderSort,
+    page = 1,
+    limit = 12,
+  } = req.body;
+
+  const skip = (page - 1) * limit;
+
+  const match = {};
+  const sort = {};
+
+  if (keyword) {
+    match.$or = [
+      { title: { $regex: keyword, $options: "i" } },
+      { author: { $regex: keyword, $options: "i" } },
+    ];
+  }
+  if (category) {
+    match.category = { $regex: category, $options: "i" };
+  }
+  if (subcategory) {
+    match.subcategory = { $regex: subcategory, $options: "i" };
+  }
+  if (language && language.length > 0) {
+    match.language = { $in: language };
+  }
+  if (author && author.length > 0) {
+    match.author = { $in: author };
+  }
+  if (publisher && publisher.length > 0) {
+    match.publisher = { $in: publisher };
+  }
+  if (promotions) {
+    match.promotions = true;
+  }
+  if (bestsellers) {
+    match.bestsellers = true;
+  }
+  if (req.body.new) {
+    match.new = true;
+  }
+  if (priceMin !== undefined || priceMax !== undefined) {
+    match.price = {};
+    if (priceMin !== undefined) {
+      match.price.$gte = +priceMin;
+    }
+    if (priceMax !== undefined) {
+      match.price.$lte = +priceMax;
+    }
+  }
+  if (ratingMin !== undefined || ratingMax !== undefined) {
+    match.rating = {};
+    if (ratingMin !== undefined) {
+      match.rating.$gte = +ratingMin;
+    }
+    if (ratingMax !== undefined) {
+      match.rating.$lte = +ratingMax;
+    }
+  }
+  if (sortBy && orderSort) {
+    sort[sortBy] = orderSort === "asc" ? 1 : -1;
+  }
+
+  try {
+    console.log("Match criteria:", JSON.stringify(match, null, 2));
+
+    const books = await Book.find(match).skip(skip).limit(limit).sort(sort);
+    const total = await Book.countDocuments(match);
+
+    if (!books.length) {
+      return res.status(404).json({ message: "Books not found" });
+    }
+
+    res.status(200).json({
+      total,
+      page,
+      limit,
+      books,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const getBooksByIds = async (req, res) => {
   const { sortBy, orderSort, ids } = req.query;
   const page = parseInt(req.query.page) || 1;
@@ -381,6 +479,7 @@ module.exports = {
   getUniquePublishers,
   getFilterData,
   filtersBooks,
+  filterBooks,
   getBooksByIds,
   getBookById,
 };
@@ -397,4 +496,5 @@ module.exports = {
   getUniqueAuthors: ctrlWrapper(getUniqueAuthors),
   getUniquePublishers: ctrlWrapper(getUniquePublishers),
   getFilterData: ctrlWrapper(getFilterData),
+  filterBooks: ctrlWrapper(filterBooks),
 };
