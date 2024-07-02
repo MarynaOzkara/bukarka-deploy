@@ -2,11 +2,28 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { instance } from "utils/fetchInstance";
 import { IOrders, UpdatedOrderPayload } from "types/Orders";
 
+export const createCart = createAsyncThunk(
+  "cart/createCart",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await instance.post("/api/orders");
+      return response.data;
+    } catch (error) {
+      return rejectWithValue((error as Error).message);
+    }
+  }
+);
+
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
-  async (productId: string, { rejectWithValue }) => {
+  async (
+    { orderId, productId }: { orderId: string; productId: string },
+    { rejectWithValue }
+  ) => {
     try {
-      const response = await instance.post(`/api/orders/${productId}`);
+      const response = await instance.post(
+        `/api/orders/${orderId}/${productId}`
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue((error as Error).message);

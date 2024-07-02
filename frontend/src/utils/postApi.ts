@@ -23,7 +23,6 @@ export const getNovaPoshtaCities = async (): Promise<string[]> => {
 
     const response = await axios.post(apiEndpoint, requestData);
 
-    // console.log(response);
     const cities: City[] = response.data.data;
 
     const cityDescriptions = cities.map((city: City) => city.Description);

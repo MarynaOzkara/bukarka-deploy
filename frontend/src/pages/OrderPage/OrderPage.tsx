@@ -112,8 +112,6 @@ const OrderPage: React.FC = () => {
       comment: orderComment,
     };
 
-    // console.log(customerInfo);
-
     try {
       await validationPersonalDataSchema.validate(
         {
@@ -145,7 +143,6 @@ const OrderPage: React.FC = () => {
         { abortEarly: false }
       );
 
-      // console.log(customerInfo);
       dispatch(updateOrderInfo({ id, customerInfo }));
     } catch (errors) {
       if (errors instanceof yup.ValidationError) {

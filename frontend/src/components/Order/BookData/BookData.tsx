@@ -44,9 +44,7 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
 
   const orderData = useSelector(selectOrdersData);
-  // console.log(orderData);
 
-  // console.log(selectedDeliveryMethod);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -76,10 +74,11 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
 
   useEffect(() => {
     if (orderData && selectedDeliveryMethod) {
-      setDeliveryPrice(calculateDeliveryPrice(selectedDeliveryMethod, orderData.totalPrice));
+      setDeliveryPrice(
+        calculateDeliveryPrice(selectedDeliveryMethod, orderData.totalPrice)
+      );
     }
   }, [orderData, selectedDeliveryMethod]);
-
 
   useEffect(() => {
     let quantity = 0;
@@ -88,10 +87,6 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
     });
     setTotalQuantity(quantity);
   }, [orderData]);
-
-  // console.log("deliveryPrice", deliveryPrice);
-  // console.log("orderData", orderData);
-  // console.log("totalQuantity", totalQuantity);
 
   const openCart = () => {
     setIsCartOpen(true);

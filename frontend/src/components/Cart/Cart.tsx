@@ -1,15 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loader from "components/Loader";
 import CartList from "./CartList";
-import { fetchOrdersData } from "../../redux/orders/operations";
+import { fetchOrderById } from "../../redux/orders/operations";
 import { useAppDispatch } from "../../redux/hooks";
 import { IRootState } from "../../redux/store";
-import {
-  selectOrdersData,
-  selectOrdersStatus,
-} from "../../redux/orders/selectors";
+import { selectOrdersStatus } from "../../redux/orders/selectors";
 import {
   Button,
   CartWrapper,
@@ -23,7 +20,7 @@ export interface CartData {
   _id: string;
   orderItems: { _id: string; name: string; price: number; quantity: number }[];
   totalPrice: number;
-  status:string
+  status: string;
 }
 
 type Props = {
@@ -38,16 +35,28 @@ const Cart: React.FC<Props> = ({ closeCart }) => {
 
   const cartWrapperRef = useRef<HTMLDivElement>(null);
   const [wrapperHeight, setWrapperHeight] = useState<number | null>(null);
+  const [cartData, setCartData] = useState<CartData | null>(null);
+  const [currentOrderId, setCurrentOrderId] = useState<string | null>(null);
+  const navigate = useNavigate();
 
-  const cartData = useSelector(
-    (state: IRootState) => selectOrdersData(state) as CartData | null
-  );
   const status = useSelector((state: IRootState) => selectOrdersStatus(state));
-  console.log(cartData);
-  console.log(cartData?.status);
 
   useEffect(() => {
-    dispatch(fetchOrdersData());
+    const storedOrderId = localStorage.getItem("currentOrderId");
+    setCurrentOrderId(storedOrderId);
+    if (storedOrderId) {
+      dispatch(fetchOrderById(storedOrderId))
+        .then((response: any) => {
+          if (response.meta.requestStatus !== "rejected") {
+            setCartData(response.payload as CartData);
+          } else {
+            console.error("Error fetching order data");
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching order data:", error);
+        });
+    }
   }, [dispatch]);
 
   useEffect(() => {
@@ -56,14 +65,17 @@ const Cart: React.FC<Props> = ({ closeCart }) => {
     }
   }, [cartData]);
 
+  const handleButtonClick = () => {
+    closeCart();
+    navigate("/");
+  };
+
   if (isConfirmationPage) {
     return (
       <EmptyWrapper>
         <Title>Кошик</Title>
         <Message>Ваше замовлення оформлене</Message>
-        <Button onClick={closeCart}>
-          <Link to="/">Продовжити покупки</Link>
-        </Button>
+        <Button onClick={handleButtonClick}>Продовжити покупки</Button>
       </EmptyWrapper>
     );
   }
@@ -81,9 +93,7 @@ const Cart: React.FC<Props> = ({ closeCart }) => {
         <EmptyWrapper>
           <Title>Кошик</Title>
           <Message>В вашому кошику ще немає товарів</Message>
-          <Button onClick={closeCart}>
-            <Link to="/">Продовжити покупки</Link>
-          </Button>
+          <Button onClick={handleButtonClick}>Продовжити покупки</Button>
         </EmptyWrapper>
       ) : (
         <CartWrapper ref={cartWrapperRef}>

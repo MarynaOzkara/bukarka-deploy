@@ -10,8 +10,10 @@ const Comment: React.FC<CommentDataProps> = ({ setOrderComment }) => {
   const [inputValue, setInputValue] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setInputValue(e.target.value);
-    setOrderComment(inputValue);
+    const value = e.target.value;
+
+    setInputValue(value);
+    setOrderComment(value);
   };
 
   return (

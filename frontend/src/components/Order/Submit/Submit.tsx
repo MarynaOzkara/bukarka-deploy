@@ -25,7 +25,6 @@ const Submit: React.FC<SubmitProps> = ({
 }) => {
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
   const { id } = useParams();
-  // console.log(id);
 
   const navigate = useNavigate();
 

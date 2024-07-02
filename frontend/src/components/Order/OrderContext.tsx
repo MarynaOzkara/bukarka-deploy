@@ -40,8 +40,6 @@ export const OrderContextProvider: React.FC<OrderContextProviderProps> = ({
   const [bookPrice, setBookPrice] = useState<number | null>(null);
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
 
-  // console.log("OrderContextProvider", totalQuantity, deliveryPrice);
-
   const setBookData = (data: {
     totalQuantity: number;
     deliveryPrice: number | null;

@@ -1,17 +1,23 @@
-import { images } from "assets/images";
+import { useCallback, useEffect, useState } from "react";
 import BookRating from "components/BookRating";
 import Modal from "components/Modal";
-import { Price, Separator } from "pages/CommonPages.styled";
-import { useCallback, useState } from "react";
+import Cart from "components/Cart";
+import FavoriteButton from "components/FavoriteButton";
+import PictureViewer from "../PictureViewer/PictureViewer";
+import { CartData } from "components/Cart/Cart";
+import { IBookItem } from "types/Books";
+import useCart from "hooks/useCart";
+import { useAppDispatch } from "../../../redux/hooks";
+import { images } from "assets/images";
+import { fetchOrderById } from "../../../redux/orders/operations";
 import {
   ButtonOrange,
   ButtonYellow,
   TextCenter,
   Wrapper,
 } from "styles/CommonStyled";
-import { IBookItem } from "types/Books";
+import { Price, Separator } from "pages/CommonPages.styled";
 import { BookImage, BookImageSet } from "../BookPage.styled";
-import PictureViewer from "../PictureViewer/PictureViewer";
 import {
   BookContentWrapper,
   BookDescription,
@@ -23,11 +29,6 @@ import {
   StyledButtonContainer,
 } from "./BookContent.styled";
 
-import Cart from "components/Cart";
-import FavoriteButton from "components/FavoriteButton";
-import { useAppDispatch } from "../../../redux/hooks";
-import { addToCart, fetchOrdersData } from "../../../redux/orders/operations";
-
 interface IBookContentProps {
   book: IBookItem;
 }
@@ -35,8 +36,10 @@ interface IBookContentProps {
 const BookContent: React.FC<IBookContentProps> = ({ book }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalContent, setModalContent] = useState<string>("");
+  const [cartData, setCartData] = useState<CartData | null>(null);
 
   const dispatch = useAppDispatch();
+  const { handleCart } = useCart(book._id);
 
   const showModal = (content: string, img?: string) => {
     setModalContent(content);
@@ -48,24 +51,37 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
     setIsModalOpen(false);
   };
 
+  useEffect(() => {
+    const fetchCartData = async () => {
+      const storedOrderId = localStorage.getItem("currentOrderId");
+      if (storedOrderId) {
+        const response = await dispatch(fetchOrderById(storedOrderId));
+        if (response.meta.requestStatus === "fulfilled") {
+          setCartData(response.payload as CartData);
+        }
+      }
+    };
+
+    fetchCartData();
+  }, [dispatch]);
+
   const handleBuy = useCallback(async () => {
     if (!localStorage.getItem(`isBookAdded_${book._id}`)) {
       localStorage.setItem(`isBookAdded_${book._id}`, "true");
-      await dispatch(addToCart(book._id));
-      await dispatch(fetchOrdersData());
+
+      await handleCart();
     }
+
     showModal("cart");
-  }, [book._id, dispatch]);
+  }, [book._id, handleCart]);
 
   const handleAddToCart = useCallback(async () => {
     if (localStorage.getItem(`isBookAdded_${book._id}`)) {
       showModal("isBookAdded");
     } else {
-      await dispatch(addToCart(book._id));
-      await dispatch(fetchOrdersData());
-      localStorage.setItem(`isBookAdded_${book._id}`, "true");
+      await handleCart();
     }
-  }, [book._id, dispatch]);
+  }, [book._id, handleCart]);
 
   return (
     <>

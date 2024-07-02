@@ -1,7 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import CartItem from "../CartItem";
-import { deleteOrder, fetchOrdersData } from "../../../redux/orders/operations";
+import {
+  deleteOrder,
+  fetchOrderById,
+} from "../../../redux/orders/operations";
 import { useAppDispatch } from "../../../redux/hooks";
 import { selectOrdersData } from "../../../redux/orders/selectors";
 import {
@@ -17,6 +20,7 @@ import {
   TotalPrice,
   Wrapper,
 } from "./CartList.styled";
+import { Button, Message } from "../Cart.styled";
 
 type CartListProps = {
   closeCart: () => void;
@@ -40,13 +44,14 @@ const CartList: React.FC<CartListProps> = ({ closeCart }) => {
     }
 
     keysToRemove.forEach((key) => localStorage.removeItem(key));
+    localStorage.removeItem("currentOrderId");
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     clearLocalStorage();
 
-    dispatch(deleteOrder(ordersId!)).then(() => {
-      dispatch(fetchOrdersData());
+    await dispatch(deleteOrder(ordersId!)).then(() => {
+      dispatch(fetchOrderById(ordersId!)).then(closeCart);
     });
   };
 
@@ -64,6 +69,17 @@ const CartList: React.FC<CartListProps> = ({ closeCart }) => {
     closeCart();
     navigate(`/`);
   };
+
+  if (!cartData) {
+    return (
+      <div style={{ textAlign: "center" }}>
+        <Message>В вашому кошику ще немає товарів</Message>
+        <Button onClick={closeCart}>
+          <Link to="/">Продовжити покупки</Link>
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <Wrapper>

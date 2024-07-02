@@ -2,7 +2,7 @@ import FavoriteButton from "components/FavoriteButton/FavoriteButton";
 import { images } from "assets/images/";
 import {
   deleteItem,
-  fetchOrdersData,
+  fetchOrderById,
   updateItemQuantity,
 } from "../../../redux/orders/operations";
 import { useAppDispatch } from "../../../redux/hooks";
@@ -42,53 +42,51 @@ type CartItemProps = {
 };
 
 const CartItem: React.FC<CartItemProps> = ({ item }) => {
-  // console.log(item.product);
   const { _id, quantity } = item;
   const { title, author, price, image } = item.product;
   const { imagePlaceholder } = images;
   const bookId = item.product._id;
-  // console.log(bookId);
-  // console.log(item, title, author, price, quantity);
 
   const dispatch = useAppDispatch();
 
-  const deleteFromLocalStorage = () => {
-    localStorage.removeItem(`isBookAdded_${bookId}`);
-  };
+  const handleDelete = async (id: string) => {
+    const storedOrderId = localStorage.getItem("currentOrderId");
 
-  const handleDelete = (id: string) => {
-    deleteFromLocalStorage();
-
-    dispatch(deleteItem(id)).then(() => {
-      dispatch(fetchOrdersData());
+    if (storedOrderId) {
+      dispatch(deleteItem(id));
+      await dispatch(fetchOrderById(storedOrderId));
       localStorage.removeItem(`isBookAdded_${bookId}`);
-    });
-  };
-
-  const handleDecreaseQuantity = () => {
-    if (quantity > 1) {
-      dispatch(
-        updateItemQuantity({
-          orderId: item.orderId,
-          orderItemId: _id,
-          quantity: quantity - 1,
-        })
-      ).then(() => {
-        dispatch(fetchOrdersData());
-      });
     }
   };
 
-  const handleIncreaseQuantity = () => {
-    dispatch(
-      updateItemQuantity({
-        orderId: item.orderId,
-        orderItemId: _id,
-        quantity: quantity + 1,
-      })
-    ).then(() => {
-      dispatch(fetchOrdersData());
-    });
+  const handleDecreaseQuantity = async () => {
+    if (quantity > 1) {
+      const storedOrderId = localStorage.getItem("currentOrderId");
+      if (storedOrderId) {
+        await dispatch(
+          updateItemQuantity({
+            orderId: item.orderId,
+            orderItemId: _id,
+            quantity: quantity - 1,
+          })
+        );
+        await dispatch(fetchOrderById(storedOrderId));
+      }
+    }
+  };
+
+  const handleIncreaseQuantity = async () => {
+    const storedOrderId = localStorage.getItem("currentOrderId");
+    if (storedOrderId) {
+      await dispatch(
+        updateItemQuantity({
+          orderId: item.orderId,
+          orderItemId: _id,
+          quantity: quantity + 1,
+        })
+      );
+      await dispatch(fetchOrderById(storedOrderId));
+    }
   };
 
   return (
