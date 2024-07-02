@@ -294,6 +294,8 @@ const filterBooks = async (req, res) => {
     new: isNew,
     promotions,
     bestsellers,
+    category,
+    categories,
     subcategory,
     subcategories,
     language,
@@ -302,6 +304,8 @@ const filterBooks = async (req, res) => {
     authors,
     publisher,
     publishers,
+    age,
+    ages,
     priceMin,
     priceMax,
     ratingMin,
@@ -327,6 +331,10 @@ const filterBooks = async (req, res) => {
     match.bestsellers = bestsellers === "true";
   }
 
+  if (category) {
+    match.category = { $regex: category, $options: "i" };
+  }
+
   if (subcategory) {
     match.subcategory = { $regex: subcategory, $options: "i" };
   }
@@ -342,6 +350,12 @@ const filterBooks = async (req, res) => {
 
   if (language) {
     match.language = { $regex: language, $options: "i" };
+  }
+
+  if (categories) {
+    match.category = {
+      $in: categories.map((category) => new RegExp(category, "i")),
+    };
   }
 
   if (subcategories) {
@@ -365,6 +379,16 @@ const filterBooks = async (req, res) => {
   if (publishers) {
     match.publisher = {
       $in: publishers.map((publisher) => new RegExp(publisher, "i")),
+    };
+  }
+
+  if (age) {
+    match.age = { $regex: age, $options: "i" };
+  }
+
+  if (ages) {
+    match.age = {
+      $in: ages.map((age) => new RegExp(age, "i")),
     };
   }
 

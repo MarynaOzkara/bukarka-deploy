@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { Input, TextCenter } from "styles/CommonStyled";
+import { Input } from "styles/CommonStyled";
 import { Category } from "types/Books";
 import { SubTitle } from "../Filter.styled";
+import ShowMore from "./ShowMore";
 
 interface IProps {
   categories: Category[];
@@ -30,57 +30,36 @@ const CategoriesSection: React.FC<IProps> = ({
   selected,
   onChange,
 }) => {
-  const [visibleCount, setVisibleCount] = useState(6);
-
-  const options = flattenLinks(categories);
-
-  const handleToggleShow = () => {
-    setVisibleCount((prevCount) => prevCount + 6);
-  };
-
-  const handleShowLess = () => {
-    setVisibleCount(6);
-  };
-
-  const handleCheckboxChange = (category: string) => {
-    if (onChange) {
-      onChange(category);
-    }
-  };
-
-  const visibleLinks = options.slice(0, visibleCount);
+  const linkOptions = flattenLinks(categories);
+  const categoriesOptions = categories.map((cat) => cat.title);
 
   return (
-    <section>
-      <SubTitle>Тематика</SubTitle>
-      <Input type="text" placeholder="Пошук за тематикою" />
-      <>
-        {visibleLinks &&
-          visibleLinks.length > 0 &&
-          visibleLinks.map((link, index) => (
-            <p key={index}>
-              <input
-                type="checkbox"
-                id={link}
-                name="subcategory"
-                value={link}
-                checked={selected.includes(link)}
-                onChange={() => handleCheckboxChange(link)}
-              />
-              <label htmlFor={link}> {link} </label>
-            </p>
-          ))}
-      </>
-      {visibleCount < options.length ? (
-        <TextCenter className="more" onClick={handleToggleShow}>
-          Показати більше
-        </TextCenter>
-      ) : (
-        <TextCenter className="more" onClick={handleShowLess}>
-          Показати менше
-        </TextCenter>
-      )}
-    </section>
+    <>
+      <section>
+        <SubTitle>Век</SubTitle>
+        {}
+      </section>
+      <section>
+        <SubTitle>Тематика</SubTitle>
+        <Input type="text" placeholder="Пошук за тематикою" />
+
+        <ShowMore
+          options={linkOptions}
+          onChange={onChange}
+          selected={selected}
+        />
+      </section>
+
+      <section>
+        <SubTitle>Категории</SubTitle>
+
+        <ShowMore
+          options={categoriesOptions}
+          onChange={onChange}
+          selected={selected}
+        />
+      </section>
+    </>
   );
 };
 

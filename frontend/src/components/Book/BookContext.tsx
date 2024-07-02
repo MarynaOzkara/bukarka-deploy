@@ -166,6 +166,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
     } catch (error) {
       console.error("Error fetching filter data:", error);
       return {
+        ages: [],
         authors: [],
         publishers: [],
         categories: [],
