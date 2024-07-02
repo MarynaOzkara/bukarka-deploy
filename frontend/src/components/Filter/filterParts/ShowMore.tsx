@@ -4,11 +4,13 @@ import { TextCenter } from "styles/CommonStyled";
 interface IProps {
   options: string[];
   initialVisibleCount?: number;
-  selected?: string[];
   onChange: (value: string) => void;
+  selected?: string[];
+  optionName?: string;
 }
 
 const ShowMore: React.FC<IProps> = ({
+  optionName,
   options,
   initialVisibleCount = 6,
   selected,
@@ -24,9 +26,9 @@ const ShowMore: React.FC<IProps> = ({
     setVisibleCount(initialVisibleCount);
   };
 
-  const handleCheckboxChange = (category: string) => {
+  const handleCheckboxChange = (option: string) => {
     if (onChange) {
-      onChange(category);
+      onChange(option);
     }
   };
 
@@ -37,7 +39,7 @@ const ShowMore: React.FC<IProps> = ({
           <input
             type="checkbox"
             id={option}
-            name={option}
+            name={optionName}
             value={option}
             checked={selected?.includes(option)}
             onChange={() => handleCheckboxChange(option)}

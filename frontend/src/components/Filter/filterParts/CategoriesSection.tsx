@@ -57,6 +57,7 @@ const CategoriesSection: React.FC<IProps> = ({
         <Input type="text" placeholder="Пошук за тематикою" />
 
         <ShowMore
+          optionName="subcategories"
           options={linkOptions}
           onChange={onChange}
           selected={selected}
@@ -64,9 +65,10 @@ const CategoriesSection: React.FC<IProps> = ({
       </section>
 
       <section>
-        <SubTitle>Категории</SubTitle>
+        <SubTitle>Категорії</SubTitle>
 
         <ShowMore
+          optionName="categories"
           options={categoriesOptions}
           onChange={onChange}
           selected={selected}
@@ -74,9 +76,10 @@ const CategoriesSection: React.FC<IProps> = ({
       </section>
 
       <section>
-        <SubTitle>Субкатегории</SubTitle>
+        <SubTitle>Субкатегорії</SubTitle>
 
         <ShowMore
+          optionName="subcategories"
           options={subcategoriesOptions}
           onChange={onChange}
           selected={selected}
@@ -87,6 +90,7 @@ const CategoriesSection: React.FC<IProps> = ({
         <SubTitle>Век</SubTitle>
         {
           <ShowMore
+            optionName="ages"
             options={ageOptions}
             onChange={onChange}
             selected={selected}

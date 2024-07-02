@@ -82,6 +82,7 @@ const Filter: React.FC = () => {
   };
 
   const handleCategoryChange = (category: string) => {
+    /// todo maybe to combine it to an object {age, subcat, cat} should differ the params
     setSelectedCategories((prev) =>
       prev.includes(category)
         ? prev.filter((c) => c !== category)
