@@ -52,7 +52,12 @@ const Filter: React.FC = () => {
   const [selectedPrice, setSelectedPrice] = useState<{
     minPrice: number;
     maxPrice: number;
-  }>({ minPrice: 0, maxPrice: 0 });
+  }>({ minPrice: price.minPrice, maxPrice: price.maxPrice });
+
+  const [priceTouched, setPriceTouched] = useState<{
+    min: boolean;
+    max: boolean;
+  }>({ min: false, max: false });
 
   const fetchData = useCallback(async () => {
     try {
@@ -111,7 +116,7 @@ const Filter: React.FC = () => {
   };
 
   const handlePriceChange = (min: number, max: number) => {
-    if (min && max && min > max) min = max;
+    if (min && max && min > max) max = min;
 
     setSelectedPrice({
       minPrice: min,
@@ -121,6 +126,14 @@ const Filter: React.FC = () => {
 
   const handleSubmitFilters = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const finalMinPrice = priceTouched.min
+      ? selectedPrice.minPrice
+      : price.minPrice;
+    const finalMaxPrice = priceTouched.max
+      ? selectedPrice.maxPrice
+      : price.maxPrice;
+
     const filterQuery = {
       new: selectedTypes.new,
       promotions: selectedTypes.promotions,
@@ -130,7 +143,7 @@ const Filter: React.FC = () => {
       authors: selectedAuthors,
       publishers: selectedPublishers,
       rating: selectedRating,
-      price: selectedPrice,
+      price: { minPrice: finalMinPrice, maxPrice: finalMaxPrice },
     };
 
     applyFilter(filterQuery);
@@ -237,13 +250,14 @@ const Filter: React.FC = () => {
               min={price.minPrice}
               max={price.maxPrice}
               placeholder="Від"
-              value={selectedPrice.minPrice || ""}
-              onChange={(e) =>
+              value={priceTouched.min ? selectedPrice.minPrice : ""}
+              onChange={(e) => {
+                setPriceTouched((prev) => ({ ...prev, min: true }));
                 handlePriceChange(
                   parseInt(e.target.value) || price.minPrice,
                   selectedPrice.maxPrice
-                )
-              }
+                );
+              }}
             />
 
             <PriceRangeInput
@@ -254,13 +268,14 @@ const Filter: React.FC = () => {
               min={price.minPrice}
               max={price.maxPrice}
               placeholder="До"
-              value={selectedPrice.maxPrice || ""}
-              onChange={(e) =>
+              value={priceTouched.max ? selectedPrice.maxPrice : ""}
+              onChange={(e) => {
+                setPriceTouched((prev) => ({ ...prev, max: true }));
                 handlePriceChange(
                   selectedPrice.minPrice,
                   parseInt(e.target.value) || price.maxPrice
-                )
-              }
+                );
+              }}
             />
           </div>
         </section>

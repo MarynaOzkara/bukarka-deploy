@@ -81,9 +81,13 @@ const filtersBooks = async (req, res) => {
     bestsellers,
     category,
     subcategory,
+    subcategories,
     language,
+    languages,
     author,
+    authors,
     publisher,
+    publishers,
     priceMin,
     priceMax,
     ratingMin,
@@ -107,18 +111,47 @@ const filtersBooks = async (req, res) => {
   if (category) {
     match.category = { $regex: category, $options: "i" };
   }
+
   if (subcategory) {
     match.subcategory = { $regex: subcategory, $options: "i" };
   }
+
+  if (subcategories) {
+    match.subcategory = {
+      $in: subcategories.map((subcategory) => new RegExp(subcategory, "i")),
+    };
+  }
+
   if (language) {
     match.language = { $regex: language, $options: "i" };
   }
+
+  if (languages) {
+    match.language = {
+      $in: languages.map((language) => new RegExp(language, "i")),
+    };
+  }
+
   if (author) {
     match.author = { $regex: author, $options: "i" };
   }
+
+  if (authors) {
+    match.author = {
+      $in: authors.map((author) => new RegExp(author, "i")),
+    };
+  }
+
   if (publisher) {
     match.publisher = { $regex: publisher, $options: "i" };
   }
+
+  if (publishers) {
+    match.publisher = {
+      $in: publishers.map((publisher) => new RegExp(publisher, "i")),
+    };
+  }
+
   if (promotions) {
     match.promotions = true;
   }
@@ -167,12 +200,100 @@ const filtersBooks = async (req, res) => {
   });
 };
 
+// const filterBooks = async (req, res) => {
+//   const {
+//     promotions,
+//     bestsellers,
+//     subcategories,
+//     languages,
+//     authors,
+//     publishers,
+//     priceMin,
+//     priceMax,
+//     ratingMin,
+//     ratingMax,
+//     sortBy,
+//     orderSort,
+//     page = 1,
+//     limit = 12,
+//   } = req.body;
+
+//   const skip = (page - 1) * limit;
+
+//   const match = {};
+//   const sort = {};
+
+//   if (subcategories && subcategories.length > 0) {
+//     match.subcategory = {
+//       $in: subcategories.map((subcategory) => new RegExp(subcategory, "i")),
+//     };
+//   }
+//   if (languages && languages.length > 0) {
+//     match.language = { $in: languages };
+//   }
+//   if (authors && authors.length > 0) {
+//     match.author = { $in: authors };
+//   }
+//   if (publishers && publishers.length > 0) {
+//     match.publisher = { $in: publishers };
+//   }
+//   if (promotions) {
+//     match.promotions = true;
+//   }
+//   if (bestsellers) {
+//     match.bestsellers = true;
+//   }
+//   if (req.body.new) {
+//     match.new = true;
+//   }
+//   if (priceMin !== undefined || priceMax !== undefined) {
+//     match.price = {};
+//     if (priceMin !== undefined) {
+//       match.price.$gte = +priceMin;
+//     }
+//     if (priceMax !== undefined) {
+//       match.price.$lte = +priceMax;
+//     }
+//   }
+//   if (ratingMin !== undefined || ratingMax !== undefined) {
+//     match.rating = {};
+//     if (ratingMin !== undefined) {
+//       match.rating.$gte = +ratingMin;
+//     }
+//     if (ratingMax !== undefined) {
+//       match.rating.$lte = +ratingMax;
+//     }
+//   }
+//   if (sortBy && orderSort) {
+//     sort[sortBy] = orderSort === "asc" ? 1 : -1;
+//   }
+
+//   try {
+//     console.log("Match criteria:", JSON.stringify(match, null, 2));
+
+//     const books = await Book.find(match).skip(skip).limit(limit).sort(sort);
+//     const total = await Book.countDocuments(match);
+
+//     if (!books.length) {
+//       return res.status(404).json({ message: "Books not found" });
+//     }
+
+//     res.status(200).json({
+//       total,
+//       page,
+//       limit,
+//       books,
+//     });
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
 const filterBooks = async (req, res) => {
   const {
-    keyword,
+    new: isNew,
     promotions,
     bestsellers,
-    category,
     subcategory,
     language,
     author,
@@ -185,43 +306,39 @@ const filterBooks = async (req, res) => {
     orderSort,
     page = 1,
     limit = 12,
-  } = req.body;
+  } = req.query;
 
   const skip = (page - 1) * limit;
 
   const match = {};
   const sort = {};
 
-  if (keyword) {
-    match.$or = [
-      { title: { $regex: keyword, $options: "i" } },
-      { author: { $regex: keyword, $options: "i" } },
-    ];
+  // Convert query parameters to boolean if needed
+  if (isNew !== undefined) {
+    match.new = isNew === "true";
   }
-  if (category) {
-    match.category = { $regex: category, $options: "i" };
+  if (promotions !== undefined) {
+    match.promotions = promotions === "true";
   }
+  if (bestsellers !== undefined) {
+    match.bestsellers = bestsellers === "true";
+  }
+
+  // Handle array parameters
   if (subcategory) {
     match.subcategory = { $regex: subcategory, $options: "i" };
   }
-  if (language && language.length > 0) {
-    match.language = { $in: language };
+  if (language) {
+    match.language = { $in: language.split(",") };
   }
-  if (author && author.length > 0) {
-    match.author = { $in: author };
+  if (author) {
+    match.author = { $in: author.split(",") };
   }
-  if (publisher && publisher.length > 0) {
-    match.publisher = { $in: publisher };
+  if (publisher) {
+    match.publisher = { $in: publisher.split(",") };
   }
-  if (promotions) {
-    match.promotions = true;
-  }
-  if (bestsellers) {
-    match.bestsellers = true;
-  }
-  if (req.body.new) {
-    match.new = true;
-  }
+
+  // Handle price range
   if (priceMin !== undefined || priceMax !== undefined) {
     match.price = {};
     if (priceMin !== undefined) {
@@ -231,6 +348,8 @@ const filterBooks = async (req, res) => {
       match.price.$lte = +priceMax;
     }
   }
+
+  // Handle rating range
   if (ratingMin !== undefined || ratingMax !== undefined) {
     match.rating = {};
     if (ratingMin !== undefined) {
@@ -240,13 +359,14 @@ const filterBooks = async (req, res) => {
       match.rating.$lte = +ratingMax;
     }
   }
+
+  // Handle sorting
   if (sortBy && orderSort) {
     sort[sortBy] = orderSort === "asc" ? 1 : -1;
   }
 
   try {
     console.log("Match criteria:", JSON.stringify(match, null, 2));
-
     const books = await Book.find(match).skip(skip).limit(limit).sort(sort);
     const total = await Book.countDocuments(match);
 

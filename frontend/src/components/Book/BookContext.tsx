@@ -178,9 +178,14 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
 
   const applyFilter = useCallback(async (filters: FilterCriteriaRequest) => {
     try {
-      const response = await instance.post<IBooksDataResponse>(
+      // const response = await instance.post<IBooksDataResponse>(
+      //   "/api/books/filter",
+      //   filters
+      // );
+
+      const response = await instance.get<IBooksDataResponse>(
         "/api/books/filter",
-        filters
+        { params: filters }
       );
       console.log(response.data);
       setBooks(response.data.books);
