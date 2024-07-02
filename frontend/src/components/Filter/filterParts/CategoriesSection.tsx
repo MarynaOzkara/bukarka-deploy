@@ -9,20 +9,35 @@ interface IProps {
   onChange: (value: string) => void;
 }
 
-const flattenLinks = (categories: Category[]): string[] => {
+const flattenLinks = (categories: Category[]) => {
   const links: string[] = [];
+  const ageOptions: string[] = [];
+  const subcategoriesOptions: string[] = [];
+  const categoriesOptions: string[] = [];
 
   categories &&
     categories.forEach((category) => {
+      categoriesOptions.push(category.title);
       category.subcategories &&
         category.subcategories.forEach((subcategory) => {
-          if (subcategory.links.length > 0) {
+          subcategoriesOptions.push(subcategory.title);
+          if (
+            subcategory.title !== "Книги за віком" &&
+            subcategory.links.length > 0
+          ) {
             links.push(...subcategory.links);
+          }
+
+          if (
+            subcategory.title === "Книги за віком" &&
+            subcategory.links.length > 0
+          ) {
+            ageOptions.push(...subcategory.links);
           }
         });
     });
 
-  return links;
+  return { links, ageOptions, subcategoriesOptions, categoriesOptions };
 };
 
 const CategoriesSection: React.FC<IProps> = ({
@@ -30,15 +45,13 @@ const CategoriesSection: React.FC<IProps> = ({
   selected,
   onChange,
 }) => {
-  const linkOptions = flattenLinks(categories);
-  const categoriesOptions = categories.map((cat) => cat.title);
+  const linkOptions = flattenLinks(categories).links;
+  const categoriesOptions = flattenLinks(categories).categoriesOptions;
+  const ageOptions = flattenLinks(categories).ageOptions;
+  const subcategoriesOptions = flattenLinks(categories).subcategoriesOptions;
 
   return (
     <>
-      <section>
-        <SubTitle>Век</SubTitle>
-        {}
-      </section>
       <section>
         <SubTitle>Тематика</SubTitle>
         <Input type="text" placeholder="Пошук за тематикою" />
@@ -58,6 +71,27 @@ const CategoriesSection: React.FC<IProps> = ({
           onChange={onChange}
           selected={selected}
         />
+      </section>
+
+      <section>
+        <SubTitle>Субкатегории</SubTitle>
+
+        <ShowMore
+          options={subcategoriesOptions}
+          onChange={onChange}
+          selected={selected}
+        />
+      </section>
+
+      <section>
+        <SubTitle>Век</SubTitle>
+        {
+          <ShowMore
+            options={ageOptions}
+            onChange={onChange}
+            selected={selected}
+          />
+        }
       </section>
     </>
   );

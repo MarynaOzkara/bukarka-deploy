@@ -37,7 +37,7 @@ const ShowMore: React.FC<IProps> = ({
           <input
             type="checkbox"
             id={option}
-            name="category"
+            name={option}
             value={option}
             checked={selected?.includes(option)}
             onChange={() => handleCheckboxChange(option)}
