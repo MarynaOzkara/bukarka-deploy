@@ -3,12 +3,6 @@ import { Category } from "types/Books";
 import { SubTitle } from "../Filter.styled";
 import ShowMore from "./ShowMore";
 
-interface IProps {
-  categories: Category[];
-  selected: string[];
-  onChange: (value: string) => void;
-}
-
 const flattenLinks = (categories: Category[]) => {
   const links: string[] = [];
   const ageOptions: string[] = [];
@@ -40,15 +34,53 @@ const flattenLinks = (categories: Category[]) => {
   return { links, ageOptions, subcategoriesOptions, categoriesOptions };
 };
 
+interface IProps {
+  categories: Category[];
+  selectedCategories: string[];
+  selectedSubcategories: string[];
+  selectedAges: string[];
+  onCategoryChange: (value: string[]) => void;
+  onSubcategoryChange: (values: string[]) => void;
+  onAgeChange: (values: string[]) => void;
+}
+
 const CategoriesSection: React.FC<IProps> = ({
   categories,
-  selected,
-  onChange,
+  selectedCategories,
+  selectedSubcategories,
+  selectedAges,
+  onCategoryChange,
+  onSubcategoryChange,
+  onAgeChange,
 }) => {
   const linkOptions = flattenLinks(categories).links;
   const categoriesOptions = flattenLinks(categories).categoriesOptions;
   const ageOptions = flattenLinks(categories).ageOptions;
   const subcategoriesOptions = flattenLinks(categories).subcategoriesOptions;
+
+  const handleSubcategoryChange = (value: string) => {
+    onSubcategoryChange(
+      selectedSubcategories.includes(value)
+        ? selectedSubcategories.filter((v) => v !== value)
+        : [...selectedSubcategories, value]
+    );
+  };
+
+  const handleAgeChange = (value: string) => {
+    onAgeChange(
+      selectedAges.includes(value)
+        ? selectedAges.filter((v) => v !== value)
+        : [...selectedAges, value]
+    );
+  };
+
+  const handleCategoryChange = (category: string) => {
+    onCategoryChange(
+      selectedCategories.includes(category)
+        ? selectedCategories.filter((c) => c !== category)
+        : [...selectedCategories, category]
+    );
+  };
 
   return (
     <>
@@ -57,10 +89,9 @@ const CategoriesSection: React.FC<IProps> = ({
         <Input type="text" placeholder="Пошук за тематикою" />
 
         <ShowMore
-          optionName="subcategories"
           options={linkOptions}
-          onChange={onChange}
-          selected={selected}
+          onChange={handleSubcategoryChange}
+          selected={selectedSubcategories}
         />
       </section>
 
@@ -68,10 +99,9 @@ const CategoriesSection: React.FC<IProps> = ({
         <SubTitle>Категорії</SubTitle>
 
         <ShowMore
-          optionName="categories"
           options={categoriesOptions}
-          onChange={onChange}
-          selected={selected}
+          onChange={handleCategoryChange}
+          selected={selectedCategories}
         />
       </section>
 
@@ -79,10 +109,9 @@ const CategoriesSection: React.FC<IProps> = ({
         <SubTitle>Субкатегорії</SubTitle>
 
         <ShowMore
-          optionName="subcategories"
           options={subcategoriesOptions}
-          onChange={onChange}
-          selected={selected}
+          onChange={handleSubcategoryChange}
+          selected={selectedSubcategories}
         />
       </section>
 
@@ -90,10 +119,9 @@ const CategoriesSection: React.FC<IProps> = ({
         <SubTitle>Век</SubTitle>
         {
           <ShowMore
-            optionName="ages"
             options={ageOptions}
-            onChange={onChange}
-            selected={selected}
+            onChange={handleAgeChange}
+            selected={selectedAges}
           />
         }
       </section>

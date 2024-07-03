@@ -28,22 +28,26 @@ const Filter: React.FC = () => {
     price: { minPrice: 0, maxPrice: 0 },
     rating: { minRating: 0, maxRating: 0 },
     languages: [],
+    subcategories: [],
   });
 
-  const { authors, publishers, categories, price, rating, languages } =
-    filterData;
+  const {
+    authors,
+    publishers,
+    categories,
+    price,
+    rating,
+    languages,
+    ages,
+    subcategories,
+  } = filterData;
 
-  const [selectedAge, setSelectedAge] = useState([]);
-  const [selectedTypes, setSelectedTypes] = useState<{
-    new: boolean | undefined;
-    promotions: boolean | undefined;
-    bestsellers: boolean | undefined;
-  }>({
-    new: undefined,
-    promotions: undefined,
-    bestsellers: undefined,
-  });
+  const [selectedAge, setSelectedAge] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedSubcategories, setSelectedSubcategories] = useState<string[]>(
+    []
+  );
+
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [selectedAuthors, setSelectedAuthors] = useState<string[]>([]);
   const [selectedPublishers, setSelectedPublishers] = useState<string[]>([]);
@@ -55,6 +59,15 @@ const Filter: React.FC = () => {
     minPrice: number;
     maxPrice: number;
   }>({ minPrice: price.minPrice, maxPrice: price.maxPrice });
+  const [selectedTypes, setSelectedTypes] = useState<{
+    new: boolean | undefined;
+    promotions: boolean | undefined;
+    bestsellers: boolean | undefined;
+  }>({
+    new: undefined,
+    promotions: undefined,
+    bestsellers: undefined,
+  });
 
   const [priceTouched, setPriceTouched] = useState<{
     min: boolean;
@@ -79,15 +92,6 @@ const Filter: React.FC = () => {
       ...prev,
       [type]: !prev[type as keyof typeof prev],
     }));
-  };
-
-  const handleCategoryChange = (category: string) => {
-    /// todo maybe to combine it to an object {age, subcat, cat} should differ the params
-    setSelectedCategories((prev) =>
-      prev.includes(category)
-        ? prev.filter((c) => c !== category)
-        : [...prev, category]
-    );
   };
 
   const handleLanguageChange = (language: string) => {
@@ -148,6 +152,7 @@ const Filter: React.FC = () => {
       rating: selectedRating,
       price: { minPrice: finalMinPrice, maxPrice: finalMaxPrice },
       ages: selectedAge,
+      subcategories: selectedSubcategories,
     };
 
     applyFilter(filterQuery);
@@ -181,8 +186,12 @@ const Filter: React.FC = () => {
         {categories && categories.length > 0 && (
           <CategoriesSection
             categories={categories}
-            selected={selectedCategories}
-            onChange={handleCategoryChange}
+            selectedCategories={selectedCategories}
+            selectedSubcategories={selectedSubcategories}
+            selectedAges={selectedAge}
+            onCategoryChange={setSelectedCategories}
+            onSubcategoryChange={setSelectedSubcategories}
+            onAgeChange={setSelectedAge}
           />
         )}
         <section>
