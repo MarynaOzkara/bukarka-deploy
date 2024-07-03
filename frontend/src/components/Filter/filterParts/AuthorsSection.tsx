@@ -1,26 +1,27 @@
-import { Input, TextCenter } from "styles/CommonStyled";
-import { SubTitle } from "../Filter.styled";
+import { Input } from "styles/CommonStyled";
 import { Author } from "types/Books";
-import { useState } from "react";
+import { SubTitle } from "../Filter.styled";
+import ShowMore from "./ShowMore";
 
 interface IProps {
   authors: Author[];
-  selected: string[];
-  onChange?: (value: string) => void;
+  selectedAuthors: string[];
+  onAuthorsChange: (value: string[]) => void;
 }
 
-const AuthorsSection: React.FC<IProps> = ({ authors, selected, onChange }) => {
-  const [showAll, setShowAll] = useState(false);
-  const visibleAuthors = showAll ? authors : authors.slice(0, 6);
+const AuthorsSection: React.FC<IProps> = ({
+  authors,
+  selectedAuthors,
+  onAuthorsChange,
+}) => {
+  const flattenAuthors = authors.map((author) => author.author);
 
-  const handleToggleShow = () => {
-    setShowAll((prevShowAll) => !prevShowAll);
-  };
-
-  const handleCheckboxChange = (author: string) => {
-    if (onChange) {
-      onChange(author);
-    }
+  const handleAuthorsChange = (author: string) => {
+    onAuthorsChange(
+      selectedAuthors.includes(author)
+        ? selectedAuthors.filter((a) => a !== author)
+        : [...selectedAuthors, author]
+    );
   };
 
   return (
@@ -28,27 +29,11 @@ const AuthorsSection: React.FC<IProps> = ({ authors, selected, onChange }) => {
       <SubTitle>Автор</SubTitle>
       <Input type="text" placeholder="Пошук автора" />
 
-      {visibleAuthors &&
-        visibleAuthors.length > 0 &&
-        visibleAuthors.map(({ author }, index) => (
-          <p key={index}>
-            <input
-              type="checkbox"
-              id={author}
-              name="author"
-              value={author}
-              checked={selected.includes(author)}
-              onChange={() => handleCheckboxChange(author)}
-            />
-            <label htmlFor={author}>{author}</label>
-          </p>
-        ))}
-
-      {authors.length > 6 && (
-        <TextCenter className="more" onClick={handleToggleShow}>
-          {showAll ? "Показати менше" : "Показати більше"}
-        </TextCenter>
-      )}
+      <ShowMore
+        options={flattenAuthors}
+        onChange={handleAuthorsChange}
+        selected={selectedAuthors}
+      />
     </section>
   );
 };

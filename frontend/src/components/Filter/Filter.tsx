@@ -31,16 +31,8 @@ const Filter: React.FC = () => {
     subcategories: [],
   });
 
-  const {
-    authors,
-    publishers,
-    categories,
-    price,
-    rating,
-    languages,
-    ages,
-    subcategories,
-  } = filterData;
+  const { authors, publishers, categories, price, rating, languages } =
+    filterData;
 
   const [selectedAge, setSelectedAge] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -99,14 +91,6 @@ const Filter: React.FC = () => {
       prev.includes(language)
         ? prev.filter((l) => l !== language)
         : [...prev, language]
-    );
-  };
-
-  const handleAuthorChange = (author: string) => {
-    setSelectedAuthors((prev) =>
-      prev.includes(author)
-        ? prev.filter((a) => a !== author)
-        : [...prev, author]
     );
   };
 
@@ -240,8 +224,8 @@ const Filter: React.FC = () => {
         {authors && authors.length > 0 && (
           <AuthorsSection
             authors={authors}
-            selected={selectedAuthors}
-            onChange={handleAuthorChange}
+            selectedAuthors={selectedAuthors}
+            onAuthorsChange={setSelectedAuthors}
           />
         )}
 

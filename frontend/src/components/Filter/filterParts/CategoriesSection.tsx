@@ -3,7 +3,7 @@ import { Category } from "types/Books";
 import { SubTitle } from "../Filter.styled";
 import ShowMore from "./ShowMore";
 
-const flattenLinks = (categories: Category[]) => {
+const flattenCategory = (categories: Category[]) => {
   const links: string[] = [];
   const ageOptions: string[] = [];
   const subcategoriesOptions: string[] = [];
@@ -53,10 +53,10 @@ const CategoriesSection: React.FC<IProps> = ({
   onSubcategoryChange,
   onAgeChange,
 }) => {
-  const linkOptions = flattenLinks(categories).links;
-  const categoriesOptions = flattenLinks(categories).categoriesOptions;
-  const ageOptions = flattenLinks(categories).ageOptions;
-  const subcategoriesOptions = flattenLinks(categories).subcategoriesOptions;
+  const linkOptions = flattenCategory(categories).links;
+  const categoriesOptions = flattenCategory(categories).categoriesOptions;
+  const ageOptions = flattenCategory(categories).ageOptions;
+  const subcategoriesOptions = flattenCategory(categories).subcategoriesOptions;
 
   const handleSubcategoryChange = (value: string) => {
     onSubcategoryChange(
