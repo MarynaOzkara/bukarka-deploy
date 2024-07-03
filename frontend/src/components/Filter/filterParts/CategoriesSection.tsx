@@ -54,7 +54,7 @@ const CategoriesSection: React.FC<IProps> = ({
   onSubcategoryChange,
   onAgeChange,
 }) => {
-  const [isHidden, setIsHidden] = useState(true);
+  const [isHidden, setIsHidden] = useState(false);
 
   const linkOptions = flattenCategory(categories).links;
   const categoriesOptions = flattenCategory(categories).categoriesOptions;

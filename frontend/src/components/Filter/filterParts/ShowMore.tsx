@@ -47,14 +47,17 @@ const ShowMore: React.FC<IProps> = ({
           <label htmlFor={option}> {option} </label>
         </p>
       ))}
+
       {visibleCount < options.length ? (
         <TextCenter className="more" onClick={handleToggleShow}>
           Показати більше
         </TextCenter>
       ) : (
-        <TextCenter className="more" onClick={handleShowLess}>
-          Показати менше
-        </TextCenter>
+        options.length > initialVisibleCount && (
+          <TextCenter className="more" onClick={handleShowLess}>
+            Показати менше
+          </TextCenter>
+        )
       )}
     </>
   );

@@ -189,7 +189,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
         "/api/books/filter",
         { params: filters }
       );
-      console.log(response.data);
+
       setBooks(response.data.books);
     } catch (error) {
       setBooks([]);

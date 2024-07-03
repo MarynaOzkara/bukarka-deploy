@@ -34,7 +34,7 @@ const Filter: React.FC = () => {
   const { authors, publishers, categories, price, rating, languages } =
     filterData;
 
-  const [selectedAge, setSelectedAge] = useState<string[]>([]);
+  const [selectedAges, setSelectedAges] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedSubcategories, setSelectedSubcategories] = useState<string[]>(
     []
@@ -115,6 +115,12 @@ const Filter: React.FC = () => {
     });
   };
 
+  const adjustAgeValues = (values: string[]) => {
+    return values
+      .map((age) => age.split(" ")[0])
+      .map((value) => value.split("").join(" ").trim());
+  };
+
   const handleSubmitFilters = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -135,7 +141,7 @@ const Filter: React.FC = () => {
       publishers: selectedPublishers,
       rating: selectedRating,
       price: { minPrice: finalMinPrice, maxPrice: finalMaxPrice },
-      ages: selectedAge,
+      ages: adjustAgeValues(selectedAges),
       subcategories: selectedSubcategories,
     };
 
@@ -173,10 +179,10 @@ const Filter: React.FC = () => {
             categories={categories}
             selectedCategories={selectedCategories}
             selectedSubcategories={selectedSubcategories}
-            selectedAges={selectedAge}
+            selectedAges={selectedAges}
             onCategoryChange={setSelectedCategories}
             onSubcategoryChange={setSelectedSubcategories}
-            onAgeChange={setSelectedAge}
+            onAgeChange={setSelectedAges}
           />
         )}
 
