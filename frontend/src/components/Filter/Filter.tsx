@@ -31,7 +31,7 @@ const Filter: React.FC = () => {
     subcategories: [],
   });
 
-  const { authors, publishers, categories, price, rating, languages } =
+  const { authors, publishers, categories, price, languages, rating } =
     filterData;
 
   const [selectedAges, setSelectedAges] = useState<string[]>([]);
@@ -44,8 +44,8 @@ const Filter: React.FC = () => {
   const [selectedAuthors, setSelectedAuthors] = useState<string[]>([]);
   const [selectedPublishers, setSelectedPublishers] = useState<string[]>([]);
   const [selectedRating, setSelectedRating] = useState<{
-    minRating: number;
-    maxRating: number;
+    minRating: number | undefined;
+    maxRating: number | undefined;
   }>({ minRating: 0, maxRating: 5 });
   const [selectedPrice, setSelectedPrice] = useState<{
     minPrice: number;
@@ -94,13 +94,32 @@ const Filter: React.FC = () => {
     );
   };
 
-  const handleRatingChange = (min: number, max: number) => {
-    setSelectedRating({ minRating: min, maxRating: max });
+  const handleRatingChange = (newMinRating?: number, newMaxRating?: number) => {
+    setSelectedRating((prevRating) => ({
+      minRating:
+        newMinRating !== undefined ? newMinRating : prevRating.minRating,
+      maxRating:
+        newMaxRating !== undefined ? newMaxRating : prevRating.maxRating,
+    }));
+  };
+
+  const handleMinRatingChange = (newMinRating: number) => {
+    console.log(selectedRating.minRating);
+    // if (!!selectedRating.maxRating && newMinRating > selectedRating.maxRating) {
+    //   newMinRating = rating.maxRating;
+    // }
+    handleRatingChange(newMinRating, undefined);
+  };
+
+  const handleMaxRatingChange = (newMaxRating: number) => {
+    console.log(selectedRating.maxRating);
+    // if (!!selectedRating.minRating && newMaxRating < selectedRating.minRating) {
+    //   newMaxRating = rating.minRating;
+    // }
+    handleRatingChange(undefined, newMaxRating);
   };
 
   const handlePriceChange = (min: number, max: number) => {
-    if (min && max && min > max) max = min;
-
     setSelectedPrice({
       minPrice: min,
       maxPrice: max,
@@ -203,24 +222,23 @@ const Filter: React.FC = () => {
               <span>Від</span>
 
               <BookRating
-                rating={selectedRating.minRating || rating.minRating}
-                onChange={(rating) =>
-                  handleRatingChange(rating, selectedRating.maxRating)
-                }
+                rating={selectedRating.minRating}
+                onChange={handleMinRatingChange}
+                editable={true}
               />
             </div>
             <div>
               <span>До</span>
 
               <BookRating
-                rating={selectedRating.maxRating || rating.maxRating}
-                onChange={(rating) =>
-                  handleRatingChange(selectedRating.minRating, rating)
-                }
+                rating={selectedRating.maxRating}
+                onChange={handleMaxRatingChange}
+                editable={true}
               />
             </div>
           </div>
         </section>
+
         {authors && authors.length > 0 && (
           <AuthorsSection
             authors={authors}

@@ -16,7 +16,7 @@ export interface FilterCriteriaRequest {
   publishers: string[];
   categories: string[];
   price: { minPrice: number; maxPrice: number };
-  rating: { minRating: number; maxRating: number };
+  rating: { minRating?: number; maxRating?: number };
   languages: string[];
   ages: string[];
   subcategories: string[];
