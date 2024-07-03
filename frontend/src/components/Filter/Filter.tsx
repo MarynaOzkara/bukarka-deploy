@@ -167,6 +167,7 @@ const Filter: React.FC = () => {
               ))}
           </div>
         </section>
+
         {categories && categories.length > 0 && (
           <CategoriesSection
             categories={categories}
@@ -178,6 +179,7 @@ const Filter: React.FC = () => {
             onAgeChange={setSelectedAge}
           />
         )}
+
         <section>
           <SubTitle>Мова</SubTitle>
           <div>
@@ -228,7 +230,6 @@ const Filter: React.FC = () => {
             onAuthorsChange={setSelectedAuthors}
           />
         )}
-
         {publishers && publishers.length > 0 && (
           <PublishersSection
             publishers={publishers}
@@ -276,6 +277,7 @@ const Filter: React.FC = () => {
             />
           </div>
         </section>
+
         <ButtonYellow>Застосувати фільтр</ButtonYellow>
       </FilterContent>
     </FilterWrapper>

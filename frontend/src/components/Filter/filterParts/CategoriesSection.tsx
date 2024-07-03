@@ -2,6 +2,7 @@ import { Input } from "styles/CommonStyled";
 import { Category } from "types/Books";
 import { SubTitle } from "../Filter.styled";
 import ShowMore from "./ShowMore";
+import { EventHandler, useState } from "react";
 
 const flattenCategory = (categories: Category[]) => {
   const links: string[] = [];
@@ -53,6 +54,8 @@ const CategoriesSection: React.FC<IProps> = ({
   onSubcategoryChange,
   onAgeChange,
 }) => {
+  const [isHidden, setIsHidden] = useState(true);
+
   const linkOptions = flattenCategory(categories).links;
   const categoriesOptions = flattenCategory(categories).categoriesOptions;
   const ageOptions = flattenCategory(categories).ageOptions;
@@ -82,6 +85,10 @@ const CategoriesSection: React.FC<IProps> = ({
     );
   };
 
+  const toggleHidden = () => {
+    setIsHidden(!isHidden);
+  };
+
   return (
     <>
       <section>
@@ -95,36 +102,50 @@ const CategoriesSection: React.FC<IProps> = ({
         />
       </section>
 
-      <section>
-        <SubTitle>Категорії</SubTitle>
+      {isHidden ? (
+        <span className="expand" onClick={toggleHidden}>
+          Згорнути
+        </span>
+      ) : (
+        <span className="expand" onClick={toggleHidden}>
+          Розгорнути
+        </span>
+      )}
 
-        <ShowMore
-          options={categoriesOptions}
-          onChange={handleCategoryChange}
-          selected={selectedCategories}
-        />
-      </section>
+      {isHidden && (
+        <>
+          <section>
+            <SubTitle>Категорії</SubTitle>
 
-      <section>
-        <SubTitle>Субкатегорії</SubTitle>
+            <ShowMore
+              options={categoriesOptions}
+              onChange={handleCategoryChange}
+              selected={selectedCategories}
+            />
+          </section>
 
-        <ShowMore
-          options={subcategoriesOptions}
-          onChange={handleSubcategoryChange}
-          selected={selectedSubcategories}
-        />
-      </section>
+          <section>
+            <SubTitle>Субкатегорії</SubTitle>
 
-      <section>
-        <SubTitle>Век</SubTitle>
-        {
-          <ShowMore
-            options={ageOptions}
-            onChange={handleAgeChange}
-            selected={selectedAges}
-          />
-        }
-      </section>
+            <ShowMore
+              options={subcategoriesOptions}
+              onChange={handleSubcategoryChange}
+              selected={selectedSubcategories}
+            />
+          </section>
+
+          <section>
+            <SubTitle>Век</SubTitle>
+            {
+              <ShowMore
+                options={ageOptions}
+                onChange={handleAgeChange}
+                selected={selectedAges}
+              />
+            }
+          </section>
+        </>
+      )}
     </>
   );
 };
