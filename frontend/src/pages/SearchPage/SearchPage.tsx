@@ -2,9 +2,10 @@ import { Sort } from "components";
 import { useBooks } from "components/Book";
 import { PageLayout } from "components/Layout";
 import CatalogBookCard from "pages/CatalogPage/CatalogBookCard";
+import { StyledFlexWrap } from "pages/CommonPages.styled";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { FlexWrap, TextCenter } from "styles/CommonStyled";
+import { TextCenter } from "styles/CommonStyled";
 
 const SearchPage = () => {
   const { searchResults, handleSearch } = useBooks();
@@ -33,7 +34,7 @@ const SearchPage = () => {
 
   return (
     <PageLayout label="Результати пошуку" books={searchResults}>
-      <FlexWrap>
+      <StyledFlexWrap>
         {searchResults && searchResults.length > 1 && (
           <Sort onSortChange={handleSortChange} />
         )}
@@ -45,7 +46,7 @@ const SearchPage = () => {
         ) : (
           <TextCenter>No results found</TextCenter>
         )}
-      </FlexWrap>
+      </StyledFlexWrap>
     </PageLayout>
   );
 };

@@ -65,6 +65,7 @@ export const FilterContent = styled.form`
     right: 0.75rem;
     top: 0.5rem;
     font-size: 0.75em;
+    font-family: inherit;
   }
 `;
 

@@ -94,14 +94,6 @@ const Filter: React.FC = () => {
     );
   };
 
-  const handlePublisherChange = (publisher: string) => {
-    setSelectedPublishers((prev) =>
-      prev.includes(publisher)
-        ? prev.filter((p) => p !== publisher)
-        : [...prev, publisher]
-    );
-  };
-
   const handleRatingChange = (min: number, max: number) => {
     setSelectedRating({ minRating: min, maxRating: max });
   };
@@ -236,13 +228,15 @@ const Filter: React.FC = () => {
             onAuthorsChange={setSelectedAuthors}
           />
         )}
+
         {publishers && publishers.length > 0 && (
           <PublishersSection
             publishers={publishers}
-            selected={selectedPublishers}
-            onChange={handlePublisherChange}
+            selectedPublishers={selectedPublishers}
+            onPublishersChange={setSelectedPublishers}
           />
         )}
+
         <section>
           <SubTitle>Ціна</SubTitle>
           <div className="price-range">

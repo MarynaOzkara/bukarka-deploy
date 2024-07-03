@@ -14,7 +14,9 @@ const AuthorsSection: React.FC<IProps> = ({
   selectedAuthors,
   onAuthorsChange,
 }) => {
-  const flattenAuthors = authors.map((author) => author.author);
+  const flattenAuthors = authors
+    .map((author) => author.author)
+    .filter((item) => !!item);
 
   const handleAuthorsChange = (author: string) => {
     onAuthorsChange(

@@ -1,8 +1,8 @@
+import { useState } from "react";
 import { Input } from "styles/CommonStyled";
 import { Category } from "types/Books";
 import { SubTitle } from "../Filter.styled";
 import ShowMore from "./ShowMore";
-import { EventHandler, useState } from "react";
 
 const flattenCategory = (categories: Category[]) => {
   const links: string[] = [];
@@ -103,13 +103,13 @@ const CategoriesSection: React.FC<IProps> = ({
       </section>
 
       {isHidden ? (
-        <span className="expand" onClick={toggleHidden}>
+        <button className="expand" onClick={toggleHidden}>
           Згорнути
-        </span>
+        </button>
       ) : (
-        <span className="expand" onClick={toggleHidden}>
+        <button className="expand" onClick={toggleHidden}>
           Розгорнути
-        </span>
+        </button>
       )}
 
       {isHidden && (

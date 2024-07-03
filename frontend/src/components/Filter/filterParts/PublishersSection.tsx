@@ -1,30 +1,29 @@
-import { Input, TextCenter } from "styles/CommonStyled";
+import { Input } from "styles/CommonStyled";
 import { Publisher } from "types/Books";
-import { useState } from "react";
 import { SubTitle } from "../Filter.styled";
+import ShowMore from "./ShowMore";
 
 interface IProps {
   publishers: Publisher[];
-  selected: string[];
-  onChange: (value: string) => void;
+  selectedPublishers: string[];
+  onPublishersChange: (value: string[]) => void;
 }
 
 const PublishersSection: React.FC<IProps> = ({
   publishers,
-  selected,
-  onChange,
+  selectedPublishers,
+  onPublishersChange,
 }) => {
-  const [showAll, setShowAll] = useState(false);
-  const visiblePublishers = showAll ? publishers : publishers.slice(0, 6);
+  const publishersOptions = publishers
+    .map((publisher) => publisher.publisher)
+    .filter((item) => !!item);
 
-  const handleToggleShow = () => {
-    setShowAll((prevShowAll) => !prevShowAll);
-  };
-
-  const handleCheckboxChange = (publisher: string) => {
-    if (onChange) {
-      onChange(publisher);
-    }
+  const handlePublishersChange = (publisher: string) => {
+    onPublishersChange(
+      selectedPublishers.includes(publisher)
+        ? selectedPublishers.filter((p) => p !== publisher)
+        : [...selectedPublishers, publisher]
+    );
   };
 
   return (
@@ -32,29 +31,11 @@ const PublishersSection: React.FC<IProps> = ({
       <SubTitle>Видавництво</SubTitle>
       <Input type="text" placeholder="Пошук видавництва" />
 
-      {visiblePublishers &&
-        visiblePublishers.length > 0 &&
-        visiblePublishers.map(
-          ({ publisher }, index) =>
-            !!publisher && (
-              <p key={index}>
-                <input
-                  type="checkbox"
-                  id={publisher}
-                  name="publisher"
-                  value={publisher}
-                  checked={selected.includes(publisher)}
-                  onChange={() => handleCheckboxChange(publisher)}
-                />
-                <label htmlFor={publisher}>{publisher}</label>
-              </p>
-            )
-        )}
-      {visiblePublishers.length > 6 && (
-        <TextCenter className="more" onClick={handleToggleShow}>
-          {showAll ? "Показати менше" : "Показати більше"}
-        </TextCenter>
-      )}
+      <ShowMore
+        options={publishersOptions}
+        onChange={handlePublishersChange}
+        selected={selectedPublishers}
+      />
     </section>
   );
 };
