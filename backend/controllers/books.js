@@ -573,15 +573,15 @@ const getFilterData = async (req, res) => {
         {
           $group: {
             _id: null,
-            maxPrice: { $max: "$price" },
-            minPrice: { $min: "$price" },
+            priceMax: { $max: "$price" },
+            priceMin: { $min: "$price" },
           },
         },
         {
           $project: {
             _id: 0,
-            maxPrice: 1,
-            minPrice: 1,
+            priceMax: 1,
+            priceMin: 1,
           },
         },
       ]),
@@ -590,15 +590,15 @@ const getFilterData = async (req, res) => {
         {
           $group: {
             _id: null,
-            maxRating: { $max: "$rating" },
-            minRating: { $min: "$rating" },
+            ratingMax: { $max: "$rating" },
+            ratingMin: { $min: "$rating" },
           },
         },
         {
           $project: {
             _id: 0,
-            maxRating: 1,
-            minRating: 1,
+            ratingMax: 1,
+            ratingMin: 1,
           },
         },
       ]),
@@ -625,10 +625,10 @@ const getFilterData = async (req, res) => {
       authors,
       publishers,
       categories,
-      price: { minPrice: priceData.minPrice, maxPrice: priceData.maxPrice },
+      price: { priceMin: priceData.priceMin, priceMax: priceData.priceMax },
       rating: {
-        minRating: ratingData.minRating,
-        maxRating: ratingData.maxRating,
+        ratingMin: ratingData.ratingMin,
+        ratingMax: ratingData.ratingMax,
       },
       languages,
     });

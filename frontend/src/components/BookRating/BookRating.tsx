@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ReactStars from "react-rating-stars-component";
 import { StarsWrapper, StyledStarIcon } from "./BookRating.styled";
 
@@ -13,6 +13,22 @@ const BookRating: React.FC<IRatingProps> = ({
   onChange,
   editable = false,
 }) => {
+  const [currentRating, setCurrentRating] = useState(rating);
+
+  useEffect(() => {
+    setCurrentRating(rating);
+  }, [rating]);
+
+  const handleRatingChange = useMemo(
+    () => (newRating: number) => {
+      setCurrentRating(newRating);
+      if (onChange) {
+        onChange(newRating);
+      }
+    },
+    []
+  );
+
   const starsProps = useMemo(
     () => ({
       size: 20,
@@ -22,13 +38,14 @@ const BookRating: React.FC<IRatingProps> = ({
       activeColor: "#ffd700",
       emptyIcon: <StyledStarIcon $fillColor="var(--bukarka-white)" />,
       filledIcon: <StyledStarIcon $fillColor="var(--bukarka-yellow)" />,
-      onChange: editable ? onChange : undefined,
+      onChange: editable ? handleRatingChange : undefined,
     }),
-    []
+    [editable, handleRatingChange]
   );
+
   return (
     <StarsWrapper>
-      <ReactStars {...starsProps} value={rating} />
+      <ReactStars {...starsProps} value={currentRating} />
     </StarsWrapper>
   );
 };

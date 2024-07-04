@@ -3,7 +3,6 @@ import BookRating from "components/BookRating";
 import { bookTypes } from "constants/filter";
 import { useCallback, useEffect, useState } from "react";
 import { ButtonYellow } from "styles/CommonStyled";
-
 import { FilterData } from "types/Filter";
 import {
   FilterContent,
@@ -25,8 +24,8 @@ const Filter: React.FC = () => {
     authors: [],
     publishers: [],
     categories: [],
-    price: { minPrice: 0, maxPrice: 0 },
-    rating: { minRating: 0, maxRating: 0 },
+    price: { priceMin: 0, priceMax: 0 },
+    rating: { ratingMin: 0, ratingMax: 0 },
     languages: [],
     subcategories: [],
   });
@@ -44,13 +43,13 @@ const Filter: React.FC = () => {
   const [selectedAuthors, setSelectedAuthors] = useState<string[]>([]);
   const [selectedPublishers, setSelectedPublishers] = useState<string[]>([]);
   const [selectedRating, setSelectedRating] = useState<{
-    minRating: number | undefined;
-    maxRating: number | undefined;
-  }>({ minRating: 0, maxRating: 5 });
+    ratingMin: number | undefined;
+    ratingMax: number | undefined;
+  }>({ ratingMin: 0, ratingMax: 5 });
   const [selectedPrice, setSelectedPrice] = useState<{
-    minPrice: number;
-    maxPrice: number;
-  }>({ minPrice: price.minPrice, maxPrice: price.maxPrice });
+    priceMin: number;
+    priceMax: number;
+  }>({ priceMin: price.priceMin, priceMax: price.priceMax });
   const [selectedTypes, setSelectedTypes] = useState<{
     new: boolean | undefined;
     promotions: boolean | undefined;
@@ -94,35 +93,36 @@ const Filter: React.FC = () => {
     );
   };
 
-  const handleRatingChange = (newMinRating?: number, newMaxRating?: number) => {
+  const handleRatingChange = (newRatingMin?: number, newRatingMax?: number) => {
     setSelectedRating((prevRating) => ({
-      minRating:
-        newMinRating !== undefined ? newMinRating : prevRating.minRating,
-      maxRating:
-        newMaxRating !== undefined ? newMaxRating : prevRating.maxRating,
+      ratingMin:
+        newRatingMin !== undefined ? newRatingMin : prevRating.ratingMin,
+      ratingMax:
+        newRatingMax !== undefined ? newRatingMax : prevRating.ratingMax,
     }));
   };
 
-  const handleMinRatingChange = (newMinRating: number) => {
-    console.log(selectedRating.minRating);
-    // if (!!selectedRating.maxRating && newMinRating > selectedRating.maxRating) {
-    //   newMinRating = rating.maxRating;
-    // }
-    handleRatingChange(newMinRating, undefined);
+  const handleMinRatingChange = (newRatingMin: number) => {
+    console.log(selectedRating.ratingMin);
+    if (!!selectedRating.ratingMax && newRatingMin > selectedRating.ratingMax) {
+      newRatingMin = rating.ratingMax;
+    }
+    handleRatingChange(newRatingMin, undefined);
   };
 
-  const handleMaxRatingChange = (newMaxRating: number) => {
-    console.log(selectedRating.maxRating);
-    // if (!!selectedRating.minRating && newMaxRating < selectedRating.minRating) {
-    //   newMaxRating = rating.minRating;
-    // }
-    handleRatingChange(undefined, newMaxRating);
+  const handleMaxRatingChange = (newRatingMax: number) => {
+    console.log(selectedRating.ratingMax);
+    if (!!selectedRating.ratingMin && newRatingMax < selectedRating.ratingMin) {
+      newRatingMax = rating.ratingMin;
+    }
+    handleRatingChange(undefined, newRatingMax);
   };
 
   const handlePriceChange = (min: number, max: number) => {
+    if (min > max) max = min;
     setSelectedPrice({
-      minPrice: min,
-      maxPrice: max,
+      priceMin: min,
+      priceMax: max,
     });
   };
 
@@ -135,12 +135,12 @@ const Filter: React.FC = () => {
   const handleSubmitFilters = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const finalMinPrice = priceTouched.min
-      ? selectedPrice.minPrice
-      : price.minPrice;
-    const finalMaxPrice = priceTouched.max
-      ? selectedPrice.maxPrice
-      : price.maxPrice;
+    const finalPriceMin = priceTouched.min
+      ? selectedPrice.priceMin
+      : price.priceMin;
+    const finalPriceMax = priceTouched.max
+      ? selectedPrice.priceMax
+      : price.priceMax;
 
     const filterQuery = {
       new: selectedTypes.new,
@@ -150,8 +150,10 @@ const Filter: React.FC = () => {
       languages: selectedLanguages,
       authors: selectedAuthors,
       publishers: selectedPublishers,
-      rating: selectedRating,
-      price: { minPrice: finalMinPrice, maxPrice: finalMaxPrice },
+      ratingMin: selectedRating.ratingMin,
+      ratingMax: selectedRating.ratingMax,
+      priceMin: finalPriceMin,
+      priceMax: finalPriceMax,
       ages: adjustAgeValues(selectedAges),
       subcategories: selectedSubcategories,
     };
@@ -222,7 +224,7 @@ const Filter: React.FC = () => {
               <span>Від</span>
 
               <BookRating
-                rating={selectedRating.minRating}
+                rating={selectedRating.ratingMin}
                 onChange={handleMinRatingChange}
                 editable={true}
               />
@@ -231,7 +233,7 @@ const Filter: React.FC = () => {
               <span>До</span>
 
               <BookRating
-                rating={selectedRating.maxRating}
+                rating={selectedRating.ratingMax}
                 onChange={handleMaxRatingChange}
                 editable={true}
               />
@@ -263,15 +265,15 @@ const Filter: React.FC = () => {
               type="number"
               step="10"
               pattern="^[0-9]*$"
-              min={price.minPrice}
-              max={price.maxPrice}
+              min={price.priceMin}
+              max={price.priceMax}
               placeholder="Від"
-              value={priceTouched.min ? selectedPrice.minPrice : ""}
+              value={priceTouched.min ? selectedPrice.priceMin : ""}
               onChange={(e) => {
                 setPriceTouched((prev) => ({ ...prev, min: true }));
                 handlePriceChange(
-                  parseInt(e.target.value) || price.minPrice,
-                  selectedPrice.maxPrice
+                  parseInt(e.target.value) || price.priceMin,
+                  selectedPrice.priceMax
                 );
               }}
             />
@@ -281,15 +283,15 @@ const Filter: React.FC = () => {
               type="number"
               step="10"
               pattern="^[0-9]*$"
-              min={price.minPrice}
-              max={price.maxPrice}
+              min={price.priceMin}
+              max={price.priceMax}
               placeholder="До"
-              value={priceTouched.max ? selectedPrice.maxPrice : ""}
+              value={priceTouched.max ? selectedPrice.priceMax : ""}
               onChange={(e) => {
                 setPriceTouched((prev) => ({ ...prev, max: true }));
                 handlePriceChange(
-                  selectedPrice.minPrice,
-                  parseInt(e.target.value) || price.maxPrice
+                  selectedPrice.priceMin,
+                  parseInt(e.target.value) || price.priceMax
                 );
               }}
             />

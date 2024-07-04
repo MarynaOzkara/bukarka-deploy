@@ -171,8 +171,8 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
         publishers: [],
         categories: [],
         subcategories: [],
-        price: { minPrice: 0, maxPrice: 0 },
-        rating: { minRating: 0, maxRating: 0 },
+        price: { priceMin: 0, priceMax: 0 },
+        rating: { ratingMin: 0, ratingMax: 0 },
         languages: [],
       };
     }
@@ -180,11 +180,6 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
 
   const applyFilter = useCallback(async (filters: FilterCriteriaRequest) => {
     try {
-      // const response = await instance.post<IBooksDataResponse>(
-      //   "/api/books/filter",
-      //   filters
-      // );
-
       const response = await instance.get<IBooksDataResponse>(
         "/api/books/filter",
         { params: filters }
