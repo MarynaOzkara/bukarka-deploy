@@ -1,8 +1,8 @@
 import { useOutletContext } from "react-router-dom";
-import { FlexWrap, TextCenter } from "styles/CommonStyled";
+import { TextCenter } from "styles/CommonStyled";
 import { IBookItem } from "types/Books";
 import CatalogBookCard from "../CatalogBookCard";
-import { StyledFlexWrap } from "./SectionContent.styled";
+import { StyledFlexWrap } from "pages/CommonPages.styled";
 
 interface SectionContentProps {
   data?: IBookItem[];

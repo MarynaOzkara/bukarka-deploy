@@ -58,7 +58,7 @@ const CatalogPage: React.FC = () => {
       )}
 
       <StyledFlexWrapper>
-        {books && !!books.length && <Filter />}
+        <Filter />
 
         {books && books.length > 1 && <Sort onSortChange={handleSortChange} />}
 

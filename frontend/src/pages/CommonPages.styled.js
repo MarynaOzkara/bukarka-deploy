@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FlexWrap } from "styles/CommonStyled";
 
 export const Label = styled.p`
   position: relative;
@@ -170,4 +171,10 @@ export const Price = styled.div`
 export const Separator = styled.div`
   margin: 1rem 0;
   border: 1px solid var(--bukarka-light-grey);
+`;
+
+export const StyledFlexWrap = styled(FlexWrap)`
+  position: relative;
+  gap: 1.5rem;
+  justify-content: space-around;
 `;

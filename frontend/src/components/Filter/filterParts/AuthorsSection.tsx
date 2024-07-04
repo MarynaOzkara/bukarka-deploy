@@ -1,38 +1,43 @@
-import { Input, TextCenter } from "styles/CommonStyled";
-import { SubTitle } from "../Filter.styled";
 import { Author } from "types/Books";
-import { useState } from "react";
+import { SubTitle } from "../Filter.styled";
+import ShowMore from "./ShowMore";
+
+import FilterSearch from "./FilterSearch";
 
 interface IProps {
   authors: Author[];
+  selectedAuthors: string[];
+  onAuthorsChange: (value: string[]) => void;
 }
 
-const AuthorsSection: React.FC<IProps> = ({ authors }) => {
-  const [showAll, setShowAll] = useState(false);
-  const visibleAuthors = showAll ? authors : authors.slice(0, 6);
+const AuthorsSection: React.FC<IProps> = ({
+  authors,
+  selectedAuthors,
+  onAuthorsChange,
+}) => {
+  const flattenAuthors = authors
+    .map((author) => author.author)
+    .filter((item) => !!item);
 
-  const handleToggleShow = () => {
-    setShowAll((prevShowAll) => !prevShowAll);
+  const handleAuthorsChange = (author: string) => {
+    onAuthorsChange(
+      selectedAuthors.includes(author)
+        ? selectedAuthors.filter((a) => a !== author)
+        : [...selectedAuthors, author]
+    );
   };
+
   return (
     <section>
       <SubTitle>Автор</SubTitle>
-      <Input type="text" placeholder="Пошук автора" />
 
-      {visibleAuthors &&
-        visibleAuthors.length > 0 &&
-        visibleAuthors.map(({ author }, index) => (
-          <p key={index}>
-            <input type="checkbox" id={author} name="author" value={author} />
-            <label htmlFor={author}>{author}</label>
-          </p>
-        ))}
+      <FilterSearch placeholder="Пошук автора" />
 
-      {authors.length > 6 && (
-        <TextCenter className="more" onClick={handleToggleShow}>
-          {showAll ? "Показати менше" : "Показати більше"}
-        </TextCenter>
-      )}
+      <ShowMore
+        options={flattenAuthors}
+        onChange={handleAuthorsChange}
+        selected={selectedAuthors}
+      />
     </section>
   );
 };

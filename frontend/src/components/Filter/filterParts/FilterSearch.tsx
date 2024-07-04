@@ -1,23 +1,17 @@
 import { useBooks } from "components/Book";
+import { Hints, SearchInput } from "components/Search/Search.styled";
 import useDebounce from "hooks/useDebounce";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { IBookItem } from "types/Books";
-import {
-  FormButton,
-  Hints,
-  SearchInput,
-  StyledForm,
-  StyledLensIcon,
-} from "./Search.styled";
+import { useEffect, useRef, useState } from "react";
+import { Input } from "styles/CommonStyled";
+import { Author } from "types/Books";
 
 interface IProps {
   placeholder?: string;
   hasButton?: boolean;
 }
 
-const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
-  const { hints, fetchHints } = useBooks();
+const Search: React.FC<IProps> = ({ placeholder }) => {
+  const { authors, fetchAuthors } = useBooks();
   const [inputQuery, setInputQuery] = useState<string>("");
   const [showHints, setShowHints] = useState<boolean>(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
@@ -25,31 +19,21 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
 
   const hintsRef = useRef<HTMLUListElement>(null);
   const debouncedQuery = useDebounce(inputQuery, 500);
-  const navigate = useNavigate();
-
-  const goToSearchPage = useCallback(
-    (searchParams: Record<string, any>) => {
-      navigate(`/search?${new URLSearchParams(searchParams).toString()}`);
-      setShowHints(false);
-      setHighlightedIndex(-1);
-    },
-    [navigate]
-  );
 
   useEffect(() => {
     if (debouncedQuery && !isHintSelected) {
-      fetchHints({ keyword: debouncedQuery });
+      //   fetchHints({ keyword: debouncedQuery });
       setShowHints(true);
     } else {
       setShowHints(false);
     }
-  }, [debouncedQuery, fetchHints, isHintSelected]);
+  }, [debouncedQuery, fetchAuthors, isHintSelected]);
 
   useEffect(() => {
     if (
       hintsRef.current &&
       highlightedIndex >= 0 &&
-      highlightedIndex < hints.length
+      highlightedIndex < authors.length
     ) {
       const activeItem = hintsRef.current.children[
         highlightedIndex
@@ -61,7 +45,7 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
         });
       }
     }
-  }, [highlightedIndex, hints]);
+  }, [highlightedIndex, authors]);
 
   useEffect(() => {
     const handleClickOutsideHints = (event: MouseEvent) => {
@@ -87,38 +71,31 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
     }
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (inputQuery.trim()) {
-      goToSearchPage({ keyword: inputQuery.trim(), page: "1" });
-    }
-  };
-
-  const handleHintClick = (hint: IBookItem) => {
+  const handleHintClick = (hint: Author) => {
+    console.log(hint);
     const searchKey = hint.author
       ?.toLowerCase()
       .includes(inputQuery.toLowerCase())
       ? hint.author
-      : hint.title;
+      : "";
     setInputQuery(searchKey);
     setIsHintSelected(true);
-    goToSearchPage({ keyword: searchKey, page: "1" });
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     switch (event.key) {
       case "ArrowDown":
-        setHighlightedIndex((index) => (index + 1) % hints.length);
+        setHighlightedIndex((index) => (index + 1) % authors.length);
         break;
       case "ArrowUp":
         setHighlightedIndex(
-          (index) => (index - 1 + hints.length) % hints.length
+          (index) => (index - 1 + authors.length) % authors.length
         );
         break;
       case "Enter":
         if (highlightedIndex >= 0) {
           event.preventDefault();
-          handleHintClick(hints[highlightedIndex]);
+          handleHintClick(authors[highlightedIndex]);
         }
         break;
       case "Escape":
@@ -128,9 +105,8 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
   };
 
   return (
-    <StyledForm onSubmit={handleSubmit}>
-      {hasButton && <StyledLensIcon />}
-      <SearchInput
+    <>
+      <Input
         type="text"
         pattern="[0-9a-zA-Z\u0400-\u04ff]*"
         maxLength={64}
@@ -139,19 +115,18 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
         onKeyDown={handleKeyDown}
         onBlur={() => setInputQuery("")}
         placeholder={placeholder}
-        aria-label="Search books"
+        aria-label="Search items"
       />
       {showHints && (
         <Hints ref={hintsRef} aria-label="Search suggestions">
-          {hints.length > 0 ? (
-            hints.map((hint, index) => (
+          {authors.length > 0 ? (
+            authors.map((hint, index) => (
               <li
                 key={index}
                 className={index === highlightedIndex ? "highlighted" : ""}
                 onClick={() => handleHintClick(hint)}
               >
-                {(hint.author.includes(inputQuery) && hint.author) ||
-                  (hint.title.includes(inputQuery) && hint.title)}
+                {hint.author.includes(inputQuery) && hint.author}
               </li>
             ))
           ) : (
@@ -159,8 +134,7 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
           )}
         </Hints>
       )}
-      {hasButton && <FormButton type="submit">Знайти</FormButton>}
-    </StyledForm>
+    </>
   );
 };
 

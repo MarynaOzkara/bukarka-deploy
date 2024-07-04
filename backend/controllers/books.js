@@ -81,9 +81,13 @@ const filtersBooks = async (req, res) => {
     bestsellers,
     category,
     subcategory,
+    subcategories,
     language,
+    languages,
     author,
+    authors,
     publisher,
+    publishers,
     priceMin,
     priceMax,
     ratingMin,
@@ -107,18 +111,47 @@ const filtersBooks = async (req, res) => {
   if (category) {
     match.category = { $regex: category, $options: "i" };
   }
+
   if (subcategory) {
     match.subcategory = { $regex: subcategory, $options: "i" };
   }
+
+  if (subcategories) {
+    match.subcategory = {
+      $in: subcategories.map((subcategory) => new RegExp(subcategory, "i")),
+    };
+  }
+
   if (language) {
     match.language = { $regex: language, $options: "i" };
   }
+
+  if (languages) {
+    match.language = {
+      $in: languages.map((language) => new RegExp(language, "i")),
+    };
+  }
+
   if (author) {
     match.author = { $regex: author, $options: "i" };
   }
+
+  if (authors) {
+    match.author = {
+      $in: authors.map((author) => new RegExp(author, "i")),
+    };
+  }
+
   if (publisher) {
     match.publisher = { $regex: publisher, $options: "i" };
   }
+
+  if (publishers) {
+    match.publisher = {
+      $in: publishers.map((publisher) => new RegExp(publisher, "i")),
+    };
+  }
+
   if (promotions) {
     match.promotions = true;
   }
@@ -165,6 +198,153 @@ const filtersBooks = async (req, res) => {
     limit,
     books,
   });
+};
+
+const filterBooks = async (req, res) => {
+  const {
+    new: isNew,
+    promotions,
+    bestsellers,
+    category,
+    categories,
+    subcategory,
+    subcategories,
+    language,
+    languages,
+    author,
+    authors,
+    publisher,
+    publishers,
+    age,
+    ages,
+    priceMin,
+    priceMax,
+    ratingMin,
+    ratingMax,
+    sortBy,
+    orderSort,
+    page = 1,
+    limit = 12,
+  } = req.query;
+
+  const skip = (page - 1) * limit;
+
+  const match = {};
+  const sort = {};
+
+  if (isNew !== undefined) {
+    match.new = isNew === "true";
+  }
+  if (promotions !== undefined) {
+    match.promotions = promotions === "true";
+  }
+  if (bestsellers !== undefined) {
+    match.bestsellers = bestsellers === "true";
+  }
+
+  if (category) {
+    match.category = { $regex: category, $options: "i" };
+  }
+
+  if (subcategory) {
+    match.subcategory = { $regex: subcategory, $options: "i" };
+  }
+  if (language) {
+    match.language = { $in: language.split(",") };
+  }
+  if (author) {
+    match.author = { $in: author.split(",") };
+  }
+  if (publisher) {
+    match.publisher = { $in: publisher.split(",") };
+  }
+
+  if (language) {
+    match.language = { $regex: language, $options: "i" };
+  }
+
+  if (categories) {
+    match.category = {
+      $in: categories.map((category) => new RegExp(category, "i")),
+    };
+  }
+
+  if (subcategories) {
+    match.subcategory = {
+      $in: subcategories.map((subcategory) => new RegExp(subcategory, "i")),
+    };
+  }
+
+  if (languages) {
+    match.language = {
+      $in: languages.map((language) => new RegExp(language, "i")),
+    };
+  }
+
+  if (authors) {
+    match.author = {
+      $in: authors.map((author) => new RegExp(author, "i")),
+    };
+  }
+
+  if (publishers) {
+    match.publisher = {
+      $in: publishers.map((publisher) => new RegExp(publisher, "i")),
+    };
+  }
+
+  if (age) {
+    match.age = { $regex: age, $options: "i" };
+  }
+
+  if (ages) {
+    match.age = {
+      $in: ages.map((age) => new RegExp(age, "i")),
+    };
+  }
+
+  if (priceMin !== undefined || priceMax !== undefined) {
+    match.price = {};
+    if (priceMin !== undefined) {
+      match.price.$gte = +priceMin;
+    }
+    if (priceMax !== undefined) {
+      match.price.$lte = +priceMax;
+    }
+  }
+
+  if (ratingMin !== undefined || ratingMax !== undefined) {
+    match.rating = {};
+    if (ratingMin !== undefined) {
+      match.rating.$gte = +ratingMin;
+    }
+    if (ratingMax !== undefined) {
+      match.rating.$lte = +ratingMax;
+    }
+  }
+
+  if (sortBy && orderSort) {
+    sort[sortBy] = orderSort === "asc" ? 1 : -1;
+  }
+
+  try {
+    console.log("Match criteria:", JSON.stringify(match, null, 2));
+    const books = await Book.find(match).skip(skip).limit(limit).sort(sort);
+    const total = await Book.countDocuments(match);
+
+    if (!books.length) {
+      return res.status(404).json({ message: "Books not found" });
+    }
+
+    res.status(200).json({
+      total,
+      page,
+      limit,
+      books,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 const getBooksByIds = async (req, res) => {
@@ -304,15 +484,15 @@ const getFilterData = async (req, res) => {
         {
           $group: {
             _id: null,
-            maxPrice: { $max: "$price" },
-            minPrice: { $min: "$price" },
+            priceMax: { $max: "$price" },
+            priceMin: { $min: "$price" },
           },
         },
         {
           $project: {
             _id: 0,
-            maxPrice: 1,
-            minPrice: 1,
+            priceMax: 1,
+            priceMin: 1,
           },
         },
       ]),
@@ -321,15 +501,15 @@ const getFilterData = async (req, res) => {
         {
           $group: {
             _id: null,
-            maxRating: { $max: "$rating" },
-            minRating: { $min: "$rating" },
+            ratingMax: { $max: "$rating" },
+            ratingMin: { $min: "$rating" },
           },
         },
         {
           $project: {
             _id: 0,
-            maxRating: 1,
-            minRating: 1,
+            ratingMax: 1,
+            ratingMin: 1,
           },
         },
       ]),
@@ -356,10 +536,10 @@ const getFilterData = async (req, res) => {
       authors,
       publishers,
       categories,
-      price: { minPrice: priceData.minPrice, maxPrice: priceData.maxPrice },
+      price: { priceMin: priceData.priceMin, priceMax: priceData.priceMax },
       rating: {
-        minRating: ratingData.minRating,
-        maxRating: ratingData.maxRating,
+        ratingMin: ratingData.ratingMin,
+        ratingMax: ratingData.ratingMax,
       },
       languages,
     });
@@ -381,6 +561,7 @@ module.exports = {
   getUniquePublishers,
   getFilterData,
   filtersBooks,
+  filterBooks,
   getBooksByIds,
   getBookById,
 };
@@ -397,4 +578,5 @@ module.exports = {
   getUniqueAuthors: ctrlWrapper(getUniqueAuthors),
   getUniquePublishers: ctrlWrapper(getUniquePublishers),
   getFilterData: ctrlWrapper(getFilterData),
+  filterBooks: ctrlWrapper(filterBooks),
 };

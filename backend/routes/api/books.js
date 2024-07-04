@@ -12,6 +12,7 @@ router.get("/promotions", booksController.getPromotions);
 router.get("/authors", booksController.getUniqueAuthors);
 router.get("/publishers", booksController.getUniquePublishers);
 router.get("/filterdata", booksController.getFilterData);
+router.get("/filter", booksController.filterBooks);
 router.get("/filters", booksController.filtersBooks);
 router.get("/ids", booksController.getBooksByIds);
 router.get("/:id", booksController.getBookById);

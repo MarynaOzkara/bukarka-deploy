@@ -1,4 +1,4 @@
-import { FilterData } from "./Filter";
+import { FilterCriteriaRequest, FilterData } from "./Filter";
 
 export interface Books {
   age: string;
@@ -40,6 +40,7 @@ export interface IFetchBooksParams {
   category?: string;
   subcategory?: string;
   link?: string;
+
   page?: number;
   sortBy?: string;
   orderSort?: string;
@@ -96,4 +97,5 @@ export interface IBooksContextType {
   fetchPublishers: () => Promise<void>;
   fetchAuthors: () => Promise<void>;
   fetchFilterData: () => Promise<FilterData>;
+  applyFilter: (filters: FilterCriteriaRequest) => Promise<void>;
 }

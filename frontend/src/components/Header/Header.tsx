@@ -41,7 +41,7 @@ const Header: React.FC = () => {
               <span>Каталог</span>
             </CatalogButton>
           </ButtonWrapper>
-          <Search />
+          <Search placeholder="Знайти книгу" hasButton />
           <UserMenu />
         </Wrapper>
       </StyledHeader>

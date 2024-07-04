@@ -1,10 +1,25 @@
-import { Author, Category, Publisher } from "./Books";
+import { Author, Category, Language, Publisher, Subcategory } from "./Books";
 
 export interface FilterData {
+  ages: string[];
   authors: Author[];
   publishers: Publisher[];
   categories: Category[];
-  price: { maxPrice: number; minPrice: number };
-  rating: { minRating: number; maxRating: number };
-  languages: [];
+  price: { priceMin: number; priceMax: number };
+  rating: { ratingMin: number; ratingMax: number };
+  languages: Language[];
+  subcategories: Subcategory[];
+}
+
+export interface FilterCriteriaRequest {
+  authors: string[];
+  publishers: string[];
+  categories: string[];
+  ratingMin?: number;
+  ratingMax?: number;
+  priceMin: number;
+  priceMax: number;
+  languages: string[];
+  ages: string[];
+  subcategories: string[];
 }
