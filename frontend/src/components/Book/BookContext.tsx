@@ -14,6 +14,7 @@ import {
   IBooksDataResponse,
   IFetchBooksParams,
   IFetchFavoritesParams,
+  IFetchHintsParams,
   Publisher,
 } from "types/Books";
 import { FilterCriteriaRequest, FilterData } from "types/Filter";
@@ -90,12 +91,35 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
     }
   }, []);
 
-  const fetchHints = useCallback(
-    async (hintsParams: any) => {
+  const fetchBooksHints = useCallback(
+    async (hintsParams: IFetchBooksParams) => {
       fetchBooks(hintsParams);
     },
     [fetchBooks]
   );
+
+  const fetchHints = useCallback(async (params: IFetchHintsParams) => {
+    try {
+      if (params.author) {
+        const authorsResponse = await instance.get<Author[]>(
+          "/api/books/authors",
+          { params }
+        );
+        setHints(authorsResponse.data);
+      }
+
+      if (params.category) {
+        const categoriesResponse = await instance.get<Category[]>(
+          "/api/categories",
+          { params }
+        );
+        setHints(categoriesResponse.data);
+      }
+    } catch (error) {
+      setHints([]);
+      console.error("Error fetching hints:", error);
+    }
+  }, []);
 
   const fetchBookById = useCallback(async (id?: string) => {
     try {
@@ -154,7 +178,6 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
     try {
       const response = await instance.get<Author[]>("/api/books/authors");
       setAuthors(response.data || []);
-      setHints(response.data || []);
     } catch (error) {
       setAuthors([]);
       setHints([]);
@@ -210,6 +233,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       setCurrentPage,
       fetchBooks,
       handleSearch,
+      fetchBooksHints,
       fetchHints,
       fetchBookById,
       fetchFavoritesForGuest,
@@ -232,6 +256,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       authors,
       fetchBooks,
       handleSearch,
+      fetchBooksHints,
       fetchHints,
       fetchBookById,
       fetchFavoritesForGuest,

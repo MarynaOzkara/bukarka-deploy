@@ -47,6 +47,12 @@ export interface IFetchBooksParams {
   limit?: number;
 }
 
+export interface IFetchHintsParams {
+  author?: string;
+  category?: string;
+  subcategory?: string;
+}
+
 export interface IFetchFavoritesParams {
   ids: string[];
   page?: number;
@@ -88,7 +94,8 @@ export interface IBooksContextType {
   authors: Author[];
   publishers: Publisher[];
   setCurrentPage: (page: number) => void;
-  fetchHints: (params: IFetchBooksParams) => Promise<void>;
+  fetchBooksHints: (params: IFetchBooksParams) => Promise<void>;
+  fetchHints: (params: IFetchHintsParams) => Promise<void>;
   handleSearch: (params: IFetchBooksParams) => Promise<void>;
   fetchBooks: (params: IFetchBooksParams) => Promise<void>;
   fetchBookById: (id?: string) => Promise<void>;

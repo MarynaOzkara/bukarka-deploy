@@ -392,8 +392,16 @@ const getBookById = async (req, res) => {
 };
 
 const getUniqueAuthors = async (req, res) => {
+  const { author } = req.query;
+  const match = {};
+
+  if (author) {
+    match.author = { $regex: author, $options: "i" };
+  }
+
   try {
     const authors = await Book.aggregate([
+      { $match: match },
       {
         $group: {
           _id: "$author",
@@ -407,7 +415,6 @@ const getUniqueAuthors = async (req, res) => {
       },
     ]);
 
-    console.log("Authors fetched: ", authors);
     res.json(authors);
   } catch (error) {
     console.error("Error fetching unique authors:", error);
@@ -416,6 +423,11 @@ const getUniqueAuthors = async (req, res) => {
 };
 
 const getUniquePublishers = async (req, res) => {
+  const { keyword } = req.query;
+
+  if (keyword) {
+    match.publisher = { $regex: publisher, $options: "i" };
+  }
   try {
     const publishers = await Book.aggregate([
       {

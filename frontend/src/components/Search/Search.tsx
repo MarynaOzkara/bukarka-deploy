@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { IBookItem } from "types/Books";
 import {
   FormButton,
-  Hints,
   SearchInput,
   StyledForm,
+  StyledHints,
   StyledLensIcon,
 } from "./Search.styled";
 
@@ -17,7 +17,7 @@ interface IProps {
 }
 
 const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
-  const { hints, fetchHints } = useBooks();
+  const { hints, fetchBooksHints } = useBooks();
   const [inputQuery, setInputQuery] = useState<string>("");
   const [showHints, setShowHints] = useState<boolean>(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
@@ -38,12 +38,12 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
 
   useEffect(() => {
     if (debouncedQuery && !isHintSelected) {
-      fetchHints({ keyword: debouncedQuery });
+      fetchBooksHints({ keyword: debouncedQuery });
       setShowHints(true);
     } else {
       setShowHints(false);
     }
-  }, [debouncedQuery, fetchHints, isHintSelected]);
+  }, [debouncedQuery, fetchBooksHints, isHintSelected]);
 
   useEffect(() => {
     if (
@@ -142,7 +142,7 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
         aria-label="Search books"
       />
       {showHints && (
-        <Hints ref={hintsRef} aria-label="Search suggestions">
+        <StyledHints ref={hintsRef} aria-label="Search suggestions">
           {hints.length > 0 ? (
             hints.map((hint, index) => (
               <li
@@ -157,7 +157,7 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
           ) : (
             <li>No results</li>
           )}
-        </Hints>
+        </StyledHints>
       )}
       {hasButton && <FormButton type="submit">Знайти</FormButton>}
     </StyledForm>
