@@ -1,9 +1,7 @@
-import { Input } from "styles/CommonStyled";
 import { Publisher } from "types/Books";
 import { SubTitle } from "../Filter.styled";
-import ShowMore from "./ShowMore";
-import Search from "components/Search";
 import FilterSearch from "./FilterSearch";
+import ShowMore from "./ShowMore";
 
 interface IProps {
   publishers: Publisher[];

@@ -86,6 +86,7 @@ export interface IBooksContextType {
   books: IBookItem[];
   book?: IBookItem;
   hints: IBookItem[];
+  bookHints: IBookItem[];
   favorites: IBookItem[];
   totalPages: number;
   currentPage: number;

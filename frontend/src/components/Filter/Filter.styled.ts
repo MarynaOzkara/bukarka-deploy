@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Input } from "styles/CommonStyled";
 
-export const FilterWrapper = styled.div`
+export const FilterWrapper = styled.aside`
   height: fit-content;
   min-width: 296px;
 `;

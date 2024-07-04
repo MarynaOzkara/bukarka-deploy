@@ -40,6 +40,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
   const [totalPages, setTotalPages] = useState(1);
   const [searchResults, setSearchResults] = useState<IBookItem[]>([]);
   const [hints, setHints] = useState<any[]>([]);
+  const [bookHints, setBookHints] = useState<IBookItem[]>([]);
   const [favorites, setFavorites] = useState<IBookItem[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [authors, setAuthors] = useState<Author[]>([]);
@@ -54,17 +55,17 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       const { books, total, limit } = response.data;
       if (books.length) {
         setBooks(books);
-        setHints(books);
+        setBookHints(books);
 
         if (total && limit) setTotalPages(Math.ceil(total / limit));
         if (params) setCurrentPage(params.page || 1);
       } else {
         setBooks([]);
-        setHints([]);
+        setBookHints([]);
       }
     } catch (error) {
       setBooks([]);
-      setHints([]);
+      setBookHints([]);
 
       console.error("Error fetching books:", error);
     }
@@ -224,6 +225,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       book,
       searchResults,
       hints,
+      bookHints,
       favorites,
       currentPage,
       totalPages,
@@ -248,6 +250,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       book,
       searchResults,
       hints,
+      bookHints,
       favorites,
       currentPage,
       totalPages,

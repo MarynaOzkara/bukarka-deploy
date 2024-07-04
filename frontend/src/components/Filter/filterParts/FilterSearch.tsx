@@ -21,7 +21,7 @@ const FilterSearch: React.FC<IProps> = ({ placeholder }) => {
 
   useEffect(() => {
     if (debouncedQuery && !isHintSelected) {
-      fetchHints({ author: debouncedQuery });
+      fetchHints({ author: debouncedQuery } || { publisher: debouncedQuery });
       setShowHints(true);
     } else {
       setShowHints(false);
@@ -71,12 +71,9 @@ const FilterSearch: React.FC<IProps> = ({ placeholder }) => {
   };
 
   const handleHintClick = (hint: any) => {
-    const value = Object.values(hint).join();
+    const value = hint.author || hint.publisher;
 
-    const searchKey = value.toLowerCase().includes(inputQuery.toLowerCase())
-      ? value
-      : "";
-    setInputQuery(searchKey);
+    setInputQuery(value);
     setIsHintSelected(true);
   };
 
@@ -117,14 +114,14 @@ const FilterSearch: React.FC<IProps> = ({ placeholder }) => {
       />
       {showHints && (
         <Hints ref={hintsRef} aria-label="Search suggestions">
-          {hints.length > 0 ? (
+          {hints.length ? (
             hints.map((hint, index) => (
               <li
                 key={index}
                 className={index === highlightedIndex ? "highlighted" : ""}
                 onClick={() => handleHintClick(hint)}
               >
-                {hint.author.includes(inputQuery) && hint.author}
+                {hint.author.toLowerCase().includes(inputQuery) && hint.author}
               </li>
             ))
           ) : (
