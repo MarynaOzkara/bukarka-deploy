@@ -38,7 +38,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchResults, setSearchResults] = useState<IBookItem[]>([]);
-  const [hints, setHints] = useState<IBookItem[]>([]);
+  const [hints, setHints] = useState<any[]>([]);
   const [favorites, setFavorites] = useState<IBookItem[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [authors, setAuthors] = useState<Author[]>([]);
@@ -64,6 +64,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
     } catch (error) {
       setBooks([]);
       setHints([]);
+
       console.error("Error fetching books:", error);
     }
   }, []);
@@ -90,7 +91,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
   }, []);
 
   const fetchHints = useCallback(
-    async (hintsParams: IFetchBooksParams) => {
+    async (hintsParams: any) => {
       fetchBooks(hintsParams);
     },
     [fetchBooks]
@@ -153,8 +154,10 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
     try {
       const response = await instance.get<Author[]>("/api/books/authors");
       setAuthors(response.data || []);
+      setHints(response.data || []);
     } catch (error) {
       setAuthors([]);
+      setHints([]);
       console.error("Error fetching authors:", error);
     }
   }, []);

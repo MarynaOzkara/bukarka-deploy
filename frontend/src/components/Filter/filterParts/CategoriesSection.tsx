@@ -3,6 +3,8 @@ import { Input } from "styles/CommonStyled";
 import { Category } from "types/Books";
 import { SubTitle } from "../Filter.styled";
 import ShowMore from "./ShowMore";
+import Search from "components/Search";
+import FilterSearch from "./FilterSearch";
 
 const flattenCategory = (categories: Category[]) => {
   const links: string[] = [];
@@ -93,7 +95,8 @@ const CategoriesSection: React.FC<IProps> = ({
     <>
       <section>
         <SubTitle>Тематика</SubTitle>
-        <Input type="text" placeholder="Пошук за тематикою" />
+
+        <FilterSearch placeholder="Пошук за тематикою" />
 
         <ShowMore
           options={linkOptions}

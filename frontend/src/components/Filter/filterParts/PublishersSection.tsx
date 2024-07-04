@@ -2,6 +2,8 @@ import { Input } from "styles/CommonStyled";
 import { Publisher } from "types/Books";
 import { SubTitle } from "../Filter.styled";
 import ShowMore from "./ShowMore";
+import Search from "components/Search";
+import FilterSearch from "./FilterSearch";
 
 interface IProps {
   publishers: Publisher[];
@@ -29,7 +31,8 @@ const PublishersSection: React.FC<IProps> = ({
   return (
     <section>
       <SubTitle>Видавництво</SubTitle>
-      <Input type="text" placeholder="Пошук видавництва" />
+
+      <FilterSearch placeholder="Пошук видавництва" />
 
       <ShowMore
         options={publishersOptions}

@@ -1,7 +1,8 @@
-import { Input } from "styles/CommonStyled";
 import { Author } from "types/Books";
 import { SubTitle } from "../Filter.styled";
 import ShowMore from "./ShowMore";
+
+import FilterSearch from "./FilterSearch";
 
 interface IProps {
   authors: Author[];
@@ -29,7 +30,8 @@ const AuthorsSection: React.FC<IProps> = ({
   return (
     <section>
       <SubTitle>Автор</SubTitle>
-      <Input type="text" placeholder="Пошук автора" />
+
+      <FilterSearch placeholder="Пошук автора" />
 
       <ShowMore
         options={flattenAuthors}
