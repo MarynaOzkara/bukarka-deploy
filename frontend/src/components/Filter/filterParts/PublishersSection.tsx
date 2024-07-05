@@ -14,6 +14,18 @@ const PublishersSection: React.FC<IProps> = ({
   selectedPublishers,
   onPublishersChange,
 }) => {
+  // const { hints, fetchHints } = useBooks();
+  // const debouncedQuery = useDebounce(inputQuery, 500);
+
+  // useEffect(() => {
+  //   if (debouncedQuery && !isHintSelected) {
+  //     fetchHints({ author: debouncedQuery } || { publisher: debouncedQuery });
+  //     setShowHints(true);
+  //   } else {
+  //     setShowHints(false);
+  //   }
+  // }, [debouncedQuery, fetchHints, isHintSelected]);
+
   const publishersOptions = publishers
     .map((publisher) => publisher.publisher)
     .filter((item) => !!item);
@@ -37,6 +49,7 @@ const PublishersSection: React.FC<IProps> = ({
       <FilterSearch
         placeholder="Пошук видавництва"
         onHintSelected={handleHintSelected}
+        hints={publishersOptions}
       />
 
       <ShowMore

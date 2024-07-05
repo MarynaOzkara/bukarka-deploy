@@ -38,6 +38,7 @@ const AuthorsSection: React.FC<IProps> = ({
       <FilterSearch
         placeholder="Пошук автора"
         onHintSelected={handleHintSelected}
+        hints={flattenAuthors}
       />
 
       <ShowMore
