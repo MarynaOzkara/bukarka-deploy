@@ -101,7 +101,7 @@ const CategoriesSection: React.FC<IProps> = ({
         <FilterSearch
           placeholder="Пошук за тематикою"
           onHintSelected={handleHintSelected}
-          hints={subcategoriesOptions}
+          hints={linkOptions}
         />
 
         <ShowMore
