@@ -27,11 +27,19 @@ const AuthorsSection: React.FC<IProps> = ({
     );
   };
 
+  const handleHintSelected = (value: string) => {
+    handleAuthorsChange(value);
+  };
+
   return (
     <section>
       <SubTitle>Автор</SubTitle>
 
-      <FilterSearch placeholder="Пошук автора" />
+      <FilterSearch
+        placeholder="Пошук автора"
+        onHintSelected={handleHintSelected}
+        hints={flattenAuthors}
+      />
 
       <ShowMore
         options={flattenAuthors}

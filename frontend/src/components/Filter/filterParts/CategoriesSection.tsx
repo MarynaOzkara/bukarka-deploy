@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { Input } from "styles/CommonStyled";
 import { Category } from "types/Books";
 import { SubTitle } from "../Filter.styled";
-import ShowMore from "./ShowMore";
-import Search from "components/Search";
 import FilterSearch from "./FilterSearch";
+import ShowMore from "./ShowMore";
 
 const flattenCategory = (categories: Category[]) => {
   const links: string[] = [];
@@ -91,12 +89,20 @@ const CategoriesSection: React.FC<IProps> = ({
     setIsHidden(!isHidden);
   };
 
+  const handleHintSelected = (value: string) => {
+    handleSubcategoryChange(value);
+  };
+
   return (
     <>
       <section>
         <SubTitle>Тематика</SubTitle>
 
-        <FilterSearch placeholder="Пошук за тематикою" />
+        <FilterSearch
+          placeholder="Пошук за тематикою"
+          onHintSelected={handleHintSelected}
+          hints={linkOptions}
+        />
 
         <ShowMore
           options={linkOptions}

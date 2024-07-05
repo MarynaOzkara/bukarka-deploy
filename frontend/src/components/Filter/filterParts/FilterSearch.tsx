@@ -1,39 +1,46 @@
-import { useBooks } from "components/Book";
-import { Hints, SearchInput } from "components/Search/Search.styled";
 import useDebounce from "hooks/useDebounce";
 import { useEffect, useRef, useState } from "react";
-import { Input } from "styles/CommonStyled";
-import { Author } from "types/Books";
+import { Hints, Input } from "styles/CommonStyled";
 
 interface IProps {
+  hints: string[];
   placeholder?: string;
   hasButton?: boolean;
+  onHintSelected: (value: string) => void;
 }
 
-const Search: React.FC<IProps> = ({ placeholder }) => {
-  const { authors, fetchAuthors } = useBooks();
+const FilterSearch: React.FC<IProps> = ({
+  hints,
+  placeholder,
+  onHintSelected,
+}) => {
   const [inputQuery, setInputQuery] = useState<string>("");
   const [showHints, setShowHints] = useState<boolean>(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
   const [isHintSelected, setIsHintSelected] = useState<boolean>(false);
+  const [filteredHints, setFilteredHints] = useState<string[]>([]);
 
   const hintsRef = useRef<HTMLUListElement>(null);
   const debouncedQuery = useDebounce(inputQuery, 500);
 
   useEffect(() => {
     if (debouncedQuery && !isHintSelected) {
-      //   fetchHints({ keyword: debouncedQuery });
+      const filtered = hints.filter(
+        (hint: string) =>
+          hint.toLowerCase().includes(debouncedQuery.toLowerCase()) && hint
+      );
+      setFilteredHints(filtered);
       setShowHints(true);
     } else {
       setShowHints(false);
     }
-  }, [debouncedQuery, fetchAuthors, isHintSelected]);
+  }, [debouncedQuery, isHintSelected]);
 
   useEffect(() => {
     if (
       hintsRef.current &&
       highlightedIndex >= 0 &&
-      highlightedIndex < authors.length
+      highlightedIndex < filteredHints.length
     ) {
       const activeItem = hintsRef.current.children[
         highlightedIndex
@@ -45,7 +52,7 @@ const Search: React.FC<IProps> = ({ placeholder }) => {
         });
       }
     }
-  }, [highlightedIndex, authors]);
+  }, [highlightedIndex, filteredHints]);
 
   useEffect(() => {
     const handleClickOutsideHints = (event: MouseEvent) => {
@@ -71,31 +78,26 @@ const Search: React.FC<IProps> = ({ placeholder }) => {
     }
   };
 
-  const handleHintClick = (hint: Author) => {
-    console.log(hint);
-    const searchKey = hint.author
-      ?.toLowerCase()
-      .includes(inputQuery.toLowerCase())
-      ? hint.author
-      : "";
-    setInputQuery(searchKey);
+  const handleHintClick = (hint: string) => {
+    setInputQuery(hint);
     setIsHintSelected(true);
+    onHintSelected(hint);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     switch (event.key) {
       case "ArrowDown":
-        setHighlightedIndex((index) => (index + 1) % authors.length);
+        setHighlightedIndex((index) => (index + 1) % filteredHints.length);
         break;
       case "ArrowUp":
         setHighlightedIndex(
-          (index) => (index - 1 + authors.length) % authors.length
+          (index) => (index - 1 + filteredHints.length) % filteredHints.length
         );
         break;
       case "Enter":
         if (highlightedIndex >= 0) {
           event.preventDefault();
-          handleHintClick(authors[highlightedIndex]);
+          handleHintClick(filteredHints[highlightedIndex]);
         }
         break;
       case "Escape":
@@ -105,7 +107,7 @@ const Search: React.FC<IProps> = ({ placeholder }) => {
   };
 
   return (
-    <>
+    <div style={{ position: "relative" }}>
       <Input
         type="text"
         pattern="[0-9a-zA-Z\u0400-\u04ff]*"
@@ -119,14 +121,14 @@ const Search: React.FC<IProps> = ({ placeholder }) => {
       />
       {showHints && (
         <Hints ref={hintsRef} aria-label="Search suggestions">
-          {authors.length > 0 ? (
-            authors.map((hint, index) => (
+          {filteredHints.length ? (
+            filteredHints.map((hint, index) => (
               <li
                 key={index}
                 className={index === highlightedIndex ? "highlighted" : ""}
                 onClick={() => handleHintClick(hint)}
               >
-                {hint.author.includes(inputQuery) && hint.author}
+                {hint.toLowerCase().includes(inputQuery) && hint}
               </li>
             ))
           ) : (
@@ -134,8 +136,8 @@ const Search: React.FC<IProps> = ({ placeholder }) => {
           )}
         </Hints>
       )}
-    </>
+    </div>
   );
 };
 
-export default Search;
+export default FilterSearch;

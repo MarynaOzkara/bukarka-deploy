@@ -1,9 +1,7 @@
-import { Input } from "styles/CommonStyled";
 import { Publisher } from "types/Books";
 import { SubTitle } from "../Filter.styled";
-import ShowMore from "./ShowMore";
-import Search from "components/Search";
 import FilterSearch from "./FilterSearch";
+import ShowMore from "./ShowMore";
 
 interface IProps {
   publishers: Publisher[];
@@ -28,11 +26,19 @@ const PublishersSection: React.FC<IProps> = ({
     );
   };
 
+  const handleHintSelected = (value: string) => {
+    handlePublishersChange(value);
+  };
+
   return (
     <section>
       <SubTitle>Видавництво</SubTitle>
 
-      <FilterSearch placeholder="Пошук видавництва" />
+      <FilterSearch
+        placeholder="Пошук видавництва"
+        onHintSelected={handleHintSelected}
+        hints={publishersOptions}
+      />
 
       <ShowMore
         options={publishersOptions}

@@ -14,6 +14,7 @@ import {
   IBooksDataResponse,
   IFetchBooksParams,
   IFetchFavoritesParams,
+  IFetchHintsParams,
   Publisher,
 } from "types/Books";
 import { FilterCriteriaRequest, FilterData } from "types/Filter";
@@ -39,6 +40,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
   const [totalPages, setTotalPages] = useState(1);
   const [searchResults, setSearchResults] = useState<IBookItem[]>([]);
   const [hints, setHints] = useState<any[]>([]);
+  const [bookHints, setBookHints] = useState<IBookItem[]>([]);
   const [favorites, setFavorites] = useState<IBookItem[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [authors, setAuthors] = useState<Author[]>([]);
@@ -53,17 +55,17 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       const { books, total, limit } = response.data;
       if (books.length) {
         setBooks(books);
-        setHints(books);
+        setBookHints(books);
 
         if (total && limit) setTotalPages(Math.ceil(total / limit));
         if (params) setCurrentPage(params.page || 1);
       } else {
         setBooks([]);
-        setHints([]);
+        setBookHints([]);
       }
     } catch (error) {
       setBooks([]);
-      setHints([]);
+      setBookHints([]);
 
       console.error("Error fetching books:", error);
     }
@@ -90,12 +92,35 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
     }
   }, []);
 
-  const fetchHints = useCallback(
-    async (hintsParams: any) => {
+  const fetchBooksHints = useCallback(
+    async (hintsParams: IFetchBooksParams) => {
       fetchBooks(hintsParams);
     },
     [fetchBooks]
   );
+
+  const fetchHints = useCallback(async (params: IFetchHintsParams) => {
+    try {
+      if (params.author) {
+        const authorsResponse = await instance.get<Author[]>(
+          "/api/books/authors",
+          { params }
+        );
+        setHints(authorsResponse.data);
+      }
+
+      if (params.category) {
+        const categoriesResponse = await instance.get<Category[]>(
+          "/api/categories",
+          { params }
+        );
+        setHints(categoriesResponse.data);
+      }
+    } catch (error) {
+      setHints([]);
+      console.error("Error fetching hints:", error);
+    }
+  }, []);
 
   const fetchBookById = useCallback(async (id?: string) => {
     try {
@@ -154,7 +179,6 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
     try {
       const response = await instance.get<Author[]>("/api/books/authors");
       setAuthors(response.data || []);
-      setHints(response.data || []);
     } catch (error) {
       setAuthors([]);
       setHints([]);
@@ -201,6 +225,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       book,
       searchResults,
       hints,
+      bookHints,
       favorites,
       currentPage,
       totalPages,
@@ -210,6 +235,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       setCurrentPage,
       fetchBooks,
       handleSearch,
+      fetchBooksHints,
       fetchHints,
       fetchBookById,
       fetchFavoritesForGuest,
@@ -224,6 +250,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       book,
       searchResults,
       hints,
+      bookHints,
       favorites,
       currentPage,
       totalPages,
@@ -232,6 +259,7 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       authors,
       fetchBooks,
       handleSearch,
+      fetchBooksHints,
       fetchHints,
       fetchBookById,
       fetchFavoritesForGuest,
