@@ -26,11 +26,18 @@ const PublishersSection: React.FC<IProps> = ({
     );
   };
 
+  const handleHintSelected = (value: string) => {
+    handlePublishersChange(value);
+  };
+
   return (
     <section>
       <SubTitle>Видавництво</SubTitle>
 
-      <FilterSearch placeholder="Пошук видавництва" />
+      <FilterSearch
+        placeholder="Пошук видавництва"
+        onHintSelected={handleHintSelected}
+      />
 
       <ShowMore
         options={publishersOptions}

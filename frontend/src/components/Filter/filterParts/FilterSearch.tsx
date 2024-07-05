@@ -7,9 +7,10 @@ import { Hints, Input } from "styles/CommonStyled";
 interface IProps {
   placeholder?: string;
   hasButton?: boolean;
+  onHintSelected: (value: string) => void;
 }
 
-const FilterSearch: React.FC<IProps> = ({ placeholder }) => {
+const FilterSearch: React.FC<IProps> = ({ placeholder, onHintSelected }) => {
   const { hints, fetchHints } = useBooks();
   const [inputQuery, setInputQuery] = useState<string>("");
   const [showHints, setShowHints] = useState<boolean>(false);
@@ -75,6 +76,7 @@ const FilterSearch: React.FC<IProps> = ({ placeholder }) => {
 
     setInputQuery(value);
     setIsHintSelected(true);
+    onHintSelected(value);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {

@@ -91,12 +91,19 @@ const CategoriesSection: React.FC<IProps> = ({
     setIsHidden(!isHidden);
   };
 
+  const handleHintSelected = (value: string) => {
+    handleSubcategoryChange(value);
+  };
+
   return (
     <>
       <section>
         <SubTitle>Тематика</SubTitle>
 
-        <FilterSearch placeholder="Пошук за тематикою" />
+        <FilterSearch
+          placeholder="Пошук за тематикою"
+          onHintSelected={handleHintSelected}
+        />
 
         <ShowMore
           options={linkOptions}
