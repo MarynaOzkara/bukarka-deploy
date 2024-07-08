@@ -5,13 +5,14 @@ import Modal from "components/Modal";
 import UserMenu from "components/UserMenu";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
   ButtonWrapper,
   CatalogButton,
   CommonWrapper,
+  DesktopLogo,
+  LogoWrapper,
+  MobileLogo,
   StyledHeader,
-  StyledLogo,
   Wrapper,
 } from "./Header.styled";
 
@@ -35,7 +36,10 @@ const Header: React.FC = () => {
         <CommonWrapper>
           <Wrapper>
             <Link to="/">
-              <StyledLogo />
+              <LogoWrapper>
+                <MobileLogo className="small-logo" />
+                <DesktopLogo className="large-logo" />
+              </LogoWrapper>
             </Link>
             <ButtonWrapper>
               <CatalogButton onClick={() => showModal("catalog")}>

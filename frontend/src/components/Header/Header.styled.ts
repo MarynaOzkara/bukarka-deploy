@@ -1,4 +1,4 @@
-import { Logo } from "assets/icons";
+import { LogoDesktop, LogoMobile } from "assets/icons";
 import { breakpoints } from "constants/breakpoints";
 import styled from "styled-components";
 
@@ -53,21 +53,37 @@ export const StyledHeader = styled.div`
 `;
 
 export const Wrapper = styled.div`
-  max-width: 1296px;
-  padding-left: 32px;
-  padding-right: 32px;
+  padding: 7px 16px;
   margin: 0 auto;
 
   display: flex;
-  /* justify-content: space-between; */
   align-items: center;
-  gap: 32px;
+  justify-content: space-between;
 `;
 
-export const StyledLogo = styled(Logo)`
-  min-width: 120px;
-  min-height: 71px;
+export const LogoWrapper = styled.div`
+  .small-logo {
+    display: block;
+  }
+
+  .large-logo {
+    display: none;
+  }
+
+  @media (min-width: ${breakpoints.desktop}) {
+    .small-logo {
+      display: none;
+    }
+
+    .large-logo {
+      display: block;
+    }
+  }
 `;
+
+export const DesktopLogo = styled(LogoDesktop)``;
+
+export const MobileLogo = styled(LogoMobile)``;
 
 export const CatalogButton = styled.button`
   display: flex;
