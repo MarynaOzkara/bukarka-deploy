@@ -11,6 +11,7 @@ import {
   LogoWrapper,
   MobileLogo,
   StyledHeader,
+  UserMenuWrapper,
   Wrapper,
 } from "./Header.styled";
 import CatalogButton from "components/CatalogButton";
@@ -40,13 +41,13 @@ const Header: React.FC = () => {
                 <DesktopLogo className="large-logo" />
               </LogoWrapper>
             </Link>
-
             <ButtonWrapper>
               <CatalogButton onClick={() => showModal("catalog")} />
             </ButtonWrapper>
-
             <Search placeholder="Знайти книгу" hasButton />
-            <UserMenu />
+            <UserMenuWrapper>
+              <UserMenu />
+            </UserMenuWrapper>
           </Wrapper>
         </CommonWrapper>
       </StyledHeader>

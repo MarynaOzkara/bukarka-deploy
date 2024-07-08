@@ -1,5 +1,6 @@
-import { LensIcon } from "assets/icons";
 import styled from "styled-components";
+import { LensIcon } from "assets/icons";
+import { breakpoints } from "constants/breakpoints";
 import { Hints, Input } from "styles/CommonStyled";
 
 export const StyledForm = styled.form`
@@ -12,7 +13,7 @@ export const StyledForm = styled.form`
 
 export const SearchInput = styled(Input)`
   height: 40px;
-  width: 200px;
+  width: 70%;
   padding: 0 8px;
 
   border: none;
@@ -24,7 +25,14 @@ export const SearchInput = styled(Input)`
     color: var(--bukarka-dark-grey);
   }
 
+  @media (min-width: ${breakpoints.mobile}) {
+    width: 200px;
+  }
+
   @media (min-width: 768px) {
+    width: 300px;
+  }
+  @media (min-width: ${breakpoints.desktop}) {
     width: 400px;
     padding: 0 16px 0 48px;
   }
@@ -33,7 +41,7 @@ export const SearchInput = styled(Input)`
 export const StyledLensIcon = styled(LensIcon)`
   display: none;
 
-  @media (min-width: 768px) {
+  @media (min-width: ${breakpoints.desktop}) {
     display: inline-block;
 
     position: absolute;
@@ -58,7 +66,7 @@ export const FormButtonMobile = styled(FormButton)`
     stroke: var(--bukarka-black);
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: ${breakpoints.desktop}) {
     display: none;
   }
 `;
@@ -66,7 +74,7 @@ export const FormButtonMobile = styled(FormButton)`
 export const FormButtonDesktop = styled(FormButton)`
   display: none;
 
-  @media (min-width: 768px) {
+  @media (min-width: ${breakpoints.desktop}) {
     display: inline-block;
     padding: 8px 21px;
 

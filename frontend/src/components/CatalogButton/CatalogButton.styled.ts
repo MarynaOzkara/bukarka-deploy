@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { breakpoints } from "constants/breakpoints";
 
 export const StyledCatalogButton = styled.button`
   display: flex;
@@ -6,28 +7,30 @@ export const StyledCatalogButton = styled.button`
   align-items: center;
   gap: 8px;
 
-  width: 144px;
-  padding: 0 16px 0 8px;
+  width: fit-content;
+  padding: 0;
+  font-size: 12px;
 
   background-color: var(--bukarka-yellow);
 
   font-family: var(--semibold);
-  font-size: 16px;
+  font-size: 12px;
   color: var(--bukarka-black);
 
-  @media (max-width: 900px) {
-    width: fit-content;
-    padding: 0;
-    font-size: 12px;
+  span {
+    display: none;
+  }
 
+  @media (min-width: 900px) {
     span {
-      display: none;
+      display: inline;
+      padding: 0 16px 0 8px;
     }
   }
 
-  @media (max-width: 768px) {
-    span {
-      display: none;
-    }
+  @media (min-width: ${breakpoints.desktop}) {
+    width: 144px;
+    padding: 0 16px 0 8px;
+    font-size: 16px;
   }
 `;
