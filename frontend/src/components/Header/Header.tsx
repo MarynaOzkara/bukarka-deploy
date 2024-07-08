@@ -7,7 +7,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
-  ButtonWrapper,
   CatalogButton,
   StyledHeader,
   StyledLogo,
@@ -35,12 +34,12 @@ const Header: React.FC = () => {
           <Link to="/">
             <StyledLogo />
           </Link>
-          <ButtonWrapper>
+          <div>
             <CatalogButton onClick={() => showModal("catalog")}>
               <BurgerIcon />
               <span>Каталог</span>
             </CatalogButton>
-          </ButtonWrapper>
+          </div>
           <Search placeholder="Знайти книгу" hasButton />
           <UserMenu />
         </Wrapper>

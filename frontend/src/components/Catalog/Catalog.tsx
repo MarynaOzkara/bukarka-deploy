@@ -12,9 +12,12 @@ import {
 } from "./Catalog.styled";
 import { instance } from "utils/fetchInstance";
 import { Category, Subcategory } from "types/Books";
+import { hasData } from "utils/hasData";
 
 const Catalog: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
   const [categories, setCategories] = useState<Category[]>([]);
+
+  const hasCategories = hasData(categories);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,55 +41,60 @@ const Catalog: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
           </TitleLink>
         </Item>
 
-        {categories.length > 0 &&
-          categories.map((category: Category, index) => (
-            <div key={`category-${index}`}>
-              <SubtitleLink
-                to={`/catalog/${encodeURI(category.title)}`}
-                key={`subtitle-${index}`}
-                onClick={closeModal}
-              >
-                {category.title}
-              </SubtitleLink>
-              <ul>
-                {category.subcategories &&
-                  category.subcategories.length > 0 &&
-                  category.subcategories.map(
-                    (subcategory: Subcategory, subcatIndex: number) => (
-                      <li key={subcatIndex}>
-                        <StyledBlock>
-                          <SmallSubTitle
-                            to={`/catalog/${encodeURI(
-                              category.title
-                            )}/${encodeURI(subcategory.title)}`}
-                            key={`subTitle-${subcatIndex}`}
-                            onClick={closeModal}
-                          >
-                            {subcategory.title}
-                          </SmallSubTitle>
-                          <ul>
-                            {subcategory.links &&
-                              subcategory.links.length > 0 &&
-                              subcategory.links.map((link, linkIndex) => (
-                                <li key={linkIndex}>
-                                  <StyledItem
-                                    to={`/catalog/${encodeURI(
-                                      category.title
-                                    )}/${encodeURI(link)}`}
-                                    onClick={closeModal}
-                                  >
-                                    {link}
-                                  </StyledItem>
-                                </li>
-                              ))}
-                          </ul>
-                        </StyledBlock>
-                      </li>
-                    )
-                  )}
-              </ul>
-            </div>
-          ))}
+        {hasCategories &&
+          categories.map((category: Category, index) => {
+            const hasSubcategories = hasData(category.subcategories);
+            return (
+              <div key={`category-${index}`}>
+                <SubtitleLink
+                  to={`/catalog/${encodeURI(category.title)}`}
+                  key={`subtitle-${index}`}
+                  onClick={closeModal}
+                >
+                  {category.title}
+                </SubtitleLink>
+                <ul>
+                  {hasCategories &&
+                    hasSubcategories &&
+                    category.subcategories.map(
+                      (subcategory: Subcategory, subcatIndex: number) => {
+                        const hasLinks = hasData(subcategory.links);
+                        return (
+                          <li key={subcatIndex}>
+                            <StyledBlock>
+                              <SmallSubTitle
+                                to={`/catalog/${encodeURI(
+                                  category.title
+                                )}/${encodeURI(subcategory.title)}`}
+                                key={`subTitle-${subcatIndex}`}
+                                onClick={closeModal}
+                              >
+                                {subcategory.title}
+                              </SmallSubTitle>
+                              <ul>
+                                {hasLinks &&
+                                  subcategory.links.map((link, linkIndex) => (
+                                    <li key={linkIndex}>
+                                      <StyledItem
+                                        to={`/catalog/${encodeURI(
+                                          category.title
+                                        )}/${encodeURI(link)}`}
+                                        onClick={closeModal}
+                                      >
+                                        {link}
+                                      </StyledItem>
+                                    </li>
+                                  ))}
+                              </ul>
+                            </StyledBlock>
+                          </li>
+                        );
+                      }
+                    )}
+                </ul>
+              </div>
+            );
+          })}
       </StyledCatalog>
     </Wrapper>
   );

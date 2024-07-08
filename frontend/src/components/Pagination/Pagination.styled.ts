@@ -12,6 +12,11 @@ export const PaginationWrapper = styled(FlexWrapper)`
     padding: 0.25rem 0.5rem;
   }
 
+  & button:hover {
+    background: var(--bukarka-light-grey);
+    color: var(--bukarka-accent-blue);
+  }
+
   & svg path {
     stroke: var(--bukarka-dark-grey);
   }

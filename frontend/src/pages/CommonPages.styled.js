@@ -152,6 +152,9 @@ export const BreadCrumbs = styled.h6`
   text-align: left;
   color: var(--bukarka-grey);
   margin: 1rem 0;
+  & * {
+    color: var(--bukarka-grey);
+  }
 `;
 
 export const Price = styled.div`

@@ -8,6 +8,9 @@ import { PageLayout } from "components/Layout";
 import { BreadCrumbs, Label } from "pages/CommonPages.styled";
 import { StyledFlexWrapper } from "./CatalogPage.style";
 import SectionContent from "./SectionContent";
+import Subscribe from "components/Subscribe";
+import { Link } from "react-router-dom";
+import { hasData } from "utils/hasData";
 
 const CatalogPage: React.FC = () => {
   const { category, subcategory, link } = useParams();
@@ -15,6 +18,8 @@ const CatalogPage: React.FC = () => {
   const { books, fetchBooks } = useBooks();
   const [sortBy, setSortBy] = useState("");
   const [orderSort, setOrderSort] = useState("asc");
+
+  const hasBooks = hasData(books);
 
   useEffect(() => {
     const page = Number(searchParams.get("page")) || 1;
@@ -27,7 +32,7 @@ const CatalogPage: React.FC = () => {
       sortBy,
       orderSort,
     });
-  }, [fetchBooks, searchParams, category, subcategory, sortBy, orderSort]);
+  }, [searchParams, category, subcategory, sortBy, orderSort]);
 
   const handleSortChange = useCallback(
     (sortKey: string, sortOrder: string) => {
@@ -39,7 +44,14 @@ const CatalogPage: React.FC = () => {
   );
 
   const renderBreadcrumbs = () => {
-    return <BreadCrumbs>Каталог | {category}</BreadCrumbs>;
+    return (
+      <BreadCrumbs>
+        <Link to="/catalog">Каталог | </Link>
+        {category && (
+          <Link to={`/catalog/${encodeURI(category)}`}> {category} </Link>
+        )}
+      </BreadCrumbs>
+    );
   };
 
   const renderLabels = () => {
@@ -48,7 +60,7 @@ const CatalogPage: React.FC = () => {
 
   return (
     <PageLayout books={books}>
-      {books && books.length > 0 ? (
+      {hasBooks ? (
         <>
           {renderBreadcrumbs()}
           {renderLabels()}
@@ -60,10 +72,11 @@ const CatalogPage: React.FC = () => {
       <StyledFlexWrapper>
         <Filter />
 
-        {books && books.length > 1 && <Sort onSortChange={handleSortChange} />}
+        {hasBooks && <Sort onSortChange={handleSortChange} />}
 
         {<Outlet context={{ books }} /> || <SectionContent data={books} />}
       </StyledFlexWrapper>
+      <Subscribe />
     </PageLayout>
   );
 };

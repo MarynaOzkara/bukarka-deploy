@@ -1,7 +1,6 @@
+import { SliderArrowIcon } from "assets/icons";
 import React from "react";
 import { PaginationWrapper } from "./Pagination.styled";
-import { SliderArrowIcon } from "assets/icons";
-import { Button } from "styles/CommonStyled";
 
 interface IPaginationProps {
   currentPage: number;

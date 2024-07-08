@@ -32,6 +32,10 @@ export const FilterContent = styled.form`
 
   & .input-range {
     width: 120px;
+
+    &:focus-visible {
+      outline-color: var(--bukarka-grey);
+    }
   }
 
   & p {

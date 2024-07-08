@@ -3,6 +3,7 @@ import { images } from "assets/images";
 import { useState } from "react";
 import { StyledBookImage, StyledFlexWrapper } from "./PictureViewer.styled";
 import { Button } from "./../../../styles/CommonStyled";
+import { hasData } from "utils/hasData";
 
 interface IPictureProps {
   image?: string;
@@ -12,8 +13,10 @@ interface IPictureProps {
 const PictureViewer: React.FC<IPictureProps> = ({ image, imagesUrls }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const hasImgs = imagesUrls && hasData(imagesUrls);
+
   const handlePrevious = () => {
-    if (imagesUrls && imagesUrls.length > 0) {
+    if (hasImgs) {
       setCurrentIndex((prevIndex) =>
         prevIndex === 0 ? imagesUrls.length - 1 : prevIndex - 1
       );
@@ -21,7 +24,7 @@ const PictureViewer: React.FC<IPictureProps> = ({ image, imagesUrls }) => {
   };
 
   const handleNext = () => {
-    if (imagesUrls && imagesUrls.length > 0) {
+    if (hasImgs) {
       setCurrentIndex((prevIndex) =>
         prevIndex === imagesUrls.length - 1 ? 0 : prevIndex + 1
       );
@@ -30,7 +33,7 @@ const PictureViewer: React.FC<IPictureProps> = ({ image, imagesUrls }) => {
 
   return (
     <StyledFlexWrapper>
-      {imagesUrls && imagesUrls.length > 0 ? (
+      {hasImgs ? (
         <>
           <Button>
             <SliderArrowIcon

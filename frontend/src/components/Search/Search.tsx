@@ -10,6 +10,7 @@ import {
   StyledHints,
   StyledLensIcon,
 } from "./Search.styled";
+import { hasData } from "utils/hasData";
 
 interface IProps {
   placeholder?: string;
@@ -133,6 +134,8 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
     }
   };
 
+  const hasHints = hasData(bookHints);
+
   return (
     <StyledForm onSubmit={handleSubmit}>
       {hasButton && <StyledLensIcon />}
@@ -148,7 +151,7 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
       />
       {showHints && (
         <StyledHints ref={hintsRef} aria-label="Search suggestions">
-          {bookHints.length ? (
+          {hasHints ? (
             bookHints.map((hint: IBookItem, index: number) => (
               <li
                 key={index}

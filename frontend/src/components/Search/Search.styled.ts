@@ -12,15 +12,24 @@ export const StyledForm = styled.form`
 
 export const SearchInput = styled(Input)`
   padding: 0 16px 0 48px;
-  width: 400px;
+  width: 240px;
 
   border: none;
+  box-shadow: 0px 0px 4px 0px #00000040 inset;
+
+  &:focus-visible {
+    outline-color: var(--bukarka-grey);
+  }
 
   &::placeholder {
     font-family: var(--regular);
     font-size: 16px;
     line-height: 150%;
     color: var(--bukarka-dark-grey);
+  }
+
+  @media (min-width: 1024px) {
+    width: 400px;
   }
 `;
 

@@ -3,6 +3,7 @@ import { TextCenter } from "styles/CommonStyled";
 import { IBookItem } from "types/Books";
 import CatalogBookCard from "../CatalogBookCard";
 import { StyledFlexWrap } from "pages/CommonPages.styled";
+import { hasData } from "utils/hasData";
 
 interface SectionContentProps {
   data?: IBookItem[];
@@ -11,9 +12,11 @@ interface SectionContentProps {
 const SectionContent: React.FC<SectionContentProps> = () => {
   const { books } = useOutletContext<{ books: IBookItem[] }>();
 
+  const hasBooks = hasData(books);
+
   return (
     <StyledFlexWrap>
-      {books.length > 0 ? (
+      {hasBooks ? (
         books.map((book, index) => <CatalogBookCard key={index} {...book} />)
       ) : (
         <TextCenter>No books in catalog</TextCenter>

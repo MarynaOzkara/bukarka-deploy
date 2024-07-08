@@ -15,6 +15,7 @@ import {
 import AuthorsSection from "./filterParts/AuthorsSection";
 import CategoriesSection from "./filterParts/CategoriesSection";
 import PublishersSection from "./filterParts/PublishersSection";
+import { hasData } from "utils/hasData";
 
 const Filter: React.FC = () => {
   const { fetchFilterData, applyFilter } = useBooks();
@@ -64,6 +65,11 @@ const Filter: React.FC = () => {
     min: boolean;
     max: boolean;
   }>({ min: false, max: false });
+
+  const hasCategories = hasData(categories);
+  const hasLanguages = hasData(languages);
+  const hasAuthors = hasData(authors);
+  const hasPublishers = hasData(publishers);
 
   const fetchData = useCallback(async () => {
     try {
@@ -187,7 +193,7 @@ const Filter: React.FC = () => {
           </div>
         </section>
 
-        {categories && categories.length > 0 && (
+        {hasCategories && (
           <CategoriesSection
             categories={categories}
             selectedCategories={selectedCategories}
@@ -202,7 +208,7 @@ const Filter: React.FC = () => {
         <section>
           <SubTitle>Мова</SubTitle>
           <div>
-            {languages.length &&
+            {hasLanguages &&
               languages.map(({ language }, index) => (
                 <p key={index}>
                   <input
@@ -241,7 +247,7 @@ const Filter: React.FC = () => {
           </div>
         </section>
 
-        {authors && authors.length > 0 && (
+        {hasAuthors && (
           <AuthorsSection
             authors={authors}
             selectedAuthors={selectedAuthors}
@@ -249,7 +255,7 @@ const Filter: React.FC = () => {
           />
         )}
 
-        {publishers && publishers.length > 0 && (
+        {hasPublishers && (
           <PublishersSection
             publishers={publishers}
             selectedPublishers={selectedPublishers}

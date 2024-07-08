@@ -47,5 +47,3 @@ export const CatalogButton = styled.button`
   font-size: 16px;
   color: var(--bukarka-black);
 `;
-
-export const ButtonWrapper = styled.div``;
