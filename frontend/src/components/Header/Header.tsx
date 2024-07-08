@@ -1,4 +1,3 @@
-import { BurgerIcon } from "assets/icons";
 import { Search } from "components";
 import Catalog from "components/Catalog";
 import Modal from "components/Modal";
@@ -7,7 +6,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ButtonWrapper,
-  CatalogButton,
   CommonWrapper,
   DesktopLogo,
   LogoWrapper,
@@ -15,6 +13,7 @@ import {
   StyledHeader,
   Wrapper,
 } from "./Header.styled";
+import CatalogButton from "components/CatalogButton";
 
 const Header: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -41,12 +40,11 @@ const Header: React.FC = () => {
                 <DesktopLogo className="large-logo" />
               </LogoWrapper>
             </Link>
+
             <ButtonWrapper>
-              <CatalogButton onClick={() => showModal("catalog")}>
-                <BurgerIcon />
-                <span>Каталог</span>
-              </CatalogButton>
+              <CatalogButton onClick={() => showModal("catalog")} />
             </ButtonWrapper>
+
             <Search placeholder="Знайти книгу" hasButton />
             <UserMenu />
           </Wrapper>
