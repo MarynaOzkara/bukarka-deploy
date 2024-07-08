@@ -1,6 +1,6 @@
 import { useBooks } from "components/Book";
 import useDebounce from "hooks/useDebounce";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IBookItem } from "types/Books";
 import {
@@ -24,6 +24,7 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
   const [isHintSelected, setIsHintSelected] = useState<boolean>(false);
 
   const hintsRef = useRef<HTMLUListElement>(null);
+
   const debouncedQuery = useDebounce(inputQuery, 500);
   const navigate = useNavigate();
 
@@ -88,7 +89,11 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
     }
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (
+    event:
+      | React.FormEvent<HTMLFormElement>
+      | React.MouseEvent<HTMLButtonElement>
+  ) => {
     event.preventDefault();
     if (inputQuery.trim()) {
       goToSearchPage({ keyword: inputQuery.trim(), page: "1" });
@@ -138,7 +143,6 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
         value={inputQuery}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
-        onBlur={() => setInputQuery("")}
         placeholder={placeholder}
         aria-label="Search books"
       />
@@ -160,7 +164,15 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
           )}
         </StyledHints>
       )}
-      {hasButton && <FormButton type="submit">Знайти</FormButton>}
+      {hasButton && (
+        <FormButton
+          type="submit"
+          aria-label="Search button"
+          onClick={handleSubmit}
+        >
+          Знайти
+        </FormButton>
+      )}
     </StyledForm>
   );
 };
