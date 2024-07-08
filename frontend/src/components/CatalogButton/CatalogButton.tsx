@@ -1,5 +1,4 @@
-import { BurgerIcon } from "assets/icons";
-import { StyledCatalogButton } from "./CatalogButton.styled";
+import { StyledBurgerIcon, StyledCatalogButton } from "./CatalogButton.styled";
 
 interface CatalogButtonProps {
   onClick: () => void;
@@ -8,7 +7,7 @@ interface CatalogButtonProps {
 const CatalogButton: React.FC<CatalogButtonProps> = ({ onClick }) => {
   return (
     <StyledCatalogButton onClick={onClick}>
-      <BurgerIcon />
+      <StyledBurgerIcon />
       <span>Каталог</span>
     </StyledCatalogButton>
   );

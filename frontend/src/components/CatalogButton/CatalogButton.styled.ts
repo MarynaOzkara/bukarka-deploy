@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { breakpoints } from "constants/breakpoints";
+import { BurgerIcon } from "assets/icons";
 
 export const StyledCatalogButton = styled.button`
   display: flex;
@@ -21,7 +22,7 @@ export const StyledCatalogButton = styled.button`
     display: none;
   }
 
-  @media (min-width: 900px) {
+  @media (min-width: 1440px) {
     span {
       display: inline;
       padding: 0 16px 0 8px;
@@ -32,5 +33,14 @@ export const StyledCatalogButton = styled.button`
     width: 144px;
     padding: 0 16px 0 8px;
     font-size: 16px;
+  }
+`;
+
+export const StyledBurgerIcon = styled(BurgerIcon)`
+  width: 40px;
+  height: 32px;
+
+  @media (min-width: ${breakpoints.desktop}) {
+    height: 40px;
   }
 `;
