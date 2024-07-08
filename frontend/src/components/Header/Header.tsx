@@ -9,6 +9,7 @@ import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
   ButtonWrapper,
   CatalogButton,
+  CommonWrapper,
   StyledHeader,
   StyledLogo,
   Wrapper,
@@ -29,28 +30,30 @@ const Header: React.FC = () => {
   };
 
   return (
-    <StyledCommonWrapper>
+    <>
       <StyledHeader>
-        <Wrapper>
-          <Link to="/">
-            <StyledLogo />
-          </Link>
-          <ButtonWrapper>
-            <CatalogButton onClick={() => showModal("catalog")}>
-              <BurgerIcon />
-              <span>Каталог</span>
-            </CatalogButton>
-          </ButtonWrapper>
-          <Search placeholder="Знайти книгу" hasButton />
-          <UserMenu />
-        </Wrapper>
+        <CommonWrapper>
+          <Wrapper>
+            <Link to="/">
+              <StyledLogo />
+            </Link>
+            <ButtonWrapper>
+              <CatalogButton onClick={() => showModal("catalog")}>
+                <BurgerIcon />
+                <span>Каталог</span>
+              </CatalogButton>
+            </ButtonWrapper>
+            <Search placeholder="Знайти книгу" hasButton />
+            <UserMenu />
+          </Wrapper>
+        </CommonWrapper>
       </StyledHeader>
       {isModalOpen && (
         <Modal close={closeModal} showCloseButton={false} animation="slide">
           {modalContent === "catalog" && <Catalog closeModal={closeModal} />}
         </Modal>
       )}
-    </StyledCommonWrapper>
+    </>
   );
 };
 

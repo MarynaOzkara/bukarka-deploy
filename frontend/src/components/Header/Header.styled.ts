@@ -1,5 +1,42 @@
 import { Logo } from "assets/icons";
+import { breakpoints } from "constants/breakpoints";
 import styled from "styled-components";
+
+export const CommonWrapper = styled.div`
+  min-width: 320px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 5vw;
+  height: fit-content;
+
+  margin: 0 auto;
+
+  @media screen and (min-width: ${breakpoints.mobile}) {
+    width: 320px;
+  }
+
+  @media screen and (min-width: 480px) {
+    width: 480px;
+  }
+
+  @media screen and (min-width: 768px) {
+    width: 768px;
+  }
+
+  @media screen and (min-width: 900px) {
+    width: 900px;
+  }
+
+  @media screen and (min-width: 1200px) {
+    width: 1200px;
+  }
+
+  @media screen and (min-width: ${breakpoints.desktop}) {
+    width: 1440px;
+  }
+
+  outline: 1px solid green;
+`;
 
 export const StyledHeader = styled.div`
   position: fixed;
