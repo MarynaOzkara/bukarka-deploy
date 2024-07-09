@@ -22,7 +22,7 @@ export const StyledCatalogButton = styled.button`
     display: none;
   }
 
-  @media (min-width: 1440px) {
+  @media (min-width: ${breakpoints.desktop}) {
     span {
       display: inline;
       padding: 0 16px 0 8px;

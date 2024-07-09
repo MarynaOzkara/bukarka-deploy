@@ -6,7 +6,6 @@ export const StyledBottomMenu = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  /* height: 72px; */
   background-color: #fff;
 
   z-index: 2;
@@ -21,7 +20,8 @@ export const CommonWrapper = styled.div`
   justify-content: space-between;
   
   min-width: 320px;
-  max-width: 100%;
+  max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   padding: 3vw;
   height: fit-content;

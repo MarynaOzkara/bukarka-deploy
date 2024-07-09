@@ -34,6 +34,9 @@ export const Button = styled.button`
   justify-content: space-between;
   align-items: center;
 
+  width: 80px;
+  height: 56px;
+
   color: var(--bukarka-black);
   background-color: transparent;
 
@@ -44,9 +47,6 @@ export const Button = styled.button`
 `;
 
 export const AuthButton = styled(Button)`
-  width: 80px;
-  height: 56px;
-
   @media (min-width: ${breakpoints.desktop}) {
     width: 112px;
     height: 48px;
@@ -67,9 +67,6 @@ export const AuthButtonContentDesktop = styled.span`
 `;
 
 export const CartButton = styled(Button)`
-  width: 80px;
-  height: 56px;
-
   @media (min-width: ${breakpoints.desktop}) {
     width: 56px;
     height: 48px;
@@ -77,9 +74,6 @@ export const CartButton = styled(Button)`
 `;
 
 export const FavoriteButton = styled(Button)`
-  width: 80px;
-  height: 56px;
-
   @media (min-width: ${breakpoints.desktop}) {
     width: 56px;
     height: 48px;
