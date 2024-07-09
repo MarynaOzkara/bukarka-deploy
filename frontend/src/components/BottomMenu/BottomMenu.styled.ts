@@ -17,6 +17,9 @@ export const StyledBottomMenu = styled.div`
 `;
 
 export const CommonWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  
   min-width: 320px;
   max-width: 100%;
   margin: 0 auto;
@@ -66,3 +69,10 @@ export const ButtonWrapper = styled.div`
   text-align: center;
 `;
 
+export const UserMenuWrapper = styled.div`
+  display: inline-block;
+
+  @media (min-width: ${breakpoints.desktop}) {
+    display: none;
+  }
+`;

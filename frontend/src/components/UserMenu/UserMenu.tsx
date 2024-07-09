@@ -1,6 +1,8 @@
 import { AvatarIcon, CartIcon, HeartIcon } from "assets/icons";
 import {
   AuthButton,
+  AuthButtonContentDesktop,
+  AuthButtonContentMobile,
   CartButton,
   FavoriteButton,
   IconWrapper,
@@ -68,7 +70,10 @@ const UserMenu: React.FC = () => {
             <IconWrapper>
               <AvatarIcon />
             </IconWrapper>
-            Вхід&nbsp;/&nbsp;Реєстрація
+            <AuthButtonContentDesktop>
+              Вхід&nbsp;/&nbsp;Реєстрація
+            </AuthButtonContentDesktop>
+            <AuthButtonContentMobile>Вхід</AuthButtonContentMobile>
           </AuthButton>
         </UserMenuItem>
       </StyledUserMenu>

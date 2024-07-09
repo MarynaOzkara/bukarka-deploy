@@ -2,10 +2,12 @@ import { useState } from "react";
 import CatalogButton from "components/CatalogButton";
 import Modal from "components/Modal";
 import Catalog from "components/Catalog";
+import UserMenu from "components/UserMenu";
 import {
   ButtonWrapper,
   CommonWrapper,
   StyledBottomMenu,
+  UserMenuWrapper,
 } from "./BottomMenu.styled";
 
 const BottomMenu: React.FC = () => {
@@ -29,6 +31,10 @@ const BottomMenu: React.FC = () => {
             <CatalogButton onClick={() => showModal("catalog")} />
             <span>Каталог</span>
           </ButtonWrapper>
+
+          <UserMenuWrapper>
+            <UserMenu />
+          </UserMenuWrapper>
         </CommonWrapper>
       </StyledBottomMenu>
       {isModalOpen && (
