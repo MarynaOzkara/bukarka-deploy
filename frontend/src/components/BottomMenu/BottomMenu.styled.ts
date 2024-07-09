@@ -7,6 +7,7 @@ export const StyledBottomMenu = styled.div`
   left: 0;
   right: 0;
   background-color: #fff;
+  box-shadow: 1px 0 4px 0 rgba(0, 0, 0, 0.25);
 
   z-index: 2;
 
@@ -18,7 +19,7 @@ export const StyledBottomMenu = styled.div`
 export const CommonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  
+
   min-width: 320px;
   max-width: 1200px;
   width: 100%;
