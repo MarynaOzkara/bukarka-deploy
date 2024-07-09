@@ -213,8 +213,10 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
       );
 
       setBooks(response.data.books);
+      setSearchResults(response.data.books);
     } catch (error) {
       setBooks([]);
+      setSearchResults([]);
       console.error("Error applying filters:", error);
     }
   }, []);

@@ -39,7 +39,6 @@ const Filter: React.FC = () => {
   const [selectedSubcategories, setSelectedSubcategories] = useState<string[]>(
     []
   );
-
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [selectedAuthors, setSelectedAuthors] = useState<string[]>([]);
   const [selectedPublishers, setSelectedPublishers] = useState<string[]>([]);

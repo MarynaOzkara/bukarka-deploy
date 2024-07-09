@@ -1,8 +1,9 @@
 import { useBooks } from "components/Book";
 import useDebounce from "hooks/useDebounce";
-import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IBookItem } from "types/Books";
+import { hasData } from "utils/hasData";
 import {
   FormButton,
   SearchInput,
@@ -10,7 +11,6 @@ import {
   StyledHints,
   StyledLensIcon,
 } from "./Search.styled";
-import { hasData } from "utils/hasData";
 
 interface IProps {
   placeholder?: string;
