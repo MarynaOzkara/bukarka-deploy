@@ -1,10 +1,12 @@
-import { useBooks } from "components/Book";
-import useDebounce from "hooks/useDebounce";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useBooks } from "components/Book";
+import useDebounce from "hooks/useDebounce";
 import { IBookItem } from "types/Books";
+import { LensIcon } from "assets/icons";
 import {
-  FormButton,
+  FormButtonDesktop,
+  FormButtonMobile,
   SearchInput,
   StyledForm,
   StyledHints,
@@ -160,7 +162,14 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
           )}
         </StyledHints>
       )}
-      {hasButton && <FormButton type="submit">Знайти</FormButton>}
+      {hasButton && (
+        <>
+          <FormButtonDesktop type="submit">Знайти</FormButtonDesktop>
+          <FormButtonMobile type="submit">
+            <LensIcon />
+          </FormButtonMobile>
+        </>
+      )}
     </StyledForm>
   );
 };

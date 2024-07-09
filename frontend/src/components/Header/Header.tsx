@@ -1,18 +1,20 @@
-import { BurgerIcon } from "assets/icons";
 import { Search } from "components";
 import Catalog from "components/Catalog";
 import Modal from "components/Modal";
 import UserMenu from "components/UserMenu";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
   ButtonWrapper,
-  CatalogButton,
+  CommonWrapper,
+  DesktopLogo,
+  LogoWrapper,
+  MobileLogo,
   StyledHeader,
-  StyledLogo,
+  UserMenuWrapper,
   Wrapper,
 } from "./Header.styled";
+import CatalogButton from "components/CatalogButton";
 
 const Header: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -29,28 +31,32 @@ const Header: React.FC = () => {
   };
 
   return (
-    <StyledCommonWrapper>
+    <>
       <StyledHeader>
-        <Wrapper>
-          <Link to="/">
-            <StyledLogo />
-          </Link>
-          <ButtonWrapper>
-            <CatalogButton onClick={() => showModal("catalog")}>
-              <BurgerIcon />
-              <span>Каталог</span>
-            </CatalogButton>
-          </ButtonWrapper>
-          <Search placeholder="Знайти книгу" hasButton />
-          <UserMenu />
-        </Wrapper>
+        <CommonWrapper>
+          <Wrapper>
+            <Link to="/">
+              <LogoWrapper>
+                <MobileLogo className="small-logo" />
+                <DesktopLogo className="large-logo" />
+              </LogoWrapper>
+            </Link>
+            <ButtonWrapper>
+              <CatalogButton onClick={() => showModal("catalog")} />
+            </ButtonWrapper>
+            <Search placeholder="Знайти книгу" hasButton />
+            <UserMenuWrapper>
+              <UserMenu />
+            </UserMenuWrapper>
+          </Wrapper>
+        </CommonWrapper>
       </StyledHeader>
       {isModalOpen && (
         <Modal close={closeModal} showCloseButton={false} animation="slide">
           {modalContent === "catalog" && <Catalog closeModal={closeModal} />}
         </Modal>
       )}
-    </StyledCommonWrapper>
+    </>
   );
 };
 

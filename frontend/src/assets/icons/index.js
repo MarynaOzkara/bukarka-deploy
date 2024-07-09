@@ -1,3 +1,5 @@
+export { ReactComponent as LogoDesktop } from "./logo-desktop.svg";
+export { ReactComponent as LogoMobile } from "./logo-mobile.svg";
 export { ReactComponent as Logo } from "./logo.svg";
 export { ReactComponent as TelegramIcon } from "./telegram-icon.svg";
 export { ReactComponent as InstagramIcon } from "./instagram-icon.svg";

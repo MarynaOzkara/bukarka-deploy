@@ -1,5 +1,5 @@
-import { ContactList, ListItem, StyledIcon } from "./Contacts.styled";
 import SocialList from "components/SocialList/SocialList";
+import { ContactList, ListItem, StyledIcon } from "./Contacts.styled";
 
 const Contacts: React.FC = () => {
   return (
