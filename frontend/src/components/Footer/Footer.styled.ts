@@ -52,8 +52,6 @@ export const Wrapper = styled.div`
     gap: 16px;
     margin-bottom: 32px;
   }
-
-  outline: 1px solid green;
 `;
 
 export const LogoBlock = styled.div`

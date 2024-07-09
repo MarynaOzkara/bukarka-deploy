@@ -50,7 +50,6 @@ export const CommonWrapper = styled.div`
     width: 1200px;
   }
 
-  outline: 1px solid green;
 `;
 
 export const ButtonWrapper = styled.div`

@@ -36,8 +36,6 @@ export const CommonWrapper = styled.div`
     width: 1296px;
     padding: 0 32px;
   }
-
-  outline: 1px solid green;
 `;
 
 export const StyledHeader = styled.div`
