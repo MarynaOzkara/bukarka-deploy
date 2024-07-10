@@ -1,4 +1,3 @@
-import { AvatarIcon, CartIcon, HeartIcon } from "assets/icons";
 import {
   AuthButton,
   AuthButtonContentDesktop,
@@ -6,6 +5,9 @@ import {
   CartButton,
   FavoriteButton,
   IconWrapper,
+  StyledAvatarIcon,
+  StyledCartIcon,
+  StyledHeartIcon,
   StyledUserMenu,
   UserMenuItem,
 } from "./UserMenu.styled";
@@ -50,7 +52,7 @@ const UserMenu: React.FC = () => {
         <UserMenuItem>
           <FavoriteButton onClick={goToFavorites}>
             <IconWrapper>
-              <HeartIcon />
+              <StyledHeartIcon />
             </IconWrapper>
             Обране
           </FavoriteButton>
@@ -59,7 +61,7 @@ const UserMenu: React.FC = () => {
         <UserMenuItem>
           <CartButton onClick={openCart}>
             <IconWrapper>
-              <CartIcon />
+              <StyledCartIcon />
             </IconWrapper>
             Кошик
           </CartButton>
@@ -68,7 +70,7 @@ const UserMenu: React.FC = () => {
         <UserMenuItem>
           <AuthButton onClick={() => showModal("auth")}>
             <IconWrapper>
-              <AvatarIcon />
+              <StyledAvatarIcon />
             </IconWrapper>
             <AuthButtonContentDesktop>
               Вхід&nbsp;/&nbsp;Реєстрація

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { breakpoints } from "constants/breakpoints";
+import { AvatarIcon, CartIcon, HeartIcon } from "assets/icons";
 
 export const StyledUserMenu = styled.ul`
   display: flex;
@@ -44,6 +45,12 @@ export const Button = styled.button`
   font-size: 12px;
   line-height: 133%;
   text-align: center;
+
+  :hover {
+    & svg {
+      stroke: var(--bukarka-accent-blue);
+    }
+  }
 `;
 
 export const AuthButton = styled(Button)`
@@ -78,4 +85,17 @@ export const FavoriteButton = styled(Button)`
     width: 56px;
     height: 48px;
   }
+`;
+
+export const StyledHeartIcon = styled(HeartIcon)`
+  fill: var(--bukarka-black);
+  transition: stroke 0.3s ease;
+`;
+export const StyledCartIcon = styled(CartIcon)`
+  stroke: var(--bukarka-black);
+  transition: stroke 0.3s ease;
+`;
+export const StyledAvatarIcon = styled(AvatarIcon)`
+  stroke: var(--bukarka-black);
+  transition: stroke 0.3s ease;
 `;
