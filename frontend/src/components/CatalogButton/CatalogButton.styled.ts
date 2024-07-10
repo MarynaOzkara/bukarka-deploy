@@ -18,8 +18,26 @@ export const StyledCatalogButton = styled.button`
   font-size: 12px;
   color: var(--bukarka-black);
 
+  transition: box-shadow 0.3s ease, color 0.3s ease;
+
+  & svg {
+    stroke: var(--bukarka-black);
+  }
+
   span {
     display: none;
+  }
+
+  &:hover {
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
+  }
+
+  &:active {
+    color: var(--bukarka-orange);
+
+    & svg {
+      stroke: var(--bukarka-orange);
+    }
   }
 
   @media (min-width: ${breakpoints.desktop}) {
