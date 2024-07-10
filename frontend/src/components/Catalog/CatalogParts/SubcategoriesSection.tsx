@@ -24,9 +24,9 @@ const SubcategoriesSection: React.FC<IProps> = ({
             <li key={subcatIndex}>
               <StyledBlock>
                 <SmallSubTitle
-                  to={`/catalog/${encodeURI(category)}/${encodeURI(
-                    subcategory.title
-                  )}`}
+                  to={`/catalog/${encodeURIComponent(
+                    category
+                  )}/${encodeURIComponent(subcategory.title)}`}
                   key={`subTitle-${subcatIndex}`}
                   onClick={closeModal}
                 >
@@ -35,6 +35,7 @@ const SubcategoriesSection: React.FC<IProps> = ({
               </StyledBlock>
 
               <LinksSection
+                category={category}
                 subcategory={subcategory.title}
                 links={subcategory.links}
                 closeModal={closeModal}

@@ -5,12 +5,13 @@ import { Outlet, useParams, useSearchParams } from "react-router-dom";
 
 import Filter from "components/Filter";
 import { PageLayout } from "components/Layout";
-import { BreadCrumbs, Label } from "pages/CommonPages.styled";
-import { StyledFlexWrapper } from "./CatalogPage.style";
-import SectionContent from "./SectionContent";
 import Subscribe from "components/Subscribe";
+import { BreadCrumbs, Label } from "pages/CommonPages.styled";
 import { Link } from "react-router-dom";
 import { hasData } from "utils/hasData";
+import { StyledFlexWrapper } from "./CatalogPage.style";
+import SectionContent from "./SectionContent";
+import { adjustAgeValue } from "constants/catalog";
 
 const CatalogPage: React.FC = () => {
   const { category, subcategory, link } = useParams();
@@ -24,15 +25,20 @@ const CatalogPage: React.FC = () => {
   useEffect(() => {
     const page = Number(searchParams.get("page")) || 1;
 
+    const ageReplaced =
+      subcategory === "Книги за віком" ? adjustAgeValue(link ?? "") : "";
+    const subcategoryReplaced = subcategory !== "Книги за віком" ? link : "";
+
     fetchBooks({
       category,
-      subcategory,
+      subcategory: subcategoryReplaced,
       link,
+      age: ageReplaced,
       page,
       sortBy,
       orderSort,
     });
-  }, [searchParams, category, subcategory, sortBy, orderSort]);
+  }, [searchParams, category, link, subcategory, sortBy, orderSort]);
 
   const handleSortChange = useCallback(
     (sortKey: string, sortOrder: string) => {

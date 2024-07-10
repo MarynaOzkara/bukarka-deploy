@@ -30,3 +30,13 @@ export const flattenCategory = (categories: Category[]) => {
 
   return { links, ageOptions, subcategoriesOptions, categoriesOptions };
 };
+
+export const adjustAgeValues = (values: string[]) => {
+  return values
+    .map((age) => age.split(" ")[0])
+    .map((value) => value.split("").join(" ").trim());
+};
+
+export const adjustAgeValue = (value: string) => {
+  return value.split(" ")[0].split("-").join(" - ").trim();
+};

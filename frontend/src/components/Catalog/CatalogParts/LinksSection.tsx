@@ -1,20 +1,21 @@
 import { hasData } from "utils/hasData";
 import { StyledItem } from "../Catalog.styled";
+import { useEffect } from "react";
 
 interface IProps {
+  category: string;
   subcategory: string;
   links: string[];
   closeModal: () => void;
 }
 
-const SubcategoriesSection: React.FC<IProps> = ({
+const LinksSection: React.FC<IProps> = ({
+  category,
   subcategory,
   links,
   closeModal,
 }) => {
   const hasLinks = hasData(links);
-
-  console.log(links);
 
   return (
     <ul>
@@ -22,7 +23,11 @@ const SubcategoriesSection: React.FC<IProps> = ({
         links.map((link: string, linkIndex: number) => (
           <li key={linkIndex}>
             <StyledItem
-              to={`/catalog/${encodeURI(subcategory)}/${encodeURI(link)}`}
+              to={`/catalog/${encodeURIComponent(
+                category
+              )}/${encodeURIComponent(subcategory)}/${encodeURIComponent(
+                link
+              )}`}
               onClick={closeModal}
             >
               {link}
@@ -33,4 +38,4 @@ const SubcategoriesSection: React.FC<IProps> = ({
   );
 };
 
-export default SubcategoriesSection;
+export default LinksSection;

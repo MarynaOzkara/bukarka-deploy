@@ -16,6 +16,7 @@ import { hasData } from "utils/hasData";
 import AuthorsSection from "./filterParts/AuthorsSection";
 import CategoriesSection from "./filterParts/CategoriesSection";
 import PublishersSection from "./filterParts/PublishersSection";
+import { adjustAgeValues } from "constants/catalog";
 
 const Filter: React.FC = () => {
   const { fetchFilterData, applyFilter } = useBooks();
@@ -131,11 +132,7 @@ const Filter: React.FC = () => {
     });
   };
 
-  const adjustAgeValues = (values: string[]) => {
-    return values
-      .map((age) => age.split(" ")[0])
-      .map((value) => value.split("").join(" ").trim());
-  };
+  
 
   const handleSubmitFilters = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

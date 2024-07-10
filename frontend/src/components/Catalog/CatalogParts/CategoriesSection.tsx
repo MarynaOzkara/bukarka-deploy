@@ -16,7 +16,7 @@ const CategoriesSection: React.FC<IProps> = ({ categories, closeModal }) => {
         categories.map((category: Category, index) => (
           <div key={`category-${index}`}>
             <SubtitleLink
-              to={`/catalog/${encodeURI(category.title)}`}
+              to={`/catalog/${encodeURIComponent(category.title)}`}
               key={`subtitle-${index}`}
               onClick={closeModal}
             >
