@@ -81,3 +81,9 @@ export const SubTitle = styled.p`
 export const PriceRangeInput = styled(Input)`
   font-family: var(--regular);
 `;
+
+export const StyledInput = styled(Input)`
+  &:focus-visible {
+    outline-color: var(--bukarka-grey);
+  }
+`;

@@ -12,10 +12,10 @@ import {
   SubTitle,
 } from "./Filter.styled";
 
+import { hasData } from "utils/hasData";
 import AuthorsSection from "./filterParts/AuthorsSection";
 import CategoriesSection from "./filterParts/CategoriesSection";
 import PublishersSection from "./filterParts/PublishersSection";
-import { hasData } from "utils/hasData";
 
 const Filter: React.FC = () => {
   const { fetchFilterData, applyFilter } = useBooks();
