@@ -12,23 +12,21 @@ export const StyledCatalog = styled.ul`
   flex-wrap: wrap;
   justify-content: start;
   align-content: space-around;
-  height: 85vh;
-  /* overflow: auto; */
+  max-height: 45rem;
 `;
 
 export const Item = styled.li`
-  /* flex: 0 0 calc(33.33% - 20px);  */
   width: 200px;
-  margin-bottom: 8px;
 `;
 
 export const TitleLink = styled(Link)`
   position: relative;
+  margin: 8px 0;
 
   display: inline-block;
   width: 208px;
   padding: 0 16px;
-  margin-bottom: 16px;
+
   text-align: left;
 
   background-color: var(--bukarka-orange);
@@ -41,7 +39,7 @@ export const TitleLink = styled(Link)`
 
 export const SubtitleLink = styled(TitleLink)`
   background-color: var(--bukarka-yellow);
-  margin-bottom: 8px;
+  margin: 8px 0;
 
   &::before {
     content: "";
@@ -55,7 +53,7 @@ export const SubtitleLink = styled(TitleLink)`
 `;
 
 export const StyledBlock = styled.div`
-  margin-left: 16px;
+  margin-left: 1rem;
 `;
 
 export const SmallSubTitle = styled(Link)`
@@ -63,15 +61,16 @@ export const SmallSubTitle = styled(Link)`
   font-weight: 600;
   font-size: 14px;
 
-  line-height: 1.43;
+  line-height: 24px;
   color: var(--bukarka-black);
 `;
 
 export const StyledItem = styled(Link)`
   font-weight: 400;
   font-size: 14px;
-  margin-left: 16px;
 
-  line-height: 1.43;
+  margin-left: 2rem;
+
+  line-height: 24px;
   color: var(--bukarka-black);
 `;
