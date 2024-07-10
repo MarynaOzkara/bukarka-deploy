@@ -1,5 +1,6 @@
 import { Search } from "components";
 import Catalog from "components/Catalog";
+import CatalogButton from "components/CatalogButton";
 import Modal from "components/Modal";
 import UserMenu from "components/UserMenu";
 import { useState } from "react";
@@ -14,7 +15,6 @@ import {
   UserMenuWrapper,
   Wrapper,
 } from "./Header.styled";
-import CatalogButton from "components/CatalogButton";
 
 const Header: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -52,7 +52,7 @@ const Header: React.FC = () => {
         </CommonWrapper>
       </StyledHeader>
       {isModalOpen && (
-        <Modal close={closeModal} showCloseButton={false} animation="slide">
+        <Modal close={closeModal} showCloseButton={true} animation="slide">
           {modalContent === "catalog" && <Catalog closeModal={closeModal} />}
         </Modal>
       )}

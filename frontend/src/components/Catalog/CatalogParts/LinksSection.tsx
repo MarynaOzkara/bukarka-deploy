@@ -1,6 +1,5 @@
 import { hasData } from "utils/hasData";
 import { StyledItem } from "../Catalog.styled";
-import { useEffect } from "react";
 
 interface IProps {
   category: string;

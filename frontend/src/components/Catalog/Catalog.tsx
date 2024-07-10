@@ -1,27 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
-import { Category } from "types/Books";
-import { instance } from "utils/fetchInstance";
+import { useBooks } from "components/Book";
 import { hasData } from "utils/hasData";
 import { Item, StyledCatalog, TitleLink, Wrapper } from "./Catalog.styled";
 import CategoriesSection from "./CatalogParts/CategoriesSection";
 
-const Catalog: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
-  const [categories, setCategories] = useState<Category[]>([]);
+interface IProps {
+  closeModal: () => void;
+}
+
+const Catalog: React.FC<IProps> = ({ closeModal }) => {
+  const { categories, fetchCategories } = useBooks();
 
   const hasCategories = hasData(categories);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await instance.get("/api/categories");
-        setCategories(response.data);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-
-    fetchData();
+    fetchCategories();
   }, []);
 
   return (

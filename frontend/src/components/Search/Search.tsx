@@ -85,11 +85,11 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
     const inputValue = event.target.value;
     const validPattern = /^[0-9a-zA-Z\u0400-\u04ff]*$/;
 
-    if (validPattern.test(inputValue)) {
-      setInputQuery(inputValue);
-      setIsHintSelected(false);
-      setShowHints(!!inputValue);
-    }
+    // if (validPattern.test(inputValue)) {
+    setInputQuery(inputValue);
+    setIsHintSelected(false);
+    setShowHints(!!inputValue);
+    // }
   };
 
   const handleSubmit = (

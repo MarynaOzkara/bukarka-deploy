@@ -1,18 +1,37 @@
+import { breakpoints } from "constants/breakpoints";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-  width: 1024px;
-  padding: 32px 89px;
+  padding: 24px;
+  width: 312px;
+
+  @media screen and (min-width: ${breakpoints.tablet}) {
+    width: fit-content;
+  }
+
+  @media screen and (min-width: ${breakpoints.desktop}) {
+    width: 1024px;
+    padding: 32px 89px;
+  }
 `;
 
 export const StyledCatalog = styled.ul`
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
   flex-wrap: wrap;
   justify-content: start;
-  align-content: space-around;
   max-height: 45rem;
+
+  & .show-more-button {
+    // background: none;
+    margin: 0.5rem;
+  }
+
+  @media screen and (min-width: ${breakpoints.desktop}) {
+    align-content: space-around;
+  }
 `;
 
 export const Item = styled.li`
@@ -21,7 +40,7 @@ export const Item = styled.li`
 
 export const TitleLink = styled(Link)`
   position: relative;
-  margin: 8px 0;
+  margin-bottom: 8px;
 
   display: inline-block;
   width: 208px;
@@ -39,7 +58,7 @@ export const TitleLink = styled(Link)`
 
 export const SubtitleLink = styled(TitleLink)`
   background-color: var(--bukarka-yellow);
-  margin: 8px 0;
+  margin-bottom: 8px;
 
   &::before {
     content: "";

@@ -1,8 +1,8 @@
-import { useState } from "react";
+import Catalog from "components/Catalog";
 import CatalogButton from "components/CatalogButton";
 import Modal from "components/Modal";
-import Catalog from "components/Catalog";
 import UserMenu from "components/UserMenu";
+import { useState } from "react";
 import {
   ButtonWrapper,
   CommonWrapper,
@@ -38,7 +38,7 @@ const BottomMenu: React.FC = () => {
         </CommonWrapper>
       </StyledBottomMenu>
       {isModalOpen && (
-        <Modal close={closeModal} showCloseButton={false} animation="slide">
+        <Modal close={closeModal} showCloseButton={true} animation="slide">
           {modalContent === "catalog" && <Catalog closeModal={closeModal} />}
         </Modal>
       )}
