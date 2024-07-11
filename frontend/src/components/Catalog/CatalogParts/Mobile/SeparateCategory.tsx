@@ -14,7 +14,6 @@ const SeparateCategory: React.FC<IProps> = ({
   category,
   subcategory,
   links,
-  closeModal,
   closeParentModal,
 }) => {
   const hasLinks = hasData(links);

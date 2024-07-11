@@ -22,22 +22,6 @@ const MobileSubcategoriesSection: React.FC<IProps> = ({
 }) => {
   const hasSubcategories = hasData(subcategories);
 
-  const [isDesktop, setIsDesktop] = useState(
-    window.innerWidth >= parseInt(breakpoints.tablet)
-  );
-
-  const handleResize = () => {
-    setIsDesktop(window.innerWidth >= parseInt(breakpoints.tablet));
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
   return (
     <ul>
       {hasSubcategories &&
@@ -57,7 +41,7 @@ const MobileSubcategoriesSection: React.FC<IProps> = ({
                   {subcategory.title}
                 </SmallSubTitle>
 
-                {!isDesktop && hasLinks && (
+                {hasLinks && (
                   <button
                     className="show-more-button"
                     onClick={() => showModal(subcategory)}
@@ -66,16 +50,6 @@ const MobileSubcategoriesSection: React.FC<IProps> = ({
                   </button>
                 )}
               </StyledBlock>
-
-              {isDesktop && (
-                <LinksSection
-                  category={category}
-                  subcategory={subcategory.title}
-                  links={subcategory.links}
-                  closeModal={closeModal}
-                  closeParentModal={closeParentModal}
-                />
-              )}
             </li>
           );
         })}
