@@ -1,6 +1,7 @@
 import { breakpoints } from "constants/breakpoints";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { ArrowMobileIcon } from "assets/icons";
 
 export const Wrapper = styled.div`
   padding: 24px;
@@ -27,6 +28,19 @@ export const StyledCatalog = styled.ul`
   & .show-more-button {
     background: none;
     margin: 0.5rem;
+  }
+
+  & .back-button {
+    cursor: pointer;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 1rem;
+    font-size: 14px;
+  }
+
+  & .sub-section {
+    margin-left: 1.5rem;
   }
 
   @media screen and (min-width: ${breakpoints.desktop}) {
@@ -57,6 +71,7 @@ export const TitleLink = styled(Link)`
 `;
 
 export const SubtitleLink = styled(TitleLink)`
+  display: block;
   background-color: var(--bukarka-yellow);
   margin-bottom: 8px;
 

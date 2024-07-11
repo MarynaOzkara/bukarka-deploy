@@ -22,12 +22,12 @@ const LinksSection: React.FC<IProps> = ({
         links.map((link: string, linkIndex: number) => (
           <li key={linkIndex}>
             <StyledItem
+              onClick={closeModal}
               to={`/catalog/${encodeURIComponent(
                 category
               )}/${encodeURIComponent(subcategory)}/${encodeURIComponent(
                 link
               )}`}
-              onClick={closeModal}
             >
               {link}
             </StyledItem>
