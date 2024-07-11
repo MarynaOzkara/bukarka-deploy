@@ -46,19 +46,25 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
   const [authors, setAuthors] = useState<Author[]>([]);
   const [publishers, setPublishers] = useState<Publisher[]>([]);
 
+  const setPages = ({ total, limit, page }: IBooksDataResponse) => {
+    if (total && limit) {
+      const pages = Math.ceil(total / limit);
+      setTotalPages(pages);
+    }
+    if (page) setCurrentPage(+page || 1);
+  };
+
   const fetchBooks = useCallback(async (params: IFetchBooksParams) => {
     try {
       const response = await instance.get<IBooksDataResponse>(
         "/api/books/filters",
         { params }
       );
-      const { books, total, limit, page } = response.data;
+      const { books } = response.data;
       if (books.length) {
         setBooks(books);
         setBookHints(books);
-
-        if (total && limit) setTotalPages(Math.ceil(total / limit));
-        if (page) setCurrentPage(+page || 1);
+        setPages(response.data);
       } else {
         setBooks([]);
         setBookHints([]);
@@ -77,12 +83,10 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
         "/api/books/filters",
         { params: search }
       );
-      const { books, total, limit, page } = response.data;
+      const { books } = response.data;
       if (books.length) {
         setSearchResults(books);
-
-        if (total && limit) setTotalPages(Math.ceil(total / limit));
-        if (page) setCurrentPage(+page || 1);
+        setPages(response.data);
       } else {
         setSearchResults([]);
       }
@@ -93,10 +97,20 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
   }, []);
 
   const fetchBooksHints = useCallback(
-    async (hintsParams: IFetchBooksParams) => {
-      fetchBooks(hintsParams);
+    async (hintsParams: IFetchHintsParams) => {
+      try {
+        const response = await instance.get<IBooksDataResponse>(
+          "/api/books/filters",
+          {
+            params: hintsParams,
+          }
+        );
+        setBookHints(response.data.books);
+      } catch (error: any) {
+        console.error("Error fetching suggestions:", error);
+      }
     },
-    [fetchBooks]
+    []
   );
 
   const fetchHints = useCallback(async (params: IFetchHintsParams) => {
@@ -139,13 +153,10 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
           { params: favoritesParams }
         );
 
-        const { books, total, limit, page } = response.data;
+        const { books } = response.data;
         if (books.length) {
           setFavorites(books);
-          if (total && limit) {
-            setTotalPages(Math.ceil(total / limit));
-          }
-          if (page) setCurrentPage(+page || 1);
+          setPages(response.data);
         } else {
           setFavorites([]);
         }
@@ -213,11 +224,10 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
         "/api/books/filter",
         { params: filters }
       );
-      const { books, total, limit, page } = response.data;
+      const { books } = response.data;
       setBooks(books);
       setSearchResults(books);
-      if (total && limit) setTotalPages(Math.ceil(total / limit));
-      if (page) setCurrentPage(+page || 1);
+      setPages(response.data);
     } catch (error) {
       setBooks([]);
       setSearchResults([]);

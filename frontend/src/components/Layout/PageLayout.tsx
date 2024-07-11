@@ -17,19 +17,6 @@ const PageLayout: React.FC<IPageLayoutProps> = ({ children, label, books }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { currentPage, setCurrentPage, totalPages } = useBooks();
 
-  const [isMobile, setIsMobile] = useState<boolean>(true);
-
-  const handleResize = () => {
-    setIsMobile(window.innerWidth < 768);
-  };
-
-  useEffect(() => {
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
   const handlePageChange = (page: number) => {
     if (page !== currentPage) {
       setCurrentPage(page);
@@ -45,14 +32,6 @@ const PageLayout: React.FC<IPageLayoutProps> = ({ children, label, books }) => {
   return (
     <StyledCommonWrapper>
       <PageLayoutWrapper>
-        {isMobile && totalPages > 1 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-          />
-        )}
-
         {label && <Label>{label}</Label>}
 
         {children}
