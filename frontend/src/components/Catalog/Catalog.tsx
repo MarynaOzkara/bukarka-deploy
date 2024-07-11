@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
-
+import React, { useEffect, useState } from "react";
 import { useBooks } from "components/Book";
 import { hasData } from "utils/hasData";
 import { Item, StyledCatalog, TitleLink, Wrapper } from "./Catalog.styled";
+import MobileCategoriesSection from "./CatalogParts/Mobile/MobileCategoriesSection";
+import { breakpoints } from "constants/breakpoints";
 import CategoriesSection from "./CatalogParts/CategoriesSection";
 
 interface IProps {
@@ -18,6 +19,22 @@ const Catalog: React.FC<IProps> = ({ closeModal }) => {
     fetchCategories();
   }, []);
 
+  const [isDesktop, setIsDesktop] = useState(
+    window.innerWidth >= parseInt(breakpoints.tablet)
+  );
+
+  const handleResize = () => {
+    setIsDesktop(window.innerWidth >= parseInt(breakpoints.tablet));
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <Wrapper>
       <StyledCatalog>
@@ -27,9 +44,19 @@ const Catalog: React.FC<IProps> = ({ closeModal }) => {
           </TitleLink>
         </Item>
 
-        {hasCategories && (
-          <CategoriesSection categories={categories} closeModal={closeModal} />
-        )}
+        {hasCategories &&
+          (isDesktop ? (
+            <CategoriesSection
+              categories={categories}
+              closeModal={closeModal}
+            />
+          ) : (
+            <MobileCategoriesSection
+              categories={categories}
+              closeModal={closeModal}
+              closeParentModal={closeModal}
+            />
+          ))}
       </StyledCatalog>
     </Wrapper>
   );

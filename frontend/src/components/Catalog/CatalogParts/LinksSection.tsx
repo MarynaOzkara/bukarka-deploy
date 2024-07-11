@@ -5,13 +5,15 @@ interface IProps {
   category: string;
   subcategory: string;
   links: string[];
-  closeModal: () => void;
+  closeParentModal: () => void;
+  closeModal?: () => void;
 }
 
 const LinksSection: React.FC<IProps> = ({
   category,
   subcategory,
   links,
+  closeParentModal,
   closeModal,
 }) => {
   const hasLinks = hasData(links);
@@ -22,7 +24,7 @@ const LinksSection: React.FC<IProps> = ({
         links.map((link: string, linkIndex: number) => (
           <li key={linkIndex}>
             <StyledItem
-              onClick={closeModal}
+              onClick={closeParentModal}
               to={`/catalog/${encodeURIComponent(
                 category
               )}/${encodeURIComponent(subcategory)}/${encodeURIComponent(

@@ -1,5 +1,5 @@
 import { hasData } from "utils/hasData";
-import { SmallSubTitle, StyledItem, SubtitleLink } from "../Catalog.styled";
+import { SmallSubTitle, StyledItem, SubtitleLink } from "../../Catalog.styled";
 import { ArrowMobileIcon } from "assets/icons";
 
 interface IProps {
@@ -7,6 +7,7 @@ interface IProps {
   subcategory: string;
   links: string[];
   closeModal: () => void;
+  closeParentModal: () => void;
 }
 
 const SeparateCategory: React.FC<IProps> = ({
@@ -14,6 +15,7 @@ const SeparateCategory: React.FC<IProps> = ({
   subcategory,
   links,
   closeModal,
+  closeParentModal,
 }) => {
   const hasLinks = hasData(links);
 
@@ -21,7 +23,7 @@ const SeparateCategory: React.FC<IProps> = ({
     <>
       <SubtitleLink
         to={`/catalog/${encodeURIComponent(category)}`}
-        onClick={closeModal}
+        onClick={closeParentModal}
       >
         {category}
       </SubtitleLink>
@@ -30,7 +32,7 @@ const SeparateCategory: React.FC<IProps> = ({
           to={`/catalog/${encodeURIComponent(category)}/${encodeURIComponent(
             subcategory
           )}`}
-          onClick={closeModal}
+          onClick={closeParentModal}
         >
           {subcategory}
         </SmallSubTitle>
@@ -39,7 +41,7 @@ const SeparateCategory: React.FC<IProps> = ({
             links.map((link: string, linkIndex: number) => (
               <li key={linkIndex}>
                 <StyledItem
-                  onClick={closeModal}
+                  onClick={closeParentModal}
                   to={`/catalog/${encodeURIComponent(
                     category
                   )}/${encodeURIComponent(subcategory)}/${encodeURIComponent(
