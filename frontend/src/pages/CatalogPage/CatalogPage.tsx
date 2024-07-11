@@ -1,4 +1,4 @@
-import { Sort } from "components";
+import { Pagination, Sort } from "components";
 import { useBooks } from "components/Book";
 import React, { useCallback, useEffect, useState } from "react";
 import { Outlet, useParams, useSearchParams } from "react-router-dom";
@@ -19,6 +19,19 @@ const CatalogPage: React.FC = () => {
   const { books, fetchBooks } = useBooks();
   const [sortBy, setSortBy] = useState("");
   const [orderSort, setOrderSort] = useState("asc");
+  const { currentPage, setCurrentPage, totalPages } = useBooks();
+
+  const handlePageChange = (page: number) => {
+    if (page !== currentPage) {
+      setCurrentPage(page);
+    }
+    const keyword = searchParams.get("keyword") || "";
+
+    setSearchParams({
+      keyword,
+      page: page.toString(),
+    });
+  };
 
   const hasBooks = hasData(books);
 
@@ -82,6 +95,14 @@ const CatalogPage: React.FC = () => {
 
         {<Outlet context={{ books }} /> || <SectionContent data={books} />}
       </StyledFlexWrapper>
+
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
       <Subscribe />
     </PageLayout>
   );

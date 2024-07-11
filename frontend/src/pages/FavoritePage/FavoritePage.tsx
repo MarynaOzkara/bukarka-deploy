@@ -2,6 +2,8 @@ import { Favorites, Pagination, Sort } from "components";
 import { useBooks } from "components/Book";
 import { useFavorites } from "components/Favorites/FavoritesContext";
 import { PageLayout } from "components/Layout";
+import Subscribe from "components/Subscribe";
+import { StyledFlexWrapper } from "pages/CatalogPage/CatalogPage.style";
 import { StyledFlexWrap } from "pages/CommonPages.styled";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -50,13 +52,14 @@ const FavoritePage: React.FC = () => {
 
   return (
     <PageLayout label="Обране" books={favorites}>
-      <StyledFlexWrap>
-        {favorites && favorites.length > 1 && (
-          <Sort onSortChange={handleSortChange} />
-        )}
-        <Favorites favorites={favorites} />
-      </StyledFlexWrap>
-
+      <StyledFlexWrapper>
+        <StyledFlexWrap>
+          {favorites && favorites.length > 1 && (
+            <Sort onSortChange={handleSortChange} />
+          )}
+          <Favorites favorites={favorites} />
+        </StyledFlexWrap>
+      </StyledFlexWrapper>
       {totalPages > 1 && (
         <Pagination
           currentPage={currentPage}
@@ -64,6 +67,7 @@ const FavoritePage: React.FC = () => {
           onPageChange={handlePageChange}
         />
       )}
+      <Subscribe />
     </PageLayout>
   );
 };

@@ -83,13 +83,10 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
-    const validPattern = /^[0-9a-zA-Z\u0400-\u04ff]*$/;
 
-    if (validPattern.test(inputValue)) {
-      setInputQuery(inputValue);
-      setIsHintSelected(false);
-      setShowHints(!!inputValue);
-    }
+    setInputQuery(inputValue);
+    setIsHintSelected(false);
+    setShowHints(!!inputValue);
   };
 
   const handleSubmit = (
@@ -143,7 +140,7 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
       {hasButton && <StyledLensIcon />}
       <SearchInput
         type="text"
-        pattern="[0-9a-zA-Z\u0400-\u04ff]*"
+        // pattern="[0-9a-zA-Z\u0400-\u04ff]*"
         maxLength={64}
         value={inputQuery}
         onChange={handleInputChange}

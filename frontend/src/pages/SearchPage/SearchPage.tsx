@@ -67,8 +67,9 @@ const SearchPage = () => {
             <TextCenter>No results found</TextCenter>
           )}
         </StyledFlexWrap>
-      </StyledFlexWrapper>{" "}
-      {totalPages > 1 && (
+      </StyledFlexWrapper>
+
+      {hasSearchResults && totalPages > 1 && (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
