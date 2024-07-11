@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useBooks } from "components/Book";
 import useDebounce from "hooks/useDebounce";
 import { IBookItem } from "types/Books";
+import { hasData } from "utils/hasData";
 import { LensIcon } from "assets/icons";
 import {
   FormButtonDesktop,
@@ -26,6 +27,7 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
   const [isHintSelected, setIsHintSelected] = useState<boolean>(false);
 
   const hintsRef = useRef<HTMLUListElement>(null);
+
   const debouncedQuery = useDebounce(inputQuery, 500);
   const navigate = useNavigate();
 
@@ -46,7 +48,7 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
     } else {
       setShowHints(false);
     }
-  }, [debouncedQuery, fetchBooksHints, isHintSelected]);
+  }, [debouncedQuery, isHintSelected]);
 
   useEffect(() => {
     if (
@@ -81,16 +83,17 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
-    const validPattern = /^[0-9a-zA-Z\u0400-\u04ff]*$/;
 
-    if (validPattern.test(inputValue)) {
-      setInputQuery(inputValue);
-      setIsHintSelected(false);
-      setShowHints(!!inputValue);
-    }
+    setInputQuery(inputValue);
+    setIsHintSelected(false);
+    setShowHints(!!inputValue);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (
+    event:
+      | React.FormEvent<HTMLFormElement>
+      | React.MouseEvent<HTMLButtonElement>
+  ) => {
     event.preventDefault();
     if (inputQuery.trim()) {
       goToSearchPage({ keyword: inputQuery.trim(), page: "1" });
@@ -130,23 +133,24 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
     }
   };
 
+  const hasHints = hasData(bookHints);
+
   return (
     <StyledForm onSubmit={handleSubmit}>
       {hasButton && <StyledLensIcon />}
       <SearchInput
         type="text"
-        pattern="[0-9a-zA-Z\u0400-\u04ff]*"
+        // pattern="[0-9a-zA-Z\u0400-\u04ff]*"
         maxLength={64}
         value={inputQuery}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
-        onBlur={() => setInputQuery("")}
         placeholder={placeholder}
         aria-label="Search books"
       />
       {showHints && (
         <StyledHints ref={hintsRef} aria-label="Search suggestions">
-          {bookHints.length ? (
+          {hasHints ? (
             bookHints.map((hint: IBookItem, index: number) => (
               <li
                 key={index}
@@ -165,7 +169,11 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
       {hasButton && (
         <>
           <FormButtonDesktop type="submit">Знайти</FormButtonDesktop>
-          <FormButtonMobile type="submit">
+          <FormButtonMobile
+            type="submit"
+            aria-label="Search button"
+            onClick={handleSubmit}
+          >
             <LensIcon />
           </FormButtonMobile>
         </>

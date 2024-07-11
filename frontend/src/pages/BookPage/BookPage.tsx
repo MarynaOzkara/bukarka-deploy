@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { TextCenter } from "styles/CommonStyled";
 import BookContent from "./BookContent/BookContent";
 import { StyledBookPageSlider } from "./BookPage.styled";
+import { hasData } from "utils/hasData";
 
 const BookPage: React.FC = () => {
   const { book, fetchBookById, books, fetchBooks } = useBooks();
@@ -22,6 +23,8 @@ const BookPage: React.FC = () => {
     fetchBooks({});
   }, [fetchBooks]);
 
+  const hasBooks = hasData(books);
+
   return (
     <PageLayout>
       {book && (
@@ -34,7 +37,7 @@ const BookPage: React.FC = () => {
       {book ? <BookContent book={book} /> : <div>No book data</div>}
       <Label>Вас може зацікавити</Label>
       <TextCenter>
-        {books && books.length > 0 && (
+        {hasBooks && (
           <StyledBookPageSlider>
             <SimpleSlider data={books} />
           </StyledBookPageSlider>

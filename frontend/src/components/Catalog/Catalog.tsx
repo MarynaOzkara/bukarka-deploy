@@ -1,32 +1,38 @@
 import React, { useEffect, useState } from "react";
+import { useBooks } from "components/Book";
+import { hasData } from "utils/hasData";
+import { Item, StyledCatalog, TitleLink, Wrapper } from "./Catalog.styled";
+import MobileCategoriesSection from "./CatalogParts/Mobile/MobileCategoriesSection";
+import { breakpoints } from "constants/breakpoints";
+import CategoriesSection from "./CatalogParts/CategoriesSection";
 
-import {
-  Item,
-  SmallSubTitle,
-  StyledBlock,
-  StyledCatalog,
-  StyledItem,
-  SubtitleLink,
-  TitleLink,
-  Wrapper,
-} from "./Catalog.styled";
-import { instance } from "utils/fetchInstance";
-import { Category, Subcategory } from "types/Books";
+interface IProps {
+  closeModal: () => void;
+}
 
-const Catalog: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
-  const [categories, setCategories] = useState<Category[]>([]);
+const Catalog: React.FC<IProps> = ({ closeModal }) => {
+  const { categories, fetchCategories } = useBooks();
+
+  const hasCategories = hasData(categories);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await instance.get("/api/categories");
-        setCategories(response.data);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
+    fetchCategories();
+  }, []);
 
-    fetchData();
+  const [isDesktop, setIsDesktop] = useState(
+    window.innerWidth >= parseInt(breakpoints.tablet)
+  );
+
+  const handleResize = () => {
+    setIsDesktop(window.innerWidth >= parseInt(breakpoints.tablet));
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   return (
@@ -38,54 +44,18 @@ const Catalog: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
           </TitleLink>
         </Item>
 
-        {categories.length > 0 &&
-          categories.map((category: Category, index) => (
-            <div key={`category-${index}`}>
-              <SubtitleLink
-                to={`/catalog/${encodeURI(category.title)}`}
-                key={`subtitle-${index}`}
-                onClick={closeModal}
-              >
-                {category.title}
-              </SubtitleLink>
-              <ul>
-                {category.subcategories &&
-                  category.subcategories.length > 0 &&
-                  category.subcategories.map(
-                    (subcategory: Subcategory, subcatIndex: number) => (
-                      <li key={subcatIndex}>
-                        <StyledBlock>
-                          <SmallSubTitle
-                            to={`/catalog/${encodeURI(
-                              category.title
-                            )}/${encodeURI(subcategory.title)}`}
-                            key={`subTitle-${subcatIndex}`}
-                            onClick={closeModal}
-                          >
-                            {subcategory.title}
-                          </SmallSubTitle>
-                          <ul>
-                            {subcategory.links &&
-                              subcategory.links.length > 0 &&
-                              subcategory.links.map((link, linkIndex) => (
-                                <li key={linkIndex}>
-                                  <StyledItem
-                                    to={`/catalog/${encodeURI(
-                                      category.title
-                                    )}/${encodeURI(link)}`}
-                                    onClick={closeModal}
-                                  >
-                                    {link}
-                                  </StyledItem>
-                                </li>
-                              ))}
-                          </ul>
-                        </StyledBlock>
-                      </li>
-                    )
-                  )}
-              </ul>
-            </div>
+        {hasCategories &&
+          (isDesktop ? (
+            <CategoriesSection
+              categories={categories}
+              closeModal={closeModal}
+            />
+          ) : (
+            <MobileCategoriesSection
+              categories={categories}
+              closeModal={closeModal}
+              closeParentModal={closeModal}
+            />
           ))}
       </StyledCatalog>
     </Wrapper>

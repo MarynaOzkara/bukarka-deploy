@@ -8,41 +8,18 @@ import { IBookItem } from "types/Books";
 import { PageLayoutWrapper } from "./PageLayout.styled";
 
 interface IPageLayoutProps {
+  children: ReactNode;
   label?: string;
   books?: IBookItem[];
-  children: ReactNode;
 }
 
-const PageLayout: React.FC<IPageLayoutProps> = ({ label, books, children }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const { currentPage, setCurrentPage, totalPages } = useBooks();
-
-  const handlePageChange = (page: number) => {
-    if (page !== currentPage) {
-      setCurrentPage(page);
-    }
-    const keyword = searchParams.get("keyword") || "";
-
-    setSearchParams({
-      keyword,
-      page: page.toString(),
-    });
-  };
-
+const PageLayout: React.FC<IPageLayoutProps> = ({ children, label, books }) => {
   return (
     <StyledCommonWrapper>
       <PageLayoutWrapper>
         {label && <Label>{label}</Label>}
 
         {children}
-
-        {totalPages > 1 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-          />
-        )}
       </PageLayoutWrapper>
     </StyledCommonWrapper>
   );

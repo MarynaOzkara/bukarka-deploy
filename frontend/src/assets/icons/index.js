@@ -21,3 +21,4 @@ export { ReactComponent as Checked } from "./checked.svg";
 export { ReactComponent as EditIcon } from "./edit-icon.svg";
 export { ReactComponent as VisaIcon } from "./visa-icon.svg";
 export { ReactComponent as LensIcon } from "./lens-icon.svg";
+export { ReactComponent as ArrowMobileIcon } from "./arrow-mobile.svg";
