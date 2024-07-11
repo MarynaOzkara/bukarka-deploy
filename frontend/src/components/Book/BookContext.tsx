@@ -52,13 +52,13 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
         "/api/books/filters",
         { params }
       );
-      const { books, total, limit } = response.data;
+      const { books, total, limit, page } = response.data;
       if (books.length) {
         setBooks(books);
         setBookHints(books);
 
         if (total && limit) setTotalPages(Math.ceil(total / limit));
-        if (params) setCurrentPage(params.page || 1);
+        if (page) setCurrentPage(+page || 1);
       } else {
         setBooks([]);
         setBookHints([]);
@@ -77,12 +77,12 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
         "/api/books/filters",
         { params: search }
       );
-      const { books, total, limit } = response.data;
+      const { books, total, limit, page } = response.data;
       if (books.length) {
         setSearchResults(books);
 
         if (total && limit) setTotalPages(Math.ceil(total / limit));
-        if (search) setCurrentPage(search.page || 1);
+        if (page) setCurrentPage(+page || 1);
       } else {
         setSearchResults([]);
       }
@@ -138,12 +138,14 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
           "/api/books/ids",
           { params: favoritesParams }
         );
-        if (response.data.books.length) {
-          setFavorites(response.data.books);
-          if (response.data.total && response.data.limit) {
-            setTotalPages(Math.ceil(response.data.total / response.data.limit));
+
+        const { books, total, limit, page } = response.data;
+        if (books.length) {
+          setFavorites(books);
+          if (total && limit) {
+            setTotalPages(Math.ceil(total / limit));
           }
-          setCurrentPage(favoritesParams.page || 1);
+          if (page) setCurrentPage(+page || 1);
         } else {
           setFavorites([]);
         }
@@ -211,9 +213,11 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
         "/api/books/filter",
         { params: filters }
       );
-
-      setBooks(response.data.books);
-      setSearchResults(response.data.books);
+      const { books, total, limit, page } = response.data;
+      setBooks(books);
+      setSearchResults(books);
+      if (total && limit) setTotalPages(Math.ceil(total / limit));
+      if (page) setCurrentPage(+page || 1);
     } catch (error) {
       setBooks([]);
       setSearchResults([]);

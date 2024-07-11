@@ -74,7 +74,7 @@ export const CloseButton = styled.button`
   }
 
   @media screen and (min-width: ${breakpoints.desktop}) {
-    top: 16px;
+    display: block;
     right: 16px;
   }
 `;

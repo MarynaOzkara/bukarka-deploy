@@ -25,7 +25,7 @@ export const StyledCatalog = styled.ul`
   max-height: 45rem;
 
   & .show-more-button {
-    // background: none;
+    background: none;
     margin: 0.5rem;
   }
 

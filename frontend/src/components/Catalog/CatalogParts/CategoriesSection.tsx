@@ -26,7 +26,6 @@ const CategoriesSection: React.FC<IProps> = ({ categories, closeModal }) => {
             <SubcategoriesSection
               category={category.title}
               subcategories={category.subcategories}
-              closeModal={closeModal}
             />
           </div>
         ))}
