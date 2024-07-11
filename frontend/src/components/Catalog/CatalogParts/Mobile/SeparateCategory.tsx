@@ -14,6 +14,7 @@ const SeparateCategory: React.FC<IProps> = ({
   category,
   subcategory,
   links,
+  closeModal,
   closeParentModal,
 }) => {
   const hasLinks = hasData(links);
@@ -51,9 +52,8 @@ const SeparateCategory: React.FC<IProps> = ({
                 </StyledItem>
               </li>
             ))}
-          <li className="back-button">
+          <li className="back-button" onClick={closeModal}>
             <ArrowMobileIcon />
-
             <b>Назад</b>
           </li>
         </ul>
