@@ -1,4 +1,4 @@
-import { Favorites, Sort } from "components";
+import { Favorites, Pagination, Sort } from "components";
 import { useBooks } from "components/Book";
 import { useFavorites } from "components/Favorites/FavoritesContext";
 import { PageLayout } from "components/Layout";
@@ -12,6 +12,19 @@ const FavoritePage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [sortBy, setSortBy] = useState("");
   const [orderSort, setOrderSort] = useState("asc");
+  const { currentPage, setCurrentPage, totalPages } = useBooks();
+
+  const handlePageChange = (page: number) => {
+    if (page !== currentPage) {
+      setCurrentPage(page);
+    }
+    const keyword = searchParams.get("keyword") || "";
+
+    setSearchParams({
+      keyword,
+      page: page.toString(),
+    });
+  };
 
   useEffect(() => {
     const page = Number(searchParams.get("page")) || 1;
@@ -43,6 +56,14 @@ const FavoritePage: React.FC = () => {
         )}
         <Favorites favorites={favorites} />
       </StyledFlexWrap>
+
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
     </PageLayout>
   );
 };

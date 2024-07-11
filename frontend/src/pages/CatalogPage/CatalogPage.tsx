@@ -82,6 +82,7 @@ const CatalogPage: React.FC = () => {
 
         {<Outlet context={{ books }} /> || <SectionContent data={books} />}
       </StyledFlexWrapper>
+      <Subscribe />
     </PageLayout>
   );
 };

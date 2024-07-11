@@ -1,4 +1,4 @@
-import { Filter, Sort } from "components";
+import { Filter, Pagination, Sort } from "components";
 import { useBooks } from "components/Book";
 import { PageLayout } from "components/Layout";
 import CatalogBookCard from "pages/CatalogPage/CatalogBookCard";
@@ -15,6 +15,19 @@ const SearchPage = () => {
   const [keyword, setKeyword] = useState("");
   const [sortBy, setSortBy] = useState("");
   const [orderSort, setOrderSort] = useState("asc");
+  const { currentPage, setCurrentPage, totalPages } = useBooks();
+
+  const handlePageChange = (page: number) => {
+    if (page !== currentPage) {
+      setCurrentPage(page);
+    }
+    const keyword = searchParams.get("keyword") || "";
+
+    setSearchParams({
+      keyword,
+      page: page.toString(),
+    });
+  };
 
   useEffect(() => {
     const page = Number(searchParams.get("page")) || 1;
@@ -54,7 +67,14 @@ const SearchPage = () => {
             <TextCenter>No results found</TextCenter>
           )}
         </StyledFlexWrap>
-      </StyledFlexWrapper>
+      </StyledFlexWrapper>{" "}
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
     </PageLayout>
   );
 };
