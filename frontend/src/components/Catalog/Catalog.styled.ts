@@ -1,14 +1,14 @@
 import { breakpoints } from "constants/breakpoints";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { ArrowMobileIcon } from "assets/icons";
 
 export const Wrapper = styled.div`
   padding: 24px;
   width: 312px;
 
   @media screen and (min-width: ${breakpoints.tablet}) {
-    width: fit-content;
+    width: ${breakpoints.tablet};
+    padding: 24px;
   }
 
   @media screen and (min-width: ${breakpoints.desktop}) {
