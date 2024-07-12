@@ -88,12 +88,14 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
       {book && (
         <BookContentWrapper>
           <BookImage id={book._id}>
-            <img
-              src={book.image || images.imagePlaceholder}
-              alt={`${book.author} ${book.title} `}
-              title={`${book.author} ${book.title} `}
-              onClick={() => showModal("pic-viewer")}
-            />
+            <div className="img-container">
+              <img
+                src={book.image || images.imagePlaceholder}
+                alt={`${book.author} ${book.title} `}
+                title={`${book.author} ${book.title} `}
+                onClick={() => showModal("pic-viewer")}
+              />
+            </div>
             <FavoriteButtonContainer>
               <FavoriteButton itemId={book._id} />
             </FavoriteButtonContainer>
