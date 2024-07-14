@@ -86,6 +86,7 @@ const filtersBooks = async (req, res) => {
     languages,
     author,
     authors,
+    age,
     publisher,
     publishers,
     priceMin,
@@ -108,6 +109,7 @@ const filtersBooks = async (req, res) => {
       { author: { $regex: keyword, $options: "i" } },
     ];
   }
+
   if (category) {
     match.category = { $regex: category, $options: "i" };
   }
@@ -120,6 +122,9 @@ const filtersBooks = async (req, res) => {
     match.subcategory = {
       $in: subcategories.map((subcategory) => new RegExp(subcategory, "i")),
     };
+  }
+  if (age) {
+    match.age = age;
   }
 
   if (language) {

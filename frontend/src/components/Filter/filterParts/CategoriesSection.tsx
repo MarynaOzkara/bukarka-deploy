@@ -3,37 +3,7 @@ import { Category } from "types/Books";
 import { SubTitle } from "../Filter.styled";
 import FilterSearch from "./FilterSearch";
 import ShowMore from "./ShowMore";
-
-const flattenCategory = (categories: Category[]) => {
-  const links: string[] = [];
-  const ageOptions: string[] = [];
-  const subcategoriesOptions: string[] = [];
-  const categoriesOptions: string[] = [];
-
-  categories &&
-    categories.forEach((category) => {
-      categoriesOptions.push(category.title);
-      category.subcategories &&
-        category.subcategories.forEach((subcategory) => {
-          subcategoriesOptions.push(subcategory.title);
-          if (
-            subcategory.title !== "Книги за віком" &&
-            subcategory.links.length > 0
-          ) {
-            links.push(...subcategory.links);
-          }
-
-          if (
-            subcategory.title === "Книги за віком" &&
-            subcategory.links.length > 0
-          ) {
-            ageOptions.push(...subcategory.links);
-          }
-        });
-    });
-
-  return { links, ageOptions, subcategoriesOptions, categoriesOptions };
-};
+import { flattenCategory } from "constants/catalog";
 
 interface IProps {
   categories: Category[];
@@ -144,7 +114,7 @@ const CategoriesSection: React.FC<IProps> = ({
           </section>
 
           <section>
-            <SubTitle>Век</SubTitle>
+            <SubTitle>Вiк</SubTitle>
             {
               <ShowMore
                 options={ageOptions}

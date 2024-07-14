@@ -40,7 +40,7 @@ export interface IFetchBooksParams {
   category?: string;
   subcategory?: string;
   link?: string;
-
+  age?: string;
   page?: number;
   sortBy?: string;
   orderSort?: string;

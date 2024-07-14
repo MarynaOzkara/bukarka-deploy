@@ -1,8 +1,12 @@
 import styled from "styled-components";
 
-export const BookImage = styled.section`
+export const BookImage = styled.div`
   position: relative;
   flex-shrink: 0;
+
+  & .img-container {
+    width: 296px;
+  }
 
   & img {
     cursor: pointer;

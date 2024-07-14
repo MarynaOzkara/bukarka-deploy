@@ -1,6 +1,7 @@
 import useDebounce from "hooks/useDebounce";
 import { useEffect, useRef, useState } from "react";
-import { Hints, Input } from "styles/CommonStyled";
+import { Hints } from "styles/CommonStyled";
+import { StyledInput } from "../Filter.styled";
 
 interface IProps {
   hints: string[];
@@ -108,7 +109,7 @@ const FilterSearch: React.FC<IProps> = ({
 
   return (
     <div style={{ position: "relative" }}>
-      <Input
+      <StyledInput
         type="text"
         pattern="[0-9a-zA-Z\u0400-\u04ff]*"
         maxLength={64}

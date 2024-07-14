@@ -1,13 +1,17 @@
-import { Sort } from "components";
+import { Pagination, Sort } from "components";
 import { useBooks } from "components/Book";
 import React, { useCallback, useEffect, useState } from "react";
 import { Outlet, useParams, useSearchParams } from "react-router-dom";
 
 import Filter from "components/Filter";
 import { PageLayout } from "components/Layout";
+import Subscribe from "components/Subscribe";
 import { BreadCrumbs, Label } from "pages/CommonPages.styled";
+import { Link } from "react-router-dom";
+import { hasData } from "utils/hasData";
 import { StyledFlexWrapper } from "./CatalogPage.style";
 import SectionContent from "./SectionContent";
+import { adjustAgeValue } from "constants/catalog";
 
 const CatalogPage: React.FC = () => {
   const { category, subcategory, link } = useParams();
@@ -15,19 +19,39 @@ const CatalogPage: React.FC = () => {
   const { books, fetchBooks } = useBooks();
   const [sortBy, setSortBy] = useState("");
   const [orderSort, setOrderSort] = useState("asc");
+  const { currentPage, setCurrentPage, totalPages } = useBooks();
+
+  const handlePageChange = (page: number) => {
+    if (page !== currentPage) {
+      setCurrentPage(page);
+    }
+    const keyword = searchParams.get("keyword") || "";
+
+    setSearchParams({
+      keyword,
+      page: page.toString(),
+    });
+  };
+
+  const hasBooks = hasData(books);
 
   useEffect(() => {
     const page = Number(searchParams.get("page")) || 1;
 
+    const ageReplaced =
+      subcategory === "Книги за віком" ? adjustAgeValue(link ?? "") : "";
+    const subcategoryReplaced = subcategory !== "Книги за віком" ? link : "";
+
     fetchBooks({
       category,
-      subcategory,
+      subcategory: subcategoryReplaced,
       link,
+      age: ageReplaced,
       page,
       sortBy,
       orderSort,
     });
-  }, [fetchBooks, searchParams, category, subcategory, sortBy, orderSort]);
+  }, [searchParams, category, link, subcategory, sortBy, orderSort]);
 
   const handleSortChange = useCallback(
     (sortKey: string, sortOrder: string) => {
@@ -39,7 +63,14 @@ const CatalogPage: React.FC = () => {
   );
 
   const renderBreadcrumbs = () => {
-    return <BreadCrumbs>Каталог | {category}</BreadCrumbs>;
+    return (
+      <BreadCrumbs>
+        <Link to="/catalog">Каталог | </Link>
+        {category && (
+          <Link to={`/catalog/${encodeURI(category)}`}> {category} </Link>
+        )}
+      </BreadCrumbs>
+    );
   };
 
   const renderLabels = () => {
@@ -48,7 +79,7 @@ const CatalogPage: React.FC = () => {
 
   return (
     <PageLayout books={books}>
-      {books && books.length > 0 ? (
+      {hasBooks ? (
         <>
           {renderBreadcrumbs()}
           {renderLabels()}
@@ -60,10 +91,19 @@ const CatalogPage: React.FC = () => {
       <StyledFlexWrapper>
         <Filter />
 
-        {books && books.length > 1 && <Sort onSortChange={handleSortChange} />}
+        {hasBooks && <Sort onSortChange={handleSortChange} />}
 
         {<Outlet context={{ books }} /> || <SectionContent data={books} />}
       </StyledFlexWrapper>
+
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
+      <Subscribe />
     </PageLayout>
   );
 };

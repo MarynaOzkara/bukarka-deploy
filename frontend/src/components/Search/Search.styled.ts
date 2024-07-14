@@ -17,6 +17,11 @@ export const SearchInput = styled(Input)`
   padding: 0 8px;
 
   border: none;
+  box-shadow: 0px 0px 4px 0px #00000040 inset;
+
+  &:focus-visible {
+    outline-color: var(--bukarka-grey);
+  }
 
   &::placeholder {
     font-family: var(--regular);

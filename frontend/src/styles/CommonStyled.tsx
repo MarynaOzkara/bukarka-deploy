@@ -122,6 +122,7 @@ export const Input = styled.input`
   padding: 0 1rem;
   width: 100%;
   border: none;
+  box-shadow: 0px 0px 4px 0px #00000040 inset;
 
   &::placeholder {
     font-family: var(--regular);

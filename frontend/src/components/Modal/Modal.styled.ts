@@ -1,3 +1,4 @@
+import { breakpoints } from "constants/breakpoints";
 import styled, { keyframes, css } from "styled-components";
 import theme from "styles/theme";
 
@@ -58,10 +59,22 @@ export const ModalContent = styled.div<ModalContentProps>`
 
 export const CloseButton = styled.button`
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: 16px;
+  right: 8px;
+  z-index: 1;
+  padding: 0;
+
   background-color: transparent;
   border: none;
   font-size: 18px;
   cursor: pointer;
+
+  @media screen and (min-width: ${breakpoints.tablet}) {
+    display: none;
+  }
+
+  @media screen and (min-width: ${breakpoints.desktop}) {
+    display: block;
+    right: 16px;
+  }
 `;

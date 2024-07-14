@@ -32,6 +32,10 @@ export const FilterContent = styled.form`
 
   & .input-range {
     width: 120px;
+
+    &:focus-visible {
+      outline-color: var(--bukarka-grey);
+    }
   }
 
   & p {
@@ -76,4 +80,10 @@ export const SubTitle = styled.p`
 
 export const PriceRangeInput = styled(Input)`
   font-family: var(--regular);
+`;
+
+export const StyledInput = styled(Input)`
+  &:focus-visible {
+    outline-color: var(--bukarka-grey);
+  }
 `;

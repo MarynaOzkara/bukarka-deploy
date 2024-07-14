@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FlexWrapper } from "./../OrderPage/OrderPage.styled";
+import { FlexWrapper } from "styles/CommonStyled";
 
 export const StyledFlexWrapper = styled(FlexWrapper)`
   margin: 1.5rem 0;
