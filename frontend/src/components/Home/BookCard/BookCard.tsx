@@ -15,7 +15,7 @@ import { images } from "assets/images";
 import {
   StarsWrapper,
   StyledStarIcon,
-} from "components/Slider/SimpleSlider.styled";
+} from "components/Home/Slider/SimpleSlider.styled";
 import {
   Button,
   StyledFavoriteButton,

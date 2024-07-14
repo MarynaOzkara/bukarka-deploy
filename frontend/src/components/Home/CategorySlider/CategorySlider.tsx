@@ -1,5 +1,5 @@
 import CategoryPoster from "../CategoryPoster/CategoryPoster";
-import SimpleSlider from "../../Slider/SimpleSlider";
+import SimpleSlider from "../Slider/SimpleSlider";
 import { StyledCategorySlider } from "./CategorySlider.styled";
 import React, { useEffect, useState } from "react";
 import { instance } from "../../../utils/fetchInstance";

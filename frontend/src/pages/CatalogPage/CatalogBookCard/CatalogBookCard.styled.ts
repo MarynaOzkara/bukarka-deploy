@@ -1,5 +1,5 @@
 import { StarIcon } from "assets/icons";
-import { StarsWrapper } from "components/Slider/SimpleSlider.styled";
+import { StarsWrapper } from "components/Home/Slider/SimpleSlider.styled";
 import styled from "styled-components";
 import { ButtonContainer } from "styles/CommonStyled";
 

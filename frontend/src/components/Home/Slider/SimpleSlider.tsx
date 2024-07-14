@@ -5,17 +5,17 @@ import {
   StyledPrevArrow,
   StyledNextArrow,
 } from "./SimpleSlider.styled";
-import Card from "../Home/BookCard/BookCard";
+import Card from "../BookCard/BookCard";
 import { useState } from "react";
-import { SliderArrowIcon } from "../../assets/icons";
+import { SliderArrowIcon } from "../../../assets/icons";
 import { useSelector } from "react-redux";
-import { IRootState } from "../../redux/store";
+import { IRootState } from "../../../redux/store";
 import {
   selectBooksData,
   selectBooksError,
   selectBooksStatus,
-} from "../../redux/books/selectors";
-import { useAppDispatch } from "../../redux/hooks";
+} from "../../../redux/books/selectors";
+import { useAppDispatch } from "../../../redux/hooks";
 import Loader from "components/Loader";
 
 interface IProps {
