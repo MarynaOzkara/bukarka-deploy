@@ -1,12 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import CartItem from "../CartItem";
-import {
-  deleteOrder,
-  fetchOrderById,
-} from "../../../redux/orders/operations";
-import { useAppDispatch } from "../../../redux/hooks";
-import { selectOrdersData } from "../../../redux/orders/selectors";
+import { deleteOrder, fetchOrderById } from "appRedux/orders/operations";
+import { useAppDispatch } from "appRedux/hooks";
+import { selectOrdersData } from "appRedux/orders/selectors";
 import {
   AmountOfBooks,
   ButtonWrapper,

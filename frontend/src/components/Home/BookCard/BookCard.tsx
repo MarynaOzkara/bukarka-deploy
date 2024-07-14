@@ -8,7 +8,7 @@ import Modal from "components/Modal";
 import {
   selectOrdersError,
   selectOrdersStatus,
-} from "../../../redux/orders/selectors";
+} from "appRedux/orders/selectors";
 import useCart from "hooks/useCart";
 import { truncateString } from "utils/truncateString";
 import { images } from "assets/images";

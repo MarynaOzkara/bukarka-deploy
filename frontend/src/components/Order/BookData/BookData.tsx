@@ -6,9 +6,9 @@ import { useOrderContext } from "../OrderContext";
 import Loader from "components/Loader";
 import Modal from "components/Modal";
 import Cart from "components/Cart";
-import { selectOrdersData } from "../../../redux/orders/selectors";
-import { useAppDispatch } from "../../../redux/hooks";
-import { fetchOrderById } from "../../../redux/orders/operations";
+import { selectOrdersData } from "appRedux/orders/selectors";
+import { useAppDispatch } from "appRedux/hooks";
+import { fetchOrderById } from "appRedux/orders/operations";
 import { calculateDeliveryPrice } from "utils/calculateDeliveryPrice";
 import { SubTitleBlue } from "../OrderCommonStyled";
 import {

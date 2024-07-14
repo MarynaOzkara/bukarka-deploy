@@ -5,13 +5,13 @@ import { useSelector } from "react-redux";
 import BookCard from "../BookCard";
 import Loader from "components/Loader";
 import { SliderArrowIcon } from "assets/icons";
-import { IRootState } from "../../../redux/store";
+import { IRootState } from "appRedux/store";
 import {
   selectBooksData,
   selectBooksError,
   selectBooksStatus,
-} from "../../../redux/books/selectors";
-import { useAppDispatch } from "../../../redux/hooks";
+} from "appRedux/books/selectors";
+import { useAppDispatch } from "appRedux/hooks";
 import {
   StyledSlider,
   StyledPrevArrow,
