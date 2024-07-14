@@ -34,7 +34,7 @@ export const SearchInput = styled(Input)`
     width: 200px;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: ${breakpoints.tablet}) {
     width: 300px;
   }
   @media (min-width: ${breakpoints.desktop}) {

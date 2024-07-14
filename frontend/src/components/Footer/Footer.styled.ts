@@ -33,8 +33,8 @@ export const Wrapper = styled.div`
     width: 480px;
   }
 
-  @media screen and (min-width: 768px) {
-    width: 768px;
+  @media screen and (min-width: ${breakpoints.tablet}) {
+    width: ${breakpoints.tablet};
   }
 
   @media screen and (min-width: 900px) {
@@ -73,7 +73,7 @@ export const StyledNav = styled.nav`
   justify-content: space-between;
   gap: 16px;
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: ${breakpoints.tablet}) {
     justify-content: space-around;
   }
 `;
@@ -102,7 +102,7 @@ export const ListItem = styled.li`
     line-height: 150%;
     color: var(--bukarka-black);
 
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: ${breakpoints.tablet}) {
       font-size: 14px;
     }
 
