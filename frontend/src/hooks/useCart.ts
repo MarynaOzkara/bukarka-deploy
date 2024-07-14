@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import { useAppDispatch } from "../redux/hooks";
-import { addToCart, createCart, fetchOrderById } from "../redux/orders/operations";
+import { useAppDispatch } from "appRedux/hooks";
+import { addToCart, createCart, fetchOrderById } from "appRedux/orders/operations";
 
 const useCart = (_id: string) => {
   const dispatch = useAppDispatch();

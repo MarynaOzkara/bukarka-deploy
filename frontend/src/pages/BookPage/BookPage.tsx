@@ -1,6 +1,6 @@
 import { useBooks } from "components/Book";
 import { PageLayout } from "components/Layout";
-import SimpleSlider from "components/Slider/SimpleSlider";
+import SimpleSlider from "components/Home/Slider/SimpleSlider";
 import { BreadCrumbs, Label } from "pages/CommonPages.styled";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";

@@ -4,8 +4,8 @@ import {
   deleteItem,
   fetchOrderById,
   updateItemQuantity,
-} from "../../../redux/orders/operations";
-import { useAppDispatch } from "../../../redux/hooks";
+} from "appRedux/orders/operations";
+import { useAppDispatch } from "appRedux/hooks";
 import { truncateString } from "utils/truncateString";
 import {
   Title,

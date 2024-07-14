@@ -3,10 +3,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loader from "components/Loader";
 import CartList from "./CartList";
-import { fetchOrderById } from "../../redux/orders/operations";
-import { useAppDispatch } from "../../redux/hooks";
-import { IRootState } from "../../redux/store";
-import { selectOrdersStatus } from "../../redux/orders/selectors";
+import { fetchOrderById } from "appRedux/orders/operations";
+import { useAppDispatch } from "appRedux/hooks";
+import { IRootState } from "appRedux/store";
+import { selectOrdersStatus } from "appRedux/orders/selectors";
 import {
   Button,
   CartWrapper,

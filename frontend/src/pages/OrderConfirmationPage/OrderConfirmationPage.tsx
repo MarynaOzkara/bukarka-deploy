@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useAppDispatch } from "../../redux/hooks";
-import { fetchOrderById } from "../../redux/orders/operations";
+import { useAppDispatch } from "appRedux/hooks";
+import { fetchOrderById } from "appRedux/orders/operations";
 import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
   Number,

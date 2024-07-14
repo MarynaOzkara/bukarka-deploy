@@ -20,8 +20,8 @@ export const CommonWrapper = styled.div`
     width: 480px;
   }
 
-  @media screen and (min-width: 768px) {
-    width: 768px;
+  @media screen and (min-width: ${breakpoints.tablet}) {
+    width: ${breakpoints.tablet};
   }
 
   @media screen and (min-width: 900px) {

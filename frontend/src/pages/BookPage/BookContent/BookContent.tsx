@@ -7,9 +7,9 @@ import PictureViewer from "../PictureViewer/PictureViewer";
 import { CartData } from "components/Cart/Cart";
 import { IBookItem } from "types/Books";
 import useCart from "hooks/useCart";
-import { useAppDispatch } from "../../../redux/hooks";
+import { useAppDispatch } from "appRedux/hooks";
 import { images } from "assets/images";
-import { fetchOrderById } from "../../../redux/orders/operations";
+import { fetchOrderById } from "appRedux/orders/operations";
 import {
   ButtonOrange,
   ButtonYellow,

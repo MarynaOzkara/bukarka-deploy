@@ -8,8 +8,8 @@ import Comment from "components/Order/Comment";
 import BookData from "components/Order/BookData";
 import OrderData from "components/Order/OrderData";
 import Submit from "components/Order/Submit";
-import { useAppDispatch } from "../../redux/hooks";
-import { updateOrderInfo } from "../../redux/orders/operations";
+import { useAppDispatch } from "appRedux/hooks";
+import { updateOrderInfo } from "appRedux/orders/operations";
 import {
   validationCommentSchema,
   validationDeliverySchema,
