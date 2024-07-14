@@ -1,9 +1,9 @@
-import CategoryPoster from "../CategoryPoster/CategoryPoster";
+import { useEffect, useState } from "react";
+import CategoryPoster from "../CategoryPoster";
 import SimpleSlider from "../Slider/SimpleSlider";
-import { StyledCategorySlider } from "./CategorySlider.styled";
-import React, { useEffect, useState } from "react";
-import { instance } from "../../../utils/fetchInstance";
 import Loader from "components/Loader";
+import { instance } from "utils/fetchInstance";
+import { StyledCategorySlider } from "./CategorySlider.styled";
 
 interface IProps {
   _id: string;

@@ -1,14 +1,10 @@
+import { useState } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import {
-  StyledSlider,
-  StyledPrevArrow,
-  StyledNextArrow,
-} from "./SimpleSlider.styled";
-import Card from "../BookCard/BookCard";
-import { useState } from "react";
-import { SliderArrowIcon } from "../../../assets/icons";
 import { useSelector } from "react-redux";
+import BookCard from "../BookCard";
+import Loader from "components/Loader";
+import { SliderArrowIcon } from "assets/icons";
 import { IRootState } from "../../../redux/store";
 import {
   selectBooksData,
@@ -16,7 +12,11 @@ import {
   selectBooksStatus,
 } from "../../../redux/books/selectors";
 import { useAppDispatch } from "../../../redux/hooks";
-import Loader from "components/Loader";
+import {
+  StyledSlider,
+  StyledPrevArrow,
+  StyledNextArrow,
+} from "./SimpleSlider.styled";
 
 interface IProps {
   _id: string;
@@ -112,7 +112,7 @@ const SimpleSlider: React.FC<IDataBooks> = ({ data }) => {
     <div className="slider-container">
       <StyledSlider {...settings}>
         {data.map((item, index) => (
-          <Card
+          <BookCard
             _id={item._id}
             image={item.image}
             key={item._id}
