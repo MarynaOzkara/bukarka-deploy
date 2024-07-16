@@ -1,6 +1,10 @@
 import { useCallback } from "react";
 import { useAppDispatch } from "appRedux/hooks";
-import { addToCart, createCart, fetchOrderById } from "appRedux/orders/operations";
+import {
+  addToCart,
+  createCart,
+  fetchOrderById,
+} from "appRedux/orders/operations";
 
 const useCart = (_id: string) => {
   const dispatch = useAppDispatch();
@@ -19,7 +23,12 @@ const useCart = (_id: string) => {
         console.log("orderId не встановлений");
         return;
       }
-      localStorage.setItem("currentOrderId", orderId);
+      try {
+        localStorage.setItem("currentOrderId", orderId);
+        console.log("currentOrderId set in localStorage:", orderId);
+      } catch (error) {
+        console.error("Error setting currentOrderId in localStorage:", error);
+      }
     }
 
     const addToCartResponse = await dispatch(
