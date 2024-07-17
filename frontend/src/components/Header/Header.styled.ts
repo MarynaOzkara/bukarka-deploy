@@ -6,7 +6,7 @@ export const CommonWrapper = styled.div`
   min-width: 320px;
   max-width: 100%;
   margin: 0 auto;
-  padding: 0 3vw;
+  // padding: 0 3vw;
   height: fit-content;
 
   margin: 0 auto;
@@ -16,21 +16,21 @@ export const CommonWrapper = styled.div`
     padding: 0 16px;
   }
 
-  @media screen and (min-width: 480px) {
-    width: 480px;
-  }
+  // @media screen and (min-width: 480px) {
+  //   width: 480px;
+  // }
 
   @media screen and (min-width: 768px) {
     width: 768px;
   }
 
-  @media screen and (min-width: 900px) {
-    width: 900px;
-  }
+  // @media screen and (min-width: 900px) {
+  //   width: 900px;
+  // }
 
-  @media screen and (min-width: 1200px) {
-    width: 1200px;
-  }
+  // @media screen and (min-width: 1200px) {
+  //   width: 1200px;
+  // }
 
   @media screen and (min-width: ${breakpoints.desktop}) {
     width: 1296px;
