@@ -25,9 +25,9 @@ const useCart = (_id: string) => {
       }
       try {
         localStorage.setItem("currentOrderId", orderId);
-        console.log("currentOrderId set in localStorage:", orderId);
       } catch (error) {
         console.error("Error setting currentOrderId in localStorage:", error);
+        document.cookie = `currentOrderId=${orderId}; path=/`;
       }
     }
 
@@ -36,7 +36,15 @@ const useCart = (_id: string) => {
     );
     if (addToCartResponse.meta.requestStatus === "fulfilled") {
       await dispatch(fetchOrderById(orderId));
-      localStorage.setItem(`isBookAdded_${_id}`, "true");
+      try {
+        localStorage.setItem(`isBookAdded_${_id}`, "true");
+      } catch (error) {
+        console.error(
+          `Error setting isBookAdded_${_id} in localStorage:`,
+          error
+        );
+        document.cookie = `isBookAdded_${_id}=true; path=/`;
+      }
     } else {
       console.log("Помилка при додаванні товару до кошика.");
     }
