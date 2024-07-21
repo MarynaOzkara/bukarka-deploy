@@ -8,6 +8,7 @@ export const SliderWrapper = styled.div`
   margin: 48px 0;
   padding: 32px 0;
   background-color: var(--bukarka-yellow);
+  overflow: hidden;
 
   & .slick-list {
     display: inline-flex;
