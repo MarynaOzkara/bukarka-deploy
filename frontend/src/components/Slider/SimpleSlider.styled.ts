@@ -1,9 +1,30 @@
 import styled from "styled-components";
 import { StarIcon } from "../../assets/icons";
 import Slider from "react-slick";
+import { breakpoints } from "constants/breakpoints";
 
 export const StyledSlider = styled(Slider)`
-  width: 1024px;
+  width: 100%;
+  @media screen and (min-width: ${breakpoints.mobile}) {
+    max-width: 480px;
+  }
+
+  @media screen and (min-width: 560px) {
+    max-width: 560px;
+  }
+
+  @media screen and (min-width: ${breakpoints.tablet}) {
+    max-width: 768px;
+  }
+
+  @media screen and (min-width: 960px) {
+    max-width: 960px;
+  }
+
+  @media screen and (min-width: 1024px) {
+    max-width: 1024px;
+  }
+  max-width: 1024px;
 `;
 
 export const StyledItemCard = styled.div`

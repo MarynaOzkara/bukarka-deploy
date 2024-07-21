@@ -1,10 +1,13 @@
+import { breakpoints } from "constants/breakpoints";
 import styled from "styled-components";
 
 export const StyledCategorySlider = styled.div`
   display: flex;
-  margin-right: 32px;
-  margin-left: 32px;
+  margin: 0 2rem;
   justify-content: space-between;
   margin-bottom: 48px;
-  //flex-direction: column;
+
+  .slider-container {
+    width: calc(100% - 192px);
+  }
 `;
