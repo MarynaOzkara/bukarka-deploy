@@ -5,14 +5,18 @@ import styled from "styled-components";
 export const BookImage = styled.div`
   position: relative;
   flex-shrink: 0;
-  width: 296px;
-
-  & .img-container {
-    width: 296px;
-  }
+  width: 312px;
 
   & img {
     cursor: pointer;
+  }
+
+  @media screen and (min-width: ${breakpoints.tablet}) {
+    max-width: ${breakpoints.tablet};
+  }
+
+  @media screen and (min-width: ${breakpoints.desktop}) {
+    max-width: ${breakpoints.desktop};
   }
 `;
 
@@ -29,7 +33,7 @@ export const BookImageSet = styled.div`
 export const StyledSimpleSlider = styled(SimpleSlider)`
   width: 100vw;
 
-  & .slick-list {
+  & .slider-container {
     margin: 2rem 0;
   }
 

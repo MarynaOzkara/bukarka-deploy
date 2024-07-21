@@ -7,13 +7,9 @@ export const BookContentWrapper = styled.div`
   width: 100%;
   gap: 1rem;
   flex-direction: column;
-
-  @media screen and (min-width: ${breakpoints.mobile}) {
-    flex-direction: column;
-  }
+  align-items: center;
 
   @media screen and (min-width: ${breakpoints.tablet}) {
-    flex-direction: column;
     width: 100%;
     overflow: hidden;
   }
@@ -22,6 +18,7 @@ export const BookContentWrapper = styled.div`
     flex-direction: row;
     width: 100%;
     overflow: hidden;
+    align-items: start;
   }
 `;
 
