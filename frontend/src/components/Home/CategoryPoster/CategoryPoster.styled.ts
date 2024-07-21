@@ -38,6 +38,7 @@ export const StyledPoster = styled.div`
 export const StyledLabel = styled(Label)`
   position: absolute;
   z-index: 2;
+  left: 0;
   & a {
     color: var(--bukarka-black);
   }
