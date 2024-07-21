@@ -73,6 +73,7 @@ export const FilterContent = styled.form`
 
 export const SubTitle = styled.p`
   font-weight: 700;
+  padding: 0.5rem 0;
 `;
 
 export const PriceRangeInput = styled(Input)`
