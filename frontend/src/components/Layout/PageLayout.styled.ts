@@ -15,12 +15,9 @@ export const PageLayoutWrapper = styled(PageWrapper)`
 
   @media screen and (min-width: ${breakpoints.tablet}) {
     width: ${breakpoints.tablet};
-
-    padding: 0 1rem;
   }
 
   @media screen and (min-width: ${breakpoints.desktop}) {
     width: 1440px;
-    padding: 0 1rem;
   }
 `;

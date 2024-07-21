@@ -22,6 +22,7 @@ export const PageWrapper = styled.div`
   width: 100vw;
   max-width: 1296px;
   margin: 0 auto;
+  min-width: ${breakpoints.mobile};
 
   background-color: var(--bukarka-white);
 

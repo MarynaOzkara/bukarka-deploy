@@ -3,7 +3,7 @@ import { LogoDesktop, LogoMobile } from "assets/icons";
 import { breakpoints } from "constants/breakpoints";
 
 export const CommonWrapper = styled.div`
-  min-width: 320px;
+  min-width: 480px;
   max-width: 100%;
   margin: 0 auto;
   height: fit-content;

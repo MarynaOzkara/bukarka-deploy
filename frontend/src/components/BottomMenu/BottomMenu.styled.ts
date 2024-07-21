@@ -20,7 +20,7 @@ export const CommonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
 
-  min-width: 320px;
+  min-width: 480px;
 
   width: 100%;
   margin: 0 auto;
