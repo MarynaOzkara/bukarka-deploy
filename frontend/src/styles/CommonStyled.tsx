@@ -1,24 +1,23 @@
+import { breakpoints } from "constants/breakpoints";
 import styled from "styled-components";
 
 export const StyledCommonWrapper = styled.div`
-  /* max-width: 375px;
-  padding-left: 20px;
-  padding-right: 20px; */
+  padding: 0;
   margin: 0 auto;
-  max-width: 1296px;
+  margin-top: 3.5rem;
+  width: 100%;
 
-  /* @media screen and (min-width: 768px) {
-    max-width: 768px;
-    padding-left: 32px;
-    padding-right: 32px;
-  } */
-
-  @media screen and (min-width: 1440px) {
-    max-width: 1296px;
-    //  padding-left: 72px;
-    //  padding-right: 72px;
+  @media screen and (min-width: ${breakpoints.tablet}) {
+    width: ${breakpoints.tablet};
+    margin: 0 auto;
+    margin-top: 3.5rem;
   }
-  /* outline: 1px solid green; */
+
+  @media screen and (min-width: ${breakpoints.desktop}) {
+    width: 1296px;
+    margin: 0 auto;
+    margin-top: 88px;
+  }
 `;
 
 export const PageWrapper = styled.div`
@@ -26,10 +25,20 @@ export const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
+  min-width: ${breakpoints.mobile};
 
-  margin-top: 88px;
-  padding-bottom: 80px;
   background-color: var(--bukarka-white);
+
+  @media screen and (min-width: ${breakpoints.tablet}) {
+    width: ${breakpoints.tablet};
+    // margin-top: 2rem;
+  }
+
+  @media screen and (min-width: ${breakpoints.desktop}) {
+    width: 1296px;
+    margin-top: 88px;
+    padding-bottom: 80px;
+  }
 `;
 
 export const FlexContainer = styled.div`
