@@ -30,7 +30,7 @@ export const SearchInput = styled(Input)`
     width: 200px;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: ${breakpoints.tablet}) {
     width: 300px;
   }
   @media (min-width: ${breakpoints.desktop}) {
@@ -58,6 +58,16 @@ export const FormButton = styled.button`
   border: none;
   background: var(--bukarka-orange);
   color: var(--bukarka-black);
+
+  transition: box-shadow 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
+  }
+
+  &:active {
+    color: var(--bukarka-yellow);
+  }
 `;
 
 export const FormButtonMobile = styled(FormButton)`

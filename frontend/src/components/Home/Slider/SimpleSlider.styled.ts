@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { StarIcon } from "../../assets/icons";
+import { StarIcon } from "../../../assets/icons";
 import Slider from "react-slick";
 import { breakpoints } from "constants/breakpoints";
 

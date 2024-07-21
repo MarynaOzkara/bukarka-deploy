@@ -91,7 +91,7 @@ export const ListItem = styled.li`
     line-height: 150%;
     color: var(--bukarka-black);
 
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: ${breakpoints.tablet}) {
       font-size: 14px;
     }
 

@@ -1,8 +1,6 @@
-import { PageWrapper, StyledCommonWrapper } from "styles/CommonStyled";
-import CategorySlider from "../components/Home/CategorySlider/CategorySlider";
-import React from "react";
-import BannerBlock from "components/Home/BannerBlock/BannerBlock";
+import { BannerBlock, CategorySlider } from "components/Home";
 import Subscribe from "components/Subscribe";
+import { PageWrapper, StyledCommonWrapper } from "styles/CommonStyled";
 
 const HomePage: React.FC = () => {
   return (

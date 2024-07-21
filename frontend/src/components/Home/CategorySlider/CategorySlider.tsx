@@ -1,11 +1,11 @@
-import CategoryPoster from "../CategoryPoster/CategoryPoster";
-import SimpleSlider from "../../Slider/SimpleSlider";
-import { StyledCategorySlider } from "./CategorySlider.styled";
-import React, { useEffect, useState } from "react";
-import { instance } from "../../../utils/fetchInstance";
+import { useEffect, useState } from "react";
+import CategoryPoster from "../CategoryPoster";
+import SimpleSlider from "../Slider/SimpleSlider";
 import Loader from "components/Loader";
 import { breakpoints } from "constants/breakpoints";
 import MobileCategoryPoster from "../CategoryPoster/MobileCategoryPoster";
+import { instance } from "utils/fetchInstance";
+import { StyledCategorySlider } from "./CategorySlider.styled";
 
 interface IProps {
   _id: string;

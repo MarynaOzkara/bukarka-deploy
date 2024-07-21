@@ -1,6 +1,10 @@
 import { useCallback } from "react";
-import { useAppDispatch } from "../redux/hooks";
-import { addToCart, createCart, fetchOrderById } from "../redux/orders/operations";
+import { useAppDispatch } from "appRedux/hooks";
+import {
+  addToCart,
+  createCart,
+  fetchOrderById,
+} from "appRedux/orders/operations";
 
 const useCart = (_id: string) => {
   const dispatch = useAppDispatch();
@@ -19,7 +23,12 @@ const useCart = (_id: string) => {
         console.log("orderId не встановлений");
         return;
       }
-      localStorage.setItem("currentOrderId", orderId);
+      try {
+        localStorage.setItem("currentOrderId", orderId);
+      } catch (error) {
+        console.error("Error setting currentOrderId in localStorage:", error);
+        document.cookie = `currentOrderId=${orderId}; path=/`;
+      }
     }
 
     const addToCartResponse = await dispatch(
@@ -27,7 +36,15 @@ const useCart = (_id: string) => {
     );
     if (addToCartResponse.meta.requestStatus === "fulfilled") {
       await dispatch(fetchOrderById(orderId));
-      localStorage.setItem(`isBookAdded_${_id}`, "true");
+      try {
+        localStorage.setItem(`isBookAdded_${_id}`, "true");
+      } catch (error) {
+        console.error(
+          `Error setting isBookAdded_${_id} in localStorage:`,
+          error
+        );
+        document.cookie = `isBookAdded_${_id}=true; path=/`;
+      }
     } else {
       console.log("Помилка при додаванні товару до кошика.");
     }

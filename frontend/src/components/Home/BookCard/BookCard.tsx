@@ -8,14 +8,14 @@ import Modal from "components/Modal";
 import {
   selectOrdersError,
   selectOrdersStatus,
-} from "../../../redux/orders/selectors";
+} from "appRedux/orders/selectors";
 import useCart from "hooks/useCart";
 import { truncateString } from "utils/truncateString";
 import { images } from "assets/images";
 import {
   StarsWrapper,
   StyledStarIcon,
-} from "components/Slider/SimpleSlider.styled";
+} from "components/Home/Slider/SimpleSlider.styled";
 import {
   Button,
   StyledFavoriteButton,

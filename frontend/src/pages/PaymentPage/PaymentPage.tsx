@@ -6,8 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useOrderContext } from "components/Order/OrderContext";
 import { VisaIcon } from "assets/icons";
 import { validationPaymentPageSchema } from "utils/validationSchema";
-import { useAppDispatch } from "../../redux/hooks";
-import { fetchOrderById } from "../../redux/orders/operations";
+import { useAppDispatch } from "appRedux/hooks";
+import { fetchOrderById } from "appRedux/orders/operations";
 import { StyleSheetManager } from "styled-components";
 import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
