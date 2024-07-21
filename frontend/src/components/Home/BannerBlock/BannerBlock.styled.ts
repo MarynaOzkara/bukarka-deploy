@@ -1,3 +1,4 @@
+import { breakpoints } from "constants/breakpoints";
 import Slider from "react-slick";
 import styled from "styled-components";
 
@@ -7,6 +8,17 @@ export const SliderWrapper = styled.div`
   margin: 48px 0;
   padding: 32px 0;
   background-color: var(--bukarka-yellow);
+  overflow: hidden;
+
+  & .slick-list {
+    display: inline-flex;
+  }
+
+  @media screen and (min-width: ${breakpoints.desktop}) {
+    & .slick-list {
+      display: block;
+    }
+  }
 `;
 
 export const StyledSlider = styled(Slider)`

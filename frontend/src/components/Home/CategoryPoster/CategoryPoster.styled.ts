@@ -1,3 +1,4 @@
+import { Label } from "pages/CommonPages.styled";
 import styled from "styled-components";
 
 export const StyledPoster = styled.div`
@@ -31,6 +32,14 @@ export const StyledPoster = styled.div`
     transform: rotate(180deg);
     background-color: #ff8a10;
     color: #1e1e1e;
-    //transition: all 1s ease;
+  }
+`;
+
+export const StyledLabel = styled(Label)`
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  & a {
+    color: var(--bukarka-black);
   }
 `;

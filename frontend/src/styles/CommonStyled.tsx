@@ -1,24 +1,17 @@
+import { breakpoints } from "constants/breakpoints";
 import styled from "styled-components";
 
 export const StyledCommonWrapper = styled.div`
-  /* max-width: 375px;
-  padding-left: 20px;
-  padding-right: 20px; */
+  padding: 0;
   margin: 0 auto;
-  max-width: 1296px;
+  margin-top: 3.5rem;
 
-  /* @media screen and (min-width: 768px) {
-    max-width: 768px;
-    padding-left: 32px;
-    padding-right: 32px;
-  } */
+  width: 100vw;
 
-  @media screen and (min-width: 1440px) {
-    max-width: 1296px;
-    //  padding-left: 72px;
-    //  padding-right: 72px;
+  @media screen and (min-width: ${breakpoints.desktop}) {
+    margin: 0 auto;
+    margin-top: 88px;
   }
-  /* outline: 1px solid green; */
 `;
 
 export const PageWrapper = styled.div`
@@ -26,10 +19,21 @@ export const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
+  width: 100vw;
+  max-width: 1296px;
+  margin: 0 auto;
 
-  margin-top: 88px;
-  padding-bottom: 80px;
   background-color: var(--bukarka-white);
+
+  @media screen and (min-width: ${breakpoints.desktop}) {
+    margin-top: 88px;
+    padding-bottom: 80px;
+  }
+
+  @media screen and (min-width: ${breakpoints.desktop}) {
+    margin-top: 88px;
+    padding-bottom: 80px;
+  }
 `;
 
 export const FlexContainer = styled.div`

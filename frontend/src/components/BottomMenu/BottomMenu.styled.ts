@@ -21,10 +21,10 @@ export const CommonWrapper = styled.div`
   justify-content: space-between;
 
   min-width: 320px;
-  max-width: 1200px;
+
   width: 100%;
   margin: 0 auto;
-  padding: 3vw;
+  // padding: 3vw;
   height: fit-content;
 
   margin: 0 auto;
@@ -34,22 +34,14 @@ export const CommonWrapper = styled.div`
     padding: 8px;
   }
 
-  @media screen and (min-width: 480px) {
-    width: 480px;
-  }
-
   @media screen and (min-width: ${breakpoints.tablet}) {
     width: ${breakpoints.tablet};
   }
 
-  @media screen and (min-width: 900px) {
-    width: 900px;
+  @media screen and (min-width: ${breakpoints.desktop}) {
+    width: 1296px;
+    padding: 0 32px;
   }
-
-  @media screen and (min-width: 1200px) {
-    width: 1200px;
-  }
-
 `;
 
 export const ButtonWrapper = styled.div`

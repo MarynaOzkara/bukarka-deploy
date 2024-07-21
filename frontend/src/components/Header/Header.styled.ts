@@ -6,10 +6,7 @@ export const CommonWrapper = styled.div`
   min-width: 320px;
   max-width: 100%;
   margin: 0 auto;
-  padding: 0 3vw;
   height: fit-content;
-
-  margin: 0 auto;
 
   @media screen and (min-width: ${breakpoints.mobile}) {
     width: ${breakpoints.mobile};
@@ -22,14 +19,6 @@ export const CommonWrapper = styled.div`
 
   @media screen and (min-width: ${breakpoints.tablet}) {
     width: ${breakpoints.tablet};
-  }
-
-  @media screen and (min-width: 900px) {
-    width: 900px;
-  }
-
-  @media screen and (min-width: 1200px) {
-    width: 1200px;
   }
 
   @media screen and (min-width: ${breakpoints.desktop}) {

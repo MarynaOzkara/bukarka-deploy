@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { FlexWrap } from "styles/CommonStyled";
+import { breakpoints } from "./../constants/breakpoints";
 
 export const Label = styled.p`
   position: relative;
@@ -9,9 +10,9 @@ export const Label = styled.p`
   align-items: center;
 
   width: fit-content;
+  margin-bottom: 40px;
   height: 32px;
 
-  margin-bottom: 40px;
   padding: 4px 16px;
 
   background-color: var(--bukarka-yellow);
@@ -29,6 +30,18 @@ export const Label = styled.p`
     bottom: 0;
     width: 8px;
     background: var(--bukarka-deep-blue);
+  }
+
+  @media screen and (min-width: ${breakpoints.mobile}) {
+    margin-left: -1rem;
+  }
+
+  @media screen and (min-width: ${breakpoints.tablet}) {
+    margin: 0;
+    margin-bottom: 40px;
+  }
+
+  @media screen and (min-width: ${breakpoints.desktop}) {
   }
 `;
 
