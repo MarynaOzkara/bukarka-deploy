@@ -1,3 +1,4 @@
+import { breakpoints } from "constants/breakpoints";
 import styled from "styled-components";
 import { ButtonContainer } from "styles/CommonStyled";
 
@@ -5,6 +6,23 @@ export const BookContentWrapper = styled.div`
   display: flex;
   width: 100%;
   gap: 1rem;
+  flex-direction: column;
+
+  @media screen and (min-width: ${breakpoints.mobile}) {
+    flex-direction: column;
+  }
+
+  @media screen and (min-width: ${breakpoints.tablet}) {
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  @media screen and (min-width: ${breakpoints.desktop}) {
+    flex-direction: row;
+    width: 100%;
+    overflow: hidden;
+  }
 `;
 
 export const BookDescription = styled.section`
@@ -64,4 +82,5 @@ export const FavoriteButtonContainer = styled.div`
 export const StyledButtonContainer = styled(ButtonContainer)`
   width: 296px;
   flex-shrink: 0;
+  margin: 2rem auto;
 `;
