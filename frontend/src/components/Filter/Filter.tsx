@@ -164,6 +164,9 @@ const Filter: React.FC<IProps> = ({ isDesktop, onClose }) => {
     };
 
     applyFilter(filterQuery);
+    if (onClose) {
+      onClose();
+    }
   };
 
   return (
@@ -304,7 +307,7 @@ const Filter: React.FC<IProps> = ({ isDesktop, onClose }) => {
           </div>
         </section>
 
-        <ButtonYellow onClick={onClose}>Застосувати фільтр</ButtonYellow>
+        <ButtonYellow>Застосувати фільтр</ButtonYellow>
       </FilterContent>
     </FilterWrapper>
   );
