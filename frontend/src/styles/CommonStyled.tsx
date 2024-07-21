@@ -5,18 +5,10 @@ export const StyledCommonWrapper = styled.div`
   padding: 0;
   margin: 0 auto;
   margin-top: 3.5rem;
-  // width: 100%;
-  // max-width: 1296px;
-  width: fit-content;
 
-  @media screen and (min-width: ${breakpoints.tablet}) {
-    width: ${breakpoints.tablet};
-    margin: 0 auto;
-    margin-top: 3.5rem;
-  }
+  width: 100vw;
 
   @media screen and (min-width: ${breakpoints.desktop}) {
-    width: 1296px;
     margin: 0 auto;
     margin-top: 88px;
   }
@@ -27,17 +19,18 @@ export const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
-  min-width: ${breakpoints.mobile};
-  width: fit-content;
+  width: 100vw;
+  max-width: 1296px;
+  margin: 0 auto;
 
   background-color: var(--bukarka-white);
 
-  @media screen and (min-width: ${breakpoints.tablet}) {
-    width: ${breakpoints.tablet};
+  @media screen and (min-width: ${breakpoints.desktop}) {
+    margin-top: 88px;
+    padding-bottom: 80px;
   }
 
   @media screen and (min-width: ${breakpoints.desktop}) {
-    max-width: 1296px;
     margin-top: 88px;
     padding-bottom: 80px;
   }

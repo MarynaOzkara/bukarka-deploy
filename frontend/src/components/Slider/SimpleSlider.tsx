@@ -83,7 +83,7 @@ const SimpleSlider: React.FC<IDataBooks> = ({ data }) => {
     nextArrow: <NextArrow isVisible={currentSlide < totalSlides - 5} />,
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1296,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
@@ -92,7 +92,7 @@ const SimpleSlider: React.FC<IDataBooks> = ({ data }) => {
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 768,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,

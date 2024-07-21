@@ -19,7 +19,7 @@ export const StyledFooter = styled.footer`
   }
 
   @media screen and (min-width: ${breakpoints.desktop}) {
-    width: 1296px;
+    width: 100vw;
     padding: 48px 0;
   }
 `;
