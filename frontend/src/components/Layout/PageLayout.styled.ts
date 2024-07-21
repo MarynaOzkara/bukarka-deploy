@@ -10,11 +10,13 @@ export const PageLayoutWrapper = styled(PageWrapper)`
   @media screen and (min-width: ${breakpoints.mobile}) {
     min-width: ${breakpoints.mobile};
     width: 100%;
+    // margin-bottom: 3px;
   }
 
   @media screen and (min-width: ${breakpoints.tablet}) {
     width: ${breakpoints.tablet};
     padding: 0 1rem;
+    // margin-bottom: 3px;
   }
 
   @media screen and (min-width: ${breakpoints.desktop}) {

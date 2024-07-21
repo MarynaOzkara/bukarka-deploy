@@ -5,7 +5,9 @@ export const StyledCommonWrapper = styled.div`
   padding: 0;
   margin: 0 auto;
   margin-top: 3.5rem;
-  width: 100%;
+  // width: 100%;
+  // max-width: 1296px;
+  width: fit-content;
 
   @media screen and (min-width: ${breakpoints.tablet}) {
     width: ${breakpoints.tablet};
@@ -26,16 +28,16 @@ export const PageWrapper = styled.div`
   flex-direction: column;
   text-align: center;
   min-width: ${breakpoints.mobile};
+  width: fit-content;
 
   background-color: var(--bukarka-white);
 
   @media screen and (min-width: ${breakpoints.tablet}) {
     width: ${breakpoints.tablet};
-    // margin-top: 2rem;
   }
 
   @media screen and (min-width: ${breakpoints.desktop}) {
-    width: 1296px;
+    max-width: 1296px;
     margin-top: 88px;
     padding-bottom: 80px;
   }

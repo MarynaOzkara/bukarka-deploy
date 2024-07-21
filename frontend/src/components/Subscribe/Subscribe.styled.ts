@@ -1,21 +1,36 @@
+import { breakpoints } from "constants/breakpoints";
 import styled from "styled-components";
 
 // export const FormWrapper = styled.div`
 //   width: 100%;
 // `;
 export const Form = styled.form`
-  width: 672px;
-  height: 160px;
-  margin: 0 auto;
-  padding: 32px 48px;
+  width: 100%;
+  height: fit-content;
 
+  padding: 24px 16px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  gap: 24px;
+  gap: 8px;
 
+  box-sizing: content-box;
+  margin: 0 auto;
+  margin-left: -1rem;
   background-color: var(--bukarka-grey);
+
+  @media screen and (min-width: ${breakpoints.tablet}) {
+    white-space: wrap;
+    gap: 16px;
+  }
+
+  @media screen and (min-width: ${breakpoints.desktop}) {
+    width: 672px;
+    padding: 32px 48px;
+    margin: 0 auto;
+    gap: 24px;
+  }
 `;
 
 export const Title = styled.label`
@@ -28,8 +43,20 @@ export const Title = styled.label`
 
 export const Wrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
   justify-content: center;
   align-items: center;
+
+  @media screen and (min-width: ${breakpoints.tablet}) {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  @media screen and (min-width: ${breakpoints.desktop}) {
+    width: 100%;
+    flex-wrap: nowrap;
+  }
 `;
 
 export const Input = styled.input`
@@ -69,7 +96,7 @@ export const Input = styled.input`
 
 export const Button = styled.button`
   padding: 8px 16px;
-  width: 192px;
+  width: 416px;
   height: 40px;
 
   display: flex;
@@ -94,5 +121,9 @@ export const Button = styled.button`
 
   &:active {
     color: var(--bukarka-orange);
+  }
+
+  @media screen and (min-width: ${breakpoints.tablet}) {
+    width: 192px;
   }
 `;

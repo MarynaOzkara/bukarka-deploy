@@ -6,43 +6,32 @@ import { breakpoints } from "constants/breakpoints";
 export const StyledFooter = styled.footer`
   width: 100%;
   background-color: var(--bukarka-light-grey);
-  box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, 0.25);
+  box-shadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.25);
   padding: 2vw;
+  margin: 0 auto;
 
   @media screen and (min-width: ${breakpoints.mobile}) {
-    padding: 24px;
+    min-width: ${breakpoints.mobile};
   }
+
+  @media screen and (min-width: ${breakpoints.tablet}) {
+    min-width: ${breakpoints.tablet};
+  }
+
   @media screen and (min-width: ${breakpoints.desktop}) {
+    width: 1296px;
     padding: 48px 0;
   }
 `;
 
 export const Wrapper = styled.div`
   display: block;
-  min-width: 320px;
-  max-width: 100%;
+
   margin: 0 auto;
   width: fit-content;
 
-  @media screen and (min-width: ${breakpoints.mobile}) {
-    width: ${breakpoints.mobile};
-    padding: 0 16px;
-  }
-
-  @media screen and (min-width: 480px) {
-    width: 480px;
-  }
-
-  @media screen and (min-width: 768px) {
-    width: 768px;
-  }
-
-  @media screen and (min-width: 900px) {
-    width: 900px;
-  }
-
-  @media screen and (min-width: 1200px) {
-    width: 1200px;
+  @media screen and (min-width: ${breakpoints.tablet}) {
+    width: ${breakpoints.tablet};
   }
 
   @media screen and (min-width: ${breakpoints.desktop}) {
@@ -73,7 +62,7 @@ export const StyledNav = styled.nav`
   justify-content: space-between;
   gap: 16px;
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: ${breakpoints.tablet}) {
     justify-content: space-around;
   }
 `;
