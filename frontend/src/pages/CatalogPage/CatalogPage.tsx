@@ -161,7 +161,9 @@ const CatalogPage: React.FC = () => {
 
       {!isDesktop && isModalOpen && (
         <Modal close={closeModal} showCloseButton={true}>
-          {modalContent === "filter" && <Filter isDesktop={isDesktop} />}
+          {modalContent === "filter" && (
+            <Filter isDesktop={isDesktop} onClose={closeModal} />
+          )}
         </Modal>
       )}
     </PageLayout>

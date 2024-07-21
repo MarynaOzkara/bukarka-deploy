@@ -28,7 +28,11 @@ export const PaginationWrapper = styled(FlexWrapper)`
 
   width: 100%;
 
+  @media screen and (min-width: ${breakpoints.tablet}) {
+    width: ${breakpoints.mobile};
+  }
+
   @media screen and (min-width: ${breakpoints.desktop}) {
-    width: ${breakpoints.tablet};
+    width: ${breakpoints.mobile};
   }
 `;

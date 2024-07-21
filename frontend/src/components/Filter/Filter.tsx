@@ -20,9 +20,10 @@ import { adjustAgeValues } from "constants/catalog";
 
 interface IProps {
   isDesktop?: boolean;
+  onClose?: () => void;
 }
 
-const Filter: React.FC<IProps> = ({ isDesktop }) => {
+const Filter: React.FC<IProps> = ({ isDesktop, onClose }) => {
   const { fetchFilterData, applyFilter } = useBooks();
 
   const [filterData, setFilterData] = useState<FilterData>({
@@ -303,7 +304,7 @@ const Filter: React.FC<IProps> = ({ isDesktop }) => {
           </div>
         </section>
 
-        <ButtonYellow>Застосувати фільтр</ButtonYellow>
+        <ButtonYellow onClick={onClose}>Застосувати фільтр</ButtonYellow>
       </FilterContent>
     </FilterWrapper>
   );
