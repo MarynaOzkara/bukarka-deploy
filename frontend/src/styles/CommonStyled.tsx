@@ -115,6 +115,12 @@ export const ButtonYellow = styled(Button)`
   background: var(--bukarka-yellow);
 `;
 
+export const ButtonGreyYellow = styled(Button)`
+  color: var(--bukarka-deep-blue);
+  border: 2px solid var(--bukarka-yellow);
+  margin: 0 0.5rem;
+`;
+
 export const ButtonContainer = styled.section`
   display: flex;
   flex-direction: column;
