@@ -167,7 +167,7 @@ const Filter: React.FC<IProps> = ({ isDesktop }) => {
 
   return (
     <FilterWrapper>
-      {!isDesktop && <SectionTitle>Фильтр</SectionTitle>}
+      {isDesktop && <SectionTitle>Фильтр</SectionTitle>}
       <FilterContent onSubmit={handleSubmitFilters}>
         <section>
           <SubTitle>Добірка</SubTitle>

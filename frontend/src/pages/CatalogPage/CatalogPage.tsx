@@ -127,7 +127,7 @@ const CatalogPage: React.FC = () => {
 
       {!isDesktop && (
         <div className="button-container">
-          <ButtonGreyYellow onClick={() => showModal("filter", !isDesktop)}>
+          <ButtonGreyYellow onClick={() => showModal("filter", isDesktop)}>
             Фильтр
           </ButtonGreyYellow>
           <ButtonGreyYellow>Сортування</ButtonGreyYellow>
@@ -143,7 +143,7 @@ const CatalogPage: React.FC = () => {
       )}
 
       <StyledFlexWrapper>
-        {isDesktop && <Filter />}
+        {isDesktop && <Filter isDesktop={isDesktop} />}
 
         {isDesktop && hasBooks && <Sort onSortChange={handleSortChange} />}
 
