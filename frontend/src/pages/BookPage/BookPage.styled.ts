@@ -1,15 +1,22 @@
+import SimpleSlider from "components/Home/Slider/SimpleSlider";
+import { breakpoints } from "constants/breakpoints";
 import styled from "styled-components";
 
 export const BookImage = styled.div`
   position: relative;
   flex-shrink: 0;
-
-  & .img-container {
-    width: 296px;
-  }
+  width: 312px;
 
   & img {
     cursor: pointer;
+  }
+
+  @media screen and (min-width: ${breakpoints.tablet}) {
+    max-width: ${breakpoints.tablet};
+  }
+
+  @media screen and (min-width: ${breakpoints.desktop}) {
+    max-width: ${breakpoints.desktop};
   }
 `;
 
@@ -23,10 +30,42 @@ export const BookImageSet = styled.div`
   }
 `;
 
-export const StyledBookPageSlider = styled.div`
-  width: 1220px;
+export const StyledSimpleSlider = styled(SimpleSlider)`
+  width: 100vw;
 
-  & .slick-slider {
-    width: 100%;
+  & .slider-container {
+    margin: 2rem 0;
+  }
+
+  @media screen and (min-width: ${breakpoints.tablet}) {
+    & .slick-list {
+      width: 100%;
+      width: ${breakpoints.tablet};
+    }
+
+    & .slick-slider {
+      width: 100%;
+      width: ${breakpoints.tablet};
+    }
+
+    & .slider-container {
+      width: 100%;
+    }
+  }
+
+  @media screen and (min-width: ${breakpoints.desktop}) {
+    & .slick-list {
+      width: 100%;
+      width: 1220px;
+    }
+
+    & .slick-slider {
+      width: 100%;
+      width: 1220px;
+    }
+
+    & .slider-container {
+      width: 100%;
+    }
   }
 `;

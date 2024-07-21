@@ -7,11 +7,6 @@ export const StyledCommonWrapper = styled.div`
   margin-top: 3.5rem;
 
   width: 100vw;
-
-  @media screen and (min-width: ${breakpoints.desktop}) {
-    margin: 0 auto;
-    margin-top: 88px;
-  }
 `;
 
 export const PageWrapper = styled.div`
@@ -25,16 +20,6 @@ export const PageWrapper = styled.div`
   min-width: ${breakpoints.mobile};
 
   background-color: var(--bukarka-white);
-
-  @media screen and (min-width: ${breakpoints.desktop}) {
-    margin-top: 88px;
-    padding-bottom: 80px;
-  }
-
-  @media screen and (min-width: ${breakpoints.desktop}) {
-    margin-top: 88px;
-    padding-bottom: 80px;
-  }
 `;
 
 export const FlexContainer = styled.div`

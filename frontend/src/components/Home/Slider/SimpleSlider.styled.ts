@@ -4,7 +4,6 @@ import Slider from "react-slick";
 import { breakpoints } from "constants/breakpoints";
 
 export const StyledSlider = styled(Slider)`
-  width: 100%;
   @media screen and (min-width: ${breakpoints.mobile}) {
     max-width: 480px;
   }
@@ -24,6 +23,11 @@ export const StyledSlider = styled(Slider)`
   @media screen and (min-width: 1024px) {
     max-width: 1024px;
   }
+
+  @media screen and (min-width: 1220px) {
+    max-width: 1220px;
+  }
+  width: 100%;
   max-width: 1024px;
 `;
 

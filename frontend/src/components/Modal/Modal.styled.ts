@@ -71,10 +71,6 @@ export const CloseButton = styled.button`
   font-size: 18px;
   cursor: pointer;
 
-  @media screen and (min-width: ${breakpoints.tablet}) {
-    display: none;
-  }
-
   @media screen and (min-width: ${breakpoints.desktop}) {
     display: block;
     right: 16px;
