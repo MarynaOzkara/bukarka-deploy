@@ -93,16 +93,6 @@ const SimpleSlider: React.FC<IDataBooks> = ({ data }) => {
       },
 
       {
-        breakpoint: 1000,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: true,
-        },
-      },
-
-      {
         breakpoint: 960,
         settings: {
           slidesToShow: 2,
@@ -114,8 +104,8 @@ const SimpleSlider: React.FC<IDataBooks> = ({ data }) => {
       {
         breakpoint: 560,
         settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
+          slidesToShow: 2,
+          slidesToScroll: 2,
           initialSlide: 3,
         },
       },
@@ -123,8 +113,8 @@ const SimpleSlider: React.FC<IDataBooks> = ({ data }) => {
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 1,
-          slidesToScroll: 2,
+          slidesToShow: 2,
+          slidesToScroll: 1,
           initialSlide: 3,
         },
       },

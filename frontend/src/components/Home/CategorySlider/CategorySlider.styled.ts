@@ -1,4 +1,3 @@
-import { breakpoints } from "constants/breakpoints";
 import styled from "styled-components";
 
 export const StyledCategorySlider = styled.div`
@@ -8,6 +7,6 @@ export const StyledCategorySlider = styled.div`
   margin-bottom: 48px;
 
   .slider-container {
-    width: calc(100% - 192px);
+    width: 100%;
   }
 `;
