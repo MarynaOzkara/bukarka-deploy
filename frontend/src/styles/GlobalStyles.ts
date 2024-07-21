@@ -1,3 +1,4 @@
+import { breakpoints } from "constants/breakpoints";
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
@@ -22,7 +23,7 @@ body {
   /* color:   ${({ theme }) => theme.colors.text.primary}; */
   color: var(--bukarka-black);
   background-color: var(--bukarka-grey);
-  min-width: 320px;
+  
 
 }
 

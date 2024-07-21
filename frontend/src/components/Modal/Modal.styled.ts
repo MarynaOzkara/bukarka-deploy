@@ -36,6 +36,7 @@ export const ModalWrapper = styled.div`
   align-items: center;
   background-color: rgba(0, 0, 0, 0.1);
   z-index: 2;
+  overflow: auto;
 `;
 
 export const ModalContent = styled.div<ModalContentProps>`
@@ -43,6 +44,7 @@ export const ModalContent = styled.div<ModalContentProps>`
   max-height: content-fit;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
   background: var(--bukarka-white);
+  max-height: 90vh;
 
   ${({ $animation }) =>
     $animation === "fade" &&

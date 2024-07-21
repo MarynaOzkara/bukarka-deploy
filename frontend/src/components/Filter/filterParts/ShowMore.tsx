@@ -12,14 +12,14 @@ interface IProps {
 const ShowMore: React.FC<IProps> = ({
   optionName,
   options,
-  initialVisibleCount = 6,
+  initialVisibleCount = 4,
   selected,
   onChange,
 }) => {
   const [visibleCount, setVisibleCount] = useState(initialVisibleCount);
 
   const handleToggleShow = () => {
-    setVisibleCount((prevCount) => Math.min(prevCount + 6, options.length));
+    setVisibleCount((prevCount) => Math.min(prevCount + 4, options.length));
   };
 
   const handleShowLess = () => {

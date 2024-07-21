@@ -12,6 +12,14 @@ import { hasData } from "utils/hasData";
 import { StyledFlexWrapper } from "./CatalogPage.style";
 import SectionContent from "./SectionContent";
 import { adjustAgeValue } from "constants/catalog";
+import { breakpoints } from "constants/breakpoints";
+import {
+  Button,
+  ButtonGreyYellow,
+  ButtonYellow,
+  Wrapper,
+} from "styles/CommonStyled";
+import Modal from "components/Modal";
 
 const CatalogPage: React.FC = () => {
   const { category, subcategory, link } = useParams();
@@ -20,6 +28,22 @@ const CatalogPage: React.FC = () => {
   const [sortBy, setSortBy] = useState("");
   const [orderSort, setOrderSort] = useState("asc");
   const { currentPage, setCurrentPage, totalPages } = useBooks();
+
+  const [isDesktop, setIsDesktop] = useState(
+    window.innerWidth >= parseInt(breakpoints.tablet)
+  );
+
+  const handleResize = () => {
+    setIsDesktop(window.innerWidth >= parseInt(breakpoints.tablet));
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handlePageChange = (page: number) => {
     if (page !== currentPage) {
@@ -62,6 +86,19 @@ const CatalogPage: React.FC = () => {
     [setSearchParams]
   );
 
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalContent, setModalContent] = useState<string>("");
+
+  const showModal = (content: string, isSize: boolean) => {
+    setModalContent(content);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalContent("");
+    setIsModalOpen(false);
+  };
+
   const renderBreadcrumbs = () => {
     return (
       <BreadCrumbs>
@@ -88,10 +125,27 @@ const CatalogPage: React.FC = () => {
         <Label>Каталог</Label>
       )}
 
-      <StyledFlexWrapper>
-        <Filter />
+      {!isDesktop && (
+        <div className="button-container">
+          <ButtonGreyYellow onClick={() => showModal("filter", isDesktop)}>
+            Фильтр
+          </ButtonGreyYellow>
+          <ButtonGreyYellow>Сортування</ButtonGreyYellow>
+        </div>
+      )}
 
-        {hasBooks && <Sort onSortChange={handleSortChange} />}
+      {!isDesktop && totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
+
+      <StyledFlexWrapper>
+        {isDesktop && <Filter isDesktop={isDesktop} />}
+
+        {isDesktop && hasBooks && <Sort onSortChange={handleSortChange} />}
 
         {<Outlet context={{ books }} /> || <SectionContent data={books} />}
       </StyledFlexWrapper>
@@ -104,6 +158,14 @@ const CatalogPage: React.FC = () => {
         />
       )}
       <Subscribe />
+
+      {!isDesktop && isModalOpen && (
+        <Modal close={closeModal} showCloseButton={true}>
+          {modalContent === "filter" && (
+            <Filter isDesktop={isDesktop} onClose={closeModal} />
+          )}
+        </Modal>
+      )}
     </PageLayout>
   );
 };

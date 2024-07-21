@@ -18,7 +18,12 @@ import CategoriesSection from "./filterParts/CategoriesSection";
 import PublishersSection from "./filterParts/PublishersSection";
 import { adjustAgeValues } from "constants/catalog";
 
-const Filter: React.FC = () => {
+interface IProps {
+  isDesktop?: boolean;
+  onClose?: () => void;
+}
+
+const Filter: React.FC<IProps> = ({ isDesktop, onClose }) => {
   const { fetchFilterData, applyFilter } = useBooks();
 
   const [filterData, setFilterData] = useState<FilterData>({
@@ -132,8 +137,6 @@ const Filter: React.FC = () => {
     });
   };
 
-  
-
   const handleSubmitFilters = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -161,11 +164,14 @@ const Filter: React.FC = () => {
     };
 
     applyFilter(filterQuery);
+    if (onClose) {
+      onClose();
+    }
   };
 
   return (
     <FilterWrapper>
-      <SectionTitle>Фильтр</SectionTitle>
+      {isDesktop && <SectionTitle>Фильтр</SectionTitle>}
       <FilterContent onSubmit={handleSubmitFilters}>
         <section>
           <SubTitle>Добірка</SubTitle>
@@ -191,6 +197,7 @@ const Filter: React.FC = () => {
 
         {hasCategories && (
           <CategoriesSection
+            isDesktop={isDesktop}
             categories={categories}
             selectedCategories={selectedCategories}
             selectedSubcategories={selectedSubcategories}

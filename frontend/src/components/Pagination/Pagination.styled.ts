@@ -1,10 +1,10 @@
+import { breakpoints } from "constants/breakpoints";
 import styled from "styled-components";
 import { FlexWrapper } from "styles/CommonStyled";
 
 export const PaginationWrapper = styled(FlexWrapper)`
-  gap: 2rem;
-  margin: 2rem auto;
-  max-width: 15rem;
+  margin: 1.5rem auto;
+
   color: var(--bukarka-dark-grey);
   align-items: center;
 
@@ -24,5 +24,15 @@ export const PaginationWrapper = styled(FlexWrapper)`
 
   & .active {
     background: var(--bukarka-yellow);
+  }
+
+  width: 100%;
+
+  @media screen and (min-width: ${breakpoints.tablet}) {
+    width: ${breakpoints.mobile};
+  }
+
+  @media screen and (min-width: ${breakpoints.desktop}) {
+    width: ${breakpoints.mobile};
   }
 `;

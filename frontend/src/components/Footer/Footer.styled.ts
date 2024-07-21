@@ -4,18 +4,16 @@ import { Logo } from "assets/icons";
 import { breakpoints } from "constants/breakpoints";
 
 export const StyledFooter = styled.footer`
-  width: 100%;
   background-color: var(--bukarka-light-grey);
   box-shadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.25);
   padding: 2vw;
   margin: 0 auto;
-
-  @media screen and (min-width: ${breakpoints.mobile}) {
-    min-width: ${breakpoints.mobile};
-  }
+  width: 100%;
+  min-width: ${breakpoints.mobile};
 
   @media screen and (min-width: ${breakpoints.tablet}) {
     min-width: ${breakpoints.tablet};
+    width: 100vw;
   }
 
   @media screen and (min-width: ${breakpoints.desktop}) {

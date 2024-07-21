@@ -22,6 +22,7 @@ export const PageWrapper = styled.div`
   width: 100vw;
   max-width: 1296px;
   margin: 0 auto;
+  min-width: ${breakpoints.mobile};
 
   background-color: var(--bukarka-white);
 
@@ -113,6 +114,12 @@ export const ButtonOrange = styled(Button)`
 export const ButtonYellow = styled(Button)`
   width: 100%;
   background: var(--bukarka-yellow);
+`;
+
+export const ButtonGreyYellow = styled(Button)`
+  color: var(--bukarka-deep-blue);
+  border: 2px solid var(--bukarka-yellow);
+  margin: 0 0.5rem;
 `;
 
 export const ButtonContainer = styled.section`
