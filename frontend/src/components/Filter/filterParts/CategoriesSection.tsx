@@ -13,6 +13,7 @@ interface IProps {
   onCategoryChange: (value: string[]) => void;
   onSubcategoryChange: (values: string[]) => void;
   onAgeChange: (values: string[]) => void;
+  isDesktop?: boolean;
 }
 
 const CategoriesSection: React.FC<IProps> = ({
@@ -23,6 +24,7 @@ const CategoriesSection: React.FC<IProps> = ({
   onCategoryChange,
   onSubcategoryChange,
   onAgeChange,
+  isDesktop,
 }) => {
   const [isHidden, setIsHidden] = useState(false);
 
@@ -81,15 +83,16 @@ const CategoriesSection: React.FC<IProps> = ({
         />
       </section>
 
-      {isHidden ? (
-        <button className="expand" onClick={toggleHidden}>
-          Згорнути
-        </button>
-      ) : (
-        <button className="expand" onClick={toggleHidden}>
-          Розгорнути
-        </button>
-      )}
+      {isDesktop &&
+        (isHidden ? (
+          <button className="expand" onClick={toggleHidden}>
+            Згорнути
+          </button>
+        ) : (
+          <button className="expand" onClick={toggleHidden}>
+            Розгорнути
+          </button>
+        ))}
 
       {isHidden && (
         <>

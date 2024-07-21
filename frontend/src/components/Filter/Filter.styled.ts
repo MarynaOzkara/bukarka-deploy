@@ -55,8 +55,6 @@ export const FilterContent = styled.form`
   }
 
   & section {
-    padding-bottom: 1rem;
-
     & .more {
       font-weight: 700;
       font-size: 0.8em;
@@ -75,10 +73,10 @@ export const FilterContent = styled.form`
 
 export const SubTitle = styled.p`
   font-weight: 700;
-  padding-bottom: 1rem;
 `;
 
 export const PriceRangeInput = styled(Input)`
+  margin-bottom: 1rem;
   font-family: var(--regular);
 `;
 

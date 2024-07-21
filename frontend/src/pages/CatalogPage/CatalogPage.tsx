@@ -13,7 +13,13 @@ import { StyledFlexWrapper } from "./CatalogPage.style";
 import SectionContent from "./SectionContent";
 import { adjustAgeValue } from "constants/catalog";
 import { breakpoints } from "constants/breakpoints";
-import { Button, ButtonGreyYellow, ButtonYellow } from "styles/CommonStyled";
+import {
+  Button,
+  ButtonGreyYellow,
+  ButtonYellow,
+  Wrapper,
+} from "styles/CommonStyled";
+import Modal from "components/Modal";
 
 const CatalogPage: React.FC = () => {
   const { category, subcategory, link } = useParams();
@@ -80,6 +86,19 @@ const CatalogPage: React.FC = () => {
     [setSearchParams]
   );
 
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalContent, setModalContent] = useState<string>("");
+
+  const showModal = (content: string, isSize: boolean) => {
+    setModalContent(content);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalContent("");
+    setIsModalOpen(false);
+  };
+
   const renderBreadcrumbs = () => {
     return (
       <BreadCrumbs>
@@ -108,7 +127,9 @@ const CatalogPage: React.FC = () => {
 
       {!isDesktop && (
         <div className="button-container">
-          <ButtonGreyYellow>Фильтр</ButtonGreyYellow>
+          <ButtonGreyYellow onClick={() => showModal("filter", !isDesktop)}>
+            Фильтр
+          </ButtonGreyYellow>
           <ButtonGreyYellow>Сортування</ButtonGreyYellow>
         </div>
       )}
@@ -137,6 +158,12 @@ const CatalogPage: React.FC = () => {
         />
       )}
       <Subscribe />
+
+      {!isDesktop && isModalOpen && (
+        <Modal close={closeModal} showCloseButton={true}>
+          {modalContent === "filter" && <Filter isDesktop={isDesktop} />}
+        </Modal>
+      )}
     </PageLayout>
   );
 };

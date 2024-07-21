@@ -1,11 +1,9 @@
-import { useOutletContext, useSearchParams } from "react-router-dom";
+import { StyledFlexWrap } from "pages/CommonPages.styled";
+import { useOutletContext } from "react-router-dom";
 import { TextCenter } from "styles/CommonStyled";
 import { IBookItem } from "types/Books";
-import CatalogBookCard from "../CatalogBookCard";
-import { StyledFlexWrap } from "pages/CommonPages.styled";
 import { hasData } from "utils/hasData";
-import { useBooks } from "components/Book";
-import { Pagination } from "components";
+import CatalogBookCard from "../CatalogBookCard";
 
 interface SectionContentProps {
   data?: IBookItem[];
