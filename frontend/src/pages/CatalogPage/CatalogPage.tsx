@@ -5,21 +5,16 @@ import { Outlet, useParams, useSearchParams } from "react-router-dom";
 
 import Filter from "components/Filter";
 import { PageLayout } from "components/Layout";
+import Modal from "components/Modal";
 import Subscribe from "components/Subscribe";
+import { breakpoints } from "constants/breakpoints";
+import { adjustAgeValue } from "constants/catalog";
 import { BreadCrumbs, Label } from "pages/CommonPages.styled";
 import { Link } from "react-router-dom";
+import { ButtonGreyYellow } from "styles/CommonStyled";
 import { hasData } from "utils/hasData";
 import { StyledFlexWrapper } from "./CatalogPage.style";
 import SectionContent from "./SectionContent";
-import { adjustAgeValue } from "constants/catalog";
-import { breakpoints } from "constants/breakpoints";
-import {
-  Button,
-  ButtonGreyYellow,
-  ButtonYellow,
-  Wrapper,
-} from "styles/CommonStyled";
-import Modal from "components/Modal";
 
 const CatalogPage: React.FC = () => {
   const { category, subcategory, link } = useParams();
@@ -61,6 +56,9 @@ const CatalogPage: React.FC = () => {
 
   useEffect(() => {
     const page = Number(searchParams.get("page")) || 1;
+    const news = !!searchParams.get("new") || undefined;
+    const bestsellers = !!searchParams.get("bestsellers") || undefined;
+    const promotions = !!searchParams.get("promotions") || undefined;
 
     const ageReplaced =
       subcategory === "Книги за віком" ? adjustAgeValue(link ?? "") : "";
@@ -71,6 +69,9 @@ const CatalogPage: React.FC = () => {
       subcategory: subcategoryReplaced,
       link,
       age: ageReplaced,
+      new: news,
+      bestsellers,
+      promotions,
       page,
       sortBy,
       orderSort,
@@ -116,14 +117,10 @@ const CatalogPage: React.FC = () => {
 
   return (
     <PageLayout books={books}>
-      {hasBooks ? (
-        <>
-          {renderBreadcrumbs()}
-          {renderLabels()}
-        </>
-      ) : (
-        <Label>Каталог</Label>
-      )}
+      <>
+        {renderBreadcrumbs()}
+        {renderLabels()}
+      </>
 
       {!isDesktop && (
         <div className="button-container">

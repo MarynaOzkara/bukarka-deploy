@@ -25,6 +25,7 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
   const [showHints, setShowHints] = useState<boolean>(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
   const [isHintSelected, setIsHintSelected] = useState<boolean>(false);
+  const [isValid, setIsValid] = useState(true);
 
   const hintsRef = useRef<HTMLUListElement>(null);
 
@@ -84,7 +85,18 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
 
-    setInputQuery(inputValue);
+    const pattern = new RegExp(
+      "^(?!.*(.)\\1{2})[a-zA-Z\u0400-\u04FF]*(?:[0-9]{1,2})?[a-zA-Z\u0400-\u04FF]*$"
+    );
+    const isValidInput = pattern.test(inputValue);
+
+    if (isValidInput || inputValue.length < inputQuery.length) {
+      setInputQuery(inputValue);
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+
     setIsHintSelected(false);
     setShowHints(!!inputValue);
   };
@@ -140,13 +152,13 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
       {hasButton && <StyledLensIcon />}
       <SearchInput
         type="text"
-        // pattern="[0-9a-zA-Z\u0400-\u04ff]*"
         maxLength={64}
         value={inputQuery}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
         aria-label="Search books"
+        className={!isValid ? "error" : ""}
       />
       {showHints && (
         <StyledHints ref={hintsRef} aria-label="Search suggestions">

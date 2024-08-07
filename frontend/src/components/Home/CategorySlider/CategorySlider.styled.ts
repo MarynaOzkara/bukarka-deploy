@@ -5,8 +5,5 @@ export const StyledCategorySlider = styled.div`
   margin: 0 2rem;
   justify-content: center;
   margin-bottom: 48px;
-
-  .slider-container {
-    width: 100%;
-  }
+  gap: 1rem;
 `;

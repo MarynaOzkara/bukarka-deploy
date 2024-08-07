@@ -6,6 +6,14 @@ export const StyledCommonWrapper = styled.div`
   margin: 0 auto;
   margin-top: 3.5rem;
 
+  @media screen and (min-width: ${breakpoints.tablet}) {
+    margin-top: 3.5rem;
+  }
+
+  @media screen and (min-width: ${breakpoints.desktop}) {
+    margin-top: 5.5rem;
+  }
+
   width: 100vw;
 `;
 

@@ -129,7 +129,7 @@ const FilterSearch: React.FC<IProps> = ({
                 className={index === highlightedIndex ? "highlighted" : ""}
                 onClick={() => handleHintClick(hint)}
               >
-                {hint.toLowerCase().includes(inputQuery) && hint}
+                {hint.toLowerCase().includes(inputQuery.toLowerCase()) && hint}
               </li>
             ))
           ) : (
