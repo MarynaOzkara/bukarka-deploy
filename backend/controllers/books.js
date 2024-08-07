@@ -188,7 +188,7 @@ const filtersBooks = async (req, res) => {
     sort[sortBy] = orderSort === "asc" ? 1 : -1;
   }
 
-  const books = await Book.find(match).skip(skip).limit(limit).sort(sort);
+  const books = await Book.find(match).skip(skip).limit(limit).sort(sort).collation({ locale: 'uk', strength: 2 });
   const total = await Book.countDocuments(match);
   if (!books) {
     throw HttpError(404, "Books not found");
