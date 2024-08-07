@@ -71,26 +71,29 @@ const CategorySlider = () => {
     <>
       <StyledCategorySlider>
         {isDesktop ? (
-          <CategoryPoster title="НОВИНКИ" />
+          <CategoryPoster title="НОВИНКИ" filterParams="new=true" />
         ) : (
-          <MobileCategoryPoster title="НОВИНКИ" />
+          <MobileCategoryPoster title="НОВИНКИ" filterParams="new=true" />
         )}
         <SimpleSlider data={books.newBooks} maxWidth="1024px" />
       </StyledCategorySlider>
       <StyledCategorySlider>
         {isDesktop ? (
-          <CategoryPoster title="БЕСТСЕЛЕРИ" />
+          <CategoryPoster title="БЕСТСЕЛЕРИ" filterParams="bestsellers=true" />
         ) : (
-          <MobileCategoryPoster title="БЕСТСЕЛЕРИ" />
+          <MobileCategoryPoster
+            title="БЕСТСЕЛЕРИ"
+            filterParams="bestsellers=true"
+          />
         )}
 
         <SimpleSlider data={books.bestsellers} maxWidth="1024px" />
       </StyledCategorySlider>
       <StyledCategorySlider>
         {isDesktop ? (
-          <CategoryPoster title="АКЦІЇ" />
+          <CategoryPoster title="АКЦІЇ" filterParams="promotions=true" />
         ) : (
-          <MobileCategoryPoster title="АКЦІЇ" />
+          <MobileCategoryPoster title="АКЦІЇ" filterParams="promotions=true" />
         )}
 
         <SimpleSlider data={books.promotions} maxWidth="1024px" />

@@ -19,6 +19,10 @@ export const SearchInput = styled(Input)`
   border: none;
   box-shadow: 0px 0px 4px 0px #00000040 inset;
 
+  &.error {
+    color: red;
+  }
+
   &::placeholder {
     font-family: var(--regular);
     font-size: 16px;
@@ -96,5 +100,5 @@ export const FormButtonDesktop = styled(FormButton)`
 `;
 
 export const StyledHints = styled(Hints)`
-  width: 400px;
+  max-width: 400px;
 `;

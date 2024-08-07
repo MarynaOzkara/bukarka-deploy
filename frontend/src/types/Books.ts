@@ -41,6 +41,9 @@ export interface IFetchBooksParams {
   subcategory?: string;
   link?: string;
   age?: string;
+  new?: boolean;
+  bestsellers?: boolean;
+  promotions?: boolean;
   page?: number;
   sortBy?: string;
   orderSort?: string;

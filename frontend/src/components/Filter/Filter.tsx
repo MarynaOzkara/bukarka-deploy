@@ -17,6 +17,7 @@ import AuthorsSection from "./filterParts/AuthorsSection";
 import CategoriesSection from "./filterParts/CategoriesSection";
 import PublishersSection from "./filterParts/PublishersSection";
 import { adjustAgeValues } from "constants/catalog";
+import { useSearchParams } from "react-router-dom";
 
 interface IProps {
   isDesktop?: boolean;
@@ -25,6 +26,8 @@ interface IProps {
 
 const Filter: React.FC<IProps> = ({ isDesktop, onClose }) => {
   const { fetchFilterData, applyFilter } = useBooks();
+
+  const [searchParams] = useSearchParams();
 
   const [filterData, setFilterData] = useState<FilterData>({
     ages: [],
@@ -88,6 +91,18 @@ const Filter: React.FC<IProps> = ({ isDesktop, onClose }) => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  useEffect(() => {
+    const newType = searchParams.get("new") === "true";
+    const promotionsType = searchParams.get("promotions") === "true";
+    const bestsellersType = searchParams.get("bestsellers") === "true";
+
+    setSelectedTypes({
+      new: newType,
+      promotions: promotionsType,
+      bestsellers: bestsellersType,
+    });
+  }, [searchParams]);
 
   const handleTypeChange = (type: string) => {
     setSelectedTypes((prev) => ({

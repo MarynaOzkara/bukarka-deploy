@@ -3,11 +3,12 @@ import { Link } from "react-router-dom";
 
 interface IProps {
   title: string;
+  filterParams?: string;
 }
-const CategoryPoster: React.FC<IProps> = ({ title }) => {
+const CategoryPoster: React.FC<IProps> = ({ title, filterParams }) => {
   return (
     <StyledPoster>
-      <Link to={`/catalog`}>
+      <Link to={`/catalog?${new URLSearchParams(filterParams).toString()}`}>
         <span>{title}</span>
       </Link>
     </StyledPoster>

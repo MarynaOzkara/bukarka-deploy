@@ -35,7 +35,7 @@ export const ModalWrapper = styled.div`
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.1);
-  z-index: 2;
+  z-index: 5;
   overflow: auto;
 `;
 
