@@ -37,7 +37,7 @@ export const StyledPrevArrow = styled.div`
   transform: rotate(180deg);
   height: 64px;
   cursor: pointer;
-  z-index: 100;
+  z-index: 1;
   &:hover svg path {
     stroke: #3d7efd;
   }

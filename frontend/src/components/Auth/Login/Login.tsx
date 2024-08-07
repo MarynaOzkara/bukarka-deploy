@@ -11,7 +11,8 @@ interface Props {
 }
 
 const Login: React.FC<Props> = ({ title, prompt }) => {
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState<boolean>(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] =
+    useState<boolean>(false);
 
   const showLoginModal = () => {
     setIsRegisterModalOpen(!isRegisterModalOpen);
@@ -35,7 +36,7 @@ const Login: React.FC<Props> = ({ title, prompt }) => {
           onSubmit={handleSubmit}
           title={title}
           prompt={prompt}
-          showForgotPasswordLink ={true}
+          showForgotPasswordLink={true}
         />
         <Prompt onClick={showLoginModal}>{prompt}</Prompt>
       </Wrapper>

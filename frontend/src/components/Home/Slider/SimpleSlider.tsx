@@ -29,6 +29,7 @@ interface IProps {
 
 interface IDataBooks {
   data: IProps[];
+  maxWidth?: string;
 }
 
 export function NextArrow(props: any) {
@@ -55,7 +56,7 @@ export function PrevArrow(props: any) {
   );
 }
 
-const SimpleSlider: React.FC<IDataBooks> = ({ data }) => {
+const SimpleSlider: React.FC<IDataBooks> = ({ data, maxWidth = "1220px" }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const totalSlides = data.length;
   const dispatch = useAppDispatch();
@@ -143,7 +144,7 @@ const SimpleSlider: React.FC<IDataBooks> = ({ data }) => {
   };
   return (
     <div className="slider-container">
-      <StyledSlider {...settings}>
+      <StyledSlider maxWidth={maxWidth} {...settings}>
         {data.map((item, index) => (
           <BookCard
             _id={item._id}

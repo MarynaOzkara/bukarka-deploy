@@ -88,7 +88,7 @@ const AuthForm: React.FC<Props> = ({
             </label>
           </CheckboxWrapper>
         )}
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Зареєструватися</Button>
       </Form>
     </>
   );

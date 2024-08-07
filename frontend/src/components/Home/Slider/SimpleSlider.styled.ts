@@ -3,7 +3,14 @@ import { StarIcon } from "../../../assets/icons";
 import Slider from "react-slick";
 import { breakpoints } from "constants/breakpoints";
 
-export const StyledSlider = styled(Slider)`
+interface StyledSliderProps {
+  maxWidth: string;
+}
+
+export const StyledSlider = styled(Slider)<StyledSliderProps>`
+  width: 100%;
+  max-width: ${({ maxWidth }) => (maxWidth ? maxWidth : "1220px")};
+  margin-bottom: 2rem;
   @media screen and (min-width: ${breakpoints.mobile}) {
     max-width: 480px;
   }
@@ -21,14 +28,15 @@ export const StyledSlider = styled(Slider)`
   }
 
   @media screen and (min-width: 1024px) {
-    max-width: 1024px;
+    max-width: ${({ maxWidth }) => maxWidth};
   }
 
-  @media screen and (min-width: 1220px) {
-    max-width: 1220px;
-  }
-  width: 100%;
-  max-width: 1024px;
+  // @media screen and (min-width: 1220px) {
+  //   max-width: 1220px;
+  // }
+
+  // width: 100%;
+  // max-width: 1220px;
 `;
 
 export const StyledItemCard = styled.div`
