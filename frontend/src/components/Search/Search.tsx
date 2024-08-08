@@ -85,9 +85,7 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
 
-    const pattern = new RegExp(
-      "^(?!.*(.)\\1{2})[a-zA-Z\u0400-\u04FF]*(?:[0-9]{1,2})?[a-zA-Z\u0400-\u04FF]*$"
-    );
+    const pattern = new RegExp("^[a-zA-Z\u0400-\u04FF\\s-]*$");
     const isValidInput = pattern.test(inputValue);
 
     if (isValidInput || inputValue.length < inputQuery.length) {
@@ -152,7 +150,7 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
       {hasButton && <StyledLensIcon />}
       <SearchInput
         type="text"
-        maxLength={64}
+        maxLength={20}
         value={inputQuery}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
@@ -169,8 +167,14 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
                 className={index === highlightedIndex ? "highlighted" : ""}
                 onClick={() => handleHintClick(hint)}
               >
-                {(hint.author.includes(inputQuery) && hint.author) ||
-                  (hint.title.includes(inputQuery) && hint.title)}
+                {(hint.author
+                  .toLowerCase()
+                  .includes(inputQuery.toLowerCase()) &&
+                  hint.author) ||
+                  (hint.title
+                    .toLowerCase()
+                    .includes(inputQuery.toLowerCase()) &&
+                    hint.title)}
               </li>
             ))
           ) : (
