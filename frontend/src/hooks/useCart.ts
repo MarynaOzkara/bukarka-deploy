@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { useAppDispatch } from "appRedux/hooks";
+import { useOrderContext } from "components/Order/OrderContext";
 import {
   addToCart,
   createCart,
@@ -8,47 +9,34 @@ import {
 
 const useCart = (_id: string) => {
   const dispatch = useAppDispatch();
+  const { orderId, setOrderId } = useOrderContext();
 
   const handleCart = useCallback(async () => {
-    let orderId = localStorage.getItem("currentOrderId");
+    let currentOrderId = orderId;
 
-    if (!orderId) {
+    if (!currentOrderId) {
       const createCartResponse = await dispatch(createCart());
       if (createCartResponse.meta.requestStatus !== "fulfilled") {
         console.log("Помилка при створенні кошика.");
         return;
       }
-      orderId = createCartResponse?.payload?.orderId;
-      if (!orderId) {
+      currentOrderId = createCartResponse?.payload?.orderId;
+      if (!currentOrderId) {
         console.log("orderId не встановлений");
         return;
       }
-      try {
-        localStorage.setItem("currentOrderId", orderId);
-      } catch (error) {
-        console.error("Error setting currentOrderId in localStorage:", error);
-        document.cookie = `currentOrderId=${orderId}; path=/`;
-      }
+      setOrderId(currentOrderId);
     }
 
     const addToCartResponse = await dispatch(
-      addToCart({ orderId, productId: _id })
+      addToCart({ orderId: currentOrderId, productId: _id })
     );
     if (addToCartResponse.meta.requestStatus === "fulfilled") {
-      await dispatch(fetchOrderById(orderId));
-      try {
-        localStorage.setItem(`isBookAdded_${_id}`, "true");
-      } catch (error) {
-        console.error(
-          `Error setting isBookAdded_${_id} in localStorage:`,
-          error
-        );
-        document.cookie = `isBookAdded_${_id}=true; path=/`;
-      }
+      await dispatch(fetchOrderById(currentOrderId));
     } else {
       console.log("Помилка при додаванні товару до кошика.");
     }
-  }, [_id, dispatch]);
+  }, [_id, dispatch, orderId, setOrderId]);
 
   return {
     handleCart,

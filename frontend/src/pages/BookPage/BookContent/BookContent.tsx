@@ -10,6 +10,7 @@ import useCart from "hooks/useCart";
 import { useAppDispatch } from "appRedux/hooks";
 import { images } from "assets/images";
 import { fetchOrderById } from "appRedux/orders/operations";
+import { useOrderContext } from "components/Order/OrderContext";
 import {
   ButtonOrange,
   ButtonYellow,
@@ -40,6 +41,7 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
 
   const dispatch = useAppDispatch();
   const { handleCart } = useCart(book._id);
+  const { orderId, setOrderId } = useOrderContext();
 
   const showModal = (content: string, img?: string) => {
     setModalContent(content);
@@ -53,9 +55,8 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
 
   useEffect(() => {
     const fetchCartData = async () => {
-      const storedOrderId = localStorage.getItem("currentOrderId");
-      if (storedOrderId) {
-        const response = await dispatch(fetchOrderById(storedOrderId));
+      if (orderId) {
+        const response = await dispatch(fetchOrderById(orderId));
         if (response.meta.requestStatus === "fulfilled") {
           setCartData(response.payload as CartData);
         }
@@ -63,7 +64,7 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
     };
 
     fetchCartData();
-  }, [dispatch]);
+  }, [dispatch, orderId]);
 
   const handleBuy = useCallback(async () => {
     if (!localStorage.getItem(`isBookAdded_${book._id}`)) {

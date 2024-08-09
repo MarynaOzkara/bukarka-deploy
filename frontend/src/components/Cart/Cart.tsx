@@ -7,6 +7,7 @@ import { fetchOrderById } from "appRedux/orders/operations";
 import { useAppDispatch } from "appRedux/hooks";
 import { IRootState } from "appRedux/store";
 import { selectOrdersStatus } from "appRedux/orders/selectors";
+import { useOrderContext } from "components/Order/OrderContext";
 import {
   Button,
   CartWrapper,
@@ -30,22 +31,19 @@ type Props = {
 const Cart: React.FC<Props> = ({ closeCart }) => {
   const dispatch = useAppDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
+  const { orderId, setOrderId } = useOrderContext();
 
   const isConfirmationPage = location.pathname.includes("/confirmation/");
-
   const cartWrapperRef = useRef<HTMLDivElement>(null);
   const [wrapperHeight, setWrapperHeight] = useState<number | null>(null);
   const [cartData, setCartData] = useState<CartData | null>(null);
-  const [currentOrderId, setCurrentOrderId] = useState<string | null>(null);
-  const navigate = useNavigate();
 
   const status = useSelector((state: IRootState) => selectOrdersStatus(state));
 
   useEffect(() => {
-    const storedOrderId = localStorage.getItem("currentOrderId");
-    setCurrentOrderId(storedOrderId);
-    if (storedOrderId) {
-      dispatch(fetchOrderById(storedOrderId))
+    if (orderId) {
+      dispatch(fetchOrderById(orderId))
         .then((response: any) => {
           if (response.meta.requestStatus !== "rejected") {
             setCartData(response.payload as CartData);
@@ -56,8 +54,9 @@ const Cart: React.FC<Props> = ({ closeCart }) => {
         .catch((error) => {
           console.error("Error fetching order data:", error);
         });
+    } else {
     }
-  }, [dispatch]);
+  }, [dispatch, orderId]);
 
   useEffect(() => {
     if (cartWrapperRef.current) {
