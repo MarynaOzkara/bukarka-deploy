@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch } from "appRedux/hooks";
+import { useOrderContext } from "components/Order/OrderContext";
 import { fetchOrderById } from "appRedux/orders/operations";
 import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
@@ -18,6 +19,7 @@ const OrderConfirmationPage: React.FC = () => {
   const { id } = useParams();
   const [orderNumber, setOrderNumber] = useState("");
   const dispatch = useAppDispatch();
+  const { clearOrderData } = useOrderContext();
 
   useEffect(() => {
     let attempts = 0;
@@ -44,14 +46,14 @@ const OrderConfirmationPage: React.FC = () => {
     };
 
     fetchOrderAndCheckStatus();
-
-    localStorage.removeItem("currentOrderId");
+    clearOrderData();
+    
     Object.keys(localStorage).forEach((key) => {
       if (key.startsWith("isBookAdded_")) {
         localStorage.removeItem(key);
       }
     });
-  }, [dispatch, id]);
+  }, [clearOrderData, dispatch, id]);
 
   return (
     <StyledCommonWrapper>

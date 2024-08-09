@@ -9,6 +9,7 @@ import {
   selectOrdersError,
   selectOrdersStatus,
 } from "appRedux/orders/selectors";
+import { useOrderContext } from "components/Order/OrderContext";
 import useCart from "hooks/useCart";
 import { truncateString } from "utils/truncateString";
 import { images } from "assets/images";
@@ -49,7 +50,7 @@ const BookCard: React.FC<IProps> = ({
   const [isBookAdded, setIsBookAdded] = useState<boolean>(
     localStorage.getItem(`isBookAdded_${_id}`) === "true"
   );
-
+  const { orderId, setOrderId } = useOrderContext();
   const ordersStatus = useSelector(selectOrdersStatus);
   const ordersError = useSelector(selectOrdersError);
 

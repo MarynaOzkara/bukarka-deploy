@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import CartItem from "../CartItem";
 import { deleteOrder, fetchOrderById } from "appRedux/orders/operations";
 import { useAppDispatch } from "appRedux/hooks";
+import { useOrderContext } from "components/Order/OrderContext";
 import { selectOrdersData } from "appRedux/orders/selectors";
 import {
   AmountOfBooks,
@@ -27,6 +28,7 @@ const CartList: React.FC<CartListProps> = ({ closeCart }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const cartData = useSelector(selectOrdersData);
+  const { orderId, setOrderId } = useOrderContext();
 
   const ordersId = cartData?._id;
 
@@ -39,16 +41,16 @@ const CartList: React.FC<CartListProps> = ({ closeCart }) => {
         keysToRemove.push(key);
       }
     }
-
-    keysToRemove.forEach((key) => localStorage.removeItem(key));
-    localStorage.removeItem("currentOrderId");
   };
 
   const handleDelete = async () => {
     clearLocalStorage();
 
     await dispatch(deleteOrder(ordersId!)).then(() => {
-      dispatch(fetchOrderById(ordersId!)).then(closeCart);
+      dispatch(fetchOrderById(ordersId!)).then(() => {
+        setOrderId(null);
+        closeCart();
+      });
     });
   };
 
