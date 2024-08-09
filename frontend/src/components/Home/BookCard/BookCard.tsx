@@ -47,10 +47,7 @@ const BookCard: React.FC<IProps> = ({
   index,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isBookAdded, setIsBookAdded] = useState<boolean>(
-    localStorage.getItem(`isBookAdded_${_id}`) === "true"
-  );
-  const { orderId, setOrderId } = useOrderContext();
+  const { isBookAdded, markBookAsAdded } = useOrderContext();
   const ordersStatus = useSelector(selectOrdersStatus);
   const ordersError = useSelector(selectOrdersError);
 
@@ -83,18 +80,16 @@ const BookCard: React.FC<IProps> = ({
   );
 
   const handleBuy = useCallback(async () => {
-    if (isBookAdded) {
+    if (isBookAdded[_id]) {
       console.log("Книга вже є в кошику!");
       setIsOpen(true);
       return;
     }
 
     await handleCart();
-
+    markBookAsAdded(_id);
     setIsOpen(true);
-    setIsBookAdded(true);
-    localStorage.setItem(`isBookAdded_${_id}`, "true");
-  }, [_id, handleCart, isBookAdded]);
+  }, [_id, handleCart, isBookAdded, markBookAsAdded]);
 
   return (
     <>

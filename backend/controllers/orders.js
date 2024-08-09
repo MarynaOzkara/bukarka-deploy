@@ -19,13 +19,6 @@ const createCart = async (req, res) => {
 const addToCart = async (req, res) => {
   const { productId, orderId } = req.params;
 
-  const orderItem = new OrderItem({
-    quantity: 1,
-    product: productId,
-  });
-
-  await orderItem.save();
-
   let order = await Order.findById(orderId);
 
   if (!order) {
@@ -36,8 +29,14 @@ const addToCart = async (req, res) => {
     });
   }
 
-  order.orderItems.push(orderItem);
+  const orderItem = new OrderItem({
+    quantity: 1,
+    product: productId,
+  });
 
+  await orderItem.save();
+
+  order.orderItems.push(orderItem);
   await order.save();
 
   res.status(201).json({

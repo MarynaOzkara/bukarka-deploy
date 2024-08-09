@@ -49,13 +49,12 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
   const bookId = item.product._id;
 
   const dispatch = useAppDispatch();
-  const { orderId } = useOrderContext();
+  const { orderId, isBookAdded, markBookAsAdded } = useOrderContext();
 
   const handleDelete = async (id: string) => {
     if (orderId) {
       dispatch(deleteItem(id));
       await dispatch(fetchOrderById(orderId));
-      localStorage.removeItem(`isBookAdded_${bookId}`);
     }
   };
 
