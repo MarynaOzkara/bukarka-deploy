@@ -85,7 +85,9 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
 
-    const pattern = new RegExp("^[a-zA-Z\u0400-\u04FF\\s-]*$");
+    const pattern = new RegExp(
+      "^(?!.*(.)\\1{2})[a-zA-Z\u0400-\u04FF\\s-]*(?:[0-9]{1,2})?[a-zA-Z\u0400-\u04FF\\s-]*$"
+    );
     const isValidInput = pattern.test(inputValue);
 
     if (isValidInput || inputValue.length < inputQuery.length) {
