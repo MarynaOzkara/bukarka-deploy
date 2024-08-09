@@ -6,6 +6,7 @@ interface OrderContextProps {
   bookPrice: number | null;
   orderNumber: string | null;
   orderId: string | null;
+  isBookAdded: { [key: string]: boolean };
   setBookData: (data: {
     totalQuantity: number;
     deliveryPrice: number | null;
@@ -14,6 +15,8 @@ interface OrderContextProps {
   }) => void;
   setOrderNumber: (orderNumber: string | null) => void;
   setOrderId: (orderId: string | null) => void;
+  markBookAsAdded: (bookId: string) => void;
+  isBookInCart: (bookId: string) => boolean;
   clearOrderData: () => void;
 }
 
@@ -41,7 +44,9 @@ export const OrderContextProvider: React.FC<OrderContextProviderProps> = ({
   const [bookPrice, setBookPrice] = useState<number | null>(null);
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
   const [orderId, setOrderId] = useState<string | null>(null);
-
+  const [isBookAdded, setIsBookAdded] = useState<{ [key: string]: boolean }>(
+    {}
+  );
   const setBookData = (data: {
     totalQuantity: number;
     deliveryPrice: number | null;
@@ -54,12 +59,21 @@ export const OrderContextProvider: React.FC<OrderContextProviderProps> = ({
     setOrderNumber(data.orderNumber);
   };
 
+  const markBookAsAdded = (bookId: string) => {
+    setIsBookAdded((prev) => ({ ...prev, [bookId]: true }));
+  };
+
+  const isBookInCart = (bookId: string) => {
+    return Boolean(isBookAdded[bookId]);
+  };
+
   const clearOrderData = () => {
     setTotalQuantity(0);
     setDeliveryPrice(null);
     setBookPrice(null);
     setOrderNumber(null);
     setOrderId(null);
+    setIsBookAdded({});
   };
 
   const contextValue = {
@@ -68,9 +82,12 @@ export const OrderContextProvider: React.FC<OrderContextProviderProps> = ({
     bookPrice,
     orderNumber,
     orderId,
+    isBookAdded,
     setBookData,
     setOrderNumber,
     setOrderId,
+    markBookAsAdded,
+    isBookInCart,
     clearOrderData,
   };
 

@@ -6,6 +6,7 @@ import Cart from "components/Cart";
 import FavoriteButton from "components/FavoriteButton/";
 import Modal from "components/Modal";
 import useCart from "hooks/useCart";
+import { useOrderContext } from "components/Order/OrderContext";
 import { truncateString } from "utils/truncateString";
 import { images } from "assets/images";
 import {
@@ -44,9 +45,9 @@ const BookCard: React.FC<IProps> = ({
   price,
   rating,
 }) => {
-
   let navigate = useNavigate();
   const { handleCart } = useCart(_id);
+  const { isBookAdded, markBookAsAdded } = useOrderContext();
 
   const starsProps = useMemo(
     () => ({
@@ -83,22 +84,26 @@ const BookCard: React.FC<IProps> = ({
   );
 
   const handleBuy = useCallback(async () => {
-    if (!localStorage.getItem(`isBookAdded_${_id}`)) {
-      localStorage.setItem(`isBookAdded_${_id}`, "true");
-
-      await handleCart();
+    if (isBookAdded[_id]) {
+      showModal("isBookAdded");
+      return;
     }
 
+    await handleCart();
+    markBookAsAdded(_id);
     showModal("cart");
-  }, [_id, handleCart]);
+  }, [_id, handleCart, isBookAdded, markBookAsAdded]);
 
   const handleAddToCart = useCallback(async () => {
-    if (localStorage.getItem(`isBookAdded_${_id}`)) {
+    if (isBookAdded[_id]) {
       showModal("isBookAdded");
-    } else {
-      await handleCart();
+      return;
     }
-  }, [_id, handleCart]);
+
+    await handleCart();
+    markBookAsAdded(_id);
+    showModal("cart");
+  }, [_id, handleCart, isBookAdded, markBookAsAdded]);
 
   return (
     <>

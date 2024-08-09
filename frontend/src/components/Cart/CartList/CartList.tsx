@@ -28,24 +28,12 @@ const CartList: React.FC<CartListProps> = ({ closeCart }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const cartData = useSelector(selectOrdersData);
-  const { orderId, setOrderId } = useOrderContext();
+  const { orderId, setOrderId, clearOrderData } = useOrderContext();
 
   const ordersId = cartData?._id;
 
-  const clearLocalStorage = () => {
-    const keysToRemove: string[] = [];
-
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key && key.includes("isBookAdded_")) {
-        keysToRemove.push(key);
-      }
-    }
-  };
-
   const handleDelete = async () => {
-    clearLocalStorage();
-
+    clearOrderData();
     await dispatch(deleteOrder(ordersId!)).then(() => {
       dispatch(fetchOrderById(ordersId!)).then(() => {
         setOrderId(null);
