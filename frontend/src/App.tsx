@@ -31,10 +31,6 @@ const Providers = combineProviders(
 );
 
 function App() {
-  useEffect(() => {
-    clearLocalStorage();
-  }, []);
-
   return (
     <Providers>
       <Routes>

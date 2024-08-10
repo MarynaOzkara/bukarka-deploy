@@ -23,9 +23,11 @@ const OrderConfirmationPage: React.FC = () => {
 
   useEffect(() => {
     let attempts = 0;
+    const maxAttempts = 3;
+    let timer: ReturnType<typeof setTimeout>;
 
     const fetchOrderAndCheckStatus = async () => {
-      if (id && attempts < 2) {
+      if (id && attempts < maxAttempts && !orderNumber) {
         try {
           const order = await dispatch(fetchOrderById(id)).unwrap();
 
@@ -37,7 +39,7 @@ const OrderConfirmationPage: React.FC = () => {
             setOrderNumber(order.orderNumber.toString());
           } else {
             attempts++;
-            setTimeout(fetchOrderAndCheckStatus, 2000);
+            timer = setTimeout(fetchOrderAndCheckStatus, 3000);
           }
         } catch (error) {
           console.error("Error fetching order:", error);
@@ -46,14 +48,12 @@ const OrderConfirmationPage: React.FC = () => {
     };
 
     fetchOrderAndCheckStatus();
-    clearOrderData();
-    
-    Object.keys(localStorage).forEach((key) => {
-      if (key.startsWith("isBookAdded_")) {
-        localStorage.removeItem(key);
-      }
-    });
-  }, [clearOrderData, dispatch, id]);
+    localStorage.removeItem("orderId");
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [clearOrderData, dispatch, id, orderNumber]);
 
   return (
     <StyledCommonWrapper>
