@@ -152,7 +152,7 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
       {hasButton && <StyledLensIcon />}
       <SearchInput
         type="text"
-        maxLength={20}
+        maxLength={255}
         value={inputQuery}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
