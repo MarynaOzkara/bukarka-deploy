@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface OrderContextProps {
   totalQuantity: number;
@@ -47,6 +47,20 @@ export const OrderContextProvider: React.FC<OrderContextProviderProps> = ({
   const [isBookAdded, setIsBookAdded] = useState<{ [key: string]: boolean }>(
     {}
   );
+
+  useEffect(() => {
+    const storedOrderId = localStorage.getItem("orderId");
+    if (storedOrderId) {
+      setOrderId(storedOrderId);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (orderId) {
+      localStorage.setItem("orderId", orderId);
+    }
+  }, [orderId]);
+
   const setBookData = (data: {
     totalQuantity: number;
     deliveryPrice: number | null;
@@ -74,6 +88,7 @@ export const OrderContextProvider: React.FC<OrderContextProviderProps> = ({
     setOrderNumber(null);
     setOrderId(null);
     setIsBookAdded({});
+    localStorage.removeItem("orderId");
   };
 
   const contextValue = {
