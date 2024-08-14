@@ -53,7 +53,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
 
   const handleDelete = async (id: string) => {
     if (orderId) {
-      dispatch(deleteItem(id));
+      await dispatch(deleteItem(id));
       await dispatch(fetchOrderById(orderId));
     }
   };
