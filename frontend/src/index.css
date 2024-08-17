@@ -1,17 +1,6 @@
 @import "normalize.css";
 
 :root {
-  --bukarka-orange: #ff8a10;
-  --bukarka-yellow: #ffdc00;
-  --bukarka-white: #fffbff;
-  --bukarka-black: #1e1e1e;
-  --bukarka-dark-grey: #7c7165;
-  --bukarka-grey: #dad3cd;
-  --bukarka-light-grey: #efece9;
-  --bukarka-deep-blue: #004f98;
-  --bukarka-accent-blue: #3d7efd;
-  --bukarka-accent-green: #00aa3a;
-
   --regular: "Montserrat-Regular", sans-serif;
   --medium: "Montserrat-Medium", sans-serif;
   --semibold: "Montserrat-Semibold", sans-serif;

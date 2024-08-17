@@ -1,5 +1,8 @@
 import styled, { css } from "styled-components";
+import theme from "styles/theme";
 import { StyledList } from "pages/CommonPages.styled";
+
+const { colors } = theme;
 
 const HiddenStyle = css`
   position: absolute;
@@ -28,7 +31,7 @@ export const AccentText = styled.p`
   font-size: 14px;
   line-height: 1.43;
 
-  color: var(--bukarka-orange);
+  color: ${colors.accent.orange};
 `;
 
 export const SubTitle = styled.h2`
@@ -39,7 +42,7 @@ export const SubTitle = styled.h2`
   font-size: 16px;
   line-height: 1.5;
 
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const ShiftRight = styled.div`
@@ -74,13 +77,13 @@ export const Return = styled(StyledList)`
 
   li {
     width: 700px;
-    color: var(--bukarka-deep-blue);
+    color: ${colors.accent.deepBlue};
   }
 `;
 
 export const Line = styled.hr`
   width: 712px;
-  border-bottom: 1px solid var(--bukarka-grey);
+  border-bottom: 1px solid ${colors.border.primary};
   margin-top: 32px;
   margin-bottom: 32px;
 `;
@@ -92,7 +95,7 @@ export const WarningTitle = styled.p`
   font-family: var(--semibold);
   font-size: 14px;
   line-height: 1.43;
-  color: var(--bukarka-deep-blue);
+  color: ${colors.accent.deepBlue};
 `;
 
 export const WarningText = styled.p`
@@ -102,7 +105,7 @@ export const WarningText = styled.p`
   font-family: var(--regular);
   font-size: 14px;
   line-height: 1.43;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const Description = styled.p`

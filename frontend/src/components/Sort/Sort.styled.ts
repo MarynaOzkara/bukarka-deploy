@@ -1,9 +1,12 @@
 import styled from "styled-components";
+import theme from "styles/theme";
+
+const { colors } = theme;
 
 export const Options = styled.select`
   font-family: inherit;
-  color: var(--bukarka-dark-grey);
-  background: var(--bukarka-white);
+  color: ${colors.text.secondary};
+  background: ${colors.background.primary};
   position: absolute;
   right: 0;
   top: -2.5rem;
@@ -16,17 +19,18 @@ export const Options = styled.select`
   }
 
   & option {
-    background: var(--bukarka-white);
+    background: ${colors.background.primary};
 
     &:selected {
-      background: var(--bukarka-deep-blue);
-      color: var(--bukarka-white);
+      background: ${colors.accent.deepBlue};
+      color: ${colors.background.primary};
     }
 
     &:hover {
-      background: var(--bukarka-deep-blue);
-      color: var(--bukarka-white);
+      background: ${colors.accent.deepBlue};
+      color: ${colors.background.primary};
     }
+
     &.section {
       font-weight: 600;
     }

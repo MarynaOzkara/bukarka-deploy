@@ -1,7 +1,10 @@
-import { StarIcon } from "assets/icons";
-import { StarsWrapper } from "components/Home/Slider/SimpleSlider.styled";
 import styled from "styled-components";
+import { StarIcon } from "assets/icons";
+import theme from "styles/theme";
+import { StarsWrapper } from "components/Home/Slider/SimpleSlider.styled";
 import { ButtonContainer } from "styles/CommonStyled";
+
+const { colors } = theme;
 
 export const StyledItemCard = styled.div`
   margin-top: 0;
@@ -63,11 +66,11 @@ export const StyledNameAuthor = styled.div`
 `;
 
 export const EmptyIcon = styled(StarIcon)`
-  fill: var(--bukarka-white);
+  fill: ${colors.background.primary};
 `;
 
 export const FullIcon = styled(StarIcon)`
-  fill: var(--bukarka-yellow);
+  fill: ${colors.accent.yellow};
 `;
 
 export const StyledButtonContainer = styled(ButtonContainer)`

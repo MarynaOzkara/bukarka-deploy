@@ -1,6 +1,9 @@
-import { breakpoints } from "constants/breakpoints";
 import styled from "styled-components";
+import { breakpoints } from "constants/breakpoints";
+import theme from "styles/theme";
 import { ButtonContainer } from "styles/CommonStyled";
+
+const { colors } = theme;
 
 export const BookContentWrapper = styled.div`
   display: flex;
@@ -56,7 +59,7 @@ export const BookSubTitle = styled.h3`
   font-size: 1.5rem;
   line-height: 2rem;
   font-weight: 500;
-  color: var(--bukarka-dark-grey);
+  color: ${colors.text.secondary};
 `;
 
 export const Description = styled.div`

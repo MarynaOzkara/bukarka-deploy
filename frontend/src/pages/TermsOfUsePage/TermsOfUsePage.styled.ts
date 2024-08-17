@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { StyledList, TextAccent } from "pages/CommonPages.styled";
+import theme from "styles/theme";
+
+const { colors } = theme;
 
 export const TermsOfUsePageWrapper = styled.div`
   margin-top: 88px;
@@ -7,7 +10,7 @@ export const TermsOfUsePageWrapper = styled.div`
   padding-left: 32px;
   padding-bottom: 104px;
 
-  background-color: var(--bukarka-white);
+  background-color: ${colors.background.primary};
 `;
 
 export const TextAccentTerms = styled(TextAccent)`

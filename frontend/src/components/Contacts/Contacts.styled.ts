@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import Icon from "components/Icon/Icon";
 import { breakpoints } from "constants/breakpoints";
+import theme from "styles/theme";
+
+const { colors } = theme;
 
 export const ContactList = styled.ul`
   display: flex;
@@ -10,7 +13,7 @@ export const ContactList = styled.ul`
   font-family: var(--medium);
   line-height: 1.5;
 
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 
   @media screen and (min-width: ${breakpoints.desktop}) {
     display: block;
@@ -28,7 +31,7 @@ export const ListItem = styled.li`
     font-family: var(--medium);
     font-size: 12px;
     line-height: 1.5;
-    color: var(--bukarka-black);
+    color: ${colors.text.primary};
 
     @media screen and (min-width: ${breakpoints.tablet}) {
       font-size: 14px;
@@ -44,9 +47,9 @@ export const StyledIcon = styled(Icon)`
   width: 32px;
   height: 32px;
   fill: transparent;
-  stroke: var(--bukarka-black);
+  stroke: ${colors.text.primary};
 
   &:hover {
-    stroke: var(--bukarka-accent-blue);
+    stroke: ${colors.accent.blue};
   }
 `;

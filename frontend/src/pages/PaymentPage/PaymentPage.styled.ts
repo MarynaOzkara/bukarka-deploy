@@ -1,9 +1,12 @@
 import styled from "styled-components";
+import theme from "styles/theme";
+
+const { colors } = theme;
 
 export const PaymentPageWrapper = styled.div`
   margin-top: 88px;
   padding: 40px 32px 96px;
-  background-color: var(--bukarka-white);
+  background-color: ${colors.background.primary};
 `;
 
 export const Title = styled.h1`
@@ -13,7 +16,7 @@ export const Title = styled.h1`
   font-weight: 600;
   font-size: 24px;
   line-height: 1.33;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
   letter-spacing: 0em;
 `;
 
@@ -26,11 +29,11 @@ export const CardWrapper = styled.div`
 
 export const Card = styled.div`
   padding: 24px 48px 32px;
-  background: var(--bukarka-light-grey);
+  background: ${colors.background.lightGrey};
 `;
 
 export const Info = styled.div`
-  background: var(--bukarka-light-grey);
+  background: ${colors.background.lightGrey};
   padding: 24px 48px 32px;
 `;
 
@@ -53,14 +56,14 @@ export const SubTitle = styled.h2`
 
   padding: 0 12px 0 16px;
 
-  background-color: var(--bukarka-yellow);
+  background-color: ${colors.accent.yellow};
 
   font-family: var(--bold);
   font-weight: 700;
   font-size: 16px;
 
   line-height: 1.5;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 
   &::before {
     content: "";
@@ -69,13 +72,13 @@ export const SubTitle = styled.h2`
     top: 0;
     bottom: 0;
     width: 8px;
-    background: var(--bukarka-orange);
+    background: ${colors.accent.orange};
   }
 `;
 
 export const SubTitleBlue = styled(SubTitle)`
   &::before {
-    background-color: var(--bukarka-deep-blue);
+    background-color: ${colors.accent.deepBlue};
   }
 `;
 
@@ -93,7 +96,7 @@ export const Label = styled.label`
   font-weight: 600;
   font-size: 16px;
   line-height: 1.5;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const DateLabel = styled.label`
@@ -107,7 +110,7 @@ export const DateLabel = styled.label`
     font-weight: 600;
     font-size: 16px;
     line-height: 1.5;
-    color: var(--bukarka-black);
+    color: ${colors.text.primary};
   }
 `;
 
@@ -117,14 +120,14 @@ export const NumberInput = styled.input`
   width: 100%;
   height: 40px;
 
-  border: 1px solid var(--bukarka-grey);
+  border: 1px solid ${colors.border.primary};
 `;
 
 export const DateInput = styled.input`
   width: 48px;
   height: 40px;
 
-  border: 1px solid var(--bukarka-grey);
+  border: 1px solid ${colors.border.primary};
 
   text-align: center;
 
@@ -135,7 +138,7 @@ export const DateInput = styled.input`
 
 export const CVVInput = styled.input`
   display: block;
-  border: 1px solid var(--bukarka-grey);
+  border: 1px solid ${colors.border.primary};
   width: 88px;
   height: 40px;
   text-align: center;
@@ -148,7 +151,7 @@ export const OrderNumber = styled.p`
   font-weight: 600;
   font-size: 16px;
   line-height: 1.5;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const Bukarka = styled.p`
@@ -157,7 +160,7 @@ export const Bukarka = styled.p`
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const Books = styled.p`
@@ -169,7 +172,7 @@ export const Books = styled.p`
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const Delivery = styled.p`
@@ -181,7 +184,7 @@ export const Delivery = styled.p`
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 interface DeliveryPriceProps {
@@ -195,12 +198,12 @@ export const DeliveryPrice = styled.span<DeliveryPriceProps>`
   line-height: 1.5;
 
   color: ${(props) =>
-    props.deliveryPrice ? "var(--bukarka-black)" : "var(--bukarka-orange)"};
+    props.deliveryPrice ? colors.text.primary : colors.accent.orange};
 `;
 
 export const Line = styled.div`
   margin-bottom: 8px;
-  border-bottom: 1px solid var(--bukarka-black);
+  border-bottom: 1px solid ${colors.text.primary};
 `;
 
 export const ToPay = styled.p`
@@ -212,11 +215,11 @@ export const ToPay = styled.p`
   font-weight: 600;
   font-size: 16px;
   line-height: 1.5;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const Total = styled.span`
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 
   font-family: "Montserrat-Semibold";
   font-weight: 600;
@@ -234,7 +237,7 @@ export const ReceiptLabel = styled.label`
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
-  color: var(--bukarka-deep-blue);
+  color: ${colors.accent.deepBlue};
 `;
 
 export const ReceiptInput = styled.input`
@@ -242,13 +245,13 @@ export const ReceiptInput = styled.input`
   height: 24px;
   margin-bottom: 24px;
   border: none;
-  border-bottom: 1px solid var(--bukarka-dark-grey);
+  border-bottom: 1px solid ${colors.border.secondary};
 
   font-family: "Montserrat-Regular";
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
-  color: var(--bukarka-dark-grey);
+  color: ${colors.text.secondary};
 
   &:last-child {
     margin-bottom: 32px;
@@ -264,8 +267,8 @@ export const SubmitButton = styled.button<SubmitButtonProps>`
   height: 40px;
   padding: 8px 16px;
 
-  background: var(--bukarka-orange);
-  color: var(--bukarka-black);
+  background: ${colors.accent.orange};
+  color: ${colors.text.primary};
 
   font-family: "Montserrat-Bold";
   font-weight: 700;
@@ -278,7 +281,7 @@ export const SubmitButton = styled.button<SubmitButtonProps>`
   }
 
   &:disabled {
-    background: var(--bukarka-grey);
-    border-color: var(--bukarka-grey);
+    background: ${colors.background.grey};
+    border-color: ${colors.border.primary};
   }
 `;

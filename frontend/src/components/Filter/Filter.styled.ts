@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { Input } from "styles/CommonStyled";
+import theme from "styles/theme";
+
+const { colors } = theme;
 
 export const FilterWrapper = styled.aside`
   height: fit-content;
@@ -12,14 +15,14 @@ export const SectionTitle = styled.p`
   top: -2.5rem;
   left: 0;
   position: absolute;
-  color: var(--bukarka-deep-blue);
+  color: ${colors.accent.deepBlue};
 `;
 
 export const FilterContent = styled.form`
   position: relative;
   text-align: left;
   padding: 1rem;
-  background: var(--bukarka-light-grey);
+  background: ${colors.background.lightGrey};
 
   & input[type="text"] {
     margin-bottom: 0.5rem;
@@ -34,7 +37,7 @@ export const FilterContent = styled.form`
     width: 120px;
 
     &:focus-visible {
-      outline-color: var(--bukarka-grey);
+      outline-color: ${colors.border.primary};
     }
   }
 
@@ -83,6 +86,6 @@ export const PriceRangeInput = styled(Input)`
 
 export const StyledInput = styled(Input)`
   &:focus-visible {
-    outline-color: var(--bukarka-grey);
+    outline-color: ${colors.border.primary};
   }
 `;

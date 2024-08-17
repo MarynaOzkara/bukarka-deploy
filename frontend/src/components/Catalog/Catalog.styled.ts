@@ -1,6 +1,9 @@
-import { breakpoints } from "constants/breakpoints";
 import { Link } from "react-router-dom";
+import { breakpoints } from "constants/breakpoints";
+import theme from "styles/theme";
 import styled from "styled-components";
+
+const { colors } = theme;
 
 export const Wrapper = styled.div`
   padding: 24px;
@@ -62,8 +65,8 @@ export const TitleLink = styled(Link)`
 
   text-align: left;
 
-  background-color: var(--bukarka-orange);
-  color: var(--bukarka-black);
+  background-color: ${colors.accent.orange};
+  color: ${colors.text.primary};
 
   font-weight: 600;
   font-size: 16px;
@@ -72,7 +75,7 @@ export const TitleLink = styled(Link)`
 
 export const SubtitleLink = styled(TitleLink)`
   display: block;
-  background-color: var(--bukarka-yellow);
+  background-color: ${colors.accent.yellow};
   margin-bottom: 8px;
 
   &::before {
@@ -82,7 +85,7 @@ export const SubtitleLink = styled(TitleLink)`
     top: 0;
     bottom: 0;
     width: 8px;
-    background-color: var(--bukarka-orange);
+    background-color: ${colors.accent.orange};
   }
 `;
 
@@ -96,7 +99,7 @@ export const SmallSubTitle = styled(Link)`
   font-size: 14px;
 
   line-height: 24px;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const StyledItem = styled(Link)`
@@ -106,5 +109,5 @@ export const StyledItem = styled(Link)`
   margin-left: 2rem;
 
   line-height: 24px;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;

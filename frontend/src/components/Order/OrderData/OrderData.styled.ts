@@ -1,5 +1,8 @@
 import styled from "styled-components";
+import theme from "styles/theme";
 import { Wrapper } from "../OrderCommonStyled";
+
+const { colors } = theme;
 
 export const OrderDataWrapper = styled(Wrapper)`
   width: 400px;
@@ -20,7 +23,7 @@ export const Data = styled.p`
   font-family: var(--regular);
   font-size: 16px;
   line-height: 1.5;
-  color: var(--bukarka-dark-grey);
+  color: ${colors.text.secondary};
   word-wrap: break-word;
 `;
 
@@ -30,7 +33,7 @@ export const SmallSubTitle = styled.p`
   font-family: var(--semibold);
   font-size: 16px;
   line-height: 1.5;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const Text = styled.p`
@@ -40,5 +43,5 @@ export const Text = styled.p`
   font-family: var(--regular);
   font-size: 16px;
   line-height: 1.5;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;

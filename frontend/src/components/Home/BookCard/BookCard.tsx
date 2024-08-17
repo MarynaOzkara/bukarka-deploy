@@ -13,6 +13,7 @@ import { useOrderContext } from "components/Order/OrderContext";
 import useCart from "hooks/useCart";
 import { truncateString } from "utils/truncateString";
 import { images } from "assets/images";
+import theme from "styles/theme";
 import {
   StarsWrapper,
   StyledStarIcon,
@@ -54,6 +55,8 @@ const BookCard: React.FC<IProps> = ({
   let navigate = useNavigate();
   const { handleCart } = useCart(_id);
 
+  const { colors } = theme;
+
   const starsProps = useMemo(
     () => ({
       size: 20,
@@ -61,8 +64,8 @@ const BookCard: React.FC<IProps> = ({
       edit: false,
       color: "#fffbff",
       activeColor: "#ffd700",
-      emptyIcon: <StyledStarIcon $fillColor="var(--bukarka-white)" />,
-      filledIcon: <StyledStarIcon $fillColor="var(--bukarka-yellow)" />,
+      emptyIcon: <StyledStarIcon $fillColor={colors.background.primary} />,
+      filledIcon: <StyledStarIcon $fillColor={colors.accent.yellow} />,
     }),
     []
   );
