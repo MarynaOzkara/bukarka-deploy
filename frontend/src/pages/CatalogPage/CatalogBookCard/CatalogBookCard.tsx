@@ -9,6 +9,7 @@ import useCart from "hooks/useCart";
 import { useOrderContext } from "components/Order/OrderContext";
 import { truncateString } from "utils/truncateString";
 import { images } from "assets/images";
+import theme from "styles/theme";
 import {
   ButtonOrange,
   ButtonYellow,
@@ -49,15 +50,17 @@ const BookCard: React.FC<IProps> = ({
   const { handleCart } = useCart(_id);
   const { isBookAdded, markBookAsAdded } = useOrderContext();
 
+  const { colors } = theme;
+
   const starsProps = useMemo(
     () => ({
       size: 20,
       count: 5,
       edit: false,
-      color: "#fffbff",
+      color: colors.background.primary,
       activeColor: "#ffd700",
-      emptyIcon: <StyledStarIcon $fillColor="var(--bukarka-white)" />,
-      filledIcon: <StyledStarIcon $fillColor="var(--bukarka-yellow)" />,
+      emptyIcon: <StyledStarIcon $fillColor={colors.background.primary} />,
+      filledIcon: <StyledStarIcon $fillColor={colors.accent.yellow} />,
     }),
     []
   );

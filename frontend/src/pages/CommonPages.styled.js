@@ -1,6 +1,9 @@
 import styled from "styled-components";
-import { FlexWrap } from "styles/CommonStyled";
 import { breakpoints } from "./../constants/breakpoints";
+import theme from "styles/theme";
+import { FlexWrap } from "styles/CommonStyled";
+
+const { colors } = theme;
 
 export const Label = styled.p`
   position: relative;
@@ -15,7 +18,7 @@ export const Label = styled.p`
 
   padding: 4px 16px;
 
-  background-color: var(--bukarka-yellow);
+  background-color: ${colors.accent.yellow};
 
   font-family: var(--semibold);
   font-weight: 600;
@@ -29,7 +32,7 @@ export const Label = styled.p`
     top: 0;
     bottom: 0;
     width: 8px;
-    background: var(--bukarka-deep-blue);
+    background: ${colors.accent.deepBlue};
   }
 
   @media screen and (min-width: ${breakpoints.mobile}) {
@@ -55,7 +58,7 @@ export const GridPageWrapper = styled.div`
 
   text-align: left;
 
-  background-color: var(--bukarka-white);
+  background-color: ${colors.background.primary};
 `;
 
 export const LeftPart = styled.div`
@@ -73,7 +76,7 @@ export const InfoPageWrapper = styled.div`
   padding-left: 32px;
   padding-bottom: 104px;
 
-  background-color: var(--bukarka-white);
+  background-color: ${colors.background.primary};
 `;
 
 export const InfoWrapper = styled.div`
@@ -97,7 +100,7 @@ export const TextAccent = styled.p`
   font-family: var(--regular);
   font-size: 14px;
   line-height: 1.43;
-  color: var(--bukarka-deep-blue);
+  color: ${colors.accent.deepBlue};
 `;
 
 export const StyledList = styled.ol`
@@ -124,23 +127,23 @@ export const StyledList = styled.ol`
     font-family: var(--semibold);
     font-size: 14px;
     line-height: 1.43;
-    color: var(--bukarka-black);
+    color: ${colors.text.primary};
   }
 
   h4 {
     display: inline;
     font-family: var(--regular);
-    color: var(--bukarka-black);
+    color: ${colors.text.primary};
   }
 
   span {
     display: inline;
     font-family: var(--regular);
-    color: var(--bukarka-deep-blue);
+    color: ${colors.accent.deepBlue};
   }
 
   p {
-    color: var(--bukarka-black);
+    color: ${colors.text.primary};
     padding-left: 0;
   }
 `;
@@ -153,7 +156,7 @@ export const Title = styled.h1`
   font-size: 20px;
   line-height: 1.2;
   text-align: center;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const SubscribeWrapper = styled.div`
@@ -163,10 +166,10 @@ export const SubscribeWrapper = styled.div`
 
 export const BreadCrumbs = styled.h6`
   text-align: left;
-  color: var(--bukarka-grey);
+  color: ${colors.text.secondary};
   margin: 1rem 0;
   & * {
-    color: var(--bukarka-grey);
+    color: ${colors.text.secondary};
   }
 `;
 
@@ -175,18 +178,18 @@ export const Price = styled.div`
   font-weight: 700;
   font-size: 16px;
   line-height: 24px;
-  color: var(--bukarka-accent-blue);
+  color: ${colors.accent.blue};
   margin-bottom: 8px;
   & span {
     font-size: 16px;
     text-decoration: line-through;
-    color: var(--bukarka-dark-grey);
+    color: ${colors.text.secondary};
   }
 `;
 
 export const Separator = styled.div`
   margin: 1rem 0;
-  border: 1px solid var(--bukarka-light-grey);
+  border: 1px solid ${colors.background.lightGrey};
 `;
 
 export const StyledFlexWrap = styled(FlexWrap)`

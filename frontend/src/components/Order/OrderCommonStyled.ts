@@ -1,10 +1,13 @@
 import styled from "styled-components";
+import theme from "styles/theme";
+
+const { colors } = theme;
 
 export const Wrapper = styled.div`
   width: 816px;
   padding: 16px 16px 24px;
 
-  background: var(--bukarka-light-grey);
+  background: ${colors.background.lightGrey};
   margin-bottom: 24px;
 
   &:last-child {
@@ -26,15 +29,14 @@ export const SubTitle = styled.h2`
 
   padding: 0 12px 0 16px;
 
-  background-color: var(--bukarka-yellow);
+  background-color: ${colors.accent.yellow};
 
   font-family: var(--bold);
   font-weight: 700;
   font-size: 16px;
 
-  // line-height: 24px;
   line-height: 1.5;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 
   &::before {
     content: "";
@@ -43,13 +45,13 @@ export const SubTitle = styled.h2`
     top: 0;
     bottom: 0;
     width: 8px;
-    background: var(--bukarka-orange);
+    background: ${colors.accent.orange};
   }
 `;
 
 export const SubTitleBlue = styled(SubTitle)`
   &::before {
-    background-color: var(--bukarka-deep-blue);
+    background-color: ${colors.accent.deepBlue};
   }
 `;
 
@@ -60,5 +62,5 @@ export const Label = styled.label`
   font-family: var(--semibold);
   font-size: 16px;
   line-height: 1.5;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;

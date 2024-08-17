@@ -1,11 +1,12 @@
 import styled from "styled-components";
+import theme from "styles/theme";
+
+const { colors } = theme;
 
 export const OrderPageWrapper = styled.div`
-  /* position: relative; */
-
   margin-top: 88px;
   padding: 40px 32px 96px;
-  background-color: var(--bukarka-white);
+  background-color: ${colors.background.primary};
 `;
 
 export const Title = styled.h1`
@@ -15,7 +16,7 @@ export const Title = styled.h1`
   font-weight: 600;
   font-size: 24px;
   line-height: 1.33;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
   letter-spacing: 0em;
 `;
 

@@ -1,7 +1,10 @@
-import { breakpoints } from "constants/breakpoints";
 import { createGlobalStyle } from "styled-components";
+import theme from "./theme";
+
+const { colors } = theme;
 
 export const GlobalStyles = createGlobalStyle`
+
  
  *, *::before, *::after {
     box-sizing: border-box;
@@ -21,16 +24,9 @@ body {
   margin: 0;
   padding: 0;
   /* color:   ${({ theme }) => theme.colors.text.primary}; */
-  color: var(--bukarka-black);
-  background-color: var(--bukarka-grey);
-  
-
+  color: ${colors.text.primary};
+  background-color: ${colors.background.grey};
 }
-
-/* 
-p:last-child {
-  margin-bottom: 0;
-} */
 
 ul, ol, li {
   margin: 0;
@@ -57,7 +53,7 @@ a{
 
 
 *:focus-visible  {
-  outline: 2px solid var(--bukarka-black) ;
+  outline: 2px solid ${colors.text.primary} ;
   border-radius:2px; 
 }
 `;

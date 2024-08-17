@@ -1,5 +1,8 @@
 import styled from "styled-components";
+import theme from "styles/theme";
 import { Wrapper } from "../OrderCommonStyled";
+
+const { colors } = theme;
 
 export const SubmitWrapper = styled(Wrapper)`
   width: 400px;
@@ -25,7 +28,7 @@ export const CheckboxLabel = styled.label`
   font-family: var(--regular);
   font-size: 14px;
   line-height: 1.43;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const CheckboxInput = styled.input`
@@ -37,7 +40,7 @@ export const CheckboxInput = styled.input`
 
   min-width: 20px;
   height: 20px;
-  border: 2px solid var(--bukarka-black);
+  border: 2px solid ${colors.text.primary};
   outline: none;
   cursor: pointer;
   margin-right: 5px;
@@ -64,9 +67,9 @@ export const SubmitButton = styled.button`
   padding: 8px 16px;
   margin-bottom: 16px;
 
-  background: var(--bukarka-orange);
-  color: var(--bukarka-black);
-  border: 2px solid var(--bukarka-orange);
+  background: ${colors.accent.orange};
+  color: ${colors.text.primary};
+  border: 2px solid ${colors.accent.orange};
 
   font-family: var(--bold);
   font-size: 16px;
@@ -74,11 +77,11 @@ export const SubmitButton = styled.button`
   transition: box-shadow 0.3s ease, color 0.3s ease, background-color 0.3s ease;
 
   & a {
-    color: var(--bukarka-black);
+    color: ${colors.text.primary};
+  }
 
-    &:active {
-      color: var(--bukarka-yellow);
-    }
+  &:active {
+    color: ${colors.accent.yellow};
   }
 
   &:hover:not(:disabled),
@@ -87,11 +90,11 @@ export const SubmitButton = styled.button`
   }
 
   &:disabled {
-    background: var(--bukarka-grey);
-    border-color: var(--bukarka-grey);
+    background-color: ${colors.background.grey};
+    border-color: ${colors.border.primary};
 
     & a {
-      color: var(--bukarka-black);
+      color: ${colors.text.primary};
     }
   }
 `;
@@ -105,9 +108,9 @@ export const ContinueButton = styled.button`
   padding: 8px 16px;
   margin-bottom: 16px;
 
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
   background-color: transparent;
-  border: 2px solid var(--bukarka-yellow);
+  border: 2px solid ${colors.accent.yellow};
 
   font-family: var(--semibold);
   font-size: 16px;

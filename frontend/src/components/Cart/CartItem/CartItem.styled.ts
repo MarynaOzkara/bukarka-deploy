@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import theme from "styles/theme";
+
+const { colors } = theme;
 
 export const StyledCartItem = styled.div`
   display: flex;
@@ -6,7 +9,7 @@ export const StyledCartItem = styled.div`
   margin-bottom: 16px;
   padding-bottom: 16px;
   height: 136px;
-  border-bottom: 1px solid var(--bukarka-grey);
+  border-bottom: 1px solid ${colors.border.primary};
 `;
 
 export const BookInfo = styled.div`
@@ -33,7 +36,7 @@ export const Title = styled.h3`
   margin-top: 0;
   margin-bottom: 16px;
 
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 
   font-family: "Montserrat-Semibold";
   font-size: 16px;
@@ -45,7 +48,7 @@ export const Title = styled.h3`
 export const Author = styled.h4`
   margin-bottom: 24px;
 
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 
   font-family: "Montserrat-Regular";
   font-size: 16px;
@@ -88,7 +91,7 @@ export const Price = styled.p`
   font-size: 16px;
   line-height: 150%;
   text-align: center;
-  color: var(--bukarka-deep-blue);
+  color: ${colors.accent.deepBlue};
 `;
 
 export const Quantity = styled.div`
@@ -110,7 +113,7 @@ export const Quantity = styled.div`
     width: 100%;
     max-width: 40px;
 
-    background-color: #fff;
+    background-color: ${colors.background.secondary};
     border: none;
 
     font-family: "Montserrat-Semibold";
@@ -131,7 +134,7 @@ export const ChangeButton = styled.div`
   width: 100%;
   padding: 8px;
 
-  background-color: var(--bukarka-yellow);
+  background-color: ${colors.accent.yellow};
 
   font-family: "Montserrat-Semibold";
   font-weight: 600;
@@ -146,7 +149,7 @@ export const TotalPrice = styled.p`
   font-size: 16px;
   line-height: 150%;
   text-align: center;
-  color: var(--bukarka-deep-blue);
+  color: ${colors.accent.deepBlue};
 `;
 
 export const ButtonWrapper = styled.div``;

@@ -1,5 +1,8 @@
-import { StarIcon } from "assets/icons";
 import styled from "styled-components";
+import { StarIcon } from "assets/icons";
+import theme from "styles/theme";
+
+const { colors } = theme;
 
 export const StyledItemCard = styled.div`
   margin-top: 0;
@@ -60,8 +63,8 @@ export const Button = styled.button`
   width: 160px;
   border: none;
 
-  background: var(--bukarka-orange);
-  color: var(--bukarka-black);
+  background: ${colors.accent.orange};
+  color: ${colors.text.primary};
 
   font-family: "Montserrat-Bold";
   font-weight: 700;
@@ -71,7 +74,7 @@ export const Button = styled.button`
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
   }
   &:active {
-    color: var(--bukarka-yellow);
+    color: ${colors.accent.yellow};
   }
 `;
 
@@ -82,9 +85,9 @@ export const StyledFavoriteButton = styled.div`
 `;
 
 export const EmptyIcon = styled(StarIcon)`
-  fill: var(--bukarka-white);
+  fill: ${({ theme }) => theme.colors.background.primary};
 `;
 
 export const FullIcon = styled(StarIcon)`
-  fill: var(--bukarka-yellow);
+  fill: ${colors.accent.yellow};
 `;

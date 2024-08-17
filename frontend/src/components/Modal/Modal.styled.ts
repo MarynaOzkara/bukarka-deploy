@@ -1,6 +1,6 @@
-import { breakpoints } from "constants/breakpoints";
 import styled, { keyframes, css } from "styled-components";
 import theme from "styles/theme";
+import { breakpoints } from "constants/breakpoints";
 
 const { colors } = theme;
 
@@ -43,7 +43,7 @@ export const ModalContent = styled.div<ModalContentProps>`
   position: relative;
   max-height: content-fit;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
-  background: var(--bukarka-white);
+  background: ${colors.background.primary};
   max-height: 90vh;
 
   ${({ $animation }) =>

@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import { LogoDesktop, LogoMobile } from "assets/icons";
 import { breakpoints } from "constants/breakpoints";
+import theme from "styles/theme";
+
+const { colors } = theme;
 
 export const CommonWrapper = styled.div`
   min-width: 480px;
@@ -35,7 +38,7 @@ export const StyledHeader = styled.div`
 
   padding: 6px 0;
 
-  background-color: var(--bukarka-light-grey);
+  background-color: ${colors.background.lightGrey};
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
 
   z-index: 3;

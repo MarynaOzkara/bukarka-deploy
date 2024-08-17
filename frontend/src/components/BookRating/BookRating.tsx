@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import ReactStars from "react-rating-stars-component";
 import { StarsWrapper, StyledStarIcon } from "./BookRating.styled";
+import theme from "styles/theme";
 
+const { colors } = theme;
 interface IRatingProps {
   rating: number | undefined;
   onChange?: (rating: number) => void;
@@ -36,8 +38,8 @@ const BookRating: React.FC<IRatingProps> = ({
       edit: editable,
       color: "#fffbff",
       activeColor: "#ffd700",
-      emptyIcon: <StyledStarIcon $fillColor="var(--bukarka-white)" />,
-      filledIcon: <StyledStarIcon $fillColor="var(--bukarka-yellow)" />,
+      emptyIcon: <StyledStarIcon $fillColor={colors.background.primary} />,
+      filledIcon: <StyledStarIcon $fillColor={colors.accent.yellow} />,
       onChange: editable ? handleRatingChange : undefined,
     }),
     [editable, handleRatingChange]

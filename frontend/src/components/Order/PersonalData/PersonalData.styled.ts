@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import theme from "styles/theme";
+
+const { colors } = theme;
 
 export const PersonalDataInputs = styled.ul`
   display: flex;
@@ -19,11 +22,11 @@ export const PersonalDataInputs = styled.ul`
 export const Input = styled.input`
   width: 100%;
 
-  border: 1px solid var(--bukarka-grey);
+  border: 1px solid ${colors.border.primary};
   padding: 8px 16px;
   height: 40px;
 
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
   font-family: var(--regular);
   font-size: 16px;
   line-height: 1.5;
@@ -33,6 +36,6 @@ export const Input = styled.input`
     font-size: 16px;
 
     line-height: 1.5;
-    color: var(--bukarka-dark-grey);
+    color: ${colors.text.secondary};
   }
 `;

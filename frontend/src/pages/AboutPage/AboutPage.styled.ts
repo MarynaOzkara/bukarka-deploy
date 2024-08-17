@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import theme from "styles/theme";
+
+const { colors } = theme;
 
 export const Title = styled.h1`
   margin-bottom: 8px;
@@ -8,7 +11,7 @@ export const Title = styled.h1`
   text-align: left;
   line-height: 0.8;
 
-  color: var(--bukarka-deep-blue);
+  color: ${colors.accent.deepBlue};
 `;
 
 export const SubTitle = styled.p`
@@ -18,14 +21,14 @@ export const SubTitle = styled.p`
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const Description = styled.div`
   font-family: var(--regular);
   font-size: 14px;
   line-height: 1.43;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 
   & p {
     margin-bottom: 20px;

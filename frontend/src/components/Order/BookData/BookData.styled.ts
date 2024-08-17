@@ -1,5 +1,8 @@
 import styled from "styled-components";
+import theme from "styles/theme";
 import { Wrapper } from "../OrderCommonStyled";
+
+const { colors } = theme;
 
 export const BookDataWrapper = styled(Wrapper)`
   position: relative;
@@ -25,9 +28,9 @@ export const BookList = styled.ul`
   &::-webkit-scrollbar-thumb {
     width: 8px;
     height: 48px;
-    border: 0.5px solid var(--bukarka-dark-grey);
+    border: 0.5px solid ${colors.border.secondary};
     border-radius: 4px;
-    background: var(--bukarka-grey);
+    background: ${colors.border.primary};
   }
 
   &::-webkit-scrollbar-track {
@@ -35,7 +38,7 @@ export const BookList = styled.ul`
     width: 8px;
     height: 440px;
     box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.25);
-    background: var(--bukarka-light-grey);
+    background: ${colors.background.lightGrey};
   }
 `;
 
@@ -44,7 +47,7 @@ export const Book = styled.div`
   gap: 16px;
   margin-top: 16px;
   padding-bottom: 16px;
-  border-bottom: 1px solid var(--bukarka-grey);
+  border-bottom: 1px solid ${colors.border.primary};
 `;
 
 export const ImageWrapper = styled.div`
@@ -56,7 +59,7 @@ export const ImageWrapper = styled.div`
 export const Title = styled.h3`
   height: 60px;
   margin-bottom: 16px;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 
   font-family: "Montserrat-Semibold";
   font-weight: 600;
@@ -65,7 +68,7 @@ export const Title = styled.h3`
 `;
 
 export const Author = styled.h4`
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 
   font-family: "Montserrat-Regular";
   font-weight: 400;
@@ -81,7 +84,7 @@ export const PriceQuantity = styled.div`
 `;
 
 export const Price = styled.p`
-  color: var(--bukarka-deep-blue);
+  color: ${colors.accent.deepBlue};
 
   font-family: "Montserrat-Semibold";
   font-weight: 600;
@@ -97,13 +100,13 @@ export const Delivery = styled.p`
   gap: 16px;
   padding: 16px 0;
 
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 
   font-family: "Montserrat-Medium";
   font-weight: 500;
   font-size: 16px;
   line-height: 1.5;
-  border-bottom: 1px solid var(--bukarka-black);
+  border-bottom: 1px solid ${colors.text.primary};
 `;
 
 export const DeliveryTitle = styled.span`
@@ -111,14 +114,14 @@ export const DeliveryTitle = styled.span`
 `;
 
 export const DeliveryPrice = styled.span`
-  color: var(--bukarka-orange);
+  color: ${colors.accent.orange};
 `;
 
 export const Total = styled.p`
   display: flex;
   padding: 16px 0 0;
 
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 
   font-family: "Montserrat-Semibold";
   font-weight: 600;
@@ -131,5 +134,5 @@ export const TotalTitle = styled.span`
 `;
 
 export const PriceWithDelivery = styled.span`
-  color: var(--bukarka-orange);
+  color: ${colors.accent.orange};
 `;

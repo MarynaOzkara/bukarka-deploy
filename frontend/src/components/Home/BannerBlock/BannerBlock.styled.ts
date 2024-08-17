@@ -1,13 +1,16 @@
-import { breakpoints } from "constants/breakpoints";
 import Slider from "react-slick";
 import styled from "styled-components";
+import { breakpoints } from "constants/breakpoints";
+import theme from "styles/theme";
+
+const { colors } = theme;
 
 export const SliderWrapper = styled.div`
   width: 100%;
   height: 328px;
   margin: 48px 0;
   padding: 32px 0;
-  background-color: var(--bukarka-yellow);
+  background-color: ${colors.accent.yellow};
   overflow: hidden;
 
   & .slick-list {

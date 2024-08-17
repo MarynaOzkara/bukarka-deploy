@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import theme from "styles/theme";
+
+const { colors } = theme;
 
 export const LoaderWrapper = styled.div<{ height: number | null }>`
   display: flex;
@@ -28,7 +31,7 @@ export const Title = styled.h2`
   font-size: 24px;
   line-height: 133%;
   text-align: center;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const Message = styled.p`
@@ -38,7 +41,7 @@ export const Message = styled.p`
   font-size: 24px;
   line-height: 133%;
   text-align: center;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const Button = styled.button`
@@ -46,8 +49,8 @@ export const Button = styled.button`
   height: 40px;
   padding: 8px 16px;
 
-  background: var(--bukarka-yellow);
-  color: var(--bukarka-black);
+  background: ${colors.accent.yellow};
+  color: ${colors.text.primary};
 
   font-family: var(--semibold);
   font-size: 16px;
