@@ -116,7 +116,7 @@ const Delivery: React.FC<DeliveryDataProps> = ({
   const handleAddressInputChange = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const value = e.target.value.trim();
+    const value = e.target.value;
     setAddress(value);
     setDeliveryAddress(value);
 
