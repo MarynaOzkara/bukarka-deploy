@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import theme from "styles/theme";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const PersonalDataInputs = styled.ul`
   display: flex;
@@ -27,12 +27,12 @@ export const Input = styled.input`
   height: 40px;
 
   color: ${colors.text.primary};
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 16px;
   line-height: 1.5;
 
   &::placeholder {
-    font-family: var(--regular);
+    font-family: ${fonts.regular};
     font-size: 16px;
 
     line-height: 1.5;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import theme from "styles/theme";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const PaymentPageWrapper = styled.div`
   margin-top: 88px;
@@ -12,7 +12,7 @@ export const PaymentPageWrapper = styled.div`
 export const Title = styled.h1`
   margin-bottom: 32px;
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-weight: 600;
   font-size: 24px;
   line-height: 1.33;
@@ -58,7 +58,7 @@ export const SubTitle = styled.h2`
 
   background-color: ${colors.accent.yellow};
 
-  font-family: var(--bold);
+  font-family: ${fonts.bold};
   font-weight: 700;
   font-size: 16px;
 

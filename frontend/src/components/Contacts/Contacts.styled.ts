@@ -3,14 +3,14 @@ import Icon from "components/Icon/Icon";
 import { breakpoints } from "constants/breakpoints";
 import theme from "styles/theme";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const ContactList = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  font-family: var(--medium);
+  font-family: ${fonts.medium};
   line-height: 1.5;
 
   color: ${colors.text.primary};
@@ -28,7 +28,7 @@ export const ListItem = styled.li`
   margin-bottom: 20px;
 
   span {
-    font-family: var(--medium);
+    font-family: ${fonts.medium};
     font-size: 12px;
     line-height: 1.5;
     color: ${colors.text.primary};

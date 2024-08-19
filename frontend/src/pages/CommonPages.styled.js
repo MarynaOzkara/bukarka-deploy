@@ -3,7 +3,7 @@ import { breakpoints } from "./../constants/breakpoints";
 import theme from "styles/theme";
 import { FlexWrap } from "styles/CommonStyled";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const Label = styled.p`
   position: relative;
@@ -20,7 +20,7 @@ export const Label = styled.p`
 
   background-color: ${colors.accent.yellow};
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-weight: 600;
   font-size: 20px;
   line-height: 1.2;
@@ -97,7 +97,7 @@ export const SubscribeWrapperGrid = styled.div`
 `;
 
 export const TextAccent = styled.p`
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 14px;
   line-height: 1.43;
   color: ${colors.accent.deepBlue};
@@ -124,7 +124,7 @@ export const StyledList = styled.ol`
 
     margin-bottom: 16px;
 
-    font-family: var(--semibold);
+    font-family: ${fonts.semibold};
     font-size: 14px;
     line-height: 1.43;
     color: ${colors.text.primary};
@@ -132,13 +132,13 @@ export const StyledList = styled.ol`
 
   h4 {
     display: inline;
-    font-family: var(--regular);
+    font-family: ${fonts.regular};
     color: ${colors.text.primary};
   }
 
   span {
     display: inline;
-    font-family: var(--regular);
+    font-family: ${fonts.regular};
     color: ${colors.accent.deepBlue};
   }
 
@@ -151,7 +151,7 @@ export const StyledList = styled.ol`
 export const Title = styled.h1`
   margin-bottom: 16px;
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-weight: 600;
   font-size: 20px;
   line-height: 1.2;

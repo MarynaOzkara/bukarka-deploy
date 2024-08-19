@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import theme from "styles/theme";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const Wrapper = styled.div`
   width: 816px;
@@ -31,7 +31,7 @@ export const SubTitle = styled.h2`
 
   background-color: ${colors.accent.yellow};
 
-  font-family: var(--bold);
+  font-family: ${fonts.bold};
   font-weight: 700;
   font-size: 16px;
 
@@ -59,7 +59,7 @@ export const Label = styled.label`
   display: block;
   margin-bottom: 8px;
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-size: 16px;
   line-height: 1.5;
   color: ${colors.text.primary};

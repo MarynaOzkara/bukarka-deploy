@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import theme from "styles/theme";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const Wrapper = styled.div`
   margin-bottom: 16px;
@@ -17,7 +17,7 @@ export const CartHeader = styled.div`
 export const AmountOfBooks = styled.div`
   color: ${colors.text.primary};
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-size: 16px;
   line-height: 150%;
 `;
@@ -26,7 +26,7 @@ export const DeleteButton = styled.button`
   background-color: transparent;
   color: ${colors.text.secondary};
 
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 12px;
   line-height: 133%;
   text-align: center;
@@ -73,13 +73,13 @@ export const PriceText = styled.span`
   border-left: 8px solid ${colors.accent.orange};
   color: ${colors.text.primary};
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-size: 16px;
   line-height: 150%;
 `;
 
 export const TotalPrice = styled.span`
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-size: 24px;
   line-height: 133%;
   color: ${colors.accent.orange};
@@ -98,13 +98,12 @@ export const ContinueButton = styled.button`
   height: 40px;
 
   background: ${colors.accent.yellow};
+  font-family: ${fonts.semibold};
+  font-size: 16px;
+  line-height: 150%;
 
   & a {
     color: ${colors.text.primary};
-
-    font-family: var(--semibold);
-    font-size: 16px;
-    line-height: 150%;
   }
 
   &:active {
@@ -123,15 +122,14 @@ export const CheckoutButton = styled.button`
   height: 40px;
 
   background: ${colors.accent.orange};
+  font-family: ${fonts.bold};
+  font-size: 16px;
+  line-height: 150%;
 
   transition: all 0.3s ease;
 
   & a {
     color: ${colors.text.primary};
-
-    font-family: var(--bold);
-    font-size: 16px;
-    line-height: 150%;
   }
 
   &:active {

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { breakpoints } from "constants/breakpoints";
 import theme from "styles/theme";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const StyledBottomMenu = styled.div`
   position: fixed;
@@ -56,7 +56,7 @@ export const ButtonWrapper = styled.div`
   width: 80px;
 
   color: ${colors.text.primary};
-  font-family: var(--font-family);
+  font-family: ${fonts.regular};
   font-weight: 400;
   font-size: 12px;
   line-height: 133%;

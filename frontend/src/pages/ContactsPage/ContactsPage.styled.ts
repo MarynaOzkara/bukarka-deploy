@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import theme from "styles/theme";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const ContactsPageWrapper = styled.div`
   margin-top: 88px;
@@ -22,7 +22,7 @@ export const Top = styled.div`
 export const Title = styled.h1`
   margin-bottom: 16px;
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-size: 20px;
   line-height: 1.2;
   color: #000;
@@ -31,7 +31,7 @@ export const Title = styled.h1`
 export const Text = styled.p`
   width: 504px;
 
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 14px;
   line-height: 1.43;
   color: ${colors.text.primary};
@@ -46,7 +46,7 @@ export const TextLast = styled(Text)`
 export const ScheduleText = styled.div`
   margin-bottom: 8px;
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-weight: 600;
   font-size: 16px;
   line-height: 1.5;
@@ -57,7 +57,7 @@ export const ScheduleText = styled.div`
 export const Schedule = styled.div`
   margin-bottom: 44px;
 
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 14px;
   line-height: 1.43;
 
@@ -82,7 +82,7 @@ export const Input = styled.input`
   border: 1px solid ${colors.border.primary};
 
   &::placeholder {
-    font-family: var(--regular);
+    font-family: ${fonts.regular};
     font-size: 16px;
     line-height: 1.5;
 
@@ -93,7 +93,7 @@ export const Input = styled.input`
 export const InputLabel = styled.label`
   display: block;
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-size: 16px;
   line-height: 1.5;
 
@@ -113,7 +113,7 @@ export const TextArea = styled.textarea`
   color: ${colors.text.secondary};
 
   &::placeholder {
-    font-family: var(--regular);
+    font-family: ${fonts.regular};
     font-size: 16px;
     line-height: 1.5;
 
@@ -124,7 +124,7 @@ export const TextArea = styled.textarea`
 export const Hint = styled.p`
   margin-bottom: 16px;
 
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 12px;
   line-height: 1.33;
 
@@ -146,7 +146,7 @@ export const Checkbox = styled.input.attrs({ type: "checkbox" })`
 `;
 
 export const CheckboxLabel = styled.label`
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 14px;
 
   line-height: 1.43;
@@ -166,7 +166,7 @@ export const Button = styled.button`
   background: ${colors.accent.yellow};
   color: ${colors.text.primary};
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-weight: 600;
   font-size: 16px;
   line-height: 1.5;

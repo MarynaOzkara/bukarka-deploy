@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import theme from "styles/theme";
 import { StyledList } from "pages/CommonPages.styled";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 const HiddenStyle = css`
   position: absolute;
@@ -26,7 +26,7 @@ export const HiddenSubTitle = styled.h3`
 `;
 
 export const AccentText = styled.p`
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   margin-bottom: 20px;
   font-size: 14px;
   line-height: 1.43;
@@ -37,7 +37,7 @@ export const AccentText = styled.p`
 export const SubTitle = styled.h2`
   margin-bottom: 16px;
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-weight: 600;
   font-size: 16px;
   line-height: 1.5;
@@ -50,7 +50,7 @@ export const ShiftRight = styled.div`
 `;
 
 export const SmallSubTitle = styled.h3`
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
 
   margin-bottom: 8px;
   font-size: 14px;
@@ -92,7 +92,7 @@ export const WarningTitle = styled.p`
   margin-left: 16px;
   margin-bottom: 20px;
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-size: 14px;
   line-height: 1.43;
   color: ${colors.accent.deepBlue};
@@ -102,7 +102,7 @@ export const WarningText = styled.p`
   margin-left: 16px;
   margin-bottom: 8px;
 
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 14px;
   line-height: 1.43;
   color: ${colors.text.primary};

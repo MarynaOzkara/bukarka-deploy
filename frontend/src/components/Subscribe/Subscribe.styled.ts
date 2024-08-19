@@ -1,8 +1,8 @@
-import { breakpoints } from "constants/breakpoints";
 import styled from "styled-components";
+import { breakpoints } from "constants/breakpoints";
 import theme from "styles/theme";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const Form = styled.form`
   width: 100%;
@@ -78,7 +78,7 @@ export const Input = styled.input`
   color: ${colors.text.secondary};
 
   &::placeholder {
-    font-family: var(--regular);
+    font-family: ${fonts.regular};
     font-size: 16px;
     line-height: 1.5;
     color: ${colors.text.secondary};
@@ -105,7 +105,7 @@ export const Button = styled.button`
   flex-direction: row;
   gap: 0px;
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-size: 16px;
   line-height: 1.5;
 

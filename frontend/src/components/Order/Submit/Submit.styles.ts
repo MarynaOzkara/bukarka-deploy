@@ -2,7 +2,7 @@ import styled from "styled-components";
 import theme from "styles/theme";
 import { Wrapper } from "../OrderCommonStyled";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const SubmitWrapper = styled(Wrapper)`
   width: 400px;
@@ -25,7 +25,7 @@ export const CheckboxLabel = styled.label`
   font-size: 16px;
   user-select: none;
 
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 14px;
   line-height: 1.43;
   color: ${colors.text.primary};
@@ -71,7 +71,7 @@ export const SubmitButton = styled.button`
   color: ${colors.text.primary};
   border: 2px solid ${colors.accent.orange};
 
-  font-family: var(--bold);
+  font-family: ${fonts.bold};
   font-size: 16px;
   line-height: 1.5;
   transition: box-shadow 0.3s ease, color 0.3s ease, background-color 0.3s ease;
@@ -112,7 +112,7 @@ export const ContinueButton = styled.button`
   background-color: transparent;
   border: 2px solid ${colors.accent.yellow};
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-size: 16px;
   line-height: 1.5;
   transition: box-shadow color 0.3s ease;

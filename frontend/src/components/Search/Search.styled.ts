@@ -4,7 +4,7 @@ import { breakpoints } from "constants/breakpoints";
 import theme from "styles/theme";
 import { Hints, Input } from "styles/CommonStyled";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const StyledForm = styled.form`
   position: relative;
@@ -27,7 +27,7 @@ export const SearchInput = styled(Input)`
   }
 
   &::placeholder {
-    font-family: var(--regular);
+    font-family: ${fonts.regular};
     font-size: 16px;
     line-height: 150%;
     color: ${colors.text.secondary};
@@ -96,7 +96,7 @@ export const FormButtonDesktop = styled(FormButton)`
     display: inline-block;
     padding: 8px 21px;
 
-    font-family: var(--semibold);
+    font-family: ${fonts.semibold};
     font-size: 16px;
     line-height: 150%;
   }
