@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import theme from "styles/theme";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const Textarea = styled.textarea`
   width: 100%;
@@ -10,7 +10,7 @@ export const Textarea = styled.textarea`
   border: 1px solid ${colors.border.primary};
   resize: vertical;
 
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 16px;
   line-height: 1.5;
   color: ${colors.text.secondary};

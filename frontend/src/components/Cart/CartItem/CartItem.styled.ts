@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import theme from "styles/theme";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const StyledCartItem = styled.div`
   display: flex;
@@ -87,7 +87,7 @@ export const ItemPrice = styled.div`
 `;
 
 export const Price = styled.p`
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 16px;
   line-height: 150%;
   text-align: center;
@@ -145,7 +145,7 @@ export const ChangeButton = styled.div`
 `;
 
 export const TotalPrice = styled.p`
-  font-family: var(--bold);
+  font-family:  ${fonts.bold};
   font-size: 16px;
   line-height: 150%;
   text-align: center;

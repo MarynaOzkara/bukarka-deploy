@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import theme from "styles/theme";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const Title = styled.h1`
   margin-bottom: 8px;
@@ -25,7 +25,7 @@ export const SubTitle = styled.p`
 `;
 
 export const Description = styled.div`
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 14px;
   line-height: 1.43;
   color: ${colors.text.primary};
@@ -45,7 +45,7 @@ export const Socials = styled.div`
   align-items: center;
   gap: 16px;
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-weight: 600;
   font-size: 14px;
   line-height: 1.43;

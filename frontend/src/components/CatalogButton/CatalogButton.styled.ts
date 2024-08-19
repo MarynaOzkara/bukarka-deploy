@@ -3,7 +3,7 @@ import { breakpoints } from "constants/breakpoints";
 import { BurgerIcon } from "assets/icons";
 import theme from "styles/theme";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const StyledCatalogButton = styled.button`
   display: flex;
@@ -17,7 +17,7 @@ export const StyledCatalogButton = styled.button`
 
   background-color: ${colors.accent.yellow};
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-size: 12px;
   color: ${colors.text.primary};
 

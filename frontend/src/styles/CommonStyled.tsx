@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { breakpoints } from "constants/breakpoints";
 import theme from "./theme";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const StyledCommonWrapper = styled.div`
   padding: 0;
@@ -129,7 +129,7 @@ export const Input = styled.input`
   box-shadow: 0px 0px 4px 0px #00000040 inset;
 
   &::placeholder {
-    font-family: var(--regular);
+    font-family: ${fonts.regular};
     font-size: 16px;
     line-height: 150%;
     color: ${colors.text.secondary};

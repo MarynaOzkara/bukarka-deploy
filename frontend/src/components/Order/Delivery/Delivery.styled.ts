@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import theme from "styles/theme";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const FreeInfo = styled.p`
   margin-bottom: 32px;
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-weight: 400;
   font-size: 16px;
 
@@ -24,12 +24,12 @@ export const CityInput = styled.input`
   background-color: ${colors.background.secondary};
   color: ${colors.text.primary};
 
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 16px;
   line-height: 1.5;
 
   &::placeholder {
-    font-family: var(--regular);
+    font-family: ${fonts.regular};
     font-size: 16px;
     line-height: 1.5;
     color: ${colors.text.secondary};
@@ -47,12 +47,12 @@ export const WarehouseInput = styled.input`
   background-color: ${colors.background.secondary};
   color: ${colors.text.primary};
 
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 16px;
   line-height: 1.5;
 
   &::placeholder {
-    font-family: var(--regular);
+    font-family: ${fonts.regular};
     font-size: 16px;
     line-height: 1.5;
     color: ${colors.text.secondary};
@@ -84,7 +84,7 @@ export const WarehouseOptions = styled.div`
 export const Option = styled.div`
   padding: 8px;
 
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 14px;
 
   line-height: 1.43;
@@ -108,7 +108,7 @@ export const RadioButton = styled.label`
   align-items: center;
   margin-bottom: 16px;
 
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
@@ -176,14 +176,14 @@ export const AddressInput = styled.input`
   border: 1px solid ${colors.border.primary};
   padding: 8px 16px;
 
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
   color: ${colors.text.secondary};
 
   &::placeholder {
-    font-family: var(--regular);
+    font-family: ${fonts.regular};
     font-weight: 400;
     font-size: 16px;
     line-height: 1.5;

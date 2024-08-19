@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import theme from "styles/theme";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const RadioWrapper = styled.div`
   display: flex;
@@ -13,7 +13,7 @@ export const RadioButton = styled.label`
   align-items: center;
   margin-bottom: 16px;
 
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;

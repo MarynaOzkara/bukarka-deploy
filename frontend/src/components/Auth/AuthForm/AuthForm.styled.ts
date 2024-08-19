@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import theme from "styles/theme";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const Form = styled.form`
   width: 416px;
@@ -66,7 +66,7 @@ export const Button = styled.button`
 
   background: ${colors.accent.yellow};
 
-  font-family: var(--font-family);
+  font-family: ${fonts.regular};
   font-weight: 600;
   font-size: 16px;
 

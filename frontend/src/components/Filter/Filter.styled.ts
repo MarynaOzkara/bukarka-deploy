@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Input } from "styles/CommonStyled";
 import theme from "styles/theme";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const FilterWrapper = styled.aside`
   height: fit-content;
@@ -81,7 +81,7 @@ export const SubTitle = styled.p`
 
 export const PriceRangeInput = styled(Input)`
   margin-bottom: 1rem;
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
 `;
 
 export const StyledInput = styled(Input)`

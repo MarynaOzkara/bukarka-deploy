@@ -4,7 +4,7 @@ import { Logo } from "assets/icons";
 import { breakpoints } from "constants/breakpoints";
 import theme from "styles/theme";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const StyledFooter = styled.footer`
   background-color: ${colors.background.lightGrey};
@@ -85,7 +85,7 @@ export const ListItem = styled.li`
   margin-bottom: 16px;
 
   a {
-    font-family: var(--medium);
+    font-family: ${fonts.medium};
 
     font-weight: 500;
     font-size: 12px;
@@ -107,7 +107,7 @@ export const StyledContacts = styled(Contacts)`
 `;
 
 export const Copyright = styled.div`
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 12px;
   line-height: 150%;
   text-align: center;

@@ -1,10 +1,64 @@
 import { createGlobalStyle } from "styled-components";
 import theme from "./theme";
+import MontserratRegular from "assets/fonts/Montserrat-Regular.ttf";
+import MontserratMedium from "assets/fonts/Montserrat-Medium.ttf";
+import MontserratSemibold from "assets/fonts/Montserrat-SemiBold.ttf";
+import MontserratBold from "assets/fonts/Montserrat-Bold.ttf";
+import MontserratExtrabold from "assets/fonts/Montserrat-ExtraBold.ttf";
+import MontserratAlternatesRegular from "assets/fonts/MontserratAlternates-Regular.ttf";
+import MontserratAlternatesSemibold from "assets/fonts/MontserratAlternates-SemiBold.ttf";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const GlobalStyles = createGlobalStyle`
+@font-face {
+    font-family: 'Montserrat-Regular';
+    src: url(${MontserratRegular}) format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
 
+  @font-face {
+    font-family: 'Montserrat-Medium';
+    src: url(${MontserratMedium}) format('truetype');
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Montserrat-Semibold';
+    src: url(${MontserratSemibold}) format('truetype');
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Montserrat-Bold';
+    src: url(${MontserratBold}) format('truetype');
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Montserrat-Extrabold';
+    src: url(${MontserratExtrabold}) format('truetype');
+    font-weight: 900;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Montserrat-Alternates-Regular';
+    src: url(${MontserratAlternatesRegular}) format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Montserrat-Alternates-Semibold';
+    src: url(${MontserratAlternatesSemibold}) format('truetype');
+    font-weight: 600;
+    font-style: normal;
+  }
  
  *, *::before, *::after {
     box-sizing: border-box;
@@ -26,6 +80,7 @@ body {
   /* color:   ${({ theme }) => theme.colors.text.primary}; */
   color: ${colors.text.primary};
   background-color: ${colors.background.grey};
+  font-family: ${fonts.regular};
 }
 
 ul, ol, li {
@@ -56,4 +111,11 @@ a{
   outline: 2px solid ${colors.text.primary} ;
   border-radius:2px; 
 }
+
+
+
+  body {
+    margin: 0;
+    font-family: ${fonts.regular};
+  }
 `;

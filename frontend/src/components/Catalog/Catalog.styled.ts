@@ -1,9 +1,9 @@
+import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { breakpoints } from "constants/breakpoints";
 import theme from "styles/theme";
-import styled from "styled-components";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const Wrapper = styled.div`
   padding: 24px;
@@ -94,7 +94,7 @@ export const StyledBlock = styled.div`
 `;
 
 export const SmallSubTitle = styled(Link)`
-  font-family: var(--font-family);
+  font-family: ${fonts.semibold};
   font-weight: 600;
   font-size: 14px;
 

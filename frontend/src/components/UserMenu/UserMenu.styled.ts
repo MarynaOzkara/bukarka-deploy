@@ -3,7 +3,7 @@ import { breakpoints } from "constants/breakpoints";
 import { AvatarIcon, CartIcon, HeartIcon } from "assets/icons";
 import theme from "styles/theme";
 
-const { colors } = theme;
+const { colors, fonts } = theme;
 
 export const StyledUserMenu = styled.ul`
   display: flex;
@@ -44,7 +44,7 @@ export const Button = styled.button`
   color: ${colors.text.primary};
   background-color: transparent;
 
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 12px;
   line-height: 133%;
   text-align: center;
