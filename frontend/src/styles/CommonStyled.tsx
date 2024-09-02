@@ -5,6 +5,7 @@ import theme from "./theme";
 const { colors, fonts } = theme;
 
 export const StyledCommonWrapper = styled.div`
+  min-height: 100vh;
   padding: 0;
   margin: 0 auto;
   margin-top: 3.5rem;
@@ -27,8 +28,9 @@ export const PageWrapper = styled.div`
   text-align: center;
   width: 100vw;
   max-width: 1296px;
-  margin: 0 auto;
   min-width: ${breakpoints.mobile};
+  margin: 0 auto;
+  min-height: calc(100vh - 3.5rem);
 
   background-color: ${colors.background.primary};
 `;

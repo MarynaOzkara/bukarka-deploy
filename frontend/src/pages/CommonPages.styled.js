@@ -197,3 +197,24 @@ export const StyledFlexWrap = styled(FlexWrap)`
   gap: 1.5rem;
   justify-content: space-around;
 `;
+
+export const CenteredLoaderWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 100%;
+  height: 100%;
+`;
+
+export const ContentWrapper = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+`;
+
