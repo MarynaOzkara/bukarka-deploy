@@ -63,7 +63,6 @@ const BannerBlock = (props: Props) => {
   }, []);
 
   const settings = {
-
     infinite: true,
     slidesToShow: 3,
     slidesToScroll: 1,
@@ -82,7 +81,13 @@ const BannerBlock = (props: Props) => {
         {allBanners.map((banner, index) => (
           <ImageWrapper key={index}>
             <Link to={banner.link}>
-              <Image src={banner.src} alt={banner.alt} />
+              <Image
+                src={banner.src}
+                alt={banner.alt}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = images.imagePlaceholder;
+                }}
+              />
             </Link>
           </ImageWrapper>
         ))}
