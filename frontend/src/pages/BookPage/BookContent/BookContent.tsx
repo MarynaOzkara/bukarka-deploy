@@ -100,6 +100,9 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
                 alt={`${book.author} ${book.title}`}
                 title={`${book.author} ${book.title}`}
                 onClick={() => showModal("pic-viewer")}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = images.imagePlaceholder;
+                }}
               />
             </div>
             <FavoriteButtonContainer>

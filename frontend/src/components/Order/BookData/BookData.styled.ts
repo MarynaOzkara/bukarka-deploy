@@ -53,7 +53,6 @@ export const Book = styled.div`
 export const ImageWrapper = styled.div`
   width: 88px;
   height: 120px;
-  background-color: lightblue;
 `;
 
 export const Title = styled.h3`

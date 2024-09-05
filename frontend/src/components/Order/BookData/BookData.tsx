@@ -10,6 +10,7 @@ import { selectOrdersData } from "appRedux/orders/selectors";
 import { useAppDispatch } from "appRedux/hooks";
 import { fetchOrderById } from "appRedux/orders/operations";
 import { calculateDeliveryPrice } from "utils/calculateDeliveryPrice";
+import { images } from "assets/images";
 import { SubTitleBlue } from "../OrderCommonStyled";
 import {
   Author,
@@ -109,7 +110,14 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
             {orderData.orderItems.map((item: any) => (
               <Book key={item._id}>
                 <ImageWrapper>
-                  <img src={item.product.image} alt={item.product.title} />
+                  <img
+                    src={item.product.image}
+                    alt={item.product.title}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src =
+                        images.imagePlaceholder;
+                    }}
+                  />
                 </ImageWrapper>
                 <div>
                   <Title>{item.product.title}</Title>

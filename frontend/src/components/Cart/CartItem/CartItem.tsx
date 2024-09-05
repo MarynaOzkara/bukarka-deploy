@@ -88,7 +88,13 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
     <StyledCartItem>
       <BookInfo>
         <ImageWrapper id={_id}>
-          <img src={image || imagePlaceholder} alt="" />
+          <img
+            src={image || imagePlaceholder}
+            alt=""
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = images.imagePlaceholder;
+            }}
+          />
         </ImageWrapper>
         <Description>
           <Title>{truncateString(title, 36)}</Title>

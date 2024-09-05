@@ -105,6 +105,9 @@ const BookCard: React.FC<IProps> = ({
           <img
             src={image || images.imagePlaceholder}
             alt={`${author} ${title} `}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = images.imagePlaceholder;
+            }}
           />
         </StyledItemImage>
         <StyledTitle style={{ width: "192px" }}>
