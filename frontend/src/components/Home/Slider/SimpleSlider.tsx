@@ -84,7 +84,7 @@ const SimpleSlider: React.FC<IDataBooks> = ({ data, maxWidth = "1220px" }) => {
     nextArrow: <NextArrow isVisible={currentSlide < totalSlides - 5} />,
     responsive: [
       {
-        breakpoint: 1220,
+        breakpoint: 1219,
         settings: {
           slidesToShow: 5,
           slidesToScroll: 3,
@@ -95,7 +95,7 @@ const SimpleSlider: React.FC<IDataBooks> = ({ data, maxWidth = "1220px" }) => {
       },
 
       {
-        breakpoint: 1024,
+        breakpoint: 1023,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
@@ -106,7 +106,7 @@ const SimpleSlider: React.FC<IDataBooks> = ({ data, maxWidth = "1220px" }) => {
       },
 
       {
-        breakpoint: 960,
+        breakpoint: 959,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 2,
@@ -115,7 +115,7 @@ const SimpleSlider: React.FC<IDataBooks> = ({ data, maxWidth = "1220px" }) => {
       },
 
       {
-        breakpoint: 768,
+        breakpoint: 767,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
@@ -124,7 +124,7 @@ const SimpleSlider: React.FC<IDataBooks> = ({ data, maxWidth = "1220px" }) => {
       },
 
       {
-        breakpoint: 560,
+        breakpoint: 559,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
@@ -133,7 +133,7 @@ const SimpleSlider: React.FC<IDataBooks> = ({ data, maxWidth = "1220px" }) => {
       },
 
       {
-        breakpoint: 480,
+        breakpoint: 479,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,

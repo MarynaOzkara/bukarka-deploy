@@ -41,7 +41,6 @@ export const ModalWrapper = styled.div`
 
 export const ModalContent = styled.div<ModalContentProps>`
   position: relative;
-  max-height: content-fit;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
   background: ${colors.background.primary};
   max-height: 90vh;
