@@ -9,9 +9,11 @@ import {
   selectOrdersError,
   selectOrdersStatus,
 } from "appRedux/orders/selectors";
+import { useOrderContext } from "components/Order/OrderContext";
 import useCart from "hooks/useCart";
 import { truncateString } from "utils/truncateString";
 import { images } from "assets/images";
+import theme from "styles/theme";
 import {
   StarsWrapper,
   StyledStarIcon,
@@ -46,15 +48,14 @@ const BookCard: React.FC<IProps> = ({
   index,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isBookAdded, setIsBookAdded] = useState<boolean>(
-    localStorage.getItem(`isBookAdded_${_id}`) === "true"
-  );
-
+  const { isBookAdded, markBookAsAdded } = useOrderContext();
   const ordersStatus = useSelector(selectOrdersStatus);
   const ordersError = useSelector(selectOrdersError);
 
   let navigate = useNavigate();
   const { handleCart } = useCart(_id);
+
+  const { colors } = theme;
 
   const starsProps = useMemo(
     () => ({
@@ -63,8 +64,8 @@ const BookCard: React.FC<IProps> = ({
       edit: false,
       color: "#fffbff",
       activeColor: "#ffd700",
-      emptyIcon: <StyledStarIcon $fillColor="var(--bukarka-white)" />,
-      filledIcon: <StyledStarIcon $fillColor="var(--bukarka-yellow)" />,
+      emptyIcon: <StyledStarIcon $fillColor={colors.background.primary} />,
+      filledIcon: <StyledStarIcon $fillColor={colors.accent.yellow} />,
     }),
     []
   );
@@ -82,18 +83,16 @@ const BookCard: React.FC<IProps> = ({
   );
 
   const handleBuy = useCallback(async () => {
-    if (isBookAdded) {
+    if (isBookAdded[_id]) {
       console.log("Книга вже є в кошику!");
       setIsOpen(true);
       return;
     }
 
     await handleCart();
-
+    markBookAsAdded(_id);
     setIsOpen(true);
-    setIsBookAdded(true);
-    localStorage.setItem(`isBookAdded_${_id}`, "true");
-  }, [_id, handleCart, isBookAdded]);
+  }, [_id, handleCart, isBookAdded, markBookAsAdded]);
 
   return (
     <>
@@ -106,6 +105,9 @@ const BookCard: React.FC<IProps> = ({
           <img
             src={image || images.imagePlaceholder}
             alt={`${author} ${title} `}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = images.imagePlaceholder;
+            }}
           />
         </StyledItemImage>
         <StyledTitle style={{ width: "192px" }}>

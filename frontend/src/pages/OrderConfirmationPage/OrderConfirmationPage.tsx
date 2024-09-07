@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch } from "appRedux/hooks";
+import { useOrderContext } from "components/Order/OrderContext";
 import { fetchOrderById } from "appRedux/orders/operations";
 import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
@@ -18,12 +19,15 @@ const OrderConfirmationPage: React.FC = () => {
   const { id } = useParams();
   const [orderNumber, setOrderNumber] = useState("");
   const dispatch = useAppDispatch();
+  const { clearOrderData } = useOrderContext();
 
   useEffect(() => {
     let attempts = 0;
+    const maxAttempts = 3;
+    let timer: ReturnType<typeof setTimeout>;
 
     const fetchOrderAndCheckStatus = async () => {
-      if (id && attempts < 2) {
+      if (id && attempts < maxAttempts && !orderNumber) {
         try {
           const order = await dispatch(fetchOrderById(id)).unwrap();
 
@@ -35,7 +39,7 @@ const OrderConfirmationPage: React.FC = () => {
             setOrderNumber(order.orderNumber.toString());
           } else {
             attempts++;
-            setTimeout(fetchOrderAndCheckStatus, 2000);
+            timer = setTimeout(fetchOrderAndCheckStatus, 3000);
           }
         } catch (error) {
           console.error("Error fetching order:", error);
@@ -44,14 +48,12 @@ const OrderConfirmationPage: React.FC = () => {
     };
 
     fetchOrderAndCheckStatus();
+    localStorage.removeItem("orderId");
 
-    localStorage.removeItem("currentOrderId");
-    Object.keys(localStorage).forEach((key) => {
-      if (key.startsWith("isBookAdded_")) {
-        localStorage.removeItem(key);
-      }
-    });
-  }, [dispatch, id]);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [clearOrderData, dispatch, id, orderNumber]);
 
   return (
     <StyledCommonWrapper>

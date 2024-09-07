@@ -1,12 +1,15 @@
-import { breakpoints } from "constants/breakpoints";
 import styled from "styled-components";
+import { breakpoints } from "constants/breakpoints";
+import theme from "styles/theme";
+
+const { colors, fonts } = theme;
 
 export const StyledBottomMenu = styled.div`
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #fff;
+  background-color: ${colors.background.secondary};
   box-shadow: 1px 0 4px 0 rgba(0, 0, 0, 0.25);
 
   z-index: 2;
@@ -52,9 +55,8 @@ export const ButtonWrapper = styled.div`
 
   width: 80px;
 
-  color: var(--bukarka-black);
-
-  font-family: var(--font-family);
+  color: ${colors.text.primary};
+  font-family: ${fonts.regular};
   font-weight: 400;
   font-size: 12px;
   line-height: 133%;

@@ -3,12 +3,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import * as yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { StyleSheetManager } from "styled-components";
 import { useOrderContext } from "components/Order/OrderContext";
 import { VisaIcon } from "assets/icons";
 import { validationPaymentPageSchema } from "utils/validationSchema";
 import { useAppDispatch } from "appRedux/hooks";
 import { fetchOrderById } from "appRedux/orders/operations";
-import { StyleSheetManager } from "styled-components";
+import theme from "styles/theme";
 import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
   Books,
@@ -57,6 +58,8 @@ const PaymentPage: React.FC = () => {
 
   const { totalQuantity, deliveryPrice, bookPrice } = useOrderContext();
 
+  const { colors } = theme;
+
   useEffect(() => {
     const fetchOrder = async () => {
       if (id) {
@@ -91,7 +94,7 @@ const PaymentPage: React.FC = () => {
           padding: "24px",
           width: "320px",
           height: "auto",
-          color: "var(--bukarka-black)",
+          color: colors.text.primary,
           fontSize: "24px",
           lineHeight: "1.3",
         },

@@ -38,8 +38,8 @@ const OrderData: React.FC<OrderDataProps> = ({
       <BlockWrapper>
         <SmallSubTitle>Замовник</SmallSubTitle>
         <Data>
-          <span>{renderData(customerName, "Вкажіть ім’я")}</span>
-          {" "}
+          <span>{renderData(customerName, "Вкажіть ім’я")}</span>       
+          {" "} {/* Don`t delete */}
           <span>{renderData(customerLastName, "та прізвище")}</span>
         </Data>
         <Data>{renderData(customerEmail, "Вкажіть email")}</Data>

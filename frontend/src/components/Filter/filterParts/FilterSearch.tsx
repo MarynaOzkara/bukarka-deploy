@@ -70,8 +70,8 @@ const FilterSearch: React.FC<IProps> = ({
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
-    const validPattern = /^[0-9a-zA-Z \u0400-\u04ff]*$/;
-
+    const validPattern =
+      /^(?!.*(.)\1{2})[a-zA-Z\u0400-\u04FF\s-]*(?:[0-9]{1,2})?[a-zA-Z\u0400-\u04FF\s-]*$/;
     if (validPattern.test(inputValue)) {
       setInputQuery(inputValue);
       setIsHintSelected(false);
@@ -111,8 +111,8 @@ const FilterSearch: React.FC<IProps> = ({
     <div style={{ position: "relative" }}>
       <StyledInput
         type="text"
-        pattern="[0-9a-zA-Z\u0400-\u04ff]*"
-        maxLength={64}
+        pattern="/^(?!.*(.)\\1{2})[a-zA-Z\u0400-\u04FF\\s-]*(?:[0-9]{1,2})?[a-zA-Z\u0400-\u04FF\\s-]*$/"
+        maxLength={255}
         value={inputQuery}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}

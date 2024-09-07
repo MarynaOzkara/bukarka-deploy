@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import { breakpoints } from "constants/breakpoints";
 import { BurgerIcon } from "assets/icons";
+import theme from "styles/theme";
+
+const { colors, fonts } = theme;
 
 export const StyledCatalogButton = styled.button`
   display: flex;
@@ -12,16 +15,16 @@ export const StyledCatalogButton = styled.button`
   padding: 0;
   font-size: 12px;
 
-  background-color: var(--bukarka-yellow);
+  background-color: ${colors.accent.yellow};
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-size: 12px;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 
   transition: box-shadow 0.3s ease, color 0.3s ease;
 
   & svg {
-    stroke: var(--bukarka-black);
+    stroke: ${colors.text.primary};
   }
 
   span {
@@ -33,10 +36,10 @@ export const StyledCatalogButton = styled.button`
   }
 
   &:active {
-    color: var(--bukarka-orange);
+    color: ${colors.accent.orange};
 
     & svg {
-      stroke: var(--bukarka-orange);
+      color: ${colors.accent.orange};
     }
   }
 

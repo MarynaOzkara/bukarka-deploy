@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import theme from "styles/theme";
+
+const { colors } = theme;
 
 const HEADER_HEIGHT = "88px";
 const FOOTER_HEIGHT = "288px";
@@ -21,7 +24,7 @@ export const Title = styled.main`
   font-weight: 500;
   font-size: 24px;
   line-height: 1.33;
-  color: var(--bukarka-deep-blue);
+  color: ${colors.accent.deepBlue};
 `;
 
 export const Text = styled.p`
@@ -29,7 +32,7 @@ export const Text = styled.p`
 
   font-size: 16px;
   line-height: 1.5;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const StyledLink = styled(Link)`
@@ -40,8 +43,8 @@ export const StyledLink = styled(Link)`
   padding: 8px 16px;
   min-width: 192px;
 
-  background: var(--bukarka-yellow);
-  color: var(--bukarka-black);
+  background: ${colors.accent.yellow};
+  color: ${colors.text.primary};
 
   font-weight: 600;
   font-size: 16px;
@@ -50,9 +53,9 @@ export const StyledLink = styled(Link)`
   &:hover {
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
   }
-  
+
   &:active {
-    color: var(--bukarka-orange);
+    color: ${colors.accent.orange};
   }
 
   &:not(:last-child) {

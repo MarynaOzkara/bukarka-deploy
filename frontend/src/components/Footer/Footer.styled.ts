@@ -2,9 +2,12 @@ import styled from "styled-components";
 import Contacts from "components/Contacts";
 import { Logo } from "assets/icons";
 import { breakpoints } from "constants/breakpoints";
+import theme from "styles/theme";
+
+const { colors, fonts } = theme;
 
 export const StyledFooter = styled.footer`
-  background-color: var(--bukarka-light-grey);
+  background-color: ${colors.background.lightGrey};
   box-shadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.25);
   padding: 2vw;
   margin: 0 auto;
@@ -82,12 +85,12 @@ export const ListItem = styled.li`
   margin-bottom: 16px;
 
   a {
-    font-family: var(--medium);
+    font-family: ${fonts.medium};
 
     font-weight: 500;
     font-size: 12px;
     line-height: 150%;
-    color: var(--bukarka-black);
+    color: ${colors.text.primary};
 
     @media screen and (min-width: ${breakpoints.tablet}) {
       font-size: 14px;
@@ -104,11 +107,11 @@ export const StyledContacts = styled(Contacts)`
 `;
 
 export const Copyright = styled.div`
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 12px;
   line-height: 150%;
   text-align: center;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
   margin-bottom: 72px;
 
   @media screen and (min-width: ${breakpoints.desktop}) {

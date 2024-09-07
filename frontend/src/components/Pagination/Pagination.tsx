@@ -1,5 +1,6 @@
-import { SliderArrowIcon } from "assets/icons";
 import React from "react";
+import { SliderArrowIcon } from "assets/icons";
+import theme from "styles/theme";
 import { PaginationWrapper } from "./Pagination.styled";
 
 interface IPaginationProps {
@@ -7,6 +8,8 @@ interface IPaginationProps {
   totalPages: number;
   onPageChange: (page: number) => void;
 }
+
+const { colors } = theme;
 
 const Pagination: React.FC<IPaginationProps> = ({
   currentPage,
@@ -72,7 +75,7 @@ const Pagination: React.FC<IPaginationProps> = ({
     <PaginationWrapper>
       <button className="arrow" disabled={currentPage === 1}>
         <SliderArrowIcon
-          stroke="var(--bukarka-dark-grey)"
+          stroke={colors.text.secondary}
           style={{ transform: "rotate(180deg)" }}
           onClick={handlePrevious}
         />
@@ -81,10 +84,7 @@ const Pagination: React.FC<IPaginationProps> = ({
       {renderPageNumbers()}
 
       <button className="arrow" disabled={currentPage === totalPages}>
-        <SliderArrowIcon
-          stroke="var(--bukarka-dark-grey)"
-          onClick={handleNext}
-        />
+        <SliderArrowIcon stroke={colors.text.secondary} onClick={handleNext} />
       </button>
     </PaginationWrapper>
   );

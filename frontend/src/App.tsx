@@ -3,11 +3,12 @@ import { OrderContextProvider } from "components/Order/OrderContext";
 import OrderConfirmationPage from "pages/OrderConfirmationPage";
 import OrderPage from "pages/OrderPage/OrderPage";
 import PaymentPage from "pages/PaymentPage";
-import { lazy } from "react";
+import { lazy, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import combineProviders from "utils/combineProviders";
-import Layout from "./components/Layout/Layout";
+import Layout from "components/Layout/Layout";
 import { FavoritesProvider } from "components/Favorites/FavoritesContext";
+import { clearLocalStorage } from "utils/clearLocalStorage";
 
 const HomePage = lazy(() => import("pages/HomePage"));
 const NotFoundPage = lazy(() => import("pages/NotFoundPage"));

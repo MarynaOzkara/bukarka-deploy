@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import theme from "styles/theme";
+
+const { colors, fonts } = theme;
 
 export const Form = styled.form`
   width: 416px;
@@ -11,7 +14,7 @@ export const Label = styled.label`
   font-size: 16px;
   line-height: 1.5;
 
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const Wrapper = styled.div`
@@ -32,9 +35,9 @@ export const Input = styled.input`
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
-  color: var(--bukarka-dark-grey);
+  color: ${colors.text.secondary};
 
-  border: 1px solid var(--bukarka-grey);
+  border: 1px solid ${colors.border.primary};
 
   /* &:last-child {
     margin-bottom: 24px;
@@ -61,14 +64,14 @@ export const Button = styled.button`
   padding: 8px 16px;
   margin-bottom: 24px;
 
-  background: var(--bukarka-yellow);
+  background: ${colors.accent.yellow};
 
-  font-family: var(--font-family);
+  font-family: ${fonts.regular};
   font-weight: 600;
   font-size: 16px;
 
   line-height: 1.5;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 
   &:hover,
   &:focus {
@@ -76,7 +79,7 @@ export const Button = styled.button`
   }
 
   &:active {
-    color: var(--bukarka-orange);
+    color: ${colors.accent.orange};
   }
 `;
 
@@ -87,10 +90,10 @@ export const ResetPasswordButton = styled.button`
   font-weight: 400;
   font-size: 12px;
   line-height: 1.33;
-  color: var(--bukarka-dark-grey);
+  color: ${colors.text.secondary};
 
   &:hover {
-    color: var(--bukarka-accent-blue);
+    color: ${colors.accent.blue};
   }
 `;
 
@@ -98,7 +101,7 @@ export const Text = styled.p`
   margin-top: -16px;
   margin-bottom: 32px;
 
-  color: var(--bukarka-dark-grey);
+  color: ${colors.text.secondary};
 
   font-weight: 400;
   font-size: 12px;
@@ -114,12 +117,12 @@ export const CheckboxWrapper = styled.div`
   font-weight: 400;
   font-size: 14px;
   line-height: 1.43;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 
   input[type="checkbox"] {
     width: 20px;
     height: 20px;
     padding: 8px;
-    border: 2px solid var(--bukarka-black);
+    border: 2px solid ${colors.text.primary};
   }
 `;

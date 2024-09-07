@@ -6,6 +6,7 @@ import { breakpoints } from "constants/breakpoints";
 import MobileCategoryPoster from "../CategoryPoster/MobileCategoryPoster";
 import { instance } from "utils/fetchInstance";
 import { StyledCategorySlider } from "./CategorySlider.styled";
+import { CenteredLoaderWrapper } from "pages/CommonPages.styled";
 
 interface IProps {
   _id: string;
@@ -64,7 +65,13 @@ const CategorySlider = () => {
     fetchData();
   }, []);
 
-  if (loading) return <Loader />;
+  if (loading) {
+    return (
+      <CenteredLoaderWrapper>
+        <Loader />
+      </CenteredLoaderWrapper>
+    );
+  }
   if (error) return <div>{error}</div>;
 
   return (

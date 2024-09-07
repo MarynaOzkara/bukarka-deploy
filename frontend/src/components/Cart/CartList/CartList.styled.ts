@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import theme from "styles/theme";
+
+const { colors, fonts } = theme;
 
 export const Wrapper = styled.div`
   margin-bottom: 16px;
@@ -12,18 +15,18 @@ export const CartHeader = styled.div`
 `;
 
 export const AmountOfBooks = styled.div`
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-size: 16px;
   line-height: 150%;
 `;
 
 export const DeleteButton = styled.button`
   background-color: transparent;
-  color: var(--bukarka-dark-grey);
+  color: ${colors.text.secondary};
 
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 12px;
   line-height: 133%;
   text-align: center;
@@ -41,16 +44,16 @@ export const ListWrapper = styled.div`
   &::-webkit-scrollbar-thumb {
     width: 8px;
     height: 48px;
-    border: 1px solid var(--bukarka-dark-grey);
+    border: 1px solid ${colors.border.secondary};
     border-radius: 4px;
-    background: var(--bukarka-grey);
+    background: ${colors.border.primary};
   }
 
   &::-webkit-scrollbar-track {
     border-radius: 4px;
     width: 8px;
     box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.25);
-    background: var(--bukarka-light-grey);
+    background: ${colors.background.lightGrey};
   }
 `;
 
@@ -66,20 +69,20 @@ export const PriceText = styled.span`
   margin-right: 16px;
   padding-left: 8px;
 
-  background: var(--bukarka-yellow);
-  border-left: 8px solid var(--bukarka-orange);
-  color: var(--bukarka-black);
+  background: ${colors.accent.yellow};
+  border-left: 8px solid ${colors.accent.orange};
+  color: ${colors.text.primary};
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-size: 16px;
   line-height: 150%;
 `;
 
 export const TotalPrice = styled.span`
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-size: 24px;
   line-height: 133%;
-  color: var(--bukarka-orange);
+  color: ${colors.accent.orange};
 `;
 
 export const ButtonWrapper = styled.div`
@@ -94,18 +97,17 @@ export const ContinueButton = styled.button`
   padding: 8px 16px;
   height: 40px;
 
-  background: var(--bukarka-yellow);
+  background: ${colors.accent.yellow};
+  font-family: ${fonts.semibold};
+  font-size: 16px;
+  line-height: 150%;
 
   & a {
-    color: var(--bukarka-black);
+    color: ${colors.text.primary};
+  }
 
-    font-family: var(--semibold);
-    font-size: 16px;
-    line-height: 150%;
-
-    &:active {
-      color: var(--bukarka-orange);
-    }
+  &:active {
+    color: ${colors.accent.orange};
   }
 
   &:hover {
@@ -119,20 +121,19 @@ export const CheckoutButton = styled.button`
   padding: 8px 16px;
   height: 40px;
 
-  background: var(--bukarka-orange);
+  background: ${colors.accent.orange};
+  font-family: ${fonts.bold};
+  font-size: 16px;
+  line-height: 150%;
 
   transition: all 0.3s ease;
 
   & a {
-    color: var(--bukarka-black);
+    color: ${colors.text.primary};
+  }
 
-    font-family: var(--bold);
-    font-size: 16px;
-    line-height: 150%;
-
-    &:active {
-      color: var(--bukarka-yellow);
-    }
+  &:active {
+    color: ${colors.accent.yellow};
   }
 
   &:hover {

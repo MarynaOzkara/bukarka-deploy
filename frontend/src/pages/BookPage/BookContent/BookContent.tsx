@@ -10,6 +10,7 @@ import useCart from "hooks/useCart";
 import { useAppDispatch } from "appRedux/hooks";
 import { images } from "assets/images";
 import { fetchOrderById } from "appRedux/orders/operations";
+import { useOrderContext } from "components/Order/OrderContext";
 import {
   ButtonOrange,
   ButtonYellow,
@@ -40,6 +41,8 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
 
   const dispatch = useAppDispatch();
   const { handleCart } = useCart(book._id);
+  const { orderId, setOrderId, isBookAdded, markBookAsAdded, isBookInCart } =
+    useOrderContext();
 
   const showModal = (content: string, img?: string) => {
     setModalContent(content);
@@ -53,9 +56,8 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
 
   useEffect(() => {
     const fetchCartData = async () => {
-      const storedOrderId = localStorage.getItem("currentOrderId");
-      if (storedOrderId) {
-        const response = await dispatch(fetchOrderById(storedOrderId));
+      if (orderId) {
+        const response = await dispatch(fetchOrderById(orderId));
         if (response.meta.requestStatus === "fulfilled") {
           setCartData(response.payload as CartData);
         }
@@ -63,25 +65,29 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
     };
 
     fetchCartData();
-  }, [dispatch]);
+  }, [dispatch, orderId]);
 
   const handleBuy = useCallback(async () => {
-    if (!localStorage.getItem(`isBookAdded_${book._id}`)) {
-      localStorage.setItem(`isBookAdded_${book._id}`, "true");
-
-      await handleCart();
+    if (isBookInCart(book._id)) {
+      showModal("isBookAdded");
+      return;
     }
 
+    await handleCart();
+    markBookAsAdded(book._id);
     showModal("cart");
-  }, [book._id, handleCart]);
+  }, [book._id, handleCart, isBookInCart, markBookAsAdded]);
 
   const handleAddToCart = useCallback(async () => {
-    if (localStorage.getItem(`isBookAdded_${book._id}`)) {
+    if (isBookInCart(book._id)) {
       showModal("isBookAdded");
-    } else {
-      await handleCart();
+      return;
     }
-  }, [book._id, handleCart]);
+
+    await handleCart();
+    markBookAsAdded(book._id);
+    showModal("cart");
+  }, [book._id, handleCart, isBookInCart, markBookAsAdded]);
 
   return (
     <>
@@ -91,9 +97,12 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
             <div className="img-container">
               <img
                 src={book.image || images.imagePlaceholder}
-                alt={`${book.author} ${book.title} `}
-                title={`${book.author} ${book.title} `}
+                alt={`${book.author} ${book.title}`}
+                title={`${book.author} ${book.title}`}
                 onClick={() => showModal("pic-viewer")}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = images.imagePlaceholder;
+                }}
               />
             </div>
             <FavoriteButtonContainer>
@@ -191,4 +200,5 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
     </>
   );
 };
+
 export default BookContent;

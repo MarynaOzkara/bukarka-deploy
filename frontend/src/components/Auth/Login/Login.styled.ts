@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import theme from "styles/theme";
+
+const { colors } = theme;
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -21,7 +24,7 @@ export const Prompt = styled.button`
   margin: 0 auto;
 
   background-color: transparent;
-  color: var(--bukarka-orange);
+  color: ${colors.accent.orange};
 
   font-weight: 600;
   font-size: 16px;
@@ -31,6 +34,6 @@ export const Prompt = styled.button`
   transition: color 0.3s ease;
 
   &:hover {
-    color: var(--bukarka-accent-blue);
+    color: ${colors.accent.blue};
   }
 `;

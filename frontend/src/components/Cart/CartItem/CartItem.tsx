@@ -6,6 +6,7 @@ import {
   updateItemQuantity,
 } from "appRedux/orders/operations";
 import { useAppDispatch } from "appRedux/hooks";
+import { useOrderContext } from "components/Order/OrderContext";
 import { truncateString } from "utils/truncateString";
 import {
   Title,
@@ -48,36 +49,30 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
   const bookId = item.product._id;
 
   const dispatch = useAppDispatch();
+  const { orderId, isBookAdded, markBookAsAdded } = useOrderContext();
 
   const handleDelete = async (id: string) => {
-    const storedOrderId = localStorage.getItem("currentOrderId");
-
-    if (storedOrderId) {
-      dispatch(deleteItem(id));
-      await dispatch(fetchOrderById(storedOrderId));
-      localStorage.removeItem(`isBookAdded_${bookId}`);
+    if (orderId) {
+      await dispatch(deleteItem(id));
+      await dispatch(fetchOrderById(orderId));
     }
   };
 
   const handleDecreaseQuantity = async () => {
-    if (quantity > 1) {
-      const storedOrderId = localStorage.getItem("currentOrderId");
-      if (storedOrderId) {
-        await dispatch(
-          updateItemQuantity({
-            orderId: item.orderId,
-            orderItemId: _id,
-            quantity: quantity - 1,
-          })
-        );
-        await dispatch(fetchOrderById(storedOrderId));
-      }
+    if (quantity > 1 && orderId) {
+      await dispatch(
+        updateItemQuantity({
+          orderId: item.orderId,
+          orderItemId: _id,
+          quantity: quantity - 1,
+        })
+      );
+      await dispatch(fetchOrderById(orderId));
     }
   };
 
   const handleIncreaseQuantity = async () => {
-    const storedOrderId = localStorage.getItem("currentOrderId");
-    if (storedOrderId) {
+    if (orderId) {
       await dispatch(
         updateItemQuantity({
           orderId: item.orderId,
@@ -85,7 +80,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
           quantity: quantity + 1,
         })
       );
-      await dispatch(fetchOrderById(storedOrderId));
+      await dispatch(fetchOrderById(orderId));
     }
   };
 
@@ -93,7 +88,13 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
     <StyledCartItem>
       <BookInfo>
         <ImageWrapper id={_id}>
-          <img src={image || imagePlaceholder} alt="" />
+          <img
+            src={image || imagePlaceholder}
+            alt=""
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = images.imagePlaceholder;
+            }}
+          />
         </ImageWrapper>
         <Description>
           <Title>{truncateString(title, 36)}</Title>

@@ -1,9 +1,11 @@
 import styled from "styled-components";
+import theme from "styles/theme";
+
+const { colors, fonts } = theme;
 
 export const RadioWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  /* margin-bottom: 32px; */
 `;
 
 export const RadioButton = styled.label`
@@ -11,11 +13,11 @@ export const RadioButton = styled.label`
   align-items: center;
   margin-bottom: 16px;
 
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
-  color: var(--bukarka-dark-grey);
+  color: ${colors.text.secondary};
 
   &:last-child {
     margin-bottom: 0;
@@ -35,11 +37,11 @@ export const RadioInput = styled.input`
   width: 26px;
   height: 26px;
   border-radius: 100%;
-  fill: var(--bukarka-light-grey);
+  fill: ${colors.background.lightGrey};
   stroke-width: 1px;
-  stroke: var(--bukarka-grey);
+  stroke: ${colors.border.primary};
   box-shadow: inset 0 1px 4px 0 rgba(0, 0, 0, 0.25);
-  background-color: #fff;
+  background-color: ${colors.background.secondary};
   transition: background-color 0.3s ease, border-color 0.3s ease;
 
   cursor: pointer;
@@ -57,7 +59,7 @@ export const RadioInput = styled.input`
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: var(--bukarka-dark-grey);
+    background-color: ${colors.border.secondary};
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -68,6 +70,6 @@ export const RadioInput = styled.input`
   }
 
   &:checked + span {
-    color: var(--bukarka-black);
+    color: ${colors.text.primary};
   }
 `;

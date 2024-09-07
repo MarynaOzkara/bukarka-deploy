@@ -1,6 +1,9 @@
 import styled from "styled-components";
-import { FlexWrap } from "styles/CommonStyled";
 import { breakpoints } from "./../constants/breakpoints";
+import theme from "styles/theme";
+import { FlexWrap } from "styles/CommonStyled";
+
+const { colors, fonts } = theme;
 
 export const Label = styled.p`
   position: relative;
@@ -15,9 +18,9 @@ export const Label = styled.p`
 
   padding: 4px 16px;
 
-  background-color: var(--bukarka-yellow);
+  background-color: ${colors.accent.yellow};
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-weight: 600;
   font-size: 20px;
   line-height: 1.2;
@@ -29,7 +32,7 @@ export const Label = styled.p`
     top: 0;
     bottom: 0;
     width: 8px;
-    background: var(--bukarka-deep-blue);
+    background: ${colors.accent.deepBlue};
   }
 
   @media screen and (min-width: ${breakpoints.mobile}) {
@@ -55,7 +58,7 @@ export const GridPageWrapper = styled.div`
 
   text-align: left;
 
-  background-color: var(--bukarka-white);
+  background-color: ${colors.background.primary};
 `;
 
 export const LeftPart = styled.div`
@@ -73,7 +76,7 @@ export const InfoPageWrapper = styled.div`
   padding-left: 32px;
   padding-bottom: 104px;
 
-  background-color: var(--bukarka-white);
+  background-color: ${colors.background.primary};
 `;
 
 export const InfoWrapper = styled.div`
@@ -94,10 +97,10 @@ export const SubscribeWrapperGrid = styled.div`
 `;
 
 export const TextAccent = styled.p`
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 14px;
   line-height: 1.43;
-  color: var(--bukarka-deep-blue);
+  color: ${colors.accent.deepBlue};
 `;
 
 export const StyledList = styled.ol`
@@ -121,26 +124,26 @@ export const StyledList = styled.ol`
 
     margin-bottom: 16px;
 
-    font-family: var(--semibold);
+    font-family: ${fonts.semibold};
     font-size: 14px;
     line-height: 1.43;
-    color: var(--bukarka-black);
+    color: ${colors.text.primary};
   }
 
   h4 {
     display: inline;
-    font-family: var(--regular);
-    color: var(--bukarka-black);
+    font-family: ${fonts.regular};
+    color: ${colors.text.primary};
   }
 
   span {
     display: inline;
-    font-family: var(--regular);
-    color: var(--bukarka-deep-blue);
+    font-family: ${fonts.regular};
+    color: ${colors.accent.deepBlue};
   }
 
   p {
-    color: var(--bukarka-black);
+    color: ${colors.text.primary};
     padding-left: 0;
   }
 `;
@@ -148,12 +151,12 @@ export const StyledList = styled.ol`
 export const Title = styled.h1`
   margin-bottom: 16px;
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-weight: 600;
   font-size: 20px;
   line-height: 1.2;
   text-align: center;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const SubscribeWrapper = styled.div`
@@ -163,10 +166,10 @@ export const SubscribeWrapper = styled.div`
 
 export const BreadCrumbs = styled.h6`
   text-align: left;
-  color: var(--bukarka-grey);
+  color: ${colors.text.secondary};
   margin: 1rem 0;
   & * {
-    color: var(--bukarka-grey);
+    color: ${colors.text.secondary};
   }
 `;
 
@@ -175,18 +178,18 @@ export const Price = styled.div`
   font-weight: 700;
   font-size: 16px;
   line-height: 24px;
-  color: var(--bukarka-accent-blue);
+  color: ${colors.accent.blue};
   margin-bottom: 8px;
   & span {
     font-size: 16px;
     text-decoration: line-through;
-    color: var(--bukarka-dark-grey);
+    color: ${colors.text.secondary};
   }
 `;
 
 export const Separator = styled.div`
   margin: 1rem 0;
-  border: 1px solid var(--bukarka-light-grey);
+  border: 1px solid ${colors.background.lightGrey};
 `;
 
 export const StyledFlexWrap = styled(FlexWrap)`
@@ -194,3 +197,24 @@ export const StyledFlexWrap = styled(FlexWrap)`
   gap: 1.5rem;
   justify-content: space-around;
 `;
+
+export const CenteredLoaderWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 100%;
+  height: 100%;
+`;
+
+export const ContentWrapper = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+`;
+

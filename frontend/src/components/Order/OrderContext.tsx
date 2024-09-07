@@ -1,19 +1,23 @@
-import React, { createContext, useContext, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface OrderContextProps {
   totalQuantity: number;
   deliveryPrice: number | null;
   bookPrice: number | null;
   orderNumber: string | null;
+  orderId: string | null;
+  isBookAdded: { [key: string]: boolean };
   setBookData: (data: {
     totalQuantity: number;
     deliveryPrice: number | null;
     bookPrice: number | null;
     orderNumber: string | null;
   }) => void;
-
   setOrderNumber: (orderNumber: string | null) => void;
+  setOrderId: (orderId: string | null) => void;
+  markBookAsAdded: (bookId: string) => void;
+  isBookInCart: (bookId: string) => boolean;
+  clearOrderData: () => void;
 }
 
 const OrderContext = createContext<OrderContextProps | undefined>(undefined);
@@ -39,41 +43,68 @@ export const OrderContextProvider: React.FC<OrderContextProviderProps> = ({
   const [deliveryPrice, setDeliveryPrice] = useState<number | null>(null);
   const [bookPrice, setBookPrice] = useState<number | null>(null);
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
+  const [orderId, setOrderId] = useState<string | null>(null);
+  const [isBookAdded, setIsBookAdded] = useState<{ [key: string]: boolean }>(
+    {}
+  );
+
+  useEffect(() => {
+    const storedOrderId = localStorage.getItem("orderId");
+    if (storedOrderId) {
+      setOrderId(storedOrderId);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (orderId) {
+      localStorage.setItem("orderId", orderId);
+    }
+  }, [orderId]);
 
   const setBookData = (data: {
     totalQuantity: number;
     deliveryPrice: number | null;
     bookPrice: number | null;
+    orderNumber: string | null;
   }) => {
     setTotalQuantity(data.totalQuantity);
     setDeliveryPrice(data.deliveryPrice);
     setBookPrice(data.bookPrice);
+    setOrderNumber(data.orderNumber);
   };
 
-  const { id } = useParams<{ id: string }>();
+  const markBookAsAdded = (bookId: string) => {
+    setIsBookAdded((prev) => ({ ...prev, [bookId]: true }));
+  };
 
-  // useEffect(() => {
-  //   fetch(`https://bukarka.onrender.com/api/orders/${id}`)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       // data && console.log(data);
-  //       setOrderNumber(data.orderNumber);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching order data:", error);
-  //     });
-  // }, [id]);
+  const isBookInCart = (bookId: string) => {
+    return Boolean(isBookAdded[bookId]);
+  };
+
+  const clearOrderData = () => {
+    setTotalQuantity(0);
+    setDeliveryPrice(null);
+    setBookPrice(null);
+    setOrderNumber(null);
+    setOrderId(null);
+    setIsBookAdded({});
+    localStorage.removeItem("orderId");
+  };
 
   const contextValue = {
     totalQuantity,
     deliveryPrice,
     bookPrice,
-    setBookData,
     orderNumber,
+    orderId,
+    isBookAdded,
+    setBookData,
     setOrderNumber,
+    setOrderId,
+    markBookAsAdded,
+    isBookInCart,
+    clearOrderData,
   };
-
-  // console.log(orderNumber);
 
   return (
     <OrderContext.Provider value={contextValue}>

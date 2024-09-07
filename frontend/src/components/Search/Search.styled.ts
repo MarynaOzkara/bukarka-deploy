@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import { LensIcon } from "assets/icons";
 import { breakpoints } from "constants/breakpoints";
+import theme from "styles/theme";
 import { Hints, Input } from "styles/CommonStyled";
+
+const { colors, fonts } = theme;
 
 export const StyledForm = styled.form`
   position: relative;
@@ -24,10 +27,10 @@ export const SearchInput = styled(Input)`
   }
 
   &::placeholder {
-    font-family: var(--regular);
+    font-family: ${fonts.regular};
     font-size: 16px;
     line-height: 150%;
-    color: var(--bukarka-dark-grey);
+    color: ${colors.text.secondary};
   }
 
   @media (min-width: ${breakpoints.mobile}) {
@@ -54,14 +57,14 @@ export const StyledLensIcon = styled(LensIcon)`
     transform: translateY(-50%);
     left: 16px;
 
-    stroke: var(--bukarka-grey);
+    stroke: ${colors.border.primary};
   }
 `;
 
 export const FormButton = styled.button`
   border: none;
-  background: var(--bukarka-orange);
-  color: var(--bukarka-black);
+  background: ${colors.accent.orange};
+  color: ${colors.text.primary};
 
   transition: box-shadow 0.3s ease, color 0.3s ease;
 
@@ -70,7 +73,7 @@ export const FormButton = styled.button`
   }
 
   &:active {
-    color: var(--bukarka-yellow);
+    color: ${colors.accent.yellow};
   }
 `;
 
@@ -78,7 +81,7 @@ export const FormButtonMobile = styled(FormButton)`
   padding: 2px 4px;
 
   & svg {
-    stroke: var(--bukarka-black);
+    stroke: ${colors.text.primary};
   }
 
   @media (min-width: ${breakpoints.desktop}) {
@@ -93,7 +96,7 @@ export const FormButtonDesktop = styled(FormButton)`
     display: inline-block;
     padding: 8px 21px;
 
-    font-family: var(--semibold);
+    font-family: ${fonts.semibold};
     font-size: 16px;
     line-height: 150%;
   }

@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import theme from "styles/theme";
+
+const { colors, fonts } = theme;
 
 export const LoaderWrapper = styled.div<{ height: number | null }>`
   display: flex;
@@ -23,22 +26,22 @@ export const EmptyWrapper = styled.div`
 export const Title = styled.h2`
   margin-bottom: 32px;
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-weight: 600;
   font-size: 24px;
   line-height: 133%;
   text-align: center;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const Message = styled.p`
   margin-bottom: 48px;
 
-  font-family: var(--medium);
+  font-family: ${fonts.medium};
   font-size: 24px;
   line-height: 133%;
   text-align: center;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const Button = styled.button`
@@ -46,10 +49,10 @@ export const Button = styled.button`
   height: 40px;
   padding: 8px 16px;
 
-  background: var(--bukarka-yellow);
-  color: var(--bukarka-black);
+  background: ${colors.accent.yellow};
+  color: ${colors.text.primary};
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-size: 16px;
   line-height: 150%;
 `;

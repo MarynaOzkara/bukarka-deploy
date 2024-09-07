@@ -6,8 +6,10 @@ import Cart from "components/Cart";
 import FavoriteButton from "components/FavoriteButton/";
 import Modal from "components/Modal";
 import useCart from "hooks/useCart";
+import { useOrderContext } from "components/Order/OrderContext";
 import { truncateString } from "utils/truncateString";
 import { images } from "assets/images";
+import theme from "styles/theme";
 import {
   ButtonOrange,
   ButtonYellow,
@@ -44,19 +46,21 @@ const BookCard: React.FC<IProps> = ({
   price,
   rating,
 }) => {
-
   let navigate = useNavigate();
   const { handleCart } = useCart(_id);
+  const { isBookAdded, markBookAsAdded } = useOrderContext();
+
+  const { colors } = theme;
 
   const starsProps = useMemo(
     () => ({
       size: 20,
       count: 5,
       edit: false,
-      color: "#fffbff",
+      color: colors.background.primary,
       activeColor: "#ffd700",
-      emptyIcon: <StyledStarIcon $fillColor="var(--bukarka-white)" />,
-      filledIcon: <StyledStarIcon $fillColor="var(--bukarka-yellow)" />,
+      emptyIcon: <StyledStarIcon $fillColor={colors.background.primary} />,
+      filledIcon: <StyledStarIcon $fillColor={colors.accent.yellow} />,
     }),
     []
   );
@@ -83,22 +87,26 @@ const BookCard: React.FC<IProps> = ({
   );
 
   const handleBuy = useCallback(async () => {
-    if (!localStorage.getItem(`isBookAdded_${_id}`)) {
-      localStorage.setItem(`isBookAdded_${_id}`, "true");
-
-      await handleCart();
+    if (isBookAdded[_id]) {
+      showModal("isBookAdded");
+      return;
     }
 
+    await handleCart();
+    markBookAsAdded(_id);
     showModal("cart");
-  }, [_id, handleCart]);
+  }, [_id, handleCart, isBookAdded, markBookAsAdded]);
 
   const handleAddToCart = useCallback(async () => {
-    if (localStorage.getItem(`isBookAdded_${_id}`)) {
+    if (isBookAdded[_id]) {
       showModal("isBookAdded");
-    } else {
-      await handleCart();
+      return;
     }
-  }, [_id, handleCart]);
+
+    await handleCart();
+    markBookAsAdded(_id);
+    showModal("cart");
+  }, [_id, handleCart, isBookAdded, markBookAsAdded]);
 
   return (
     <>
@@ -111,6 +119,9 @@ const BookCard: React.FC<IProps> = ({
           <img
             src={image || images.imagePlaceholder}
             alt={`${author} ${title} `}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = images.imagePlaceholder;
+            }}
           />
         </StyledItemImage>
 

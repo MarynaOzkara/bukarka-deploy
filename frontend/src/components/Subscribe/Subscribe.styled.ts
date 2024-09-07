@@ -1,9 +1,9 @@
-import { breakpoints } from "constants/breakpoints";
 import styled from "styled-components";
+import { breakpoints } from "constants/breakpoints";
+import theme from "styles/theme";
 
-// export const FormWrapper = styled.div`
-//   width: 100%;
-// `;
+const { colors, fonts } = theme;
+
 export const Form = styled.form`
   width: 100%;
   height: fit-content;
@@ -18,7 +18,7 @@ export const Form = styled.form`
   box-sizing: content-box;
   margin: 0 auto;
   margin-left: -1rem;
-  background-color: var(--bukarka-grey);
+  background-color: ${colors.background.grey};
 
   @media screen and (min-width: ${breakpoints.tablet}) {
     white-space: wrap;
@@ -38,7 +38,7 @@ export const Title = styled.label`
   font-size: 24px;
 
   line-height: 1.33;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const Wrapper = styled.div`
@@ -64,7 +64,7 @@ export const Input = styled.input`
   align-items: center;
   justify-content: flex-start;
 
-  border: 1px solid var(--bukarka-grey);
+  border: 1px solid ${colors.border.primary};
   padding: 8px 112px 8px 16px;
   width: 416px;
   height: 40px;
@@ -75,13 +75,13 @@ export const Input = styled.input`
 
   transition: box-shadow 0.3s ease;
 
-  color: var(--bukarka-dark-grey);
+  color: ${colors.text.secondary};
 
   &::placeholder {
-    font-family: var(--regular);
+    font-family: ${fonts.regular};
     font-size: 16px;
     line-height: 1.5;
-    color: var(--bukarka-dark-grey);
+    color: ${colors.text.secondary};
   }
 
   &:hover,
@@ -90,7 +90,7 @@ export const Input = styled.input`
   }
 
   &:focus {
-    border: 1px solid var(--bukarka-grey);
+    border: 1px solid ${colors.border.primary};
   }
 `;
 
@@ -105,11 +105,11 @@ export const Button = styled.button`
   flex-direction: row;
   gap: 0px;
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-size: 16px;
   line-height: 1.5;
 
-  background: var(--bukarka-yellow);
+  background: ${colors.accent.yellow};
   border: none;
 
   transition: box-shadow 0.3s ease;
@@ -120,7 +120,7 @@ export const Button = styled.button`
   }
 
   &:active {
-    color: var(--bukarka-orange);
+    color: ${colors.accent.orange};
   }
 
   @media screen and (min-width: ${breakpoints.tablet}) {

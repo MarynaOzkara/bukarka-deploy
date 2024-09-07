@@ -1,5 +1,8 @@
-import { Label } from "pages/CommonPages.styled";
 import styled from "styled-components";
+import { Label } from "pages/CommonPages.styled";
+import theme from "styles/theme";
+
+const { colors } = theme;
 
 export const StyledPoster = styled.div`
   display: flex;
@@ -40,6 +43,6 @@ export const StyledLabel = styled(Label)`
   z-index: 2;
   left: 0;
   & a {
-    color: var(--bukarka-black);
+    color: ${colors.text.primary};
   }
 `;

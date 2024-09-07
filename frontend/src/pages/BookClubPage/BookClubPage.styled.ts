@@ -1,32 +1,35 @@
 import styled from "styled-components";
 import { RightPart } from "../CommonPages.styled";
+import theme from "styles/theme";
+
+const { colors, fonts } = theme;
 
 export const Title = styled.h2`
   margin-bottom: 24px;
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-weight: 600;
   font-size: 16px;
   line-height: 150%;
-  color: var(--bukarka-deep-blue);
+  color: ${colors.accent.deepBlue};
 `;
 
 export const SubTitle = styled.h3`
   margin-bottom: 16px;
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-size: 16px;
   line-height: 1.5;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const Text = styled.p`
   margin-bottom: 24px;
 
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 14px;
   line-height: 1.43;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const RightPartClub = styled(RightPart)`

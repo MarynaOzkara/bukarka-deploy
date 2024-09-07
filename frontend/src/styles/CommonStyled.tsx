@@ -1,7 +1,11 @@
-import { breakpoints } from "constants/breakpoints";
 import styled from "styled-components";
+import { breakpoints } from "constants/breakpoints";
+import theme from "./theme";
+
+const { colors, fonts } = theme;
 
 export const StyledCommonWrapper = styled.div`
+  min-height: 100vh;
   padding: 0;
   margin: 0 auto;
   margin-top: 3.5rem;
@@ -24,17 +28,18 @@ export const PageWrapper = styled.div`
   text-align: center;
   width: 100vw;
   max-width: 1296px;
-  margin: 0 auto;
   min-width: ${breakpoints.mobile};
+  margin: 0 auto;
+  min-height: calc(100vh - 3.5rem);
 
-  background-color: var(--bukarka-white);
+  background-color: ${colors.background.primary};
 `;
 
 export const FlexContainer = styled.div`
   display: flex;
   flex-direction: row;
 
-  background-color: var(--bukarka-white);
+  background-color: ${colors.background.primary};
 `;
 
 export const Aside = styled.aside`
@@ -51,10 +56,7 @@ export const Aside = styled.aside`
 export const Main = styled.main`
   margin-left: 296px;
   overflow-y: auto;
-  /* flex-grow: 1; */
   margin-top: 104px;
-  //background-color: white;
-  /* min-height: calc(75vh); */
 `;
 
 export const Wrapper = styled.div`
@@ -85,7 +87,7 @@ export const Button = styled.button`
   width: 160px;
   border: none;
 
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 
   font-family: "Montserrat-Bold";
   font-weight: 700;
@@ -95,23 +97,23 @@ export const Button = styled.button`
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.25);
   }
   &:active {
-    color: var(--bukarka-yellow);
+    color: ${colors.accent.yellow};
   }
 `;
 
 export const ButtonOrange = styled(Button)`
   width: 100%;
-  background: var(--bukarka-orange);
+  background: ${colors.accent.orange};
 `;
 
 export const ButtonYellow = styled(Button)`
   width: 100%;
-  background: var(--bukarka-yellow);
+  background: ${colors.accent.yellow};
 `;
 
 export const ButtonGreyYellow = styled(Button)`
-  color: var(--bukarka-deep-blue);
-  border: 2px solid var(--bukarka-yellow);
+  color: ${colors.accent.deepBlue};
+  border: 2px solid ${colors.accent.yellow};
   margin: 0 0.5rem;
 `;
 
@@ -129,10 +131,10 @@ export const Input = styled.input`
   box-shadow: 0px 0px 4px 0px #00000040 inset;
 
   &::placeholder {
-    font-family: var(--regular);
+    font-family: ${fonts.regular};
     font-size: 16px;
     line-height: 150%;
-    color: var(--bukarka-dark-grey);
+    color: ${colors.text.secondary};
   }
 `;
 
@@ -142,9 +144,9 @@ export const Hints = styled.ul`
   top: calc(100% + 2px);
   left: 0;
   padding: 0.5rem 1rem;
-  background: var(--bukarka-white);
+  background-color: ${colors.background.primary};
   width: 100%;
-  border: 1px solid var(--bukarka-light-grey);
+  border: 1px solid ${colors.background.lightGrey};
   border-radius: 5px;
   overflow: auto;
   height: auto;
@@ -156,13 +158,13 @@ export const Hints = styled.ul`
     margin: 5px 0;
 
     &.highlighted {
-      background: var(--bukarka-deep-blue);
-      color: var(--bukarka-white);
+      background: ${colors.accent.deepBlue};
+      color: ${colors.text.light};
     }
 
     &:hover {
-      background: var(--bukarka-deep-blue);
-      color: var(--bukarka-white);
+      background: ${colors.accent.deepBlue};
+      color: ${colors.text.light};
     }
   }
 

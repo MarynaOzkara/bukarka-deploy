@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import theme from "styles/theme";
+
+const { colors, fonts } = theme;
 
 export const ContactsPageWrapper = styled.div`
   margin-top: 88px;
@@ -6,7 +9,7 @@ export const ContactsPageWrapper = styled.div`
   padding-left: 32px;
   padding-bottom: 104px;
 
-  background-color: var(--bukarka-white);
+  background-color: ${colors.background.primary};
 `;
 
 export const Top = styled.div`
@@ -19,7 +22,7 @@ export const Top = styled.div`
 export const Title = styled.h1`
   margin-bottom: 16px;
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-size: 20px;
   line-height: 1.2;
   color: #000;
@@ -28,10 +31,10 @@ export const Title = styled.h1`
 export const Text = styled.p`
   width: 504px;
 
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 14px;
   line-height: 1.43;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 
   margin-bottom: 10px;
 `;
@@ -43,22 +46,22 @@ export const TextLast = styled(Text)`
 export const ScheduleText = styled.div`
   margin-bottom: 8px;
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-weight: 600;
   font-size: 16px;
   line-height: 1.5;
 
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const Schedule = styled.div`
   margin-bottom: 44px;
 
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 14px;
   line-height: 1.43;
 
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const FormWrapper = styled.div`
@@ -76,25 +79,25 @@ export const Input = styled.input`
   padding: 8px 16px;
   margin-bottom: 16px;
 
-  border: 1px solid var(--bukarka-grey);
+  border: 1px solid ${colors.border.primary};
 
   &::placeholder {
-    font-family: var(--regular);
+    font-family: ${fonts.regular};
     font-size: 16px;
     line-height: 1.5;
 
-    color: var(--bukarka-dark-grey);
+    color: ${colors.text.secondary};
   }
 `;
 
 export const InputLabel = styled.label`
   display: block;
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-size: 16px;
   line-height: 1.5;
 
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
 `;
 
 export const TextArea = styled.textarea`
@@ -102,30 +105,30 @@ export const TextArea = styled.textarea`
   height: 113px;
   padding: 8px 16px;
   margin-bottom: 4px;
-  border: 1px solid var(--bukarka-grey);
+  border: 1px solid ${colors.border.primary};
 
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
-  color: var(--bukarka-dark-grey);
+  color: ${colors.text.secondary};
 
   &::placeholder {
-    font-family: var(--regular);
+    font-family: ${fonts.regular};
     font-size: 16px;
     line-height: 1.5;
 
-    color: var(--bukarka-dark-grey);
+    color: ${colors.text.secondary};
   }
 `;
 
 export const Hint = styled.p`
   margin-bottom: 16px;
 
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 12px;
   line-height: 1.33;
 
-  color: var(--bukarka-dark-grey);
+  color: ${colors.text.secondary};
 `;
 export const CheckboxWrapper = styled.div`
   display: flex;
@@ -139,15 +142,15 @@ export const CheckboxWrapper = styled.div`
 export const Checkbox = styled.input.attrs({ type: "checkbox" })`
   width: 20px;
   height: 20px;
-  border: 2px solid var(--bukarka-black);
+  border: 2px solid ${colors.text.primary};
 `;
 
 export const CheckboxLabel = styled.label`
-  font-family: var(--regular);
+  font-family: ${fonts.regular};
   font-size: 14px;
 
   line-height: 1.43;
-  color: var(--bukarka-black);
+  color: ${colors.text.primary};
   vertical-align: middle;
 `;
 
@@ -160,10 +163,10 @@ export const Button = styled.button`
   width: 415px;
   height: 40px;
 
-  background: var(--bukarka-yellow);
-  color: var(--bukarka-black);
+  background: ${colors.accent.yellow};
+  color: ${colors.text.primary};
 
-  font-family: var(--semibold);
+  font-family: ${fonts.semibold};
   font-weight: 600;
   font-size: 16px;
   line-height: 1.5;
@@ -175,6 +178,6 @@ export const Button = styled.button`
   }
 
   &:active {
-    color: var(--bukarka-orange);
+    color: ${colors.accent.orange};
   }
 `;
