@@ -125,7 +125,7 @@ const CatalogPage: React.FC = () => {
       {!isDesktop && (
         <div className="button-container">
           <ButtonGreyYellow onClick={() => showModal("filter", isDesktop)}>
-            Фильтр
+            Фiльтр
           </ButtonGreyYellow>
           <ButtonGreyYellow>Сортування</ButtonGreyYellow>
         </div>

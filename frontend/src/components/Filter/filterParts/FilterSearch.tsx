@@ -70,7 +70,7 @@ const FilterSearch: React.FC<IProps> = ({
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
-    const validPattern = /^[0-9a-zA-Z\u0400-\u04ff]*$/;
+    const validPattern = /^[0-9a-zA-Z \u0400-\u04ff]*$/;
 
     if (validPattern.test(inputValue)) {
       setInputQuery(inputValue);
