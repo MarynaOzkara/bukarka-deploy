@@ -11,8 +11,8 @@ const uploadCloudinary = async (req, res, next) => {
     for (const image of images) {
       const result = await cloudinary.uploader.upload(image.path, {
         folder: "bukarka",
-        width: 440,
-        height: 672,
+        width: 1920,
+        height: 2640,
         crop: "fill",
       });
 

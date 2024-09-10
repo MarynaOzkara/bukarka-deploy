@@ -36,6 +36,7 @@ interface IProps {
   price: number;
   rating: number;
   index: number;
+  imagesUrls: Array<string>;
 }
 
 const BookCard: React.FC<IProps> = ({
@@ -45,6 +46,7 @@ const BookCard: React.FC<IProps> = ({
   image,
   price,
   rating,
+  imagesUrls
 }) => {
   let navigate = useNavigate();
   const { handleCart } = useCart(_id);
@@ -117,7 +119,7 @@ const BookCard: React.FC<IProps> = ({
 
         <StyledItemImage id={_id} onClick={handleClick}>
           <img
-            src={image || images.imagePlaceholder}
+            src={imagesUrls[0] || images.imagePlaceholder}
             alt={`${author} ${title} `}
             onError={(e) => {
               (e.target as HTMLImageElement).src = images.imagePlaceholder;
