@@ -111,7 +111,8 @@ const BookData: React.FC<BookDataProps> = ({ selectedDeliveryMethod }) => {
               <Book key={item._id}>
                 <ImageWrapper>
                   <img
-                    src={item.product.image}
+                    // src={item.product.image}
+                    src={item.product.imagesUrls}
                     alt={item.product.title}
                     onError={(e) => {
                       (e.target as HTMLImageElement).src =
