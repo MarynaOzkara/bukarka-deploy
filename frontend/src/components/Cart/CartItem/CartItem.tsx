@@ -38,13 +38,14 @@ type CartItemProps = {
       author: string;
       price: number;
       image: string | null;
+      imagesUrls: Array<string>
     };
   };
 };
 
 const CartItem: React.FC<CartItemProps> = ({ item }) => {
   const { _id, quantity } = item;
-  const { title, author, price, image } = item.product;
+  const { title, author, price, image, imagesUrls } = item.product;
   const { imagePlaceholder } = images;
   const bookId = item.product._id;
 
@@ -89,7 +90,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
       <BookInfo>
         <ImageWrapper id={_id}>
           <img
-            src={image || imagePlaceholder}
+            src={imagesUrls[0] || imagePlaceholder}
             alt=""
             onError={(e) => {
               (e.target as HTMLImageElement).src = images.imagePlaceholder;

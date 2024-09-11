@@ -48,7 +48,8 @@ const BannerBlock = (props: Props) => {
         const response = await instance.get(`/api/books/promotions`);
 
         const dynamicBanners = response.data.data.map((book: any) => ({
-          src: book.image || images.imagePlaceholder,
+          // src: book.image || images.imagePlaceholder,
+          src: book.imagesUrls[0] || images.imagePlaceholder,
           alt: book.title,
           link: `/books/${book._id}`,
         }));
