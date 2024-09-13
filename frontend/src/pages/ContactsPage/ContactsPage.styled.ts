@@ -101,7 +101,7 @@ export const InputLabel = styled.label`
 `;
 
 export const TextArea = styled.textarea`
-  width: 712px;
+  min-width: 416px;
   height: 113px;
   padding: 8px 16px;
   margin-bottom: 4px;

@@ -51,8 +51,7 @@ export const Label = styled.p`
 export const GridPageWrapper = styled.div`
   display: grid;
   grid-template-rows: auto 1fr;
-  grid-template-columns: 336px 1fr;
-  margin-top: 88px;
+  grid-template-columns: 300px 1fr;
   padding-top: 32px;
   padding-bottom: 104px;
 
@@ -217,4 +216,3 @@ export const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
