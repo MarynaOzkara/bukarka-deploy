@@ -11,29 +11,32 @@ export const StyledSlider = styled(Slider)<StyledSliderProps>`
   width: 100%;
   max-width: ${({ maxWidth }) => (maxWidth ? maxWidth : "1220px")};
   margin-bottom: 2rem;
+
+  min-width: 360px;
+
   @media screen and (min-width: ${breakpoints.mobile}) {
-    max-width: 480px;
+    max-width: 360px;
   }
 
   @media screen and (min-width: 560px) {
-    max-width: 560px;
+    max-width: 480px;
   }
 
   @media screen and (min-width: ${breakpoints.tablet}) {
-    max-width: 768px;
+    max-width: 560px;
   }
 
   @media screen and (min-width: 960px) {
-    max-width: 960px;
+    max-width: 768px;
   }
 
   @media screen and (min-width: 1024px) {
-    max-width: ${({ maxWidth }) => maxWidth};
+    max-width: 960px;
   }
 
-  // @media screen and (min-width: 1220px) {
-  //   max-width: 1220px;
-  // }
+  @media screen and (min-width: 1220px) {
+    max-width: 1024px;
+  }
 
   // width: 100%;
   // max-width: 1220px;

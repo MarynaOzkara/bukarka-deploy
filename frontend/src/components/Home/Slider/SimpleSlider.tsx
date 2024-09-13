@@ -135,9 +135,18 @@ const SimpleSlider: React.FC<IDataBooks> = ({ data, maxWidth = "1220px" }) => {
       {
         breakpoint: 479,
         settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
+          slidesToShow: 2,
+          slidesToScroll: 2,
           initialSlide: 3,
+        },
+      },
+
+      {
+        breakpoint: 360,
+        settings: {
+          slidesToShow: 1.9,
+          slidesToScroll: 0.5,
+          initialSlide: 0,
         },
       },
     ],

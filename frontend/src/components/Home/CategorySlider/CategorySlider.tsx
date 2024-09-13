@@ -28,8 +28,21 @@ const CategorySlider = () => {
     window.innerWidth >= parseInt(breakpoints.tablet)
   );
 
+  const [maxWidth, setMaxWidth] = useState("1024px");
+
   const handleResize = () => {
-    setIsDesktop(window.innerWidth >= parseInt(breakpoints.tablet));
+    const windowWidth = window.innerWidth;
+
+    setIsDesktop(windowWidth >= parseInt(breakpoints.tablet));
+
+    // Update maxWidth based on screen size dynamically
+    if (windowWidth >= 1024) {
+      setMaxWidth("1024px"); // Larger screens
+    } else if (windowWidth >= 768) {
+      setMaxWidth("768px"); // Tablets
+    } else {
+      setMaxWidth("100%"); // Mobile devices
+    }
   };
 
   useEffect(() => {
@@ -82,7 +95,7 @@ const CategorySlider = () => {
         ) : (
           <MobileCategoryPoster title="НОВИНКИ" filterParams="new=true" />
         )}
-        <SimpleSlider data={books.newBooks} maxWidth="1024px" />
+        <SimpleSlider data={books.newBooks} maxWidth={maxWidth} />
       </StyledCategorySlider>
       <StyledCategorySlider>
         {isDesktop ? (
@@ -94,7 +107,7 @@ const CategorySlider = () => {
           />
         )}
 
-        <SimpleSlider data={books.bestsellers} maxWidth="1024px" />
+        <SimpleSlider data={books.bestsellers} maxWidth={maxWidth} />
       </StyledCategorySlider>
       <StyledCategorySlider>
         {isDesktop ? (
@@ -103,7 +116,7 @@ const CategorySlider = () => {
           <MobileCategoryPoster title="АКЦІЇ" filterParams="promotions=true" />
         )}
 
-        <SimpleSlider data={books.promotions} maxWidth="1024px" />
+        <SimpleSlider data={books.promotions} maxWidth={maxWidth} />
       </StyledCategorySlider>
     </>
   );

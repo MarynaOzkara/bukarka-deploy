@@ -100,14 +100,6 @@ const SearchPage = () => {
       )}
 
       <StyledFlexWrapper>
-        {totalPages > 1 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-          />
-        )}
-
         {!isDesktop && isModalOpen && (
           <Modal close={closeModal} showCloseButton={true}>
             {modalContent === "filter" && (
