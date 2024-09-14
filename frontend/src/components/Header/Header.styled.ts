@@ -6,7 +6,7 @@ import theme from "styles/theme";
 const { colors } = theme;
 
 export const CommonWrapper = styled.div`
-  min-width: 480px;
+  min-width: 360px;
   max-width: 100%;
   margin: 0 auto;
   height: fit-content;

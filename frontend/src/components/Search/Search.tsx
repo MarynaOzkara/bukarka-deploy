@@ -91,7 +91,7 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
     const isValidInput = pattern.test(inputValue);
 
     if (isValidInput || inputValue.length < inputQuery.length) {
-      setInputQuery(inputValue);
+      setInputQuery(inputValue || "");
       setIsValid(true);
     } else {
       setIsValid(false);
@@ -153,12 +153,13 @@ const Search: React.FC<IProps> = ({ placeholder, hasButton }) => {
       <SearchInput
         type="text"
         maxLength={255}
-        value={inputQuery}
+        value={inputQuery || ""}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
         aria-label="Search books"
         className={!isValid ? "error" : ""}
+        onBlur={() => setInputQuery("")}
       />
       {showHints && (
         <StyledHints ref={hintsRef} aria-label="Search suggestions">

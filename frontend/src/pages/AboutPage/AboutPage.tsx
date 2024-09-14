@@ -1,7 +1,7 @@
+import { images } from "assets/images";
+import { PageLayoutWrapper } from "components/Layout/PageLayout.styled";
 import SocialList from "components/SocialList";
 import Subscribe from "components/Subscribe";
-import { images } from "assets/images";
-import { StyledCommonWrapper } from "styles/CommonStyled";
 import {
   GridPageWrapper,
   Image,
@@ -11,10 +11,11 @@ import {
   SubscribeWrapperGrid,
 } from "pages/CommonPages.styled";
 import { Description, Socials, SubTitle, Title } from "./AboutPage.styled";
+import PageLayout from "components/Layout/PageLayout";
 
 const AboutPage: React.FC = () => {
   return (
-    <StyledCommonWrapper>
+    <PageLayout>
       <GridPageWrapper>
         <LeftPart>
           <Label>Про магазин</Label>
@@ -66,7 +67,7 @@ const AboutPage: React.FC = () => {
           <Subscribe />
         </SubscribeWrapperGrid>
       </GridPageWrapper>
-    </StyledCommonWrapper>
+    </PageLayout>
   );
 };
 

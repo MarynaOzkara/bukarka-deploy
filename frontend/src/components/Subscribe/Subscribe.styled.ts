@@ -5,19 +5,18 @@ import theme from "styles/theme";
 const { colors, fonts } = theme;
 
 export const Form = styled.form`
-  width: 100%;
   height: fit-content;
 
-  padding: 24px 16px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
   gap: 8px;
+  padding: 1rem;
 
   box-sizing: content-box;
   margin: 0 auto;
-  margin-left: -1rem;
+
   background-color: ${colors.background.grey};
 
   @media screen and (min-width: ${breakpoints.tablet}) {

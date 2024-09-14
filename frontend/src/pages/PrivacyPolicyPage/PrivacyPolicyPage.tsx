@@ -8,10 +8,11 @@ import {
   Title,
 } from "pages/CommonPages.styled";
 import { Privacy, TextAccentPrivacy } from "./PrivacyPolicyPage.styled";
+import { PageLayout } from "components/Layout";
 
 const PrivacyPolicyPage: React.FC = () => {
   return (
-    <StyledCommonWrapper>
+    <PageLayout>
       <InfoPageWrapper>
         <Label>Політика конфіденційності</Label>
         <InfoWrapper>
@@ -90,7 +91,7 @@ const PrivacyPolicyPage: React.FC = () => {
           <Subscribe />
         </SubscribeWrapper>
       </InfoPageWrapper>
-    </StyledCommonWrapper>
+    </PageLayout>
   );
 };
 

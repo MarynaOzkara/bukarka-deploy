@@ -58,7 +58,7 @@ export const Button = styled.button`
 `;
 
 export const CartWrapper = styled.div`
-  padding-top: 56px;
+  padding-top: 1rem;
   padding-bottom: 96px;
   padding-left: 104px;
   padding-right: 92px;

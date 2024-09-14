@@ -5,7 +5,7 @@ import theme from "styles/theme";
 const { colors } = theme;
 
 export const TermsOfUsePageWrapper = styled.div`
-  margin-top: 88px;
+  // margin-top: 88px;
   padding-top: 32px;
   padding-left: 32px;
   padding-bottom: 104px;

@@ -1,19 +1,18 @@
-import Subscribe from "components/Subscribe";
 import { images } from "assets/images";
-import { StyledCommonWrapper } from "styles/CommonStyled";
+import PageLayout from "components/Layout/PageLayout";
+import Subscribe from "components/Subscribe";
 import {
   GridPageWrapper,
   Image,
   Label,
   LeftPart,
-  RightPart,
   SubscribeWrapperGrid,
 } from "pages/CommonPages.styled";
 import { RightPartClub, SubTitle, Text, Title } from "./BookClubPage.styled";
 
 const BookClubPage: React.FC = () => {
   return (
-    <StyledCommonWrapper>
+    <PageLayout>
       <GridPageWrapper>
         <LeftPart>
           <Label>Book Club</Label>
@@ -67,7 +66,7 @@ const BookClubPage: React.FC = () => {
           <Subscribe />
         </SubscribeWrapperGrid>
       </GridPageWrapper>
-    </StyledCommonWrapper>
+    </PageLayout>
   );
 };
 

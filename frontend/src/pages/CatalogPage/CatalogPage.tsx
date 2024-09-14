@@ -1,7 +1,12 @@
 import { Pagination, Sort } from "components";
 import { useBooks } from "components/Book";
 import React, { useCallback, useEffect, useState } from "react";
-import { Outlet, useParams, useSearchParams } from "react-router-dom";
+import {
+  Outlet,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 
 import Filter from "components/Filter";
 import { PageLayout } from "components/Layout";
@@ -19,10 +24,12 @@ import SectionContent from "./SectionContent";
 const CatalogPage: React.FC = () => {
   const { category, subcategory, link } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
+  const keyword = searchParams.get("keyword") || "";
   const { books, fetchBooks } = useBooks();
   const [sortBy, setSortBy] = useState("");
   const [orderSort, setOrderSort] = useState("asc");
   const { currentPage, setCurrentPage, totalPages } = useBooks();
+  const navigate = useNavigate();
 
   const [isDesktop, setIsDesktop] = useState(
     window.innerWidth >= parseInt(breakpoints.tablet)
@@ -44,7 +51,6 @@ const CatalogPage: React.FC = () => {
     if (page !== currentPage) {
       setCurrentPage(page);
     }
-    const keyword = searchParams.get("keyword") || "";
 
     setSearchParams({
       keyword,
@@ -67,6 +73,7 @@ const CatalogPage: React.FC = () => {
     fetchBooks({
       category,
       subcategory: subcategoryReplaced,
+      keyword,
       link,
       age: ageReplaced,
       new: news,
@@ -76,16 +83,54 @@ const CatalogPage: React.FC = () => {
       sortBy,
       orderSort,
     });
-  }, [searchParams, category, link, subcategory, sortBy, orderSort]);
+  }, [searchParams, category, link, keyword, subcategory, sortBy, orderSort]);
+
+  const [showSortButtons, setShowSortButtons] = useState(false);
+
+  const toggleSort = () => {
+    setShowSortButtons((prev) => !prev); // Toggle true/false
+  };
 
   const handleSortChange = useCallback(
-    (sortKey: string, sortOrder: string) => {
-      setSortBy(sortKey);
-      setOrderSort(sortOrder);
-      setSearchParams({ page: "1", sortBy: sortKey, orderSort: sortOrder });
+    (sortBy: string, orderSort: string) => {
+      // Update the search params for sorting and keep any existing filters
+      setSortBy(sortBy);
+      setOrderSort(orderSort);
+
+      const updatedParams = {
+        ...Object.fromEntries(searchParams), // Keep the existing filter params
+        sortBy, // Add sorting parameters
+        orderSort,
+        page: "1", // Reset to page 1 when sorting changes
+      };
+
+      setSearchParams(updatedParams);
+
+      // Replace the URL with the new query parameters
+      navigate({
+        pathname: window.location.pathname,
+        search: `?${new URLSearchParams(updatedParams).toString()}`, // Replace URL with updated query params
+      });
     },
-    [setSearchParams]
+    [setSearchParams, searchParams, navigate]
   );
+
+  const handleFilterChange = (filters: any) => {
+    // Merge new filters with existing searchParams (including sorting) and update URL
+    const updatedParams = {
+      ...Object.fromEntries(searchParams), // Keep existing sorting and other params
+      ...filters, // Apply new filters
+      sortBy, // Retain the current sorting parameter
+      orderSort, // Retain the current sorting order
+      page: "1", // Reset to page 1 when filters change
+    };
+
+    setSearchParams(updatedParams);
+    navigate({
+      pathname: window.location.pathname,
+      search: `?${new URLSearchParams(updatedParams).toString()}`, // Replace URL with updated query params
+    });
+  };
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalContent, setModalContent] = useState<string>("");
@@ -125,10 +170,14 @@ const CatalogPage: React.FC = () => {
       {!isDesktop && (
         <div className="button-container">
           <ButtonGreyYellow onClick={() => showModal("filter", isDesktop)}>
-            Фильтр
+            Фiльтр
           </ButtonGreyYellow>
-          <ButtonGreyYellow>Сортування</ButtonGreyYellow>
+          <ButtonGreyYellow onClick={toggleSort}>Сортування</ButtonGreyYellow>
         </div>
+      )}
+
+      {showSortButtons && (
+        <Sort isDesktop={isDesktop} onSortChange={handleSortChange} />
       )}
 
       {!isDesktop && totalPages > 1 && (
@@ -140,9 +189,13 @@ const CatalogPage: React.FC = () => {
       )}
 
       <StyledFlexWrapper>
-        {isDesktop && <Filter isDesktop={isDesktop} />}
+        {isDesktop && (
+          <Filter isDesktop={isDesktop} onFilterChange={handleFilterChange} />
+        )}
 
-        {isDesktop && hasBooks && <Sort onSortChange={handleSortChange} />}
+        {isDesktop && hasBooks && (
+          <Sort isDesktop={isDesktop} onSortChange={handleSortChange} />
+        )}
 
         {<Outlet context={{ books }} /> || <SectionContent data={books} />}
       </StyledFlexWrapper>
@@ -159,7 +212,11 @@ const CatalogPage: React.FC = () => {
       {!isDesktop && isModalOpen && (
         <Modal close={closeModal} showCloseButton={true}>
           {modalContent === "filter" && (
-            <Filter isDesktop={isDesktop} onClose={closeModal} />
+            <Filter
+              isDesktop={isDesktop}
+              onClose={closeModal}
+              onFilterChange={handleFilterChange}
+            />
           )}
         </Modal>
       )}

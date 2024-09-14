@@ -81,7 +81,12 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
     try {
       const response = await instance.get<IBooksDataResponse>(
         "/api/books/filters",
-        { params: search }
+        {
+          params: {
+            ...search,
+            page: search.page || 1,
+          },
+        }
       );
       const { books } = response.data;
       if (books.length) {
@@ -222,7 +227,11 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
     try {
       const response = await instance.get<IBooksDataResponse>(
         "/api/books/filter",
-        { params: filters }
+        {
+          params: {
+            ...filters,
+          },
+        }
       );
       const { books } = response.data;
       setBooks(books);

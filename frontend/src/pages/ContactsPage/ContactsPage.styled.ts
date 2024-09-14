@@ -4,7 +4,6 @@ import theme from "styles/theme";
 const { colors, fonts } = theme;
 
 export const ContactsPageWrapper = styled.div`
-  margin-top: 88px;
   padding-top: 32px;
   padding-left: 32px;
   padding-bottom: 104px;
@@ -101,7 +100,7 @@ export const InputLabel = styled.label`
 `;
 
 export const TextArea = styled.textarea`
-  width: 712px;
+  min-width: 416px;
   height: 113px;
   padding: 8px 16px;
   margin-bottom: 4px;

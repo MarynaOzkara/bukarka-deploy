@@ -4,7 +4,7 @@ import theme from "styles/theme";
 const { colors, fonts } = theme;
 
 export const OrderPageWrapper = styled.div`
-  margin-top: 88px;
+  // margin-top: 88px;
   padding: 40px 32px 96px;
   background-color: ${colors.background.primary};
 `;

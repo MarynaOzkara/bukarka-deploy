@@ -35,18 +35,22 @@ const PictureViewer: React.FC<IPictureProps> = ({ image, imagesUrls }) => {
     <StyledFlexWrapper>
       {hasImgs ? (
         <>
-          <Button>
-            <SliderArrowIcon
-              style={{ transform: "rotate(180deg)" }}
-              onClick={handlePrevious}
-            />
-          </Button>
+          {imagesUrls.length > 1 && (
+            <Button>
+              <SliderArrowIcon
+                style={{ transform: "rotate(180deg)" }}
+                onClick={handlePrevious}
+              />
+            </Button>
+          )}
           <StyledBookImage>
             <img src={imagesUrls[currentIndex]} alt="img" />
           </StyledBookImage>
-          <Button>
-            <SliderArrowIcon onClick={handleNext} />
-          </Button>
+          {imagesUrls.length > 1 && (
+            <Button>
+              <SliderArrowIcon onClick={handleNext} />
+            </Button>
+          )}
         </>
       ) : (
         <StyledBookImage>

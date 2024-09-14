@@ -5,7 +5,6 @@ import theme from "./theme";
 const { colors, fonts } = theme;
 
 export const StyledCommonWrapper = styled.div`
-  min-height: 100vh;
   padding: 0;
   margin: 0 auto;
   margin-top: 3.5rem;
