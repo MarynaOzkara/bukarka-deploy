@@ -4,8 +4,8 @@ import { PageWrapper } from "styles/CommonStyled";
 
 export const PageLayoutWrapper = styled(PageWrapper)`
   min-height: 55vh;
-  padding: 2rem;
-  padding: 0 1rem;
+
+  padding: 2rem 1rem;
   width: 100vw;
 
   @media screen and (min-width: ${breakpoints.mobile}) {

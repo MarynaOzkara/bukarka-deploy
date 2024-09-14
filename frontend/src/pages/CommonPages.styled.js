@@ -166,7 +166,7 @@ export const SubscribeWrapper = styled.div`
 export const BreadCrumbs = styled.h6`
   text-align: left;
   color: ${colors.text.secondary};
-  margin: 1rem 0;
+  margin-bottom: 1rem;
   & * {
     color: ${colors.text.secondary};
   }
