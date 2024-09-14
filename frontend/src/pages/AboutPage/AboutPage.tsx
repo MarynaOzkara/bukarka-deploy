@@ -11,10 +11,11 @@ import {
   SubscribeWrapperGrid,
 } from "pages/CommonPages.styled";
 import { Description, Socials, SubTitle, Title } from "./AboutPage.styled";
+import PageLayout from "components/Layout/PageLayout";
 
 const AboutPage: React.FC = () => {
   return (
-    <PageLayoutWrapper>
+    <PageLayout>
       <GridPageWrapper>
         <LeftPart>
           <Label>Про магазин</Label>
@@ -66,7 +67,7 @@ const AboutPage: React.FC = () => {
           <Subscribe />
         </SubscribeWrapperGrid>
       </GridPageWrapper>
-    </PageLayoutWrapper>
+    </PageLayout>
   );
 };
 

@@ -14,7 +14,7 @@ export const Label = styled.p`
 
   width: fit-content;
   margin-bottom: 40px;
-  height: 32px;
+  // height: 32px;
 
   padding: 4px 16px;
 
@@ -70,7 +70,7 @@ export const RightPart = styled.div`
 `;
 
 export const InfoPageWrapper = styled.div`
-  margin-top: 88px;
+  // margin-top: 88px;
   padding-top: 32px;
   padding-left: 32px;
   padding-bottom: 104px;
@@ -80,7 +80,7 @@ export const InfoPageWrapper = styled.div`
 
 export const InfoWrapper = styled.div`
   padding-right: 240px;
-  margin-left: 208px;
+  // margin-left: 208px;
   margin-top: 40px;
 `;
 

@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import theme from "styles/theme";
-import { StyledList } from "pages/CommonPages.styled";
+import { GridPageWrapper, StyledList } from "pages/CommonPages.styled";
 
 const { colors, fonts } = theme;
 
@@ -15,6 +15,10 @@ const HiddenStyle = css`
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
   margin: -1px;
+`;
+
+export const GridPageWrapperStyled = styled(GridPageWrapper)`
+  grid-template-columns: 460px 1fr;
 `;
 
 export const HiddenTitle = styled.h1`

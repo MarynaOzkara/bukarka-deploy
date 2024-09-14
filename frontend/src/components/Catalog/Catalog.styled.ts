@@ -24,7 +24,7 @@ export const StyledCatalog = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  flex-wrap: wrap;
+
   justify-content: start;
   max-height: 45rem;
 
@@ -46,8 +46,13 @@ export const StyledCatalog = styled.ul`
     margin-left: 1.5rem;
   }
 
+  @media screen and (min-width: ${breakpoints.tablet}) {
+    flex-wrap: wrap;
+  }
+
   @media screen and (min-width: ${breakpoints.desktop}) {
     align-content: space-around;
+    flex-wrap: wrap;
   }
 `;
 

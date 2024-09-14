@@ -4,7 +4,6 @@ import theme from "styles/theme";
 const { colors, fonts } = theme;
 
 export const ContactsPageWrapper = styled.div`
-  margin-top: 88px;
   padding-top: 32px;
   padding-left: 32px;
   padding-bottom: 104px;

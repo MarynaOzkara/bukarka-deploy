@@ -8,10 +8,11 @@ import {
   Title,
 } from "pages/CommonPages.styled";
 import { Terms, TextAccentTerms } from "./TermsOfUsePage.styled";
+import { PageLayout } from "components/Layout";
 
 const TermsOfUsePage = () => {
   return (
-    <StyledCommonWrapper>
+    <PageLayout>
       <InfoPageWrapper>
         <Label>Умови користування</Label>
 
@@ -80,7 +81,7 @@ const TermsOfUsePage = () => {
           <Subscribe />
         </SubscribeWrapper>
       </InfoPageWrapper>
-    </StyledCommonWrapper>
+    </PageLayout>
   );
 };
 
