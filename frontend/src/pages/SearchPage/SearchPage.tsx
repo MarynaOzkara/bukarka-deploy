@@ -7,16 +7,23 @@ import CatalogBookCard from "pages/CatalogPage/CatalogBookCard";
 import { StyledFlexWrapper } from "pages/CatalogPage/CatalogPage.style";
 import { StyledFlexWrap } from "pages/CommonPages.styled";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { ButtonGreyYellow, TextCenter } from "styles/CommonStyled";
 import { hasData } from "utils/hasData";
+import bestsellers from "./../../assets/data/bestsellers";
 
 const SearchPage = () => {
-  const { searchResults, handleSearch } = useBooks();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [keyword, setKeyword] = useState("");
-  const [sortBy, setSortBy] = useState("");
-  const [orderSort, setOrderSort] = useState("asc");
+  const { searchResults, handleSearch } = useBooks(); // Get books and search function from context
+  const [searchParams, setSearchParams] = useSearchParams(); // For managing URL params
+
+  const { category, subcategory, bestsellers, promotions } = useParams(); // Get category and subcategory from URL params
+
+  // State to track sorting
+  const [sortBy, setSortBy] = useState(searchParams.get("sortBy") || "");
+  const [orderSort, setOrderSort] = useState(
+    searchParams.get("orderSort") || "asc"
+  );
+
   const { currentPage, setCurrentPage, totalPages } = useBooks();
 
   const [isDesktop, setIsDesktop] = useState(
@@ -29,28 +36,29 @@ const SearchPage = () => {
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
-
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
+  // Handle page change, preserve filters and sorting
   const handlePageChange = (page: number) => {
     if (page !== currentPage) {
       setCurrentPage(page);
     }
-    const keyword = searchParams.get("keyword") || "";
 
+    // Preserve the existing search params and update the page
     setSearchParams({
-      keyword,
+      ...Object.fromEntries(searchParams),
       page: page.toString(),
     });
   };
 
+  // Show filter modal (for mobile devices)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalContent, setModalContent] = useState<string>("");
 
-  const showModal = (content: string, isSize: boolean) => {
+  const showModal = (content: string) => {
     setModalContent(content);
     setIsModalOpen(true);
   };
@@ -63,18 +71,36 @@ const SearchPage = () => {
   useEffect(() => {
     const page = Number(searchParams.get("page")) || 1;
     const keyword = searchParams.get("keyword") || "";
-    setKeyword(keyword);
-    handleSearch({ keyword, page, sortBy, orderSort });
-  }, [searchParams, sortBy, orderSort]);
 
+    // Fetch the filtered books with sorting applied
+    handleSearch({
+      category,
+      subcategory,
+      keyword,
+      page,
+      sortBy,
+      orderSort,
+    });
+  }, [searchParams, sortBy, orderSort, category, subcategory]);
+
+  // Handle sort changes
   const handleSortChange = (sortKey: string, sortOrder: string) => {
     setSortBy(sortKey);
     setOrderSort(sortOrder);
     setSearchParams({
-      page: "1",
+      ...Object.fromEntries(searchParams),
       sortBy: sortKey,
       orderSort: sortOrder,
-      keyword,
+      page: "1", // Reset to page 1 when sorting changes
+    });
+  };
+
+  // Handle filter changes and reset page to 1
+  const handleFilterChange = (filters: any) => {
+    setSearchParams({
+      ...Object.fromEntries(searchParams),
+      ...filters, // Apply new filters
+      page: "1", // Reset to page 1 when filters change
     });
   };
 
@@ -84,7 +110,7 @@ const SearchPage = () => {
     <PageLayout label="Результати пошуку" books={searchResults}>
       {!isDesktop && (
         <div className="button-container">
-          <ButtonGreyYellow onClick={() => showModal("filter", isDesktop)}>
+          <ButtonGreyYellow onClick={() => showModal("filter")}>
             Фiльтр
           </ButtonGreyYellow>
           <ButtonGreyYellow>Сортування</ButtonGreyYellow>
@@ -103,7 +129,11 @@ const SearchPage = () => {
         {!isDesktop && isModalOpen && (
           <Modal close={closeModal} showCloseButton={true}>
             {modalContent === "filter" && (
-              <Filter isDesktop={isDesktop} onClose={closeModal} />
+              <Filter
+                isDesktop={isDesktop}
+                onClose={closeModal}
+                onFilterChange={handleFilterChange}
+              />
             )}
           </Modal>
         )}
@@ -111,9 +141,15 @@ const SearchPage = () => {
         {hasSearchResults && (
           <>
             {isDesktop && <Sort onSortChange={handleSortChange} />}
-            {isDesktop && <Filter isDesktop={isDesktop} />}
+            {isDesktop && (
+              <Filter
+                isDesktop={isDesktop}
+                onFilterChange={handleFilterChange}
+              />
+            )}
           </>
         )}
+
         <StyledFlexWrap>
           {hasSearchResults ? (
             searchResults.map((result, index) => (
@@ -136,7 +172,11 @@ const SearchPage = () => {
       {!isDesktop && isModalOpen && (
         <Modal close={closeModal} showCloseButton={true}>
           {modalContent === "filter" && (
-            <Filter isDesktop={isDesktop} onClose={closeModal} />
+            <Filter
+              isDesktop={isDesktop}
+              onClose={closeModal}
+              onFilterChange={handleFilterChange}
+            />
           )}
         </Modal>
       )}

@@ -1,6 +1,6 @@
+import { options } from "constants/sort";
 import { ChangeEvent } from "react";
 import { Options } from "./Sort.styled";
-import { options } from "constants/sort";
 
 interface ISortProps {
   onSortChange: (sortKey: string, order: string) => void;
