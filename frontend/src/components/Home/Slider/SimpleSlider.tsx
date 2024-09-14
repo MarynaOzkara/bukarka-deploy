@@ -25,6 +25,7 @@ interface IProps {
   image: string | null;
   price: number;
   rating: number;
+  imagesUrls: Array<string>
 }
 
 interface IDataBooks {
@@ -164,6 +165,7 @@ const SimpleSlider: React.FC<IDataBooks> = ({ data, maxWidth = "1220px" }) => {
             title={item.title}
             rating={item.rating}
             index={index}
+            imagesUrls={item.imagesUrls}
           />
         ))}
       </StyledSlider>

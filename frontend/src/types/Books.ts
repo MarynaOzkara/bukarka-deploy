@@ -20,12 +20,13 @@ export interface Books {
   title: string;
   year: string;
   _id: string;
+  imagesUrls: Array<string>;
 }
 
 export interface IBookItem extends Books {
   image: string;
   index: number;
-  imagesUrls: [];
+  imagesUrls: Array<string>;
 }
 
 export interface IBooksDataResponse {

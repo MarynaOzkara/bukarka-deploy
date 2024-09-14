@@ -96,7 +96,8 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
           <BookImage id={book._id}>
             <div className="img-container">
               <img
-                src={book.image || images.imagePlaceholder}
+                // src={book.image || images.imagePlaceholder}
+                src={book.imagesUrls[0] || images.imagePlaceholder}
                 alt={`${book.author} ${book.title}`}
                 title={`${book.author} ${book.title}`}
                 onClick={() => showModal("pic-viewer")}

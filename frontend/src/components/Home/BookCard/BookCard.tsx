@@ -36,6 +36,7 @@ interface IProps {
   price: number;
   rating: number;
   index: number;
+  imagesUrls: Array<string>
 }
 
 const BookCard: React.FC<IProps> = ({
@@ -46,6 +47,7 @@ const BookCard: React.FC<IProps> = ({
   price,
   rating,
   index,
+  imagesUrls
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { isBookAdded, markBookAsAdded } = useOrderContext();
@@ -103,7 +105,8 @@ const BookCard: React.FC<IProps> = ({
 
         <StyledItemImage id={_id} onClick={handleClick}>
           <img
-            src={image || images.imagePlaceholder}
+            // src={image || images.imagePlaceholder}
+            src={imagesUrls[0] || images.imagePlaceholder}
             alt={`${author} ${title} `}
             onError={(e) => {
               (e.target as HTMLImageElement).src = images.imagePlaceholder;

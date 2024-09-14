@@ -7,7 +7,7 @@ import { hasData } from "utils/hasData";
 
 interface IPictureProps {
   image?: string;
-  imagesUrls?: [];
+  imagesUrls?: Array<string>;
 }
 
 const PictureViewer: React.FC<IPictureProps> = ({ image, imagesUrls }) => {
