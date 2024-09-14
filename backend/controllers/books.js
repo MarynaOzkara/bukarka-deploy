@@ -80,15 +80,17 @@ const filtersBooks = async (req, res) => {
     promotions,
     bestsellers,
     category,
+    categories, // Support multiple categories
     subcategory,
-    subcategories,
+    subcategories, // Support multiple subcategories
     language,
-    languages,
+    languages, // Support multiple languages
     author,
-    authors,
+    authors, // Support multiple authors
     age,
+    ages, // Support multiple age groups
     publisher,
-    publishers,
+    publishers, // Support multiple publishers
     priceMin,
     priceMax,
     ratingMin,
@@ -96,13 +98,16 @@ const filtersBooks = async (req, res) => {
     sortBy,
     orderSort,
   } = req.query;
+
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 12;
   const skip = (page - 1) * limit;
 
+  // Construct the MongoDB query filter
   const match = {};
   const sort = {};
 
+  // Search for keyword in title or author
   if (keyword) {
     match.$or = [
       { title: { $regex: keyword, $options: "i" } },
@@ -110,62 +115,78 @@ const filtersBooks = async (req, res) => {
     ];
   }
 
+  // Handle categories (support both single and multiple categories)
   if (category) {
     match.category = { $regex: category, $options: "i" };
   }
+  if (categories) {
+    match.category = {
+      $in: categories.map((cat) => new RegExp(cat, "i")),
+    };
+  }
 
+  // Handle subcategories (support both single and multiple subcategories)
   if (subcategory) {
     match.subcategory = { $regex: subcategory, $options: "i" };
   }
-
   if (subcategories) {
     match.subcategory = {
-      $in: subcategories.map((subcategory) => new RegExp(subcategory, "i")),
+      $in: subcategories.map((subcat) => new RegExp(subcat, "i")),
     };
   }
+
+  // Filter by age (support multiple age groups)
   if (age) {
-    match.age = age;
+    match.age = { $regex: age, $options: "i" };
+  }
+  if (ages) {
+    match.age = {
+      $in: ages.map((a) => new RegExp(a, "i")),
+    };
   }
 
+  // Filter by language (support multiple languages)
   if (language) {
     match.language = { $regex: language, $options: "i" };
   }
-
   if (languages) {
     match.language = {
-      $in: languages.map((language) => new RegExp(language, "i")),
+      $in: languages.map((lang) => new RegExp(lang, "i")),
     };
   }
 
+  // Filter by author (support multiple authors)
   if (author) {
     match.author = { $regex: author, $options: "i" };
   }
-
   if (authors) {
     match.author = {
-      $in: authors.map((author) => new RegExp(author, "i")),
+      $in: authors.map((auth) => new RegExp(auth, "i")),
     };
   }
 
+  // Filter by publisher (support multiple publishers)
   if (publisher) {
     match.publisher = { $regex: publisher, $options: "i" };
   }
-
   if (publishers) {
     match.publisher = {
-      $in: publishers.map((publisher) => new RegExp(publisher, "i")),
+      $in: publishers.map((pub) => new RegExp(pub, "i")),
     };
   }
 
+  // Boolean filters for promotions, bestsellers, and new arrivals
   if (promotions) {
-    match.promotions = true;
+    match.promotions = promotions === "true";
   }
   if (bestsellers) {
-    match.bestsellers = true;
+    match.bestsellers = bestsellers === "true";
   }
   if (req.query.new) {
-    match.new = true;
+    match.new = req.query.new === "true";
   }
+
+  // Price filter
   if (priceMin || priceMax) {
     match.price = {};
     if (priceMin) {
@@ -175,6 +196,8 @@ const filtersBooks = async (req, res) => {
       match.price.$lte = +priceMax;
     }
   }
+
+  // Rating filter
   if (ratingMin || ratingMax) {
     match.rating = {};
     if (ratingMin) {
@@ -184,25 +207,39 @@ const filtersBooks = async (req, res) => {
       match.rating.$lte = +ratingMax;
     }
   }
+
+  // Sorting logic
   if (sortBy && orderSort) {
     sort[sortBy] = orderSort === "asc" ? 1 : -1;
   }
 
-  const books = await Book.find(match).skip(skip).limit(limit).sort(sort).collation({ locale: 'uk', strength: 2 });
-  const total = await Book.countDocuments(match);
-  if (!books) {
-    throw HttpError(404, "Books not found");
-  }
-  if (total === 0) {
-    res.status(404).json({ massage: "Books not found" });
-  }
+  try {
+    // Query the books collection with filters and sorting
+    const books = await Book.find(match)
+      .skip(skip)
+      .limit(limit)
+      .sort(sort)
+      .collation({ locale: "uk", strength: 2 }); // Sorting with proper collation
 
-  res.status(200).json({
-    total,
-    page,
-    limit,
-    books,
-  });
+    // Get total count of matching books
+    const total = await Book.countDocuments(match);
+
+    // Check if any books were found
+    if (!books.length) {
+      return res.status(404).json({ message: "Books not found" });
+    }
+
+    // Return the filtered, sorted, and paginated books
+    res.status(200).json({
+      total,
+      page,
+      limit,
+      books,
+    });
+  } catch (error) {
+    console.error("Error fetching books:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 };
 
 const filterBooks = async (req, res) => {
@@ -210,10 +247,10 @@ const filterBooks = async (req, res) => {
     new: isNew,
     promotions,
     bestsellers,
-    category,
-    categories,
-    subcategory,
-    subcategories,
+    category, // single category
+    categories = [], // multiple categories from query
+    subcategory, // single subcategory
+    subcategories = [], // multiple subcategories from query
     language,
     languages,
     author,
@@ -237,6 +274,7 @@ const filterBooks = async (req, res) => {
   const match = {};
   const sort = {};
 
+  // Handle boolean filters
   if (isNew !== undefined) {
     match.new = isNew === "true";
   }
@@ -247,67 +285,65 @@ const filterBooks = async (req, res) => {
     match.bestsellers = bestsellers === "true";
   }
 
+  // Handle single and multiple categories/subcategories
   if (category) {
-    match.category = { $regex: category, $options: "i" };
+    categories.push(category); // Add the single category to the array
+  }
+
+  if (categories.length) {
+    match.category = {
+      $in: categories.map((cat) => new RegExp(cat, "i")),
+    };
   }
 
   if (subcategory) {
-    match.subcategory = { $regex: subcategory, $options: "i" };
+    subcategories.push(subcategory); // Add the single subcategory to the array
   }
+
+  if (subcategories.length) {
+    match.subcategory = {
+      $in: subcategories.map((subcat) => new RegExp(subcat, "i")),
+    };
+  }
+
+  // Handle language, author, publisher, and age filters
   if (language) {
     match.language = { $in: language.split(",") };
   }
+  if (languages) {
+    match.language = {
+      $in: languages.map((lang) => new RegExp(lang, "i")),
+    };
+  }
+
   if (author) {
     match.author = { $in: author.split(",") };
   }
+  if (authors) {
+    match.author = {
+      $in: authors.map((auth) => new RegExp(auth, "i")),
+    };
+  }
+
   if (publisher) {
     match.publisher = { $in: publisher.split(",") };
   }
-
-  if (language) {
-    match.language = { $regex: language, $options: "i" };
-  }
-
-  if (categories) {
-    match.category = {
-      $in: categories.map((category) => new RegExp(category, "i")),
-    };
-  }
-
-  if (subcategories) {
-    match.subcategory = {
-      $in: subcategories.map((subcategory) => new RegExp(subcategory, "i")),
-    };
-  }
-
-  if (languages) {
-    match.language = {
-      $in: languages.map((language) => new RegExp(language, "i")),
-    };
-  }
-
-  if (authors) {
-    match.author = {
-      $in: authors.map((author) => new RegExp(author, "i")),
-    };
-  }
-
   if (publishers) {
     match.publisher = {
-      $in: publishers.map((publisher) => new RegExp(publisher, "i")),
+      $in: publishers.map((pub) => new RegExp(pub, "i")),
     };
   }
 
   if (age) {
     match.age = { $regex: age, $options: "i" };
   }
-
   if (ages) {
     match.age = {
-      $in: ages.map((age) => new RegExp(age, "i")),
+      $in: ages.map((a) => new RegExp(a, "i")),
     };
   }
 
+  // Handle price filter
   if (priceMin !== undefined || priceMax !== undefined) {
     match.price = {};
     if (priceMin !== undefined) {
@@ -318,6 +354,7 @@ const filterBooks = async (req, res) => {
     }
   }
 
+  // Handle rating filter
   if (ratingMin !== undefined || ratingMax !== undefined) {
     match.rating = {};
     if (ratingMin !== undefined) {
@@ -328,12 +365,12 @@ const filterBooks = async (req, res) => {
     }
   }
 
+  // Handle sorting
   if (sortBy && orderSort) {
     sort[sortBy] = orderSort === "asc" ? 1 : -1;
   }
 
   try {
-    console.log("Match criteria:", JSON.stringify(match, null, 2));
     const books = await Book.find(match).skip(skip).limit(limit).sort(sort);
     const total = await Book.countDocuments(match);
 

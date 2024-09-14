@@ -1,7 +1,12 @@
 import { Pagination, Sort } from "components";
 import { useBooks } from "components/Book";
 import React, { useCallback, useEffect, useState } from "react";
-import { Outlet, useParams, useSearchParams } from "react-router-dom";
+import {
+  Outlet,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 
 import Filter from "components/Filter";
 import { PageLayout } from "components/Layout";
@@ -24,6 +29,7 @@ const CatalogPage: React.FC = () => {
   const [sortBy, setSortBy] = useState("");
   const [orderSort, setOrderSort] = useState("asc");
   const { currentPage, setCurrentPage, totalPages } = useBooks();
+  const navigate = useNavigate();
 
   const [isDesktop, setIsDesktop] = useState(
     window.innerWidth >= parseInt(breakpoints.tablet)
@@ -81,25 +87,42 @@ const CatalogPage: React.FC = () => {
 
   const handleSortChange = useCallback(
     (sortBy: string, orderSort: string) => {
-      // Just update the search params, useEffect will handle fetching
+      // Update the search params for sorting and keep any existing filters
       setSortBy(sortBy);
       setOrderSort(orderSort);
-      setSearchParams({
-        ...Object.fromEntries(searchParams), // Keep the existing params
-        sortBy,
+
+      const updatedParams = {
+        ...Object.fromEntries(searchParams), // Keep the existing filter params
+        sortBy, // Add sorting parameters
         orderSort,
         page: "1", // Reset to page 1 when sorting changes
+      };
+
+      setSearchParams(updatedParams);
+
+      // Replace the URL with the new query parameters
+      navigate({
+        pathname: window.location.pathname,
+        search: `?${new URLSearchParams(updatedParams).toString()}`, // Replace URL with updated query params
       });
     },
-    [setSearchParams, searchParams]
+    [setSearchParams, searchParams, navigate]
   );
 
   const handleFilterChange = (filters: any) => {
-    // Merge new filters with existing searchParams and reset page to 1
-    setSearchParams({
-      ...Object.fromEntries(searchParams),
+    // Merge new filters with existing searchParams (including sorting) and update URL
+    const updatedParams = {
+      ...Object.fromEntries(searchParams), // Keep existing sorting and other params
       ...filters, // Apply new filters
+      sortBy, // Retain the current sorting parameter
+      orderSort, // Retain the current sorting order
       page: "1", // Reset to page 1 when filters change
+    };
+
+    setSearchParams(updatedParams);
+    navigate({
+      pathname: window.location.pathname,
+      search: `?${new URLSearchParams(updatedParams).toString()}`, // Replace URL with updated query params
     });
   };
 

@@ -29,7 +29,7 @@ const Filter: React.FC<IProps> = ({ isDesktop, onClose, onFilterChange }) => {
   const { fetchFilterData, applyFilter } = useBooks();
 
   const { category, subcategory } = useParams(); // Get category and subcategory from URL
-  const [searchParams] = useSearchParams(); // Get search query params
+  const [searchParams, setSearchParams] = useSearchParams(); // Get search query params
   const keyword = searchParams.get("keyword") || ""; // Get the keyword for search
 
   const [filterData, setFilterData] = useState<FilterData>({

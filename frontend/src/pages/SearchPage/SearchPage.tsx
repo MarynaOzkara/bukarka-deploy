@@ -10,13 +10,12 @@ import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { ButtonGreyYellow, TextCenter } from "styles/CommonStyled";
 import { hasData } from "utils/hasData";
-import bestsellers from "./../../assets/data/bestsellers";
 
 const SearchPage = () => {
   const { searchResults, handleSearch } = useBooks(); // Get books and search function from context
   const [searchParams, setSearchParams] = useSearchParams(); // For managing URL params
 
-  const { category, subcategory, bestsellers, promotions } = useParams(); // Get category and subcategory from URL params
+  const { category, subcategory } = useParams(); // Get category and subcategory from URL params
 
   // State to track sorting
   const [sortBy, setSortBy] = useState(searchParams.get("sortBy") || "");
@@ -71,8 +70,9 @@ const SearchPage = () => {
   useEffect(() => {
     const page = Number(searchParams.get("page")) || 1;
     const keyword = searchParams.get("keyword") || "";
+    const filters = Object.fromEntries(searchParams);
 
-    // Fetch the filtered books with sorting applied
+    // Fetch the filtered and sorted books
     handleSearch({
       category,
       subcategory,
@@ -80,6 +80,7 @@ const SearchPage = () => {
       page,
       sortBy,
       orderSort,
+      ...filters, // Include active filters
     });
   }, [searchParams, sortBy, orderSort, category, subcategory]);
 
@@ -87,10 +88,12 @@ const SearchPage = () => {
   const handleSortChange = (sortKey: string, sortOrder: string) => {
     setSortBy(sortKey);
     setOrderSort(sortOrder);
+
+    // Keep the filters in the searchParams and update sorting
     setSearchParams({
       ...Object.fromEntries(searchParams),
-      sortBy: sortKey,
-      orderSort: sortOrder,
+      sortBy: sortKey, // New sorting field
+      orderSort: sortOrder, // New sorting order
       page: "1", // Reset to page 1 when sorting changes
     });
   };
@@ -100,6 +103,8 @@ const SearchPage = () => {
     setSearchParams({
       ...Object.fromEntries(searchParams),
       ...filters, // Apply new filters
+      sortBy, // Retain the current sorting key
+      orderSort, // Retain the current sorting order
       page: "1", // Reset to page 1 when filters change
     });
   };
