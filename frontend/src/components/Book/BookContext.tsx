@@ -222,7 +222,11 @@ export const BooksContextProvider: React.FC<{ children: ReactNode }> = ({
     try {
       const response = await instance.get<IBooksDataResponse>(
         "/api/books/filter",
-        { params: filters }
+        {
+          params: {
+            ...filters,
+          },
+        }
       );
       const { books } = response.data;
       setBooks(books);

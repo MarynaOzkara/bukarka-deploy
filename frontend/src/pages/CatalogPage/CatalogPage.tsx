@@ -19,6 +19,7 @@ import SectionContent from "./SectionContent";
 const CatalogPage: React.FC = () => {
   const { category, subcategory, link } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
+  const keyword = searchParams.get("keyword") || "";
   const { books, fetchBooks } = useBooks();
   const [sortBy, setSortBy] = useState("");
   const [orderSort, setOrderSort] = useState("asc");
@@ -44,7 +45,6 @@ const CatalogPage: React.FC = () => {
     if (page !== currentPage) {
       setCurrentPage(page);
     }
-    const keyword = searchParams.get("keyword") || "";
 
     setSearchParams({
       keyword,
@@ -67,6 +67,7 @@ const CatalogPage: React.FC = () => {
     fetchBooks({
       category,
       subcategory: subcategoryReplaced,
+      keyword,
       link,
       age: ageReplaced,
       new: news,
@@ -76,16 +77,31 @@ const CatalogPage: React.FC = () => {
       sortBy,
       orderSort,
     });
-  }, [searchParams, category, link, subcategory, sortBy, orderSort]);
+  }, [searchParams, category, link, keyword, subcategory, sortBy, orderSort]);
 
   const handleSortChange = useCallback(
-    (sortKey: string, sortOrder: string) => {
-      setSortBy(sortKey);
-      setOrderSort(sortOrder);
-      setSearchParams({ page: "1", sortBy: sortKey, orderSort: sortOrder });
+    (sortBy: string, orderSort: string) => {
+      // Just update the search params, useEffect will handle fetching
+      setSortBy(sortBy);
+      setOrderSort(orderSort);
+      setSearchParams({
+        ...Object.fromEntries(searchParams), // Keep the existing params
+        sortBy,
+        orderSort,
+        page: "1", // Reset to page 1 when sorting changes
+      });
     },
-    [setSearchParams]
+    [setSearchParams, searchParams]
   );
+
+  const handleFilterChange = (filters: any) => {
+    // Merge new filters with existing searchParams and reset page to 1
+    setSearchParams({
+      ...Object.fromEntries(searchParams),
+      ...filters, // Apply new filters
+      page: "1", // Reset to page 1 when filters change
+    });
+  };
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalContent, setModalContent] = useState<string>("");
@@ -140,7 +156,9 @@ const CatalogPage: React.FC = () => {
       )}
 
       <StyledFlexWrapper>
-        {isDesktop && <Filter isDesktop={isDesktop} />}
+        {isDesktop && (
+          <Filter isDesktop={isDesktop} onFilterChange={handleFilterChange} />
+        )}
 
         {isDesktop && hasBooks && <Sort onSortChange={handleSortChange} />}
 
@@ -159,7 +177,11 @@ const CatalogPage: React.FC = () => {
       {!isDesktop && isModalOpen && (
         <Modal close={closeModal} showCloseButton={true}>
           {modalContent === "filter" && (
-            <Filter isDesktop={isDesktop} onClose={closeModal} />
+            <Filter
+              isDesktop={isDesktop}
+              onClose={closeModal}
+              onFilterChange={handleFilterChange}
+            />
           )}
         </Modal>
       )}

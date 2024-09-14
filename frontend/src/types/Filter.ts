@@ -22,4 +22,7 @@ export interface FilterCriteriaRequest {
   languages: string[];
   ages: string[];
   subcategories: string[];
+  category?: string;
+  subcategory?: string;
+  keyword?: string;
 }

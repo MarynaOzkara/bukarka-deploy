@@ -17,17 +17,20 @@ import AuthorsSection from "./filterParts/AuthorsSection";
 import CategoriesSection from "./filterParts/CategoriesSection";
 import PublishersSection from "./filterParts/PublishersSection";
 import { adjustAgeValues } from "constants/catalog";
-import { useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 
 interface IProps {
   isDesktop?: boolean;
   onClose?: () => void;
+  onFilterChange?: (filters: any) => void;
 }
 
-const Filter: React.FC<IProps> = ({ isDesktop, onClose }) => {
+const Filter: React.FC<IProps> = ({ isDesktop, onClose, onFilterChange }) => {
   const { fetchFilterData, applyFilter } = useBooks();
 
-  const [searchParams] = useSearchParams();
+  const { category, subcategory } = useParams(); // Get category and subcategory from URL
+  const [searchParams] = useSearchParams(); // Get search query params
+  const keyword = searchParams.get("keyword") || ""; // Get the keyword for search
 
   const [filterData, setFilterData] = useState<FilterData>({
     ages: [],
@@ -178,7 +181,15 @@ const Filter: React.FC<IProps> = ({ isDesktop, onClose }) => {
       subcategories: selectedSubcategories,
     };
 
-    applyFilter(filterQuery);
+    if (onFilterChange) {
+      applyFilter({
+        ...filterQuery,
+        category,
+        subcategory,
+        keyword,
+      });
+    }
+
     if (onClose) {
       onClose();
     }
