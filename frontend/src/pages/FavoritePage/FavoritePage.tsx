@@ -8,6 +8,7 @@ import { StyledFlexWrapper } from "pages/CatalogPage/CatalogPage.style";
 import { StyledFlexWrap } from "pages/CommonPages.styled";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { ButtonGreyYellow } from "styles/CommonStyled";
 
 const FavoritePage: React.FC = () => {
   const { favoriteIds } = useFavorites();
@@ -66,14 +67,26 @@ const FavoritePage: React.FC = () => {
       ids: favoriteIds.join(","),
     });
   };
+  const [showSortButtons, setShowSortButtons] = useState(false);
+
+  const toggleSort = () => {
+    setShowSortButtons((prev) => !prev); // Toggle true/false
+  };
 
   return (
     <PageLayout label="Обране" books={favorites}>
+      <div>
+        {!isDesktop && (
+          <div className="button-container">
+            <ButtonGreyYellow onClick={toggleSort}>Сортування</ButtonGreyYellow>
+          </div>
+        )}
+        {showSortButtons && favorites && favorites.length > 1 && (
+          <Sort isDesktop={isDesktop} onSortChange={handleSortChange} />
+        )}
+      </div>
       <StyledFlexWrapper>
         <StyledFlexWrap>
-          {favorites && favorites.length > 1 && (
-            <Sort isDesktop={isDesktop} onSortChange={handleSortChange} />
-          )}
           <Favorites favorites={favorites} />
         </StyledFlexWrap>
       </StyledFlexWrapper>
