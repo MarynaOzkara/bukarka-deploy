@@ -84,6 +84,12 @@ const SearchPage = () => {
     });
   }, [searchParams, sortBy, orderSort, category, subcategory]);
 
+  const [showSortButtons, setShowSortButtons] = useState(false);
+
+  const toggleSort = () => {
+    setShowSortButtons((prev) => !prev); // Toggle true/false
+  };
+
   // Handle sort changes
   const handleSortChange = (sortKey: string, sortOrder: string) => {
     setSortBy(sortKey);
@@ -118,8 +124,12 @@ const SearchPage = () => {
           <ButtonGreyYellow onClick={() => showModal("filter")}>
             Фiльтр
           </ButtonGreyYellow>
-          <ButtonGreyYellow>Сортування</ButtonGreyYellow>
+          <ButtonGreyYellow onClick={toggleSort}>Сортування</ButtonGreyYellow>
         </div>
+      )}
+
+      {showSortButtons && (
+        <Sort isDesktop={!isDesktop} onSortChange={handleSortChange} />
       )}
 
       {!isDesktop && totalPages > 1 && (
@@ -142,19 +152,13 @@ const SearchPage = () => {
             )}
           </Modal>
         )}
-
-        {hasSearchResults && (
-          <>
-            {isDesktop && <Sort onSortChange={handleSortChange} />}
-            {isDesktop && (
-              <Filter
-                isDesktop={isDesktop}
-                onFilterChange={handleFilterChange}
-              />
-            )}
-          </>
+        {hasSearchResults && isDesktop && (
+          <Sort isDesktop={isDesktop} onSortChange={handleSortChange} />
         )}
 
+        {isDesktop && (
+          <Filter isDesktop={isDesktop} onFilterChange={handleFilterChange} />
+        )}
         <StyledFlexWrap>
           {hasSearchResults ? (
             searchResults.map((result, index) => (
