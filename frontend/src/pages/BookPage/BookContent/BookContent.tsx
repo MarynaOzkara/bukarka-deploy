@@ -110,7 +110,7 @@ const BookContent: React.FC<IBookContentProps> = ({ book }) => {
               <FavoriteButton itemId={book._id} />
             </FavoriteButtonContainer>
             <BookImageSet>
-              {book.imagesUrls.length > 0 &&
+              {book.imagesUrls.length > 1 &&
                 book.imagesUrls.map((img, index) => (
                   <img
                     key={index}
