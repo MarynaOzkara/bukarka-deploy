@@ -87,6 +87,9 @@ const FavoritePage: React.FC = () => {
       </div>
       <StyledFlexWrapper>
         <StyledFlexWrap>
+          {isDesktop && favorites && favorites.length > 1 && (
+            <Sort isDesktop={isDesktop} onSortChange={handleSortChange} />
+          )}
           <Favorites favorites={favorites} />
         </StyledFlexWrap>
       </StyledFlexWrapper>

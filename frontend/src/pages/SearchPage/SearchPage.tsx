@@ -129,7 +129,7 @@ const SearchPage = () => {
       )}
 
       {showSortButtons && (
-        <Sort isDesktop={!isDesktop} onSortChange={handleSortChange} />
+        <Sort isDesktop={isDesktop} onSortChange={handleSortChange} />
       )}
 
       {!isDesktop && totalPages > 1 && (

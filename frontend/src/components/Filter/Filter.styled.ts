@@ -1,3 +1,4 @@
+import { breakpoints } from "constants/breakpoints";
 import styled from "styled-components";
 import { Input } from "styles/CommonStyled";
 import theme from "styles/theme";
@@ -7,6 +8,20 @@ const { colors, fonts } = theme;
 export const FilterWrapper = styled.aside`
   height: fit-content;
   min-width: 296px;
+
+  @media screen and (min-width: ${breakpoints.mobile}) {
+    width: 90vw;
+  }
+
+  @media screen and (min-width: ${breakpoints.tablet}) {
+    width: 90vw;
+    width: fit-content;
+  }
+
+  @media screen and (min-width: ${breakpoints.desktop}) {
+    width: 1440px;
+    width: fit-content;
+  }
 `;
 
 export const SectionTitle = styled.p`
@@ -30,7 +45,8 @@ export const FilterContent = styled.form`
 
   & .price-range {
     display: flex;
-    justify-content: space-between;
+    gap: 1.5rem;
+    justify-content: start;
   }
 
   & .input-range {
