@@ -96,9 +96,24 @@ const Filter: React.FC<IProps> = ({ isDesktop, onClose, onFilterChange }) => {
   }, [fetchData]);
 
   useEffect(() => {
-    const newType = searchParams.get("new") === "true";
-    const promotionsType = searchParams.get("promotions") === "true";
-    const bestsellersType = searchParams.get("bestsellers") === "true";
+    const newType =
+      searchParams.get("new") === "true"
+        ? true
+        : searchParams.get("new") === "false"
+        ? false
+        : undefined;
+    const promotionsType =
+      searchParams.get("promotions") === "true"
+        ? true
+        : searchParams.get("new") === "false"
+        ? false
+        : undefined;
+    const bestsellersType =
+      searchParams.get("bestsellers") === "true"
+        ? true
+        : searchParams.get("new") === "false"
+        ? false
+        : undefined;
 
     setSelectedTypes({
       new: newType,
