@@ -137,6 +137,23 @@ const Filter: React.FC<IProps> = ({ isDesktop, onClose, onFilterChange }) => {
     );
   };
   const handleResetFilters = (filters: any) => {
+    setSelectedAges([]);
+    setSelectedCategories([]);
+    setSelectedSubcategories([]);
+    setSelectedLanguages([]);
+    setSelectedAuthors([]);
+    setSelectedPublishers([]);
+    setSelectedRating({ ratingMin: 0, ratingMax: 5 });
+    setSelectedPrice({ priceMin: price.priceMin, priceMax: price.priceMax });
+    setSelectedTypes({
+      new: undefined,
+      promotions: undefined,
+      bestsellers: undefined,
+    });
+
+    // Reset the touched state for price inputs
+    setPriceTouched({ min: false, max: false });
+
     setSearchParams({
       ...Object.fromEntries(searchParams),
       ...filters, // Apply new filters
