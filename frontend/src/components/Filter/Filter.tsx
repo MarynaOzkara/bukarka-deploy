@@ -2,7 +2,7 @@ import { useBooks } from "components/Book";
 import BookRating from "components/BookRating";
 import { bookTypes } from "constants/filter";
 import { useCallback, useEffect, useState } from "react";
-import { ButtonYellow } from "styles/CommonStyled";
+import { ButtonGreyYellow, ButtonYellow } from "styles/CommonStyled";
 import { FilterData } from "types/Filter";
 import {
   FilterContent,
@@ -12,12 +12,12 @@ import {
   SubTitle,
 } from "./Filter.styled";
 
+import { adjustAgeValues } from "constants/catalog";
+import { useParams, useSearchParams } from "react-router-dom";
 import { hasData } from "utils/hasData";
 import AuthorsSection from "./filterParts/AuthorsSection";
 import CategoriesSection from "./filterParts/CategoriesSection";
 import PublishersSection from "./filterParts/PublishersSection";
-import { adjustAgeValues } from "constants/catalog";
-import { useParams, useSearchParams } from "react-router-dom";
 
 interface IProps {
   isDesktop?: boolean;
@@ -135,6 +135,13 @@ const Filter: React.FC<IProps> = ({ isDesktop, onClose, onFilterChange }) => {
         ? prev.filter((l) => l !== language)
         : [...prev, language]
     );
+  };
+  const handleResetFilters = (filters: any) => {
+    setSearchParams({
+      ...Object.fromEntries(searchParams),
+      ...filters, // Apply new filters
+      page: "1", // Reset to page 1 when filters change
+    });
   };
 
   const handleRatingChange = (newRatingMin?: number, newRatingMax?: number) => {
@@ -348,6 +355,13 @@ const Filter: React.FC<IProps> = ({ isDesktop, onClose, onFilterChange }) => {
           </div>
         </section>
 
+        <ButtonGreyYellow
+          type="button"
+          className="reset"
+          onClick={handleResetFilters}
+        >
+          Очистити все
+        </ButtonGreyYellow>
         <ButtonYellow>Застосувати фільтр</ButtonYellow>
       </FilterContent>
     </FilterWrapper>

@@ -22,6 +22,11 @@ export const FilterWrapper = styled.aside`
     width: 1440px;
     width: fit-content;
   }
+
+  .reset {
+    width: 100%;
+    margin: 0.5rem 0;
+  }
 `;
 
 export const SectionTitle = styled.p`
