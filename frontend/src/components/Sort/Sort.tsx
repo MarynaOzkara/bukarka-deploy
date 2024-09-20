@@ -5,6 +5,7 @@ import {
   ButtonGreyYellowStyled,
   Options,
 } from "./Sort.styled";
+import { useBooks } from "components/Book";
 
 interface ISortProps {
   onSortChange: (sortKey: string, order: string) => void;
@@ -12,6 +13,7 @@ interface ISortProps {
 }
 
 const Sort: React.FC<ISortProps> = ({ onSortChange, isDesktop }) => {
+  const { books } = useBooks();
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value;
     const selectedOption = options.find(

@@ -1,8 +1,9 @@
 import { Pagination, Sort } from "components";
 import { useBooks } from "components/Book";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   Outlet,
+  useLocation,
   useNavigate,
   useParams,
   useSearchParams,
@@ -30,10 +31,20 @@ const CatalogPage: React.FC = () => {
   const [orderSort, setOrderSort] = useState("asc");
   const { currentPage, setCurrentPage, totalPages } = useBooks();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [isDesktop, setIsDesktop] = useState(
     window.innerWidth >= parseInt(breakpoints.tablet)
   );
+
+  const page = Number(searchParams.get("page")) || 1;
+  const news = !!searchParams.get("new") || undefined;
+  const bestsellers = !!searchParams.get("bestsellers") || undefined;
+  const promotions = !!searchParams.get("promotions") || undefined;
+
+  const ageReplaced =
+    subcategory === "Книги за віком" ? adjustAgeValue(link ?? "") : "";
+  const subcategoryReplaced = subcategory !== "Книги за віком" ? link : "";
 
   const handleResize = () => {
     setIsDesktop(window.innerWidth >= parseInt(breakpoints.tablet));
@@ -61,15 +72,6 @@ const CatalogPage: React.FC = () => {
   const hasBooks = hasData(books);
 
   useEffect(() => {
-    const page = Number(searchParams.get("page")) || 1;
-    const news = !!searchParams.get("new") || undefined;
-    const bestsellers = !!searchParams.get("bestsellers") || undefined;
-    const promotions = !!searchParams.get("promotions") || undefined;
-
-    const ageReplaced =
-      subcategory === "Книги за віком" ? adjustAgeValue(link ?? "") : "";
-    const subcategoryReplaced = subcategory !== "Книги за віком" ? link : "";
-
     fetchBooks({
       category,
       subcategory: subcategoryReplaced,
@@ -91,6 +93,28 @@ const CatalogPage: React.FC = () => {
     setShowSortButtons((prev) => !prev); // Toggle true/false
   };
 
+  function updateURLWithQueryParams(params: any) {
+    // Get current search parameters from the location object
+    const currentParams = new URLSearchParams(location.search);
+
+    // Loop through the provided params (from filter or sort) and update/add them to the URL
+    Object.keys(params).forEach((key) => {
+      if (params[key] !== undefined && params[key] !== "") {
+        currentParams.set(key, params[key]); // Add new or update existing param
+      } else {
+        currentParams.delete(key); // Optionally remove the parameter if value is empty or undefined
+      }
+    });
+
+    // Update the URL with the new query parameters using useNavigate
+    navigate(
+      {
+        pathname: location.pathname, // Keep the current path
+        search: `?${currentParams.toString()}`, // Apply the updated query params
+      },
+      { replace: true }
+    ); // Replace the current entry in the history stack to avoid adding a new entry
+  }
   const handleSortChange = useCallback(
     (sortBy: string, orderSort: string) => {
       // Update the search params for sorting and keep any existing filters
@@ -104,14 +128,12 @@ const CatalogPage: React.FC = () => {
         page: "1", // Reset to page 1 when sorting changes
       };
 
-      setSearchParams(updatedParams);
+      updateURLWithQueryParams(updatedParams);
 
-      // Replace the URL with the new query parameters
-      navigate({
-        pathname: window.location.pathname,
-        search: `?${new URLSearchParams(updatedParams).toString()}`, // Replace URL with updated query params
-      });
+      // Update searchParams state
+      setSearchParams(updatedParams);
     },
+
     [setSearchParams, searchParams, navigate]
   );
 
@@ -125,11 +147,11 @@ const CatalogPage: React.FC = () => {
       page: "1", // Reset to page 1 when filters change
     };
 
+    // Update the URL with the new query parameters
+    updateURLWithQueryParams(updatedParams);
+
+    // Update searchParams state
     setSearchParams(updatedParams);
-    navigate({
-      pathname: window.location.pathname,
-      search: `?${new URLSearchParams(updatedParams).toString()}`, // Replace URL with updated query params
-    });
   };
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
