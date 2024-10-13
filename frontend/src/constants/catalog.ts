@@ -12,19 +12,24 @@ export const flattenCategory = (categories: Category[]) => {
       category.subcategories &&
         category.subcategories.forEach((subcategory: Subcategory) => {
           subcategoriesOptions.push(subcategory.title);
-          // if (
-          //   subcategory.title !== "Книги за віком" &&
-          //   // subcategory.links.length > 0
-          // ) {
-          //   links.push(...subcategory.links);
-          // }
+          console.log(subcategory.links);
+          if (
+            subcategory &&
+            subcategory.links &&
+            subcategory.title !== "Книги за віком" &&
+            subcategory.links.length > 0
+          ) {
+            links.push(...subcategory.links);
+          }
 
-          // if (
-          //   subcategory.title === "Книги за віком" &&
-          //   // subcategory.links.length > 0
-          // ) {
-          //   ageOptions.push(...subcategory.links);
-          // }
+          if (
+            subcategory &&
+            subcategory.links &&
+            subcategory.title === "Книги за віком" &&
+            subcategory.links.length > 0
+          ) {
+            ageOptions.push(...subcategory.links);
+          }
         });
     });
 
